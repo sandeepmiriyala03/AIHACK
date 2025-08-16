@@ -1,0 +1,445 @@
+/* --- Container and Layout --- */
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0 16px;
+}
+
+.title {
+  text-align: center;
+  color: #2c3e50;
+  user-select: none;
+  font-size: 2rem;
+  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 10px #bafffa99, 0 0 0 #fff;
+  animation: title-glow 2.5s infinite alternate;
+}
+
+@keyframes title-glow {
+  from { text-shadow: 0 2px 7px #fff56888, 0 0 0 #fff; }
+  to { text-shadow: 0 6px 23px #33e8c8cc, 0 0 0 #fff; }
+}
+
+/* --- Instructions --- */
+.instructions {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 2px solid #26ffe7;
+  border-radius: 26px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  background-color: #fafafa;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  user-select: none;
+  box-shadow: 0 2px 8px #a1c4fd22;
+}
+
+/* --- Upload Area --- */
+.uploadArea {
+  border: 2.5px dashed #ff61c1;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: radial-gradient(ellipse at top right, #fda8ff40 0%, #ffffff00 70%);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.uploadArea.dragOver {
+  border-color: #2980b9;
+  background-color: #eaf4fc;
+}
+
+/* --- File Input --- */
+.fileInput {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  flex-grow: 1;
+  min-width: 280px;
+}
+
+/* --- Upload Button --- */
+.uploadButton {
+  background-color: #ff61c1;
+  color: #7b2042;
+  border: none;
+  border-radius: 40px;
+  padding: 10px 24px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 4px 16px #ffa0d880, 0 1px 6px #ffb37b80;
+  transition: background-color 0.3s ease, box-shadow 0.25s ease;
+  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+}
+
+.uploadButton.disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+  color: #5a424e;
+  box-shadow: none;
+}
+
+.uploadButton:hover:not(.disabled) {
+  background-color: #ff86cb;
+  box-shadow: 0 6px 24px #ff86cbcc, 0 1px 12px #ffad9975;
+}
+
+/* --- File Info --- */
+.fileInfo {
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-family: 'Fredoka', 'Comic Neue', Arial, sans-serif;
+  color: #5a424e;
+  box-shadow: 0 1px 5px #e6c8dfaa;
+}
+
+/* --- Error Message --- */
+.errorMsg {
+  color: #e74c3c;
+  margin-top: 16px;
+  font-weight: 700;
+  text-align: center;
+  user-select: text;
+  background: #fff0f0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px #ff4c4c99;
+  font-family: 'Fredoka', 'Comic Neue', Arial, sans-serif;
+}
+
+/* --- Analysis Section --- */
+.analysisSection {
+  margin-top: 24px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 18px;
+  background: #211c3a;
+  padding: 22px;
+  box-shadow: 0 1.5px 28px #26ffe726;
+  color: #fff;
+  font-family: 'Fredoka', 'Comic Neue', Arial, cursive, sans-serif;
+}
+
+.analysisTitle {
+  border-bottom: 2px solid #2980b9;
+  padding-bottom: 8px;
+  color: #34d1ff;
+  user-select: none;
+  font-weight: 900;
+  font-size: 1.6rem;
+}
+
+/* --- File Details --- */
+.fileDetails {
+  color: #7f8c8d;
+  font-style: italic;
+  margin-bottom: 16px;
+  user-select: text;
+}
+
+/* --- No Results Message --- */
+.noResults {
+  color: #c0392b;
+  font-weight: 700;
+  font-family: 'Fredoka', 'Comic Neue', Arial, sans-serif;
+}
+
+/* --- Accordion --- */
+.accordionChunk {
+  margin-bottom: 18px;
+  background: #1f1b41;
+  border-radius: 18px;
+  box-shadow: 0 0 12px rgba(38, 255, 231, 0.4);
+  font-family: 'Fredoka', 'Comic Neue', Arial, cursive, sans-serif;
+}
+
+.accordionHeader {
+  cursor: pointer;
+  padding: 14px 18px;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  user-select: none;
+  font-weight: 800;
+  font-size: 1.1em;
+  color: #26ffe7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg,#00ffe3 0%, #1b1b35 100%);
+  box-shadow: inset 0 -2px 6px #00ffe75c;
+  transition: background-color 0.25s ease;
+}
+
+.accordionHeader:hover,
+.accordionHeader:focus {
+  background: linear-gradient(90deg,#30fff6 30%, #181b36 90%);
+  outline: none;
+}
+
+.accordionContent {
+  padding: 18px;
+  color: #d6f9fc;
+  line-height: 1.6;
+}
+
+.list {
+  margin-top: 6px;
+  padding-left: 20px;
+}
+
+.list li {
+  margin-bottom: 6px;
+  position: relative;
+  font-size: 1.1rem;
+}
+
+/* List icon */
+.list li::before {
+  content: "🌟";
+  margin-right: 6px;
+  position: absolute;
+  left: -20px;
+  opacity: 0.5;
+}
+
+/* --- Badges --- */
+.badgesContainer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.badge {
+  background: linear-gradient(90deg, #99f2fc 60%, #ffacfb 100%);
+  color: #4f2f7e;
+  border-radius: 30px;
+  border: none;
+  padding: 7px 16px;
+  font-size: 1.08em;
+  font-weight: 900;
+  text-shadow: 0 1px 4px #ffffffa8;
+  margin-bottom: 2px;
+  margin-right: 4px;
+  box-shadow: 0 3px 10px #edffdb66;
+  transition: background 0.16s, color 0.16s, box-shadow 0.17s;
+}
+
+.badge:hover {
+  background: linear-gradient(90deg,#fff568 10%,#ffb5ff 70%);
+  color: #b727bf;
+}
+
+/* --- Go To Top Button --- */
+.goToTopButton {
+  position: fixed;
+  right: 20px;
+  bottom: 40px;
+  padding: 15px 20px 14px 20px;
+  font-size: 1.3em;
+  font-family: 'Comic Neue', 'Fredoka', Arial, sans-serif;
+  border-radius: 50px;
+  border: 2px solid #ffe666;
+  background: linear-gradient(90deg, #ffb37b 0%, #ffe666 100%);
+  color: #ff4880;
+  cursor: pointer;
+  box-shadow: 0 6px 20px #fde6d866, 0 1px 6px #ff7eb380;
+  z-index: 1000;
+  transition: background 0.18s, color 0.12s, box-shadow 0.2s;
+}
+
+.goToTopButton:hover,
+.goToTopButton:focus {
+  background: linear-gradient(90deg, #ffe666 0%, #ffb37b 100%);
+  color: #e51a68;
+  box-shadow: 0 10px 28px #ffe666a2, 0 2px 18px #ff7eb37a;
+}
+
+/* --- Navbar & Menu --- */
+.navbar {
+  background: #171347;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  padding: 1rem 1.5rem;
+  border-radius: 0 0 25px 25px;
+  box-shadow: 0 4px 30px #7b19d740;
+  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Orbitron', 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  color: #26ffe7;
+  font-size: 2.1rem;
+  letter-spacing: 3px;
+  text-shadow: 2px 4px 13px #6f0cff88;
+  font-weight: 900;
+}
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 2.5rem;
+  color: #26ffe7;
+  cursor: pointer;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.3rem;
+}
+
+.nav-menu li a {
+  border-radius: 44px;
+  padding: 1em 2.2em;
+  font-size: 1.13rem;
+  font-weight: 800;
+  background: #241840;
+  color: #26ffe7;
+  box-shadow: 0 2px 18px #6a12d9b2;
+  border: 2px solid #531cae;
+  letter-spacing: 1px;
+  transition: 
+    background 0.18s, 
+    color 0.18s, 
+    box-shadow 0.22s,
+    transform 0.12s;
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+  outline: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.nav-menu li.upload a {
+  background: linear-gradient(90deg,#36ffe0 25%,#171347 95%);
+  color: #142e2c;
+}
+
+.nav-menu li.about a {
+  background: linear-gradient(90deg,#9f68ff 10%,#171347 100%);
+  color: #34223f;
+}
+
+.nav-menu li a:hover,
+.nav-menu li a:focus {
+  background: #26ffe7;
+  color: #171347;
+  transform: scale(1.09);
+  box-shadow: 0 0 42px #24ffe350,0 10px 40px #6f0cff40;
+  border-color: #fff;
+  filter: saturate(2);
+  z-index: 2;
+}
+
+/* Responsive Menu */
+@media (max-width: 640px) {
+  .menu-toggle {
+    display: block;
+  }
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: #171347dd;
+    backdrop-filter: blur(10px);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  .nav-menu.open {
+    max-height: 500px; /* enough height to show items */
+  }
+  .nav-menu li {
+    margin: 1rem 0;
+    text-align: center;
+  }
+  .nav-menu li a {
+    font-size: 1.25rem;
+    padding: 1em 0;
+    box-shadow: none;
+  }
+  .title {
+    font-size: 1.35rem;
+  }
+}
+
+/* Hide native file input */
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+/* Custom file upload label styled as button */
+.fileInputLabel {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #36ffe0 25%, #171347 95%);
+  color: #142e2c;
+  font-weight: 700;
+  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px #00ffe799, 0 1px 8px #0ca8a2cc;
+  transition: background-color 0.25s ease, box-shadow 0.3s ease;
+  user-select: none;
+}
+
+.fileInputLabel:hover,
+.fileInputLabel:focus {
+  background: #26ffe7;
+  color: #171347;
+  box-shadow: 0 6px 24px #24ffe785, 0 2px 12px #13a9aaff;
+  outline: none;
+}
+
+/* Optional: place upload button next to custom label for better UI */
+.uploadArea {
+  position: relative;
+}
+
+/* To ensure proper focus on keyboard for accessibility */
+.fileInput:focus + .fileInputLabel {
+  outline: 2px solid #26ffe7;
+  outline-offset: 4px;
+}
