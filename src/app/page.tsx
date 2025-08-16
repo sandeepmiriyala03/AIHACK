@@ -5,8 +5,6 @@ import FileInfo from "@/components/FileInfo";
 import AccordionChunk from "@/components/AccordionChunk";
 import "./globals.css";
 
-
-
 interface Analysis {
   chunk_number: number;
   keywords: string[];
@@ -108,7 +106,7 @@ export default function Home() {
       <section className="instructions">
         <p>
           <strong>Upload Limitations:</strong> For best performance, please upload files under{" "}
-          <strong>50 MB</strong>. Supported file types: PDF, DOCX, XLSX, PPTX, PNG, JPG, BMP.
+          <strong>50 MB</strong>. Supported file types: PDF, DOCX, XLSX, PPTX. Other formats may not be processed correctly.
         </p>
         <p>Please ensure documents contain primarily English text. Image quality affects OCR accuracy.</p>
       </section>
