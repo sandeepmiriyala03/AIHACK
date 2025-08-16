@@ -4,6 +4,8 @@
   margin: 50px auto;
   font-family: "Fredoka", "Comic Neue", cursive, sans-serif;
   padding: 0 16px;
+  background-color: #fffaf0; /* Added for clarity */
+  color: #4c2528; /* Added for general text color */
 }
 
 .title {
@@ -36,6 +38,7 @@
   box-shadow: 0 2px 12px #ffe9fb55;
 }
 
+/* --- Upload Area --- */
 .uploadArea {
   border: 2.5px dashed #ff61a6;
   border-radius: 14px;
