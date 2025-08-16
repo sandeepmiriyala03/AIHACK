@@ -9,21 +9,26 @@ const isSafari = () =>
   typeof window !== "undefined" &&
   /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
 
+// --- Fix typing for installPrompt state ---
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+};
+
 export default function InstallApp() {
-  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [showIosTip, setShowIosTip] = useState(false);
 
   useEffect(() => {
     if (isIOS() && isSafari()) {
-      // Show manual install tip on iOS Safari
       setShowIosTip(true);
       return;
     }
 
-    const handleBeforeInstallPrompt = (e: any) => {
+    const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      setInstallPrompt(e);
+      setInstallPrompt(e as BeforeInstallPromptEvent);
       setShowInstallButton(true);
     };
 
