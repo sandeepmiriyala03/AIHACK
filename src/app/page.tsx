@@ -9,7 +9,7 @@ export default function About() {
     <>
       <Navbar />
       <main className="container">
-        <h1 className="title">About AI Document Analysis</h1>
+        <h1 className="title">AI Document Analyzer</h1>
         <p>
           This application allows users to upload documents and analyze them using
           Optical Character Recognition (OCR) and Natural Language Processing (NLP)

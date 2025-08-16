@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import "@/Styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "AI Document Analysis",
-  description: "Upload and analyze documents with OCR and NLP",
+  title: "Quick AI Document Scanner",
+  description: "Fast document upload and AI-powered text extraction",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
