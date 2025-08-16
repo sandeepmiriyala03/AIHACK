@@ -1,5 +1,11 @@
 "use client";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useRef } from "react";
+import FileUpload from "@/components/FileUpload";
+import FileInfo from "@/components/FileInfo";
+import AccordionChunk from "@/components/AccordionChunk";
+import "./globals.css";
+
+
 
 interface Analysis {
   chunk_number: number;
@@ -10,6 +16,7 @@ interface Analysis {
 
 interface Result {
   total_chunks: number;
+  file_type?: string;
   analysis: Analysis[];
 }
 
@@ -18,14 +25,34 @@ export default function Home() {
   const [error, setError] = useState("");
   const [result, setResult] = useState<Result | null>(null);
   const [loading, setLoading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]); // Select single file only
+      setFile(e.target.files[0]);
       setError("");
       setResult(null);
+      setElapsedTime(null);
     }
   };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragOver(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      setFile(e.dataTransfer.files[0]);
+      setError("");
+      setResult(null);
+      setElapsedTime(null);
+    }
+  };
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+  const handleDragLeave = () => setDragOver(false);
 
   const handleUpload = async () => {
     if (!file) {
@@ -34,9 +61,13 @@ export default function Home() {
     }
     setLoading(true);
     setError("");
+    setResult(null);
+    setElapsedTime(null);
+    startTimeRef.current = Date.now();
+
     try {
       const formData = new FormData();
-      formData.append("file", file); // Key "file" must match backend multer config
+      formData.append("file", file);
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -44,7 +75,6 @@ export default function Home() {
       });
 
       const text = await res.text();
-
       let data;
       try {
         data = JSON.parse(text);
@@ -53,14 +83,17 @@ export default function Home() {
         setLoading(false);
         return;
       }
-
       if (!res.ok) {
         setError(data.error || "Upload failed");
         setLoading(false);
         return;
       }
-
       setResult(data);
+
+      if (startTimeRef.current) {
+        const duration = (Date.now() - startTimeRef.current) / 1000;
+        setElapsedTime(duration);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -69,34 +102,54 @@ export default function Home() {
   };
 
   return (
-    <main style={{ maxWidth: 600, margin: "50px auto", fontFamily: "Arial, sans-serif" }}>
-      <h1>Upload Document</h1>
-      <input type="file" onChange={handleFileChange} disabled={loading} />
-      <button onClick={handleUpload} disabled={loading || !file} style={{ marginTop: 12, padding: 10 }}>
-        {loading ? "Uploading..." : "Upload"}
-      </button>
-      {error && <p style={{ color: "red", marginTop: 20 }}>{error}</p>}
+    <main className="container">
+      <h1 className="title">Document Upload & Analysis</h1>
+
+      <section className="instructions">
+        <p>
+          <strong>Upload Limitations:</strong> For best performance, please upload files under{" "}
+          <strong>50 MB</strong>. Supported file types: PDF, DOCX, XLSX, PPTX, PNG, JPG, BMP.
+        </p>
+        <p>Please ensure documents contain primarily English text. Image quality affects OCR accuracy.</p>
+      </section>
+
+      <FileUpload
+        file={file}
+        loading={loading}
+        onFileChange={handleFileChange}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onUpload={handleUpload}
+        dragOver={dragOver}
+      />
+
+      <FileInfo file={file} />
+
+      {error && <p className="errorMsg">{error}</p>}
+
       {result && (
-        <section style={{ marginTop: 30 }}>
-          <h2>Summary</h2>
-          {result.analysis.map((chunk, idx) => (
-            <div key={idx}>
-              {result.analysis.length > 1 && <h4>Chunk {chunk.chunk_number}</h4>}
-              <ul>
-                {chunk.summary.map((line, idx2) => (
-                  <li key={idx2}>{line}</li>
-                ))}
-              </ul>
-              <h4>Keywords</h4>
-              <div>{chunk.keywords.join(", ")}</div>
-              <h4>Highlights</h4>
-              <ul>
-                {chunk.highlights.map((hl, idx3) => (
-                  <li key={idx3}>{hl}</li>
-                ))}
-              </ul>
-            </div>
+        <section className="analysisSection">
+          <h2 className="analysisTitle">Analysis Summary</h2>
+
+          {result.file_type && (
+            <p className="fileDetails">
+              <b>File Type:</b> {result.file_type.toUpperCase()} &nbsp;|&nbsp;{" "}
+              <b>Chunks:</b> {result.total_chunks}
+            </p>
+          )}
+
+          {result.analysis.length === 0 && (
+            <p className="noResults">No analysis results returned.</p>
+          )}
+
+          {result.analysis.map((chunk) => (
+            <AccordionChunk key={chunk.chunk_number} chunk={chunk} />
           ))}
+
+          {loading && elapsedTime !== null && (
+            <p className="processingTime">Processing time: {elapsedTime.toFixed(2)} seconds</p>
+          )}
         </section>
       )}
     </main>

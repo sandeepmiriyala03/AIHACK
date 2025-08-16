@@ -1,42 +1,175 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* styles/style.css */
+
+.container {
+  max-width: 700px;
+  margin: 50px auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0 16px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.title {
+  text-align: center;
+  color: #2c3e50;
+  user-select: none;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+.instructions {
+  margin-top: 12px;
+  margin-bottom: 20px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+  background-color: #fafafa;
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  user-select: none;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.uploadArea {
+  border: 2px dashed #bdc3c7;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.uploadArea.dragOver {
+  border-color: #2980b9;
+  background-color: #eaf4fc;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.fileInput {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  flex-grow: 1;
+  min-width: 280px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.uploadButton {
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+}
+
+.uploadButton.disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.uploadButton:hover:not(.disabled) {
+  background-color: #3498db;
+}
+
+.fileInfo {
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+}
+
+.errorMsg {
+  color: #e74c3c;
+  margin-top: 16px;
+  font-weight: 600;
+  text-align: center;
+  user-select: text;
+}
+
+.analysisSection {
+  margin-top: 24px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.analysisTitle {
+  border-bottom: 2px solid #2980b9;
+  padding-bottom: 4px;
+  color: #34495e;
+  user-select: none;
+}
+
+.fileDetails {
+  color: #7f8c8d;
+  font-style: italic;
+  margin-bottom: 16px;
+  user-select: text;
+}
+
+.noResults {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.accordionChunk {
+  margin-bottom: 18px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+
+.accordionHeader {
+  cursor: pointer;
+  padding: 14px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  user-select: none;
+  font-weight: 600;
+  color: #2c3e50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accordionContent {
+  padding: 18px;
+}
+
+.badgesContainer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.badge {
+  background: #d1e7dd;
+  color: #176045;
+  border-radius: 16px;
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #a7d6bb;
+  user-select: text;
+}
+
+.list {
+  margin-top: 6px;
+}
+
+.processingTime {
+  text-align: center;
+  margin-top: 20px;
+  color: #34495e;
+  font-weight: 600;
 }
