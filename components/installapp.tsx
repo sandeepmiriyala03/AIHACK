@@ -1,0 +1,86 @@
+import React, { useEffect, useState } from "react";
+
+// Utility functions to detect iOS Safari
+const isIOS = () =>
+  typeof window !== "undefined" &&
+  /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+
+const isSafari = () =>
+  typeof window !== "undefined" &&
+  /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+
+export default function InstallApp() {
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+  const [showIosTip, setShowIosTip] = useState(false);
+
+  useEffect(() => {
+    if (isIOS() && isSafari()) {
+      // Show manual install tip on iOS Safari
+      setShowIosTip(true);
+      return;
+    }
+
+    const handleBeforeInstallPrompt = (e: any) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+      setShowInstallButton(true);
+    };
+
+    const handleAppInstalled = () => {
+      setShowInstallButton(false);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    installPrompt.userChoice.then(() => {
+      setShowInstallButton(false);
+      setInstallPrompt(null);
+    });
+  };
+
+  if (showIosTip) {
+    return (
+      <button
+        className="installButton"
+        type="button"
+        style={{ whiteSpace: "normal" }}
+        aria-label="How to install app on iOS"
+        title="Install this app"
+        onClick={() =>
+          alert(
+            "To install this app on your iPhone or iPad:\n\n1. Tap the 'Share' icon in Safari's toolbar\n2. Tap 'Add to Home Screen'"
+          )
+        }
+      >
+        📲 Install App
+      </button>
+    );
+  }
+
+  if (showInstallButton) {
+    return (
+      <button
+        onClick={handleInstallClick}
+        className="installButton"
+        aria-label="Install App"
+        title="Install this app"
+        type="button"
+      >
+        📲 Install App
+      </button>
+    );
+  }
+
+  return null;
+}

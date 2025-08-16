@@ -2,24 +2,24 @@
 .container {
   max-width: 700px;
   margin: 50px auto;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Fredoka", "Comic Neue", cursive, sans-serif;
   padding: 0 16px;
 }
 
 .title {
   text-align: center;
-  color: #2c3e50;
+  color: #08b545;
   user-select: none;
   font-size: 2rem;
-  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
   letter-spacing: 2px;
-  text-shadow: 0 2px 10px #bafffa99, 0 0 0 #fff;
+  text-shadow: 0 2px 18px #aaffd1bb, 0 0 0 #fff;
+  font-weight: 900;
   animation: title-glow 2.5s infinite alternate;
 }
 
 @keyframes title-glow {
-  from { text-shadow: 0 2px 7px #fff56888, 0 0 0 #fff; }
-  to { text-shadow: 0 6px 23px #33e8c8cc, 0 0 0 #fff; }
+  from { text-shadow: 0 2px 8px #fff9aecc, 0 0 0 #fff; }
+  to { text-shadow: 0 8px 32px #ff61c166, 0 0 0 #fff; }
 }
 
 /* --- Instructions --- */
@@ -27,25 +27,20 @@
   margin-top: 12px;
   margin-bottom: 20px;
   padding: 16px;
-  border: 2px solid #26ffe7;
+  border: 2px solid #ff7961;
   border-radius: 26px;
-  font-size: 14px;
-  color: #555;
-  line-height: 1.5;
-  background-color: #fafafa;
+  font-size: 15px;
+  color: #624b2b;
+  background: linear-gradient(90deg, #fff7ed 0%, #edfff6 100%);
   text-align: center;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  user-select: none;
-  box-shadow: 0 2px 8px #a1c4fd22;
+  box-shadow: 0 2px 12px #ffe9fb55;
 }
 
-/* --- Upload Area --- */
 .uploadArea {
-  border: 2.5px dashed #ff61c1;
-  border-radius: 12px;
-  padding: 20px;
+  border: 2.5px dashed #ff61a6;
+  border-radius: 14px;
+  padding: 22px;
+  background: linear-gradient(135deg,#faffd1 0%, #ffe1eb 90%);
   max-width: 600px;
   margin: 0 auto 20px;
   cursor: pointer;
@@ -53,122 +48,111 @@
   gap: 12px;
   flex-wrap: wrap;
   justify-content: center;
-  background: radial-gradient(ellipse at top right, #fda8ff40 0%, #ffffff00 70%);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .uploadArea.dragOver {
-  border-color: #2980b9;
-  background-color: #eaf4fc;
+  border-color: #08b545;
+  background: #e0faf1;
 }
 
-/* --- File Input --- */
 .fileInput {
-  border: 1px solid #ccc;
+  border: 1px solid #ffc5e0;
   border-radius: 4px;
   padding: 8px 12px;
-  cursor: pointer;
-  flex-grow: 1;
   min-width: 280px;
+  flex-grow: 1;
 }
 
 /* --- Upload Button --- */
 .uploadButton {
-  background-color: #ff61c1;
-  color: #7b2042;
+  background: linear-gradient(90deg, #ffbe76 0%, #fa709a 100%);
+  color: #142f1d;
   border: none;
-  border-radius: 40px;
-  padding: 10px 24px;
+  border-radius: 34px;
+  padding: 11px 28px;
   cursor: pointer;
-  font-weight: 700;
-  box-shadow: 0 4px 16px #ffa0d880, 0 1px 6px #ffb37b80;
-  transition: background-color 0.3s ease, box-shadow 0.25s ease;
+  font-weight: 900;
+  box-shadow: 0 4px 18px #ffd6be70, 0 2px 6px #ff8fa570;
   font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  font-size: 1rem;
+  transition: background 0.25s, box-shadow 0.22s;
 }
 
 .uploadButton.disabled {
-  background-color: #95a5a6;
+  background: #eee;
+  color: #aaa;
   cursor: not-allowed;
-  color: #5a424e;
   box-shadow: none;
 }
 
 .uploadButton:hover:not(.disabled) {
-  background-color: #ff86cb;
-  box-shadow: 0 6px 24px #ff86cbcc, 0 1px 12px #ffad9975;
+  background: linear-gradient(90deg, #faffd1 0%, #ffbe76 70%);
+  box-shadow: 0 8px 24px #fffae080, 0 3px 10px #fa709a55;
 }
 
 /* --- File Info --- */
 .fileInfo {
-  background-color: #f0f0f0;
-  border-radius: 6px;
+  background-color: #f7fff8;
+  border-radius: 7px;
   padding: 8px 12px;
   margin-bottom: 12px;
   font-size: 14px;
-  font-family: 'Fredoka', 'Comic Neue', Arial, sans-serif;
-  color: #5a424e;
-  box-shadow: 0 1px 5px #e6c8dfaa;
+  color: #63633b;
+  box-shadow: 0 1px 5px #ffe5e764;
 }
 
 /* --- Error Message --- */
 .errorMsg {
-  color: #e74c3c;
+  color: #ff6347;
   margin-top: 16px;
-  font-weight: 700;
+  font-weight: 900;
   text-align: center;
-  user-select: text;
-  background: #fff0f0;
+  background: #fff0ec;
   padding: 10px 14px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px #ff4c4c99;
-  font-family: 'Fredoka', 'Comic Neue', Arial, sans-serif;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #ff634788;
 }
 
 /* --- Analysis Section --- */
 .analysisSection {
   margin-top: 24px;
   max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
   border-radius: 18px;
-  background: #211c3a;
+  background: linear-gradient(110deg,#fff7ed 40%,#d2ffed 100%);
   padding: 22px;
-  box-shadow: 0 1.5px 28px #26ffe726;
-  color: #fff;
-  font-family: 'Fredoka', 'Comic Neue', Arial, cursive, sans-serif;
+  box-shadow: 0 2px 34px #fff6e574;
+  color: #4c2528;
 }
 
 .analysisTitle {
-  border-bottom: 2px solid #2980b9;
+  border-bottom: 2px solid #ffbe76;
   padding-bottom: 8px;
-  color: #34d1ff;
-  user-select: none;
+  color: #fa709a;
   font-weight: 900;
   font-size: 1.6rem;
 }
 
 /* --- File Details --- */
 .fileDetails {
-  color: #7f8c8d;
+  color: #2e8c72;
   font-style: italic;
-  margin-bottom: 16px;
-  user-select: text;
+  margin-bottom: 14px;
 }
 
 /* --- No Results Message --- */
 .noResults {
-  color: #c0392b;
-  font-weight: 700;
+  color: #ff5446;
+  font-weight: 900;
   font-family: 'Fredoka', 'Comic Neue', Arial, sans-serif;
 }
 
 /* --- Accordion --- */
 .accordionChunk {
   margin-bottom: 18px;
-  background: #1f1b41;
+  background: #fff5ec;
   border-radius: 18px;
-  box-shadow: 0 0 12px rgba(38, 255, 231, 0.4);
-  font-family: 'Fredoka', 'Comic Neue', Arial, cursive, sans-serif;
+  box-shadow: 0 0 14px #faffd151;
 }
 
 .accordionHeader {
@@ -176,27 +160,23 @@
   padding: 14px 18px;
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
-  user-select: none;
-  font-weight: 800;
+  font-weight: 900;
   font-size: 1.1em;
-  color: #26ffe7;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(90deg,#00ffe3 0%, #1b1b35 100%);
-  box-shadow: inset 0 -2px 6px #00ffe75c;
-  transition: background-color 0.25s ease;
+  color: #fc6fdc;
+  background: linear-gradient(90deg,#faffd1 0%, #ffe1eb 100%);
+  box-shadow: inset 0 -2px 6px #faffd1;
+  transition: background 0.22s;
 }
 
 .accordionHeader:hover,
 .accordionHeader:focus {
-  background: linear-gradient(90deg,#30fff6 30%, #181b36 90%);
+  background: linear-gradient(90deg,#ffe5f4 0%, #faffd1 100%);
   outline: none;
 }
 
 .accordionContent {
   padding: 18px;
-  color: #d6f9fc;
+  color: #84537e;
   line-height: 1.6;
 }
 
@@ -207,17 +187,14 @@
 
 .list li {
   margin-bottom: 6px;
-  position: relative;
   font-size: 1.1rem;
 }
 
-/* List icon */
 .list li::before {
-  content: "🌟";
+  content: "☀️";
   margin-right: 6px;
-  position: absolute;
   left: -20px;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 /* --- Badges --- */
@@ -229,59 +206,60 @@
 }
 
 .badge {
-  background: linear-gradient(90deg, #99f2fc 60%, #ffacfb 100%);
-  color: #4f2f7e;
+  background: linear-gradient(90deg,#fff86b 60%,#ff88c6 100%);
+  color: #422c42;
   border-radius: 30px;
   border: none;
   padding: 7px 16px;
   font-size: 1.08em;
   font-weight: 900;
-  text-shadow: 0 1px 4px #ffffffa8;
   margin-bottom: 2px;
   margin-right: 4px;
-  box-shadow: 0 3px 10px #edffdb66;
-  transition: background 0.16s, color 0.16s, box-shadow 0.17s;
+  box-shadow: 0 3px 10px #ffd3d966;
+  transition: background 0.12s, color 0.12s, box-shadow 0.17s;
 }
 
 .badge:hover {
-  background: linear-gradient(90deg,#fff568 10%,#ffb5ff 70%);
+  background: linear-gradient(90deg,#ff8bd3 10%,#fff3a6 85%);
   color: #b727bf;
 }
+
 
 /* --- Go To Top Button --- */
 .goToTopButton {
   position: fixed;
   right: 20px;
   bottom: 40px;
-  padding: 15px 20px 14px 20px;
-  font-size: 1.3em;
+  padding: 15px 20px 15px 19px;
+  font-size: 1.22em;
   font-family: 'Comic Neue', 'Fredoka', Arial, sans-serif;
   border-radius: 50px;
-  border: 2px solid #ffe666;
-  background: linear-gradient(90deg, #ffb37b 0%, #ffe666 100%);
-  color: #ff4880;
+  border: 2px solid #ffa8bf;
+  background: linear-gradient(90deg, #ffe1eb 0%, #fff8d9 100%);
+  color: #fa709a;
   cursor: pointer;
-  box-shadow: 0 6px 20px #fde6d866, 0 1px 6px #ff7eb380;
+  box-shadow: 0 6px 22px #ffdbeb56, 0 1px 6px #fffaf080;
   z-index: 1000;
-  transition: background 0.18s, color 0.12s, box-shadow 0.2s;
+  transition: background 0.14s, color 0.14s, box-shadow 0.22s;
 }
 
 .goToTopButton:hover,
 .goToTopButton:focus {
-  background: linear-gradient(90deg, #ffe666 0%, #ffb37b 100%);
-  color: #e51a68;
-  box-shadow: 0 10px 28px #ffe666a2, 0 2px 18px #ff7eb37a;
+  background: linear-gradient(90deg, #fff8d9 0%, #ffe1eb 100%);
+  color: #e7428c;
+  box-shadow: 0 10px 28px #fffcaab1, 0 2px 18px #fa709aaa;
 }
+
 
 /* --- Navbar & Menu --- */
 .navbar {
-  background: #171347;
+  background: #fffaf0;
   position: sticky;
   top: 0;
   z-index: 300;
-  padding: 1rem 1.5rem;
-  border-radius: 0 0 25px 25px;
-  box-shadow: 0 4px 30px #7b19d740;
+  padding: 1.1rem 1.7rem;
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 4px 32px #fad1e966;
   font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
 }
 
@@ -293,11 +271,11 @@
 
 .logo {
   font-family: 'Orbitron', 'Fredoka', 'Comic Neue', cursive, sans-serif;
-  color: #26ffe7;
-  font-size: 2.1rem;
-  letter-spacing: 3px;
-  text-shadow: 2px 4px 13px #6f0cff88;
+  color: #ff6db2;
+  font-size: 2.2rem;
+  text-shadow: 2px 4px 16px #ffdbe688;
   font-weight: 900;
+  letter-spacing: 3px;
 }
 
 .menu-toggle {
@@ -305,7 +283,7 @@
   background: transparent;
   border: none;
   font-size: 2.5rem;
-  color: #26ffe7;
+  color: #fac40e;
   cursor: pointer;
 }
 
@@ -321,15 +299,15 @@
   border-radius: 44px;
   padding: 1em 2.2em;
   font-size: 1.13rem;
-  font-weight: 800;
-  background: #241840;
-  color: #26ffe7;
-  box-shadow: 0 2px 18px #6a12d9b2;
-  border: 2px solid #531cae;
+  font-weight: 900;
+  background: #ffe1eb;
+  color: #fa709a;
+  box-shadow: 0 2px 22px #ffdbe6b2;
+  border: 2px solid #ffbde7;
   letter-spacing: 1px;
-  transition: 
-    background 0.18s, 
-    color 0.18s, 
+  transition:
+    background 0.18s,
+    color 0.18s,
     box-shadow 0.22s,
     transform 0.12s;
   position: relative;
@@ -342,23 +320,22 @@
 }
 
 .nav-menu li.upload a {
-  background: linear-gradient(90deg,#36ffe0 25%,#171347 95%);
-  color: #142e2c;
+  background: linear-gradient(90deg,#faffd1 25%,#fa709a 95%);
+  color: #5a6b44;
 }
 
 .nav-menu li.about a {
-  background: linear-gradient(90deg,#9f68ff 10%,#171347 100%);
-  color: #34223f;
+  background: linear-gradient(90deg,#ffe7a4 10%,#fa709a 100%);
+  color: #735d34;
 }
 
 .nav-menu li a:hover,
 .nav-menu li a:focus {
-  background: #26ffe7;
-  color: #171347;
+  background: #fff8d9;
+  color: #08b545;
   transform: scale(1.09);
-  box-shadow: 0 0 42px #24ffe350,0 10px 40px #6f0cff40;
+  box-shadow: 0 0 44px #fcf9cb70,0 12px 40px #faaad840;
   border-color: #fff;
-  filter: saturate(2);
   z-index: 2;
 }
 
@@ -373,16 +350,16 @@
     left: 0;
     width: 100%;
     flex-direction: column;
-    background: #171347dd;
+    background: #fffaf0ee;
     backdrop-filter: blur(10px);
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
   }
   .nav-menu.open {
-    max-height: 500px; /* enough height to show items */
+    max-height: 500px;
   }
   .nav-menu li {
     margin: 1rem 0;
@@ -394,7 +371,7 @@
     box-shadow: none;
   }
   .title {
-    font-size: 1.35rem;
+    font-size: 1.36rem;
   }
 }
 
@@ -414,32 +391,57 @@
 .fileInputLabel {
   display: inline-block;
   padding: 12px 28px;
-  background: linear-gradient(90deg, #36ffe0 25%, #171347 95%);
-  color: #142e2c;
-  font-weight: 700;
-  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  background: linear-gradient(90deg, #ffe7a4 25%, #fa709a 95%);
+  color: #735d34;
+  font-weight: 900;
   border-radius: 40px;
   cursor: pointer;
-  box-shadow: 0 4px 16px #00ffe799, 0 1px 8px #0ca8a2cc;
-  transition: background-color 0.25s ease, box-shadow 0.3s ease;
-  user-select: none;
+  box-shadow: 0 4px 18px #fff8d999, 0 1px 8px #ffdbe6aa;
+  transition: background 0.16s, box-shadow 0.3s;
 }
 
 .fileInputLabel:hover,
 .fileInputLabel:focus {
-  background: #26ffe7;
-  color: #171347;
-  box-shadow: 0 6px 24px #24ffe785, 0 2px 12px #13a9aaff;
+  background: #fff8d9;
+  color: #ff6db2;
+  box-shadow: 0 6px 24px #fcf9cb85, 0 2px 12px #fa709aff;
   outline: none;
 }
 
-/* Optional: place upload button next to custom label for better UI */
 .uploadArea {
   position: relative;
 }
 
-/* To ensure proper focus on keyboard for accessibility */
 .fileInput:focus + .fileInputLabel {
-  outline: 2px solid #26ffe7;
+  outline: 2px solid #fa709a;
   outline-offset: 4px;
+}
+
+
+.installButton {
+  background: linear-gradient(90deg, #fa709a 0%, #ffe7a4 100%);
+  color: #4b164c;
+  border: none;
+  border-radius: 28px;
+  padding: 12px 28px;
+  font-weight: 800;
+  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 18px #fa709a33, 0 2px 8px #fcf9cb40;
+  transition: background 0.21s, box-shadow 0.3s, color 0.21s;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.installButton:hover,
+.installButton:focus {
+  background: linear-gradient(90deg, #ffe7a4 18%, #fa709a 85%);
+  color: #08b545;
+  box-shadow: 0 6px 28px #fa709aee, 0 3px 12px #ffbe7611;
+  outline: none;
+  transform: scale(1.05);
+  transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
 }

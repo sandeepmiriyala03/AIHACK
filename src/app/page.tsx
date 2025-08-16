@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
+
 export default function About() {
   return (
     <>
