@@ -52,9 +52,7 @@ const MODE_OPTIONS: ModeOption[] = [
 
 export default function SearchableLangOcr() {
   const [file, setFile] = useState<File | null>(null);
-  const [lang, setLang] = useState<LangOption | null>(
-    ALL_LANGS.find((l) => l.value === "eng") || null
-  );
+  const [lang, setLang] = useState<LangOption | null>(ALL_LANGS.find((l) => l.value === "eng") || null);
   const [mode, setMode] = useState<ModeOption>(MODE_OPTIONS[0]);
   const [progress, setProgress] = useState<string>("");
   const [fullText, setFullText] = useState<string>("");
@@ -104,28 +102,57 @@ export default function SearchableLangOcr() {
     setLang(option ?? null);
   };
 
+  // Optimized auto detect for faster results and accuracy
   const autoDetectLanguageByConfidence = async (file: File) => {
     setProgress("Auto-detecting language...");
     setLoading(true);
     setImageError("");
     cancelFlag.current = false;
     setFullText("");
+
     const url = URL.createObjectURL(file);
     let best = { lang: null as LangOption | null, confidence: 0, text: "" };
-    try {
-      for (const langOpt of AUTODETECT_LANGS) {
-        if (cancelFlag.current) break;
-        setProgress(`Trying ${langOpt.label}...`);
 
-        const { data } = await Tesseract.recognize(url, langOpt.value, {
+    // First try English fast
+    try {
+      setProgress("Trying English first...");
+      const { data } = await Tesseract.recognize(url, "eng", {
+        langPath: "/tessdata",
+        corePath: "/tesseract-core/tesseract-core.wasm.js"
+      });
+      if (cancelFlag.current) {
+        setProgress("Auto-detect cancelled.");
+        setLoading(false);
+        URL.revokeObjectURL(url);
+        return;
+      }
+      const textSample = data.text.trim().slice(0, 12);
+      const hasNonEng = /[^\x00-\x7F]/.test(textSample);
+
+      if (!hasNonEng && data.confidence >= CONFIDENCE_THRESHOLD && data.text.trim().length > 3) {
+        setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
+        setFullText(data.text.trim());
+        setProgress(`Auto-detect: Best match is English (confidence: ${Math.round(data.confidence)}).`);
+        setLoading(false);
+        URL.revokeObjectURL(url);
+        return;
+      }
+
+      // Prioritized other scripts for speed and accuracy
+      const priors = ["hin","ben","tam","tel","mar","kan","mal","guj","pan","urd","nep","san","chi_sim","chi_tra","jpn","kor","rus","vie"];
+      for (const langCode of priors) {
+        if (cancelFlag.current) break;
+        const langOpt = ALL_LANGS.find((l) => l.value === langCode);
+        if (!langOpt) continue;
+        setProgress(`Trying ${langOpt.label}...`);
+        const { data: dataLang } = await Tesseract.recognize(url, langOpt.value, {
           langPath: "/tessdata",
           corePath: "/tesseract-core/tesseract-core.wasm.js"
         });
-
         if (cancelFlag.current) break;
 
-        if (data.confidence > best.confidence && data.text.trim().length > 3) {
-          best = { lang: langOpt, confidence: data.confidence, text: data.text };
+        if (dataLang.confidence > best.confidence && dataLang.text.trim().length > 3) {
+          best = { lang: langOpt, confidence: dataLang.confidence, text: dataLang.text };
           if (best.confidence >= CONFIDENCE_THRESHOLD) break;
         }
       }
@@ -135,11 +162,7 @@ export default function SearchableLangOcr() {
       } else if (best.lang) {
         setLang(best.lang);
         setFullText(best.text.trim());
-        setProgress(
-          `Auto-detect: Best match is ${best.lang.label} (confidence: ${Math.round(
-            best.confidence
-          )}).`
-        );
+        setProgress(`Auto-detect: Best match is ${best.lang.label} (confidence: ${Math.round(best.confidence)}).`);
       } else {
         setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
         setProgress("Could not auto-detect language. Please select manually.");
@@ -224,7 +247,7 @@ export default function SearchableLangOcr() {
 
   const onModeChange = (option: SingleValue<ModeOption>) => {
     if (!option) return;
-    cancelFlag.current = true; // Cancel any ongoing OCR/detect for mode switch
+    cancelFlag.current = true; // Cancel ongoing processes on switch
     setMode(option);
     setProgress("");
     setFullText("");
@@ -235,45 +258,12 @@ export default function SearchableLangOcr() {
   return (
     <div className="container" aria-live="polite" style={{ maxWidth: 600, margin: "auto" }}>
       <h1 className="title">Searchable Language OCR</h1>
-<div className="instructions" style={{ marginBottom: 18 }}>
-  <p>
-    <b>How it works:</b> Upload an image containing text and choose between two powerful modes:<br />
-    <span style={{ color: "#006699" }}>
-      <b>Automatic Detection</b>: The app will scan your image using advanced OCR technology and intelligently detect the language.<br />
-      <b>Manual Selection</b>: You can pick the expected language yourself for higher accuracy, especially with complex or stylized scripts.
-    </span>
-  </p>
-  <ul style={{ marginLeft: 0, paddingLeft: 20, color: "#333" }}>
-    <li>
-      <b>Supports 30+ languages:</b> Recognizes most South Asian and international scripts, including Hindi, Telugu, Tamil, Chinese, Russian, and more.
-    </li>
-    <li>
-      <b>Flexible modes:</b> Quickly switch between automatic detection or manual pick using the mode selector.
-    </li>
-    <li>
-      <b>Cancel anytime:</b> Stop an ongoing analysis or detection with the <span style={{ color: "#bb0000" }}><b>Cancel</b></span> button for convenience.
-    </li>
-    <li>
-      <b>Error Handling:</b> Instant feedback if your file is too small, unreadable, or contains no clear text.
-    </li>
-    <li>
-      <b>Live progress updates:</b> Track what the app is doing with clear progress messages during detection and analysis.
-    </li>
-    <li>
-      <b>Mobile-friendly:</b> Works smoothly on desktop and mobile browsers.
-    </li>
-    <li>
-      <b>Clear results display:</b> Extracted text appears below your image, ready to copy or review.
-    </li>
-  </ul>
-  <p>
-    <b>Tips for best results:</b>
-    <ul style={{ marginLeft: 0, paddingLeft: 20 }}>
-      <li>Upload sharp images with good contrast and text at least <span style={{ fontWeight: 600 }}>30×30 pixels</span>.</li>
-      <li>For multi-language images, try both modes to see which gives better accuracy.</li>
-      <li>If detection fails, switch to manual and specify the language yourself.</li>
-    </ul>
-  </p>
+
+<div className="instructions" style={{ marginBottom: 18, color: "#333", lineHeight: 1.6 }}>
+  <p><b>Instructions:</b> Upload a clear image containing text and choose between automatic or manual mode. In automatic mode, the app detects the language for you. In manual mode, you select the language yourself to improve accuracy with complex scripts.</p>
+  <p>This app supports over 30 languages including Hindi, Telugu, Tamil, Chinese, and Russian. You can switch between modes anytime for flexibility. A cancel button lets you stop any ongoing recognition process.</p>
+  <p>You’ll receive live progress updates and clear error messages if the image is too small, blurry, or unreadable. The extracted text will be displayed below, ready to review or copy.</p>
+  <p>For best results, upload sharp images with good contrast and text size at least 30×30 pixels. If automatic detection isn’t accurate, try switching to manual mode and selecting the language yourself.</p>
 </div>
 
 
@@ -284,11 +274,9 @@ export default function SearchableLangOcr() {
           alignItems: "center",
           gap: 12,
           flexWrap: "wrap"
-        }}>
-        <label
-          htmlFor="mode-select"
-          style={{ fontWeight: 600, whiteSpace: "nowrap" }}
-        >
+        }}
+      >
+        <label htmlFor="mode-select" style={{ fontWeight: 600, whiteSpace: "nowrap" }}>
           Select Mode:
         </label>
         <div style={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
@@ -337,7 +325,7 @@ export default function SearchableLangOcr() {
 
       {/* MANUAL MODE UI */}
       {mode.value === "manual" && (
-        <div>
+        <>
           <div
             style={{
               marginBottom: 20,
@@ -418,7 +406,7 @@ export default function SearchableLangOcr() {
               Clear
             </button>
           </div>
-        </div>
+        </>
       )}
 
       {/* AUTOMATIC MODE UI */}
