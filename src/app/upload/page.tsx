@@ -2,7 +2,7 @@
 
 import Navbar from "@/components/Navbar";
 import Instructions from "@/components/Instructions";
-import FileUploadManager from "@/components/FileUploadManager";
+import FileLanguageAnalyzer from "@/components/FileLanguageAnalyzer";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css"; // Ensure your global styles path is correct
 
@@ -13,7 +13,7 @@ export default function upload() {
       <main className="container">
         <h1 className="title">Document Upload & Analysis</h1>
         <Instructions />
-        <FileUploadManager />
+        <FileLanguageAnalyzer />
       </main>
       <GoToTopButton />
     </>

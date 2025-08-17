@@ -2,8 +2,10 @@ import Link from "next/link";
 import { useState } from "react";
 import InstallApp from "@/components/installapp"; // Adjust path if needed
 
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  
 
   return (
     <nav className="navbar">
@@ -29,6 +31,14 @@ export default function Navbar() {
               Upload
             </Link>
           </li>
+
+             <li className="upload">
+            <Link href="/OCR">
+              <span className="icon upload-icon" aria-label="Upload">⬆️</span>
+              Image to Text
+            </Link>
+          </li>
+       
           <li className="install">
             {/* Install button from InstallApp component */}
             <InstallApp />
