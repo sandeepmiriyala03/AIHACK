@@ -37,7 +37,7 @@ const ALL_LANGS: LangOption[] = [
   { value: "tha", label: "Thai" },
   { value: "tur", label: "Turkish" },
   { value: "urd", label: "Urdu" },
-  { value: "vie", label: "Vietnamese" },
+  { value: "vie", label: "Vietnamese" }
 ];
 
 const AUTODETECT_LANGS = ALL_LANGS.filter((l) => l.value !== "osd");
@@ -47,12 +47,14 @@ const CONFIDENCE_THRESHOLD = 85;
 type ModeOption = { value: "automatic" | "manual"; label: string };
 const MODE_OPTIONS: ModeOption[] = [
   { value: "automatic", label: "Automatic Detection" },
-  { value: "manual", label: "Manual Selection" },
+  { value: "manual", label: "Manual Selection" }
 ];
 
 export default function SearchableLangOcr() {
   const [file, setFile] = useState<File | null>(null);
-  const [lang, setLang] = useState<LangOption | null>(ALL_LANGS.find((l) => l.value === "eng") || null);
+  const [lang, setLang] = useState<LangOption | null>(
+    ALL_LANGS.find((l) => l.value === "eng") || null
+  );
   const [mode, setMode] = useState<ModeOption>(MODE_OPTIONS[0]);
   const [progress, setProgress] = useState<string>("");
   const [fullText, setFullText] = useState<string>("");
@@ -60,7 +62,6 @@ export default function SearchableLangOcr() {
   const [imageError, setImageError] = useState<string>("");
   const cancelFlag = useRef(false);
 
-  // Trigger auto-detect on file or mode change if mode is automatic
   useEffect(() => {
     if (file && mode.value === "automatic") {
       autoDetectLanguageByConfidence(file);
@@ -109,10 +110,8 @@ export default function SearchableLangOcr() {
     setImageError("");
     cancelFlag.current = false;
     setFullText("");
-
     const url = URL.createObjectURL(file);
     let best = { lang: null as LangOption | null, confidence: 0, text: "" };
-
     try {
       for (const langOpt of AUTODETECT_LANGS) {
         if (cancelFlag.current) break;
@@ -120,7 +119,7 @@ export default function SearchableLangOcr() {
 
         const { data } = await Tesseract.recognize(url, langOpt.value, {
           langPath: "/tessdata",
-          corePath: "/tesseract-core/tesseract-core.wasm.js",
+          corePath: "/tesseract-core/tesseract-core.wasm.js"
         });
 
         if (cancelFlag.current) break;
@@ -137,7 +136,9 @@ export default function SearchableLangOcr() {
         setLang(best.lang);
         setFullText(best.text.trim());
         setProgress(
-          `Auto-detect: Best match is ${best.lang.label} (confidence: ${Math.round(best.confidence)}).`
+          `Auto-detect: Best match is ${best.lang.label} (confidence: ${Math.round(
+            best.confidence
+          )}).`
         );
       } else {
         setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
@@ -178,7 +179,7 @@ export default function SearchableLangOcr() {
           }
         },
         langPath: "/tessdata",
-        corePath: "/tesseract-core/tesseract-core.wasm.js",
+        corePath: "/tesseract-core/tesseract-core.wasm.js"
       });
 
       if (cancelFlag.current) {
@@ -236,52 +237,52 @@ export default function SearchableLangOcr() {
       <h1 className="title">Searchable Language OCR</h1>
 
       <div className="instructions">
-        <p>Upload an image and either let the app automatically detect the language or manually select it.</p>
+        <p>
+          Upload an image and either let the app automatically detect the language or manually select it.
+        </p>
         <p>
           <b>Note:</b> For best results, upload clear images with visible text at least 30x30 pixels.
         </p>
       </div>
 
-     <div
-  style={{
-    marginBottom: 12,
-    display: "flex",
-    alignItems: "center",
-    gap: 12,           // space between label and select
-    flexWrap: "wrap",  // wrap on small screens
-  }}
->
-  <label
-    htmlFor="mode-select"
-    style={{ fontWeight: 600, whiteSpace: "nowrap" }}
-  >
-    Select Mode:
-  </label>
-  <div style={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
-    <Select
-      inputId="mode-select"
-      options={MODE_OPTIONS}
-      value={mode}
-      onChange={onModeChange}
-      isClearable={false}
-      styles={{
-        control: (provided) => ({
-          ...provided,
-          minHeight: 36,
-          borderRadius: 6,
-          boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-          borderColor: "#ccc",
-          "&:hover": { borderColor: "#999" },
-        }),
-        menu: (provided) => ({
-          ...provided,
-          borderRadius: 6,
-        }),
-      }}
-    />
-  </div>
-</div>
-
+      <div
+        style={{
+          marginBottom: 12,
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          flexWrap: "wrap"
+        }}>
+        <label
+          htmlFor="mode-select"
+          style={{ fontWeight: 600, whiteSpace: "nowrap" }}
+        >
+          Select Mode:
+        </label>
+        <div style={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
+          <Select
+            inputId="mode-select"
+            options={MODE_OPTIONS}
+            value={mode}
+            onChange={onModeChange}
+            isClearable={false}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                minHeight: 36,
+                borderRadius: 6,
+                boxShadow: "0 0 5px rgba(0,0,0,0.1)",
+                borderColor: "#ccc",
+                "&:hover": { borderColor: "#999" }
+              }),
+              menu: (provided) => ({
+                ...provided,
+                borderRadius: 6
+              })
+            }}
+          />
+        </div>
+      </div>
 
       <div className="uploadArea" style={{ marginBottom: 12 }}>
         <input
@@ -302,88 +303,128 @@ export default function SearchableLangOcr() {
         </label>
       </div>
 
-      <div
-        style={{
-          marginBottom: 20,
-          maxWidth: 480,
-          display: "flex",
-          alignItems: "center",
-          opacity: mode.value === "manual" ? 1 : 0.5,
-          pointerEvents: mode.value === "manual" ? "auto" : "none",
-        }}
-      >
-        <label
-          htmlFor="lang-select"
-          style={{
-            fontWeight: 600,
-            marginRight: 12,
-            minWidth: 140,
-            whiteSpace: "nowrap",
-            userSelect: "none",
-          }}
-        >
-          Select OCR Language:
-        </label>
-        <div style={{ flex: 1 }}>
-          <Select
-            inputId="lang-select"
-            options={ALL_LANGS.filter((l) => l.value !== "osd")}
-            value={lang}
-            onChange={onLangChange}
-            placeholder="Search or scroll to choose language..."
-            isClearable={false}
-            isDisabled={mode.value !== "manual" || loading}
-          />
-        </div>
-      </div>
-
-      <div>
-        <button
-          onClick={onAnalyze}
-          disabled={!file || loading || !lang || mode.value !== "manual"}
-          className={`uploadButton${!file || loading || !lang || mode.value !== "manual" ? " disabled" : ""}`}
-          aria-disabled={!file || loading || !lang || mode.value !== "manual"}
-          style={{
-            marginRight: 12,
-            padding: "8px 20px",
-            cursor: !file || loading || !lang || mode.value !== "manual" ? "not-allowed" : "pointer",
-          }}
-        >
-          {loading && mode.value === "manual" ? "Analyzing..." : "Analyze"}
-        </button>
-
-        {loading && (
-          <button
-            onClick={cancelOcrProcess}
-            className="uploadButton"
+      {/* MANUAL MODE UI */}
+      {mode.value === "manual" && (
+        <div>
+          <div
             style={{
-              background: "#ff4444",
-              color: "#fff",
-              padding: "8px 20px",
-              cursor: "pointer",
+              marginBottom: 20,
+              maxWidth: 480,
+              display: "flex",
+              alignItems: "center"
             }}
-            aria-label="Cancel ongoing OCR or detection"
           >
-            Cancel
-          </button>
-        )}
+            <label
+              htmlFor="lang-select"
+              style={{
+                fontWeight: 600,
+                marginRight: 12,
+                minWidth: 140,
+                whiteSpace: "nowrap",
+                userSelect: "none"
+              }}
+            >
+              Select OCR Language:
+            </label>
+            <div style={{ flex: 1 }}>
+              <Select
+                inputId="lang-select"
+                options={ALL_LANGS.filter((l) => l.value !== "osd")}
+                value={lang}
+                onChange={onLangChange}
+                placeholder="Search or scroll to choose language..."
+                isClearable={false}
+                isDisabled={loading}
+              />
+            </div>
+          </div>
 
-        <button
-          onClick={onClear}
-          className="uploadButton"
-          disabled={loading}
-          style={{
-            background: "#ccc",
-            color: "#333",
-            padding: "8px 20px",
-            marginLeft: 12,
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
-          aria-label="Clear form"
-        >
-          Clear
-        </button>
-      </div>
+          <div>
+            <button
+              onClick={onAnalyze}
+              disabled={!file || loading || !lang}
+              className={`uploadButton${!file || loading || !lang ? " disabled" : ""}`}
+              aria-disabled={!file || loading || !lang}
+              style={{
+                marginRight: 12,
+                padding: "8px 20px",
+                cursor: !file || loading || !lang ? "not-allowed" : "pointer"
+              }}
+            >
+              {loading ? "Analyzing..." : "Analyze"}
+            </button>
+
+            {loading && (
+              <button
+                onClick={cancelOcrProcess}
+                className="uploadButton"
+                style={{
+                  background: "#ff4444",
+                  color: "#fff",
+                  padding: "8px 20px",
+                  cursor: "pointer"
+                }}
+                aria-label="Cancel ongoing OCR or detection"
+              >
+                Cancel
+              </button>
+            )}
+
+            <button
+              onClick={onClear}
+              className="uploadButton"
+              disabled={loading}
+              style={{
+                background: "#ccc",
+                color: "#333",
+                padding: "8px 20px",
+                marginLeft: 12,
+                cursor: loading ? "not-allowed" : "pointer"
+              }}
+              aria-label="Clear form"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* AUTOMATIC MODE UI */}
+      {mode.value === "automatic" && (
+        <div>
+          {loading && (
+            <button
+              onClick={cancelOcrProcess}
+              className="uploadButton"
+              style={{
+                background: "#ff4444",
+                color: "#fff",
+                padding: "8px 20px",
+                margin: "16px 0",
+                cursor: "pointer"
+              }}
+              aria-label="Cancel ongoing OCR or detection"
+            >
+              Cancel
+            </button>
+          )}
+          <button
+            onClick={onClear}
+            className="uploadButton"
+            disabled={loading}
+            style={{
+              background: "#ccc",
+              color: "#333",
+              padding: "8px 20px",
+              marginLeft: 12,
+              cursor: loading ? "not-allowed" : "pointer"
+            }}
+            aria-label="Clear form"
+          >
+            Clear
+          </button>
+        </div>
+      )}
 
       {imageError && (
         <div className="errorMsg" style={{ marginTop: 20, color: "#c00" }}>
@@ -411,7 +452,7 @@ export default function SearchableLangOcr() {
                 whiteSpace: "pre-wrap",
                 wordBreak: "break-word",
                 maxHeight: 350,
-                overflowY: "auto",
+                overflowY: "auto"
               }}
             >
               {fullText}
