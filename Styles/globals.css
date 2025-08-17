@@ -1,19 +1,41 @@
-/* --- Container and Layout --- */
+/* ================================
+   Google Fonts
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Orbitron:wght@700&display=swap');
+
+/* ================================
+   Base / Reset
+================================ */
+body {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  margin: 0;
+  background: #fffafc;
+}
+
+/* ================================
+   Container & Layout
+================================ */
 .container {
   max-width: 700px;
   margin: 50px auto;
-  font-family: "Fredoka", "Comic Neue", cursive, sans-serif;
   padding: 0 16px;
 }
 
+/* ================================
+   Title
+================================ */
 .title {
   text-align: center;
   color: #08b545;
   user-select: none;
   font-size: 2rem;
   letter-spacing: 2px;
-  text-shadow: 0 2px 18px #aaffd1bb, 0 0 0 #fff;
   font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: 0 2px 18px #aaffd1bb, 0 0 0 #fff;
   animation: title-glow 2.5s infinite alternate;
 }
 
@@ -22,7 +44,9 @@
   to { text-shadow: 0 8px 32px #ff61c166, 0 0 0 #fff; }
 }
 
-/* --- Instructions --- */
+/* ================================
+   Instructions
+================================ */
 .instructions {
   margin-top: 12px;
   margin-bottom: 20px;
@@ -36,6 +60,9 @@
   box-shadow: 0 2px 12px #ffe9fb55;
 }
 
+/* ================================
+   Upload Area
+================================ */
 .uploadArea {
   border: 2.5px dashed #ff61a6;
   border-radius: 14px;
@@ -49,6 +76,7 @@
   flex-wrap: wrap;
   justify-content: center;
   transition: background 0.3s, border-color 0.3s;
+  position: relative;
 }
 
 .uploadArea.dragOver {
@@ -56,15 +84,48 @@
   background: #e0faf1;
 }
 
+/* Hide native file input */
 .fileInput {
-  border: 1px solid #ffc5e0;
-  border-radius: 4px;
-  padding: 8px 12px;
-  min-width: 280px;
-  flex-grow: 1;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
 }
 
-/* --- Upload Button --- */
+/* Custom upload label */
+.fileInputLabel {
+  display: inline-block;
+  padding: 12px 28px;
+  background: linear-gradient(90deg, #ffe7a4 25%, #fa709a 95%);
+  color: #735d34;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px #fff8d999, 0 1px 8px #ffdbe6aa;
+  transition: background 0.16s, box-shadow 0.3s;
+}
+
+.fileInputLabel:hover,
+.fileInputLabel:focus {
+  background: #fff8d9;
+  color: #ff6db2;
+  box-shadow: 0 6px 24px #fcf9cb85, 0 2px 12px #fa709aff;
+  outline: none;
+}
+
+.fileInput:focus + .fileInputLabel {
+  outline: 2px solid #fa709a;
+  outline-offset: 4px;
+}
+
+/* ================================
+   Upload Button
+================================ */
 .uploadButton {
   background: linear-gradient(90deg, #ffbe76 0%, #fa709a 100%);
   color: #142f1d;
@@ -72,10 +133,10 @@
   border-radius: 34px;
   padding: 11px 28px;
   cursor: pointer;
-  font-weight: 900;
-  box-shadow: 0 4px 18px #ffd6be70, 0 2px 6px #ff8fa570;
-  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
+  box-shadow: 0 4px 18px #ffd6be70, 0 2px 6px #ff8fa570;
   transition: background 0.25s, box-shadow 0.22s;
 }
 
@@ -91,7 +152,9 @@
   box-shadow: 0 8px 24px #fffae080, 0 3px 10px #fa709a55;
 }
 
-/* --- File Info --- */
+/* ================================
+   File Info & Error Msg
+================================ */
 .fileInfo {
   background-color: #f7fff8;
   border-radius: 7px;
@@ -102,11 +165,10 @@
   box-shadow: 0 1px 5px #ffe5e764;
 }
 
-/* --- Error Message --- */
 .errorMsg {
   color: #ff6347;
   margin-top: 16px;
-  font-weight: 900;
+  font-weight: 700;
   text-align: center;
   background: #fff0ec;
   padding: 10px 14px;
@@ -114,7 +176,9 @@
   box-shadow: 0 2px 8px #ff634788;
 }
 
-/* --- Analysis Section --- */
+/* ================================
+   Analysis Section
+================================ */
 .analysisSection {
   margin-top: 24px;
   max-width: 700px;
@@ -129,25 +193,16 @@
   border-bottom: 2px solid #ffbe76;
   padding-bottom: 8px;
   color: #fa709a;
-  font-weight: 900;
+  font-weight: 700;
   font-size: 1.6rem;
 }
 
-/* --- File Details --- */
-.fileDetails {
-  color: #2e8c72;
-  font-style: italic;
-  margin-bottom: 14px;
-}
+.fileDetails { color: #2e8c72; font-style: italic; margin-bottom: 14px; }
+.noResults { color: #ff5446; font-weight: 700; font-family: 'Poppins', sans-serif; }
 
-/* --- No Results Message --- */
-.noResults {
-  color: #ff5446;
-  font-weight: 900;
-  font-family: 'Fredoka', 'Comic Neue', Arial, sans-serif;
-}
-
-/* --- Accordion --- */
+/* ================================
+   Accordion
+================================ */
 .accordionChunk {
   margin-bottom: 18px;
   background: #fff5ec;
@@ -158,9 +213,8 @@
 .accordionHeader {
   cursor: pointer;
   padding: 14px 18px;
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px;
-  font-weight: 900;
+  border-radius: 18px 18px 0 0;
+  font-weight: 700;
   font-size: 1.1em;
   color: #fc6fdc;
   background: linear-gradient(90deg,#faffd1 0%, #ffe1eb 100%);
@@ -171,7 +225,6 @@
 .accordionHeader:hover,
 .accordionHeader:focus {
   background: linear-gradient(90deg,#ffe5f4 0%, #faffd1 100%);
-  outline: none;
 }
 
 .accordionContent {
@@ -180,24 +233,9 @@
   line-height: 1.6;
 }
 
-.list {
-  margin-top: 6px;
-  padding-left: 20px;
-}
-
-.list li {
-  margin-bottom: 6px;
-  font-size: 1.1rem;
-}
-
-.list li::before {
-  content: "☀️";
-  margin-right: 6px;
-  left: -20px;
-  opacity: 0.7;
-}
-
-/* --- Badges --- */
+/* ================================
+   Badges
+================================ */
 .badgesContainer {
   display: flex;
   gap: 8px;
@@ -211,10 +249,8 @@
   border-radius: 30px;
   border: none;
   padding: 7px 16px;
-  font-size: 1.08em;
-  font-weight: 900;
-  margin-bottom: 2px;
-  margin-right: 4px;
+  font-weight: 700;
+  font-size: 1em;
   box-shadow: 0 3px 10px #ffd3d966;
   transition: background 0.12s, color 0.12s, box-shadow 0.17s;
 }
@@ -224,15 +260,15 @@
   color: #b727bf;
 }
 
-
-/* --- Go To Top Button --- */
+/* ================================
+   Go To Top Button
+================================ */
 .goToTopButton {
   position: fixed;
   right: 20px;
   bottom: 40px;
-  padding: 15px 20px 15px 19px;
-  font-size: 1.22em;
-  font-family: 'Comic Neue', 'Fredoka', Arial, sans-serif;
+  padding: 15px 20px;
+  font-size: 1.1em;
   border-radius: 50px;
   border: 2px solid #ffa8bf;
   background: linear-gradient(90deg, #ffe1eb 0%, #fff8d9 100%);
@@ -243,15 +279,15 @@
   transition: background 0.14s, color 0.14s, box-shadow 0.22s;
 }
 
-.goToTopButton:hover,
-.goToTopButton:focus {
+.goToTopButton:hover {
   background: linear-gradient(90deg, #fff8d9 0%, #ffe1eb 100%);
   color: #e7428c;
   box-shadow: 0 10px 28px #fffcaab1, 0 2px 18px #fa709aaa;
 }
 
-
-/* --- Navbar & Menu --- */
+/* ================================
+   Navbar
+================================ */
 .navbar {
   background: #fffaf0;
   position: sticky;
@@ -260,7 +296,7 @@
   padding: 1.1rem 1.7rem;
   border-radius: 0 0 28px 28px;
   box-shadow: 0 4px 32px #fad1e966;
-  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .nav-container {
@@ -270,7 +306,7 @@
 }
 
 .logo {
-  font-family: 'Orbitron', 'Fredoka', 'Comic Neue', cursive, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   color: #ff6db2;
   font-size: 2.2rem;
   text-shadow: 2px 4px 16px #ffdbe688;
@@ -282,7 +318,7 @@
   display: none;
   background: transparent;
   border: none;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   color: #fac40e;
   cursor: pointer;
 }
@@ -290,33 +326,23 @@
 .nav-menu {
   display: flex;
   list-style: none;
+  gap: 1.3rem;
   margin: 0;
   padding: 0;
-  gap: 1.3rem;
 }
 
 .nav-menu li a {
   border-radius: 44px;
   padding: 1em 2.2em;
-  font-size: 1.13rem;
-  font-weight: 900;
+  font-size: 1rem;
+  font-weight: 700;
   background: #ffe1eb;
   color: #fa709a;
-  box-shadow: 0 2px 22px #ffdbe6b2;
   border: 2px solid #ffbde7;
-  letter-spacing: 1px;
-  transition:
-    background 0.18s,
-    color 0.18s,
-    box-shadow 0.22s,
-    transform 0.12s;
-  position: relative;
   text-decoration: none;
-  overflow: hidden;
-  outline: none;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  transition: background 0.18s, color 0.18s, box-shadow 0.22s, transform 0.12s;
 }
 
 .nav-menu li.upload a {
@@ -329,8 +355,7 @@
   color: #735d34;
 }
 
-.nav-menu li a:hover,
-.nav-menu li a:focus {
+.nav-menu li a:hover {
   background: #fff8d9;
   color: #08b545;
   transform: scale(1.09);
@@ -339,111 +364,66 @@
   z-index: 2;
 }
 
-/* Responsive Menu */
-@media (max-width: 640px) {
-  .menu-toggle {
-    display: block;
-  }
-  .nav-menu {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    flex-direction: column;
-    background: #fffaf0ee;
-    backdrop-filter: blur(10px);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    border-bottom-left-radius: 24px;
-    border-bottom-right-radius: 24px;
-  }
-  .nav-menu.open {
-    max-height: 500px;
-  }
-  .nav-menu li {
-    margin: 1rem 0;
-    text-align: center;
-  }
-  .nav-menu li a {
-    font-size: 1.25rem;
-    padding: 1em 0;
-    box-shadow: none;
-  }
-  .title {
-    font-size: 1.36rem;
-  }
-}
-
-/* Hide native file input */
-.fileInput {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  border: 0;
-}
-
-/* Custom file upload label styled as button */
-.fileInputLabel {
-  display: inline-block;
-  padding: 12px 28px;
-  background: linear-gradient(90deg, #ffe7a4 25%, #fa709a 95%);
-  color: #735d34;
-  font-weight: 900;
-  border-radius: 40px;
-  cursor: pointer;
-  box-shadow: 0 4px 18px #fff8d999, 0 1px 8px #ffdbe6aa;
-  transition: background 0.16s, box-shadow 0.3s;
-}
-
-.fileInputLabel:hover,
-.fileInputLabel:focus {
-  background: #fff8d9;
-  color: #ff6db2;
-  box-shadow: 0 6px 24px #fcf9cb85, 0 2px 12px #fa709aff;
-  outline: none;
-}
-
-.uploadArea {
-  position: relative;
-}
-
-.fileInput:focus + .fileInputLabel {
-  outline: 2px solid #fa709a;
-  outline-offset: 4px;
-}
-
-
+/* ================================
+   Install Button
+================================ */
 .installButton {
   background: linear-gradient(90deg, #fa709a 0%, #ffe7a4 100%);
   color: #4b164c;
   border: none;
   border-radius: 28px;
   padding: 12px 28px;
-  font-weight: 800;
-  font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif;
-  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
   cursor: pointer;
   box-shadow: 0 4px 18px #fa709a33, 0 2px 8px #fcf9cb40;
   transition: background 0.21s, box-shadow 0.3s, color 0.21s;
-  user-select: none;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.installButton:hover,
-.installButton:focus {
+.installButton:hover {
   background: linear-gradient(90deg, #ffe7a4 18%, #fa709a 85%);
   color: #08b545;
   box-shadow: 0 6px 28px #fa709aee, 0 3px 12px #ffbe7611;
-  outline: none;
   transform: scale(1.05);
-  transition-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
 }
 
+/* ================================
+   Mobile Responsive Tweaks
+================================ */
+@media (max-width: 640px) {
+  .menu-toggle { display: block; }
+  .nav-menu {
+    position: absolute;
+    top: 70px; left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: #fffaf0ee;
+    backdrop-filter: blur(10px);
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-radius: 0 0 24px 24px;
+  }
+  .nav-menu.open { max-height: 500px; }
+  .nav-menu li { margin: 1rem 0; text-align: center; }
+  .nav-menu li a {
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 1em 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
 
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  .title { font-size: 1.4rem; }
+  .logo { font-size: 1.8rem; }
+  .uploadArea { flex-direction: column; padding: 18px; gap: 10px; }
+  .accordionHeader { font-size: 1rem; padding: 12px 14px; }
+  .accordionContent { font-size: 0.95rem; padding: 14px; }
+  .goToTopButton { bottom: 80px; right: 14px; font-size: 1rem; padding: 12px 16px; }
+}
