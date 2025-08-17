@@ -235,15 +235,47 @@ export default function SearchableLangOcr() {
   return (
     <div className="container" aria-live="polite" style={{ maxWidth: 600, margin: "auto" }}>
       <h1 className="title">Searchable Language OCR</h1>
+<div className="instructions" style={{ marginBottom: 18 }}>
+  <p>
+    <b>How it works:</b> Upload an image containing text and choose between two powerful modes:<br />
+    <span style={{ color: "#006699" }}>
+      <b>Automatic Detection</b>: The app will scan your image using advanced OCR technology and intelligently detect the language.<br />
+      <b>Manual Selection</b>: You can pick the expected language yourself for higher accuracy, especially with complex or stylized scripts.
+    </span>
+  </p>
+  <ul style={{ marginLeft: 0, paddingLeft: 20, color: "#333" }}>
+    <li>
+      <b>Supports 30+ languages:</b> Recognizes most South Asian and international scripts, including Hindi, Telugu, Tamil, Chinese, Russian, and more.
+    </li>
+    <li>
+      <b>Flexible modes:</b> Quickly switch between automatic detection or manual pick using the mode selector.
+    </li>
+    <li>
+      <b>Cancel anytime:</b> Stop an ongoing analysis or detection with the <span style={{ color: "#bb0000" }}><b>Cancel</b></span> button for convenience.
+    </li>
+    <li>
+      <b>Error Handling:</b> Instant feedback if your file is too small, unreadable, or contains no clear text.
+    </li>
+    <li>
+      <b>Live progress updates:</b> Track what the app is doing with clear progress messages during detection and analysis.
+    </li>
+    <li>
+      <b>Mobile-friendly:</b> Works smoothly on desktop and mobile browsers.
+    </li>
+    <li>
+      <b>Clear results display:</b> Extracted text appears below your image, ready to copy or review.
+    </li>
+  </ul>
+  <p>
+    <b>Tips for best results:</b>
+    <ul style={{ marginLeft: 0, paddingLeft: 20 }}>
+      <li>Upload sharp images with good contrast and text at least <span style={{ fontWeight: 600 }}>30×30 pixels</span>.</li>
+      <li>For multi-language images, try both modes to see which gives better accuracy.</li>
+      <li>If detection fails, switch to manual and specify the language yourself.</li>
+    </ul>
+  </p>
+</div>
 
-      <div className="instructions">
-        <p>
-          Upload an image and either let the app automatically detect the language or manually select it.
-        </p>
-        <p>
-          <b>Note:</b> For best results, upload clear images with visible text at least 30x30 pixels.
-        </p>
-      </div>
 
       <div
         style={{
