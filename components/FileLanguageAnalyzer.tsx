@@ -104,8 +104,56 @@ const ALL_LANGS: LangOption[] = [
   { value: "urd", label: "Urdu" },
   { value: "uzb", label: "Uzbek" },
   { value: "vie", label: "Vietnamese" },
-  { value: "yid", label: "Yiddish" },
+  { value: "yid", label: "Yiddish" }
 ];
+
+const SCRIPT_TO_LANG: { [script: string]: LangOption["value"] } = {
+  Latin: "eng",
+  Devanagari: "hin",
+  Bengali: "ben",
+  Telugu: "tel",
+  Gujarati: "guj",
+  Kannada: "kan",
+  Tamil: "tam",
+  Malayalam: "mal",
+  Arabic: "ara",
+  Cyrillic: "rus",
+  Han: "chi_sim",
+  Japanese: "jpn",
+  Hangul: "kor",
+  Hebrew: "heb",
+  Thai: "tha",
+  Armenian: "kat",
+  Georgian: "kat",
+  Greek: "ell",
+  Lao: "lao",
+  Khmer: "khm",
+  Sinhala: "sin",
+  Syriac: "syr",
+  Ethiopic: "amh",
+  Tibetan: "bod",
+  Burmese: "mya",
+  Cherokee: "chr",
+  Gurmukhi: "pan",
+  Oriya: "ori",
+  Vietnamese: "vie",
+  Pashto: "pus",
+  Kazakh: "kaz",
+  Uzbek: "uzb",
+  Polish: "pol",
+  Portuguese: "por",
+  Spanish: "spa",
+  French: "fra",
+  German: "deu",
+  Dutch: "nld",
+  Swedish: "swe",
+  Finnish: "fin",
+  Estonian: "est",
+  Latvian: "lav",
+  Lithuanian: "lit",
+  Icelandic: "isl",
+  Basque: "eus"
+};
 
 type LoggerMessage = { status: string; progress?: number };
 
@@ -138,6 +186,7 @@ export default function SearchableLangOcr() {
       } else {
         setFile(selectedFile);
         URL.revokeObjectURL(url);
+        autoDetectLanguage(selectedFile);
       }
     };
     img.onerror = () => {
@@ -146,6 +195,34 @@ export default function SearchableLangOcr() {
       URL.revokeObjectURL(url);
     };
     img.src = url;
+  };
+
+  // MAIN FIX IS HERE:
+  const autoDetectLanguage = async (file: File) => {
+    setProgress("Detecting script...");
+    setLoading(true);
+    setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
+    setImageError("");
+    const url = URL.createObjectURL(file);
+    try {
+      const { data } = await Tesseract.recognize(url, "osd");
+      // Use scriptName instead of script:
+      const detectedScript = (data as { scriptName?: string }).scriptName || "";
+      const mappedLang = SCRIPT_TO_LANG[detectedScript];
+      if (mappedLang) {
+        const detectedLang = ALL_LANGS.find((l) => l.value === mappedLang) || null;
+        setLang(detectedLang);
+        console.log(`Detected script: ${detectedScript}, mapped to language: ${detectedLang?.label}`);
+        setProgress(`Detected script: ${detectedScript}, auto-selected ${detectedLang?.label}`);
+      } else {
+        setProgress("Script detected, but could not map to a language. Please pick manually.");
+      }
+    } catch {
+      setProgress("Could not detect script. Please select language manually.");
+    } finally {
+      setLoading(false);
+      URL.revokeObjectURL(url);
+    }
   };
 
   const onLangChange = (option: SingleValue<LangOption>) => {
@@ -160,7 +237,7 @@ export default function SearchableLangOcr() {
     setImageError("");
     const url = URL.createObjectURL(file);
     try {
-      const { data: { text } } = await Tesseract.recognize(url, lang.value, {
+      const { data } = await Tesseract.recognize(url, lang.value, {
         logger: (m: LoggerMessage) => {
           if (m.status === "recognizing text") {
             setProgress(`OCR: ${Math.round((m.progress ?? 0) * 100)}%`);
@@ -170,12 +247,10 @@ export default function SearchableLangOcr() {
         },
       });
       URL.revokeObjectURL(url);
-      const cleanText = text.trim();
+      const cleanText = data.text.trim();
       setFullText(cleanText);
       setProgress("Analysis Complete");
-      if (!cleanText || cleanText.length < 3) {
-        setImageError("No text detected! Please try with a higher-quality image.");
-      }
+      if (cleanText.length < 3) setImageError("No text detected! Please try with a higher-quality image.");
     } catch {
       setProgress("Error during OCR");
       setImageError("OCR failed. Please check the file and language selection.");
@@ -200,10 +275,10 @@ export default function SearchableLangOcr() {
       <h1 className="title">Searchable Language OCR</h1>
       <div className="instructions">
         <p>
-          Upload an image and select the OCR language using the searchable dropdown below, then click <strong>Analyze</strong>.
+          Upload an image and the app will auto-detect the script/language if possible.
+          You can also select manually before clicking <strong>Analyze</strong>.
         </p>
       </div>
-
       <div className="uploadArea">
         <input
           type="file"
@@ -216,23 +291,30 @@ export default function SearchableLangOcr() {
           {file ? file.name : "Choose Image"}
         </label>
       </div>
-
-
-
-<div style={{ marginTop: 12, maxWidth: 320 }}>
-  <label htmlFor="lang-select" style={{ display: "block", marginBottom: 6, fontWeight: 600 }}>
-    Select OCR Language:
-  </label>
-  <Select
-    inputId="lang-select"
-    options={ALL_LANGS}
-    value={lang}
-    onChange={onLangChange}
-    placeholder="Search or scroll to choose language..."
-    isClearable={false}
-  />
-</div>
-
+      <div style={{ marginTop: 12, maxWidth: 480, display: "flex", alignItems: "center" }}>
+        <label
+          htmlFor="lang-select"
+          style={{
+            fontWeight: 600,
+            marginRight: 12,
+            minWidth: 140,
+            marginBottom: 0,
+            whiteSpace: "nowrap"
+          }}
+        >
+          Select OCR Language:
+        </label>
+        <div style={{ flex: 1 }}>
+          <Select
+            inputId="lang-select"
+            options={ALL_LANGS}
+            value={lang}
+            onChange={onLangChange}
+            placeholder="Search or scroll to choose language..."
+            isClearable={false}
+          />
+        </div>
+      </div>
       <div style={{ marginTop: 20 }}>
         <button
           onClick={onAnalyze}
@@ -253,13 +335,11 @@ export default function SearchableLangOcr() {
           Clear
         </button>
       </div>
-
       {imageError && (
         <div className="errorMsg" style={{ marginTop: 20 }}>
           {imageError}
         </div>
       )}
-
       <div className="analysisSection" aria-live="polite" style={{ marginTop: 24 }}>
         {progress && <div className="fileDetails">{progress}</div>}
         {fullText && !loading && (
