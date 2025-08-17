@@ -20,6 +20,15 @@ type LangOption = { value: string; label: string };
 type ModeOption = { value: "automatic" | "manual"; label: string };
 type LoggerMessage = { status: string; progress?: number };
 
+// A specific type for the result of Orientation and Script Detection
+type OSDResult = {
+  tesseract_script_id: number;
+  script: string;
+  script_confidence: number;
+  orientation_degrees: number;
+  orientation_confidence: number;
+};
+
 const ALL_LANGS: LangOption[] = [
   { value: "ara", label: "Arabic" }, { value: "asm", label: "Assamese" }, { value: "ben", label: "Bengali" },
   { value: "bod", label: "Bodo" }, { value: "chi_sim", label: "Chinese (Simplified)" }, { value: "chi_tra", label: "Chinese (Traditional)" },
@@ -133,7 +142,7 @@ export default function SearchableLangOcr() {
     setMode(option);
   };
 
-  const processImage = useCallback(async (language: string | 'osd', isAutoDetect: boolean) => {
+  const processImage = useCallback(async (language: string | 'osd', isAutoDetect: boolean): Promise<Tesseract.RecognizeResult | void> => {
     if (!file || !workerRef.current) return;
     setLoading(true);
     setFullText("");
@@ -148,15 +157,14 @@ export default function SearchableLangOcr() {
       if (cancelFlag.current) return;
 
       if (isAutoDetect) {
-        const script = (data as any).script;
+        const script = (data as OSDResult).script;
         const candidateLangs = SCRIPT_TO_LANG_MAP[script] || [];
         if (candidateLangs.length === 0) throw new Error(`No languages found for script: ${script}`);
         
         let bestMatch = { lang: null as LangOption | null, confidence: 0, text: "" };
         for (const langCode of candidateLangs) {
             if (cancelFlag.current) break;
-            // Recursively call to process with specific language
-            const result = await processImage(langCode, false) as Tesseract.RecognizeResult;
+            const result = await processImage(langCode, false);
             if (result && result.data.confidence > bestMatch.confidence) {
                 bestMatch = { lang: ALL_LANGS.find(l => l.value === langCode)!, confidence: result.data.confidence, text: result.data.text };
             }
@@ -174,9 +182,9 @@ export default function SearchableLangOcr() {
         setFullText(cleanText);
         setProgressLabel(cleanText.length > 3 ? "Analysis Complete" : "No significant text detected.");
         if (cleanText.length < 3) setImageError("No text found. Try a clearer image.");
-        return { data }; // Return data for auto-detect loop
+        return { data } as Tesseract.RecognizeResult;
       }
-    } catch (e) {
+    } catch { // 'e' is removed here to fix unused variable error
       if (!cancelFlag.current) {
         setImageError("An error occurred during OCR. Please check console for details.");
       }
@@ -186,6 +194,13 @@ export default function SearchableLangOcr() {
   }, [file]);
 
   const isBusy = loading || !workerRef.current;
+  
+  const handleManualAnalyze = () => {
+    // Guard clause to ensure lang is not null, removing need for !
+    if (lang) {
+      processImage(lang.value, false);
+    }
+  };
 
   return (
     <div className="container" aria-live="polite">
@@ -215,7 +230,7 @@ export default function SearchableLangOcr() {
             <label htmlFor="lang-select">Select OCR Language:</label>
             <Select inputId="lang-select" options={ALL_LANGS.filter(l => l.value !== 'osd')} value={lang} onChange={option => setLang(option as LangOption)} isDisabled={isBusy} />
           </div>
-          <button onClick={() => processImage(lang!.value, false)} disabled={!file || !lang || isBusy}>
+          <button onClick={handleManualAnalyze} disabled={!file || !lang || isBusy}>
             {loading ? "Analyzing..." : "Analyze Image"}
           </button>
         </div>
