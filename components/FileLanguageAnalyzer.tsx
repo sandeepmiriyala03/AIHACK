@@ -102,7 +102,6 @@ export default function SearchableLangOcr() {
     setLang(option ?? null);
   };
 
-  // Optimized auto detect for faster results and accuracy
   const autoDetectLanguageByConfidence = async (file: File) => {
     setProgress("Auto-detecting language...");
     setLoading(true);
@@ -113,57 +112,26 @@ export default function SearchableLangOcr() {
     const url = URL.createObjectURL(file);
     let best = { lang: null as LangOption | null, confidence: 0, text: "" };
 
-    // First try English fast
     try {
-      setProgress("Trying English first...");
-      const { data } = await Tesseract.recognize(url, "eng", {
-        langPath: "/tessdata",
-        corePath: "/tesseract-core/tesseract-core.wasm.js"
-      });
-      if (cancelFlag.current) {
-        setProgress("Auto-detect cancelled.");
-        setLoading(false);
-        URL.revokeObjectURL(url);
-        return;
-      }
-      const textSample = data.text.trim().slice(0, 12);
-      const hasNonEng = /[^\x00-\x7F]/.test(textSample);
-
-      if (!hasNonEng && data.confidence >= CONFIDENCE_THRESHOLD && data.text.trim().length > 3) {
-        setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
-        setFullText(data.text.trim());
-        setProgress(`Auto-detect: Best match is English (confidence: ${Math.round(data.confidence)}).`);
-        setLoading(false);
-        URL.revokeObjectURL(url);
-        return;
-      }
-
-      // Prioritized other scripts for speed and accuracy
-      const priors = ["hin","ben","tam","tel","mar","kan","mal","guj","pan","urd","nep","san","chi_sim","chi_tra","jpn","kor","rus","vie"];
-      for (const langCode of priors) {
+      for (const langOpt of AUTODETECT_LANGS) {
         if (cancelFlag.current) break;
-        const langOpt = ALL_LANGS.find((l) => l.value === langCode);
-        if (!langOpt) continue;
         setProgress(`Trying ${langOpt.label}...`);
-        const { data: dataLang } = await Tesseract.recognize(url, langOpt.value, {
+        const { data } = await Tesseract.recognize(url, langOpt.value, {
           langPath: "/tessdata",
           corePath: "/tesseract-core/tesseract-core.wasm.js"
         });
         if (cancelFlag.current) break;
 
-        if (dataLang.confidence > best.confidence && dataLang.text.trim().length > 3) {
-          best = { lang: langOpt, confidence: dataLang.confidence, text: dataLang.text };
-          if (best.confidence >= CONFIDENCE_THRESHOLD) break;
+        if (data.confidence >= CONFIDENCE_THRESHOLD && data.text.trim().length > 3) {
+          best = { lang: langOpt, confidence: data.confidence, text: data.text };
+          setLang(langOpt);
+          setFullText(data.text.trim());
+          setProgress(`Auto-detect: Best match is ${langOpt.label} (confidence: ${Math.round(data.confidence)})`);
+          break;
         }
       }
 
-      if (cancelFlag.current) {
-        setProgress("Auto-detect cancelled.");
-      } else if (best.lang) {
-        setLang(best.lang);
-        setFullText(best.text.trim());
-        setProgress(`Auto-detect: Best match is ${best.lang.label} (confidence: ${Math.round(best.confidence)}).`);
-      } else {
+      if (!best.lang) {
         setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
         setProgress("Could not auto-detect language. Please select manually.");
         setImageError("Automatic detection failed. Please choose OCR language below.");
@@ -172,7 +140,6 @@ export default function SearchableLangOcr() {
       if (cancelFlag.current) {
         setProgress("Auto-detection cancelled.");
       } else {
-        setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
         setProgress("Auto-detection error. Please select manually.");
         setImageError("Script detection failed (see console).");
       }
@@ -247,7 +214,7 @@ export default function SearchableLangOcr() {
 
   const onModeChange = (option: SingleValue<ModeOption>) => {
     if (!option) return;
-    cancelFlag.current = true; // Cancel ongoing processes on switch
+    cancelFlag.current = true; // Cancel ongoing OCR/detection when mode switches
     setMode(option);
     setProgress("");
     setFullText("");
@@ -256,55 +223,45 @@ export default function SearchableLangOcr() {
   };
 
   return (
-    <div className="container" aria-live="polite" style={{ maxWidth: 600, margin: "auto" }}>
+    <div className="container" aria-live="polite">
       <h1 className="title">Searchable Language OCR</h1>
 
-<div className="instructions" style={{ marginBottom: 18, color: "#333", lineHeight: 1.6 }}>
-  <p><b>Instructions:</b> Upload a clear image containing text and choose between automatic or manual mode. In automatic mode, the app detects the language for you. In manual mode, you select the language yourself to improve accuracy with complex scripts.</p>
-  <p>This app supports over 30 languages including Hindi, Telugu, Tamil, Chinese, and Russian. You can switch between modes anytime for flexibility. A cancel button lets you stop any ongoing recognition process.</p>
-  <p>You’ll receive live progress updates and clear error messages if the image is too small, blurry, or unreadable. The extracted text will be displayed below, ready to review or copy.</p>
-  <p>For best results, upload sharp images with good contrast and text size at least 30×30 pixels. If automatic detection isn’t accurate, try switching to manual mode and selecting the language yourself.</p>
-</div>
+      <div className="instructions">
+        <p>
+          <b>Instructions:</b> Upload a clear image containing text and choose between automatic or manual mode.
+          In automatic mode, the app detects the language for you. In manual mode, you select the language yourself
+          to improve accuracy with complex scripts.
+        </p>
+        <p>
+          This app supports over 30 languages including Hindi, Telugu, Tamil, Chinese, and Russian.
+          You can switch between modes anytime for flexibility. A cancel button lets you stop any ongoing process.
+        </p>
+        <p>
+          You’ll receive live progress updates and clear error messages if the image is too small, blurry, or unreadable.
+          The extracted text will be displayed below, ready to review or copy.
+        </p>
+        <p>
+          For best results, upload sharp images with good contrast and text size at least 30×30 pixels.
+          If automatic detection isn’t accurate, try manual mode and specify the language yourself.
+        </p>
+      </div>
 
-
-      <div
-        style={{
-          marginBottom: 12,
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          flexWrap: "wrap"
-        }}
-      >
-        <label htmlFor="mode-select" style={{ fontWeight: 600, whiteSpace: "nowrap" }}>
+      <div className="mode-select-wrapper">
+        <label htmlFor="mode-select" className="mode-select-label">
           Select Mode:
         </label>
-        <div style={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
+        <div className="mode-select">
           <Select
             inputId="mode-select"
             options={MODE_OPTIONS}
             value={mode}
             onChange={onModeChange}
             isClearable={false}
-            styles={{
-              control: (provided) => ({
-                ...provided,
-                minHeight: 36,
-                borderRadius: 6,
-                boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-                borderColor: "#ccc",
-                "&:hover": { borderColor: "#999" }
-              }),
-              menu: (provided) => ({
-                ...provided,
-                borderRadius: 6
-              })
-            }}
           />
         </div>
       </div>
 
-      <div className="uploadArea" style={{ marginBottom: 12 }}>
+      <div className="uploadArea">
         <input
           type="file"
           accept="image/*"
@@ -312,41 +269,19 @@ export default function SearchableLangOcr() {
           className="fileInput"
           id="file-upload"
           disabled={loading}
-          style={{ marginBottom: 8 }}
         />
-        <label
-          htmlFor="file-upload"
-          className="fileInputLabel"
-          style={{ cursor: loading ? "not-allowed" : "pointer" }}
-        >
+        <label htmlFor="file-upload" className={`fileInputLabel${loading ? " disabled" : ""}`}>
           {file ? file.name : "Choose Image"}
         </label>
       </div>
 
-      {/* MANUAL MODE UI */}
       {mode.value === "manual" && (
         <>
-          <div
-            style={{
-              marginBottom: 20,
-              maxWidth: 480,
-              display: "flex",
-              alignItems: "center"
-            }}
-          >
-            <label
-              htmlFor="lang-select"
-              style={{
-                fontWeight: 600,
-                marginRight: 12,
-                minWidth: 140,
-                whiteSpace: "nowrap",
-                userSelect: "none"
-              }}
-            >
+          <div className="lang-select-wrapper">
+            <label htmlFor="lang-select" className="lang-select-label">
               Select OCR Language:
             </label>
-            <div style={{ flex: 1 }}>
+            <div className="lang-select">
               <Select
                 inputId="lang-select"
                 options={ALL_LANGS.filter((l) => l.value !== "osd")}
@@ -359,17 +294,12 @@ export default function SearchableLangOcr() {
             </div>
           </div>
 
-          <div>
+          <div className="actions">
             <button
               onClick={onAnalyze}
               disabled={!file || loading || !lang}
               className={`uploadButton${!file || loading || !lang ? " disabled" : ""}`}
               aria-disabled={!file || loading || !lang}
-              style={{
-                marginRight: 12,
-                padding: "8px 20px",
-                cursor: !file || loading || !lang ? "not-allowed" : "pointer"
-              }}
             >
               {loading ? "Analyzing..." : "Analyze"}
             </button>
@@ -377,13 +307,7 @@ export default function SearchableLangOcr() {
             {loading && (
               <button
                 onClick={cancelOcrProcess}
-                className="uploadButton"
-                style={{
-                  background: "#ff4444",
-                  color: "#fff",
-                  padding: "8px 20px",
-                  cursor: "pointer"
-                }}
+                className="uploadButton cancel"
                 aria-label="Cancel ongoing OCR or detection"
               >
                 Cancel
@@ -392,15 +316,8 @@ export default function SearchableLangOcr() {
 
             <button
               onClick={onClear}
-              className="uploadButton"
+              className="uploadButton clear"
               disabled={loading}
-              style={{
-                background: "#ccc",
-                color: "#333",
-                padding: "8px 20px",
-                marginLeft: 12,
-                cursor: loading ? "not-allowed" : "pointer"
-              }}
               aria-label="Clear form"
             >
               Clear
@@ -409,20 +326,12 @@ export default function SearchableLangOcr() {
         </>
       )}
 
-      {/* AUTOMATIC MODE UI */}
       {mode.value === "automatic" && (
-        <div>
+        <div className="actions">
           {loading && (
             <button
               onClick={cancelOcrProcess}
-              className="uploadButton"
-              style={{
-                background: "#ff4444",
-                color: "#fff",
-                padding: "8px 20px",
-                margin: "16px 0",
-                cursor: "pointer"
-              }}
+              className="uploadButton cancel"
               aria-label="Cancel ongoing OCR or detection"
             >
               Cancel
@@ -430,15 +339,8 @@ export default function SearchableLangOcr() {
           )}
           <button
             onClick={onClear}
-            className="uploadButton"
+            className="uploadButton clear"
             disabled={loading}
-            style={{
-              background: "#ccc",
-              color: "#333",
-              padding: "8px 20px",
-              marginLeft: 12,
-              cursor: loading ? "not-allowed" : "pointer"
-            }}
             aria-label="Clear form"
           >
             Clear
@@ -446,37 +348,14 @@ export default function SearchableLangOcr() {
         </div>
       )}
 
-      {imageError && (
-        <div className="errorMsg" style={{ marginTop: 20, color: "#c00" }}>
-          {imageError}
-        </div>
-      )}
+      {imageError && <div className="errorMsg">{imageError}</div>}
 
-      <div className="analysisSection" aria-live="polite" style={{ marginTop: 24 }}>
-        {progress && (
-          <div className="fileDetails" style={{ marginBottom: 8 }}>
-            {progress}
-          </div>
-        )}
+      <div className="analysisSection" aria-live="polite">
+        {progress && <div className="fileDetails">{progress}</div>}
         {fullText && !loading && (
           <>
             <h3 className="analysisTitle">Extracted Text</h3>
-            <div
-              style={{
-                background: "#fff5ec",
-                color: "#333",
-                borderRadius: 10,
-                padding: 15,
-                boxShadow: "0 2px 10px #ffdbe688",
-                fontSize: 16,
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word",
-                maxHeight: 350,
-                overflowY: "auto"
-              }}
-            >
-              {fullText}
-            </div>
+            <div className="extractedText">{fullText}</div>
           </>
         )}
       </div>
