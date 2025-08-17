@@ -242,25 +242,46 @@ export default function SearchableLangOcr() {
         </p>
       </div>
 
-      <div style={{ marginBottom: 12 }}>
-        <label htmlFor="mode-select" style={{ fontWeight: 600, marginRight: 8 }}>
-          Select Mode:
-        </label>
-        <Select
-          inputId="mode-select"
-          options={MODE_OPTIONS}
-          value={mode}
-          onChange={onModeChange}
-          isClearable={false}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              minWidth: 200,
-              display: "inline-block",
-            }),
-          }}
-        />
-      </div>
+     <div
+  style={{
+    marginBottom: 12,
+    display: "flex",
+    alignItems: "center",
+    gap: 12,           // space between label and select
+    flexWrap: "wrap",  // wrap on small screens
+  }}
+>
+  <label
+    htmlFor="mode-select"
+    style={{ fontWeight: 600, whiteSpace: "nowrap" }}
+  >
+    Select Mode:
+  </label>
+  <div style={{ minWidth: 200, flexGrow: 1, maxWidth: 300 }}>
+    <Select
+      inputId="mode-select"
+      options={MODE_OPTIONS}
+      value={mode}
+      onChange={onModeChange}
+      isClearable={false}
+      styles={{
+        control: (provided) => ({
+          ...provided,
+          minHeight: 36,
+          borderRadius: 6,
+          boxShadow: "0 0 5px rgba(0,0,0,0.1)",
+          borderColor: "#ccc",
+          "&:hover": { borderColor: "#999" },
+        }),
+        menu: (provided) => ({
+          ...provided,
+          borderRadius: 6,
+        }),
+      }}
+    />
+  </div>
+</div>
+
 
       <div className="uploadArea" style={{ marginBottom: 12 }}>
         <input
