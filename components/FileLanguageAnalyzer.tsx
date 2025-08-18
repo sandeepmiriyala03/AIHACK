@@ -37,22 +37,74 @@ const ALL_LANGS: LangOption[] = [
   { value: "tha", label: "Thai" },
   { value: "tur", label: "Turkish" },
   { value: "urd", label: "Urdu" },
-  { value: "vie", label: "Vietnamese" }
+  { value: "vie", label: "Vietnamese" },
 ];
 
-const AUTODETECT_LANGS = ALL_LANGS.filter((l) => l.value !== "osd");
+// Group languages into logical sets for prioritized detection
+const LANG_GROUPS: LangOption[][] = [
+  // Group 1: Common Western/Latin languages
+  [
+    { value: "eng", label: "English" },
+    { value: "spa", label: "Spanish" },
+    { value: "fra", label: "French" },
+    { value: "deu", label: "German" },
+    { value: "nld", label: "Dutch" },
+    { value: "ita", label: "Italian" },
+    { value: "por", label: "Portuguese" },
+    { value: "swe", label: "Swedish" },
+    { value: "tur", label: "Turkish" },
+  ],
+
+  // Group 2: Indian subcontinent languages
+  [
+    { value: "hin", label: "Hindi" },
+    { value: "tam", label: "Tamil" },
+    { value: "tel", label: "Telugu" },
+    { value: "mal", label: "Malayalam" },
+    { value: "mar", label: "Marathi" },
+    { value: "guj", label: "Gujarati" },
+    { value: "ori", label: "Odia" },
+    { value: "pan", label: "Punjabi" },
+    { value: "san", label: "Sanskrit" },
+    { value: "asm", label: "Assamese" },
+    { value: "ben", label: "Bengali" },
+    { value: "nep", label: "Nepali" },
+    { value: "snd", label: "Sindhi" },
+    { value: "bod", label: "Bodo" },
+    { value: "kan", label: "Kannada" },
+  ],
+
+  // Group 3: East Asian languages
+  [
+    { value: "chi_sim", label: "Chinese (Simplified)" },
+    { value: "chi_tra", label: "Chinese (Traditional)" },
+    { value: "jpn", label: "Japanese" },
+    { value: "kor", label: "Korean" },
+  ],
+
+  // Group 4: Other languages
+  [
+    { value: "ara", label: "Arabic" },
+    { value: "rus", label: "Russian" },
+    { value: "tha", label: "Thai" },
+    { value: "vie", label: "Vietnamese" },
+  ],
+];
+
 type LoggerMessage = { status: string; progress?: number };
 const CONFIDENCE_THRESHOLD = 85;
 
 type ModeOption = { value: "automatic" | "manual"; label: string };
 const MODE_OPTIONS: ModeOption[] = [
   { value: "automatic", label: "Automatic Detection" },
-  { value: "manual", label: "Manual Selection" }
+  { value: "manual", label: "Manual Selection" },
 ];
 
 export default function SearchableLangOcr() {
   const [file, setFile] = useState<File | null>(null);
-  const [lang, setLang] = useState<LangOption | null>(ALL_LANGS.find((l) => l.value === "eng") || null);
+  const [lang, setLang] = useState<LangOption | null>(
+    ALL_LANGS.find((l) => l.value === "eng") || null
+  );
   const [mode, setMode] = useState<ModeOption>(MODE_OPTIONS[0]);
   const [progress, setProgress] = useState<string>("");
   const [fullText, setFullText] = useState<string>("");
@@ -113,21 +165,36 @@ export default function SearchableLangOcr() {
     let best = { lang: null as LangOption | null, confidence: 0, text: "" };
 
     try {
-      for (const langOpt of AUTODETECT_LANGS) {
-        if (cancelFlag.current) break;
-        setProgress(`Trying ${langOpt.label}...`);
-        const { data } = await Tesseract.recognize(url, langOpt.value, {
-          langPath: "/tessdata",
-          corePath: "/tesseract-core/tesseract-core.wasm.js"
-        });
-        if (cancelFlag.current) break;
+      outer: for (const group of LANG_GROUPS) {
+        for (const langOpt of group) {
+          if (cancelFlag.current) break outer;
 
-        if (data.confidence >= CONFIDENCE_THRESHOLD && data.text.trim().length > 3) {
-          best = { lang: langOpt, confidence: data.confidence, text: data.text };
-          setLang(langOpt);
-          setFullText(data.text.trim());
-          setProgress(`Auto-detect: Best match is ${langOpt.label} (confidence: ${Math.round(data.confidence)})`);
-          break;
+          setProgress(`Trying ${langOpt.label}...`);
+
+          const { data } = await Tesseract.recognize(url, langOpt.value, {
+            langPath: "/tessdata",
+            corePath: "/tesseract-core/tesseract-core.wasm.js",
+          });
+
+          if (cancelFlag.current) break outer;
+
+          const confidence = data.confidence ?? 0;
+          const text = data.text.trim();
+
+          if (confidence > best.confidence && text.length > 3) {
+            best = { lang: langOpt, confidence, text };
+          }
+
+          if (confidence >= CONFIDENCE_THRESHOLD) {
+            setLang(langOpt);
+            setFullText(text);
+            setProgress(
+              `Auto-detect: Best match is ${langOpt.label} (confidence: ${Math.round(
+                confidence
+              )})`
+            );
+            break outer; // Early stop on confident detection
+          }
         }
       }
 
@@ -135,6 +202,14 @@ export default function SearchableLangOcr() {
         setLang(ALL_LANGS.find((l) => l.value === "eng") || null);
         setProgress("Could not auto-detect language. Please select manually.");
         setImageError("Automatic detection failed. Please choose OCR language below.");
+      } else if (best.confidence < CONFIDENCE_THRESHOLD) {
+        setLang(best.lang);
+        setFullText(best.text);
+        setProgress(
+          `Auto-detect: Best available match is ${best.lang.label} (confidence: ${Math.round(
+            best.confidence
+          )})`
+        );
       }
     } catch (e) {
       if (cancelFlag.current) {
@@ -169,7 +244,7 @@ export default function SearchableLangOcr() {
           }
         },
         langPath: "/tessdata",
-        corePath: "/tesseract-core/tesseract-core.wasm.js"
+        corePath: "/tesseract-core/tesseract-core.wasm.js",
       });
 
       if (cancelFlag.current) {
@@ -214,7 +289,7 @@ export default function SearchableLangOcr() {
 
   const onModeChange = (option: SingleValue<ModeOption>) => {
     if (!option) return;
-    cancelFlag.current = true; // Cancel ongoing OCR/detection when mode switches
+    cancelFlag.current = true; // Cancel ongoing OCR/detection on mode switch
     setMode(option);
     setProgress("");
     setFullText("");
