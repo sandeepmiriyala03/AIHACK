@@ -271,7 +271,7 @@ export default function SearchableLangOcr() {
           onLangChange={(val) => setLang(Array.isArray(val) ? [...val] : val ? [val] : [])}
           allLangs={ALL_LANGS.filter((l) => l.value !== "osd")}
           loading={loading}
-          isMulti={true}
+          isMulti={false}
           selectProps={{ inputId: "lang-select", instanceId: "lang-select-instance" }}
         />
       )}

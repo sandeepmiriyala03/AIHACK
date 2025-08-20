@@ -19,9 +19,12 @@ body {
    Container & Layout
 ================================ */
 .container {
-  max-width: 700px;
+  max-width: 720px;
   margin: 50px auto;
-  padding: 0 16px;
+  padding: 0 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(250, 61, 129, 0.12);
 }
 
 /* ================================
@@ -31,33 +34,38 @@ body {
   text-align: center;
   color: #08b545;
   user-select: none;
-  font-size: 2rem;
-  letter-spacing: 2px;
+  font-size: 2.25rem;
+  letter-spacing: 2.2px;
   font-weight: 900;
   font-family: 'Poppins', sans-serif;
-  text-shadow: 0 2px 18px #aaffd1bb, 0 0 0 #fff;
+  text-shadow: 0 2px 20px #aaffd1bb;
   animation: title-glow 2.5s infinite alternate;
+  margin-bottom: 24px;
 }
 
 @keyframes title-glow {
-  from { text-shadow: 0 2px 8px #fff9aecc, 0 0 0 #fff; }
-  to { text-shadow: 0 8px 32px #ff61c166, 0 0 0 #fff; }
+  from { text-shadow: 0 2px 10px #fff9aecc; }
+  to {
+    text-shadow:
+      0 8px 24px #ff61c166,
+      0 0 16px #ff61c166;
+  }
 }
 
 /* ================================
    Instructions
 ================================ */
 .instructions {
-  margin-top: 12px;
-  margin-bottom: 20px;
-  padding: 16px;
+  margin: 16px 0 28px 0;
+  padding: 20px 24px;
   border: 2px solid #ff7961;
-  border-radius: 26px;
-  font-size: 15px;
+  border-radius: 30px;
+  font-size: 15.5px;
   color: #624b2b;
   background: linear-gradient(90deg, #fff7ed 0%, #edfff6 100%);
   text-align: center;
-  box-shadow: 0 2px 12px #ffe9fb55;
+  box-shadow: 0 4px 16px #ffe9fb55;
+  font-weight: 500;
 }
 
 /* ================================
@@ -65,18 +73,19 @@ body {
 ================================ */
 .uploadArea {
   border: 2.5px dashed #ff61a6;
-  border-radius: 14px;
-  padding: 22px;
-  background: linear-gradient(135deg,#faffd1 0%, #ffe1eb 90%);
-  max-width: 600px;
-  margin: 0 auto 20px;
+  border-radius: 18px;
+  padding: 28px;
+  max-width: 620px;
+  margin: 0 auto 28px auto;
   cursor: pointer;
   display: flex;
-  gap: 12px;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
-  transition: background 0.3s, border-color 0.3s;
+  transition: background 0.3s ease, border-color 0.3s ease;
   position: relative;
+  background: linear-gradient(135deg, #faffd1 0%, #ffe1eb 90%);
+  box-shadow: 0 5px 20px #ff61a633 inset;
 }
 
 .uploadArea.dragOver {
@@ -99,28 +108,31 @@ body {
 /* Custom upload label */
 .fileInputLabel {
   display: inline-block;
-  padding: 12px 28px;
+  padding: 14px 36px;
   background: linear-gradient(90deg, #ffe7a4 25%, #fa709a 95%);
-  color: #735d34;
+  color: #6b513a;
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
-  border-radius: 40px;
+  border-radius: 44px;
   cursor: pointer;
-  box-shadow: 0 4px 18px #fff8d999, 0 1px 8px #ffdbe6aa;
-  transition: background 0.16s, box-shadow 0.3s;
+  box-shadow: 0 6px 20px #fff8d999, 0 1px 10px #ffdbe6aa;
+  transition: background 0.25s ease, box-shadow 0.35s ease;
+  user-select: none;
+  text-align: center;
 }
 
 .fileInputLabel:hover,
 .fileInputLabel:focus {
   background: #fff8d9;
   color: #ff6db2;
-  box-shadow: 0 6px 24px #fcf9cb85, 0 2px 12px #fa709aff;
+  box-shadow: 0 8px 26px #fcf9cb85, 0 3px 18px #fa709aff;
   outline: none;
+  transform: translateY(-2px);
 }
 
 .fileInput:focus + .fileInputLabel {
-  outline: 2px solid #fa709a;
-  outline-offset: 4px;
+  outline: 3px solid #fa709a;
+  outline-offset: 3px;
 }
 
 /* ================================
@@ -130,14 +142,15 @@ body {
   background: linear-gradient(90deg, #ffbe76 0%, #fa709a 100%);
   color: #142f1d;
   border: none;
-  border-radius: 34px;
-  padding: 11px 28px;
-  cursor: pointer;
+  border-radius: 36px;
+  padding: 13px 32px;
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
-  box-shadow: 0 4px 18px #ffd6be70, 0 2px 6px #ff8fa570;
-  transition: background 0.25s, box-shadow 0.22s;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 6px 22px #ffd6be70, 0 4px 8px #ff8fa570;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
 }
 
 .uploadButton.disabled {
@@ -149,7 +162,32 @@ body {
 
 .uploadButton:hover:not(.disabled) {
   background: linear-gradient(90deg, #faffd1 0%, #ffbe76 70%);
-  box-shadow: 0 8px 24px #fffae080, 0 3px 10px #fa709a55;
+  box-shadow: 0 9px 30px #fffae080, 0 5px 14px #fa709a55;
+}
+
+/* Cancel & Clear Buttons */
+.uploadButton.cancel {
+  background: #e54645;
+  color: white;
+  margin-left: 12px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.uploadButton.cancel:hover {
+  background: #b22422;
+  box-shadow: 0 7px 22px #b2242266;
+}
+
+.uploadButton.clear {
+  background: #dddcdc;
+  color: #333;
+  margin-left: 12px;
+  transition: background 0.3s ease, box-shadow 0.25s ease;
+}
+
+.uploadButton.clear:hover {
+  background: #bbbaba;
+  box-shadow: 0 5px 16px #99999966;
 }
 
 /* ================================
@@ -157,114 +195,100 @@ body {
 ================================ */
 .fileInfo {
   background-color: #f7fff8;
-  border-radius: 7px;
-  padding: 8px 12px;
-  margin-bottom: 12px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
   font-size: 14px;
-  color: #63633b;
-  box-shadow: 0 1px 5px #ffe5e764;
+  color: #547a1a;
+  box-shadow: 0 1px 6px rgba(160,198,76,0.3);
 }
 
 .errorMsg {
-  color: #ff6347;
-  margin-top: 16px;
+  color: #d0312d;
+  margin-top: 20px;
   font-weight: 700;
   text-align: center;
   background: #fff0ec;
-  padding: 10px 14px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px #ff634788;
+  padding: 12px 18px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(208,49,45,0.6);
 }
 
 /* ================================
    Analysis Section
 ================================ */
 .analysisSection {
-  margin-top: 24px;
+  margin-top: 32px;
   max-width: 700px;
-  border-radius: 18px;
-  background: linear-gradient(110deg,#fff7ed 40%,#d2ffed 100%);
-  padding: 22px;
-  box-shadow: 0 2px 34px #fff6e574;
+  border-radius: 24px;
+  background: linear-gradient(110deg, #fff7ed 40%, #d2ffed 100%);
+  padding: 28px 32px;
+  box-shadow: 0 6px 40px #fff7e874;
   color: #4c2528;
 }
 
 .analysisTitle {
-  border-bottom: 2px solid #ffbe76;
-  padding-bottom: 8px;
+  border-bottom: 3px solid #ffbe76;
+  padding-bottom: 12px;
   color: #fa709a;
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  user-select: none;
 }
 
-.fileDetails { color: #2e8c72; font-style: italic; margin-bottom: 14px; }
-.noResults { color: #ff5446; font-weight: 700; font-family: 'Poppins', sans-serif; }
+.fileDetails {
+  color: #2e8c72;
+  font-style: italic;
+  margin-bottom: 18px;
+}
 
+.noResults {
+  color: #ff5446;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Extracted Text Box */
 .extractedText {
   background: #fff5ec;
   color: #333;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 10px #ffdbe688;
-  font-size: 16px;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 20px #ffdbe688;
+  font-size: 16.5px;
   white-space: pre-wrap;
   word-break: break-word;
-  max-height: 350px;
+  max-height: 380px;
   overflow-y: auto;
 }
 
 /* ================================
-   Misc Helpers
+   Mode and Lang Select Labels
 ================================ */
-.mode-select-wrapper {
-  margin-bottom: 12px;
+.mode-select-wrapper,
+.lang-select-wrapper {
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
-.mode-select-label {
-  font-weight: 600;
-  white-space: nowrap;
-  user-select: none;
-}
-
-.lang-select-wrapper {
-  margin-bottom: 20px;
-  max-width: 480px;
-  display: flex;
-  align-items: center;
-}
-
+.mode-select-label,
 .lang-select-label {
   font-weight: 600;
-  margin-right: 12px;
-  min-width: 140px;
   white-space: nowrap;
   user-select: none;
+  font-size: 1.05rem;
 }
 
+/* ================================
+   Misc & Helpers
+================================ */
 .actions {
-  margin-top: 12px;
+  margin-top: 18px;
 }
 
-.uploadButton.cancel {
-  background: #ff4444;
-  color: #fff;
-}
-
-.uploadButton.clear {
-  background: #ccc;
-  color: #333;
-  margin-left: 12px;
-}
-.uploadButton.cancel:hover {
-  background: #ff0000;
-}
-.uploadButton.clear:hover {
-  background: #bbb;
-} 
 /* ================================
    Navbar & Menu
 ================================ */
@@ -273,7 +297,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 300;
-  padding: 1.1rem 1.7rem;
+  padding: 1.1rem 2rem;
   border-radius: 0 0 28px 28px;
   box-shadow: 0 4px 32px #fad1e966;
   font-family: 'Poppins', sans-serif;
@@ -288,17 +312,18 @@ body {
 .logo {
   font-family: 'Orbitron', sans-serif;
   color: #ff6db2;
-  font-size: 2.2rem;
-  text-shadow: 2px 4px 16px #ffdbe688;
+  font-size: 2.4rem;
+  text-shadow: 2px 4px 18px #ffdbe688;
   font-weight: 900;
   letter-spacing: 3px;
+  user-select: none;
 }
 
 .menu-toggle {
   display: none;
   background: transparent;
   border: none;
-  font-size: 2.2rem;
+  font-size: 2.4rem;
   color: #fac40e;
   cursor: pointer;
 }
@@ -306,14 +331,14 @@ body {
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 1.3rem;
+  gap: 1.6rem;
   margin: 0;
   padding: 0;
 }
 
 .nav-menu li a {
   border-radius: 44px;
-  padding: 1em 2.2em;
+  padding: 1em 2.4em;
   font-size: 1rem;
   font-weight: 700;
   background: #ffe1eb;
@@ -322,25 +347,28 @@ body {
   text-decoration: none;
   display: flex;
   align-items: center;
-  transition: background 0.18s, color 0.18s, box-shadow 0.22s, transform 0.12s;
+  transition: all 0.25s ease;
+  user-select: none;
 }
 
 .nav-menu li.upload a {
-  background: linear-gradient(90deg,#faffd1 25%,#fa709a 95%);
+  background: linear-gradient(90deg, #faffd1 25%, #fa709a 95%);
   color: #5a6b44;
 }
 
 .nav-menu li.about a {
-  background: linear-gradient(90deg,#ffe7a4 10%,#fa709a 100%);
+  background: linear-gradient(90deg, #ffe7a4 10%, #fa709a 100%);
   color: #735d34;
 }
 
-.nav-menu li a:hover {
+.nav-menu li a:hover,
+.nav-menu li a:focus {
   background: #fff8d9;
   color: #08b545;
-  transform: scale(1.09);
-  box-shadow: 0 0 44px #fcf9cb70,0 12px 40px #faaad840;
+  transform: scale(1.1);
+  box-shadow: 0 0 44px #fcf9cb70, 0 12px 40px #faaad840;
   border-color: #fff;
+  outline: none;
   z-index: 2;
 }
 
@@ -348,28 +376,28 @@ body {
    Mobile Responsive Menu
 ================================ */
 @media (max-width: 640px) {
-  .menu-toggle { 
-    display: block; 
+  .menu-toggle {
+    display: block;
   }
   .nav-menu {
     position: absolute;
-    top: 70px; 
+    top: 70px;
     left: 0;
     width: 100%;
     flex-direction: column;
     background: #fffaf0ee;
     backdrop-filter: blur(10px);
-    max-height: 0; 
+    max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
     border-radius: 0 0 24px 24px;
   }
-  .nav-menu.open { 
-    max-height: 500px; 
+  .nav-menu.open {
+    max-height: 500px;
   }
-  .nav-menu li { 
-    margin: 1rem 0; 
-    text-align: center; 
+  .nav-menu li {
+    margin: 1rem 0;
+    text-align: center;
   }
   .nav-menu li a {
     width: 100%;
