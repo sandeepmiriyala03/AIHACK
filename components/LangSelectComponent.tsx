@@ -1,41 +1,39 @@
 import React from "react";
-import Select, { ActionMeta, MultiValue, SingleValue } from "react-select";
+import Select from "react-select";
+import type { SingleValue, MultiValue } from "react-select";
 
-export type LangOption = { value: string; label: string };
+export type LangOption = {
+  value: string;
+  label: string;
+};
 
-interface LangSelectComponentProps {
-  lang: LangOption | LangOption[] | null;
-  onLangChange: (
-    newValue: SingleValue<LangOption> | MultiValue<LangOption>,
-    actionMeta: ActionMeta<LangOption>
-  ) => void;
+type LangSelectComponentProps = {
+  lang: LangOption[];
+  onLangChange: (val: SingleValue<LangOption> | MultiValue<LangOption>) => void;
   allLangs: LangOption[];
   loading: boolean;
-  isMulti?: boolean;
-}
+  isMulti: boolean;
+  selectProps?: { inputId?: string; instanceId?: string };
+};
 
 export function LangSelectComponent({
   lang,
   onLangChange,
   allLangs,
   loading,
-  isMulti = false,
+  isMulti,
+  selectProps,
 }: LangSelectComponentProps) {
   return (
-    <div className="lang-select-wrapper">
-      <label htmlFor="lang-select" className="lang-select-label">
-        Select OCR Language:
-      </label>
-      <Select<LangOption, boolean>
-        inputId="lang-select"
-        options={allLangs}
-        value={lang}
-        onChange={onLangChange}
-        placeholder="Search or scroll to choose language..."
-        isClearable={false}
-        isDisabled={loading}
-        isMulti={isMulti}
-      />
-    </div>
+    <Select
+      value={lang}
+      onChange={onLangChange}
+      options={allLangs}
+      isLoading={loading}
+      isMulti={isMulti}
+      inputId={selectProps?.inputId}
+      instanceId={selectProps?.instanceId}
+      closeMenuOnSelect={!isMulti}
+    />
   );
 }

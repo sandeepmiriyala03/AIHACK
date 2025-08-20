@@ -1,30 +1,32 @@
 import React from "react";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
+import type { ModeOption } from "../types/types";  // Adjust path accordingly
 
-export type ModeOption = {
-  value: "automatic" | "manual";
-  label: string;
+type ModeSelectProps = {
+  mode: ModeOption;
+  onModeChange: (option: ModeOption | null) => void;
+  modeOptions: ModeOption[];
+  selectProps?: { inputId?: string; instanceId?: string };
 };
 
-interface ModeSelectComponentProps {
-  mode: ModeOption;
-  onModeChange: (selected: ModeOption | null) => void;
-  modeOptions: ModeOption[];
-}
+export function ModeSelectComponent({
+  mode,
+  onModeChange,
+  modeOptions,
+  selectProps,
+}: ModeSelectProps) {
+  const handleChange = (value: SingleValue<ModeOption>) => {
+    onModeChange(value ?? null);
+  };
 
-export function ModeSelectComponent({ mode, onModeChange, modeOptions }: ModeSelectComponentProps) {
   return (
-    <div className="mode-select-wrapper">
-      <label htmlFor="mode-select" className="mode-select-label">
-        Select Mode:
-      </label>
-      <Select<ModeOption>
-        inputId="mode-select"
-        options={modeOptions}
-        value={mode}
-        onChange={onModeChange}
-        isClearable={false}
-      />
-    </div>
+    <Select
+      value={mode}
+      onChange={handleChange}
+      options={modeOptions}
+      inputId={selectProps?.inputId}
+      instanceId={selectProps?.instanceId}
+      isClearable={false}
+    />
   );
 }
