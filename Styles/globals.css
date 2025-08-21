@@ -440,3 +440,36 @@ body {
 .goToTopButton.show {
   animation: fadeInUp 0.4s ease forwards;
 }
+.installButton {
+  background: linear-gradient(90deg, #5674ff 0%, #3b59d1 100%);
+  color: #f0f5ff;
+  border: none;
+  border-radius: 36px;
+  padding: 14px 36px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 6px 20px #3b59d160, 0 4px 10px #2e3e960f;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  user-select: none;
+  text-align: center;
+  display: inline-block;
+}
+
+.installButton:hover,
+.installButton:focus {
+  background: linear-gradient(90deg, #3b59d1 0%, #5674ff 100%);
+  box-shadow: 0 9px 28px #3451c7b5, 0 6px 18px #243e92bb;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.installButton:disabled,
+.installButton.disabled {
+  background: #a3b1ff88;
+  color: #dbe1ff;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
