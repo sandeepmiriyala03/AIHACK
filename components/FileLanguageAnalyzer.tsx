@@ -1,39 +1,58 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Tesseract from "tesseract.js";
 import { FileUploadComponent } from "./FileUploadComponent";
 import { ModeSelectComponent } from "./ModeSelectComponent";
 import { LangSelectComponent } from "./LangSelectComponent";
-import type { ModeOption, LangOption } from "../types/types"; // Adjust path as necessary
+import type { ModeOption, LangOption } from "../types/types";
 import { ActionsComponent } from "./ActionsComponent";
 import { ErrorMessageComponent } from "./ErrorMessageComponent";
 import { ExtractedTextSectionComponent } from "./ExtractedTextSectionComponent";
 
+// Language configuration with groups
 const ALL_LANGS: LangOption[] = [
-  { value: "ara", label: "Arabic" }, { value: "asm", label: "Assamese" },
-  { value: "ben", label: "Bengali" }, { value: "bod", label: "Bodo" },
-  { value: "chi_sim", label: "Chinese (Simplified)" }, { value: "chi_tra", label: "Chinese (Traditional)" },
-  { value: "deu", label: "German" }, { value: "eng", label: "English" },
-  { value: "fra", label: "French" }, { value: "guj", label: "Gujarati" },
-  { value: "hin", label: "Hindi" }, { value: "ita", label: "Italian" },
-  { value: "jpn", label: "Japanese" }, { value: "kan", label: "Kannada" },
-  { value: "kor", label: "Korean" }, { value: "mal", label: "Malayalam" },
-  { value: "mar", label: "Marathi" }, { value: "nep", label: "Nepali" },
-  { value: "nld", label: "Dutch" }, { value: "ori", label: "Odia" },
-  { value: "osd", label: "Orientation and Script Detection (OSD)" }, { value: "pan", label: "Punjabi" },
-  { value: "por", label: "Portuguese" }, { value: "rus", label: "Russian" },
-  { value: "san", label: "Sanskrit" }, { value: "snd", label: "Sindhi" },
-  { value: "spa", label: "Spanish" }, { value: "swe", label: "Swedish" },
-  { value: "tam", label: "Tamil" }, { value: "tel", label: "Telugu" },
-  { value: "tha", label: "Thai" }, { value: "tur", label: "Turkish" },
-  { value: "urd", label: "Urdu" }, { value: "vie", label: "Vietnamese" },
+  { value: "ara", label: "Arabic", group: "other" },
+  { value: "asm", label: "Assamese", group: "indic" },
+  { value: "ben", label: "Bengali", group: "indic" },
+  { value: "bod", label: "Bodo", group: "indic" },
+  { value: "chi_sim", label: "Chinese (Simplified)", group: "cjk" },
+  { value: "chi_tra", label: "Chinese (Traditional)", group: "cjk" },
+  { value: "deu", label: "German", group: "latin" },
+  { value: "eng", label: "English", group: "latin" },
+  { value: "fra", label: "French", group: "latin" },
+  { value: "guj", label: "Gujarati", group: "indic" },
+  { value: "hin", label: "Hindi", group: "indic" },
+  { value: "ita", label: "Italian", group: "latin" },
+  { value: "jpn", label: "Japanese", group: "cjk" },
+  { value: "kan", label: "Kannada", group: "indic" },
+  { value: "kor", label: "Korean", group: "cjk" },
+  { value: "mal", label: "Malayalam", group: "indic" },
+  { value: "mar", label: "Marathi", group: "indic" },
+  { value: "nep", label: "Nepali", group: "indic" },
+  { value: "nld", label: "Dutch", group: "latin" },
+  { value: "ori", label: "Odia", group: "indic" },
+  { value: "osd", label: "Orientation and Script Detection (OSD)", group: "detection" },
+  { value: "pan", label: "Punjabi", group: "indic" },
+  { value: "por", label: "Portuguese", group: "latin" },
+  { value: "rus", label: "Russian", group: "other" },
+  { value: "san", label: "Sanskrit", group: "indic" },
+  { value: "snd", label: "Sindhi", group: "indic" },
+  { value: "spa", label: "Spanish", group: "latin" },
+  { value: "swe", label: "Swedish", group: "latin" },
+  { value: "tam", label: "Tamil", group: "indic" },
+  { value: "tel", label: "Telugu", group: "indic" },
+  { value: "tha", label: "Thai", group: "other" },
+  { value: "tur", label: "Turkish", group: "latin" },
+  { value: "urd", label: "Urdu", group: "other" },
+  { value: "vie", label: "Vietnamese", group: "other" },
 ];
 
 const LANG_GROUPS: LangOption[][] = [
-  ALL_LANGS.filter(l => ["eng","spa","fra","deu","nld","ita","por","swe","tur"].includes(l.value)),
-  ALL_LANGS.filter(l => ["hin","tam","tel","mal","mar","guj","ori","pan","san","asm","ben","nep","snd","bod","kan"].includes(l.value)),
-  ALL_LANGS.filter(l => ["chi_sim","chi_tra","jpn","kor"].includes(l.value)),
-  ALL_LANGS.filter(l => ["ara","rus","tha","vie"].includes(l.value)),
-]; 
+  ALL_LANGS.filter(l => l.group === "latin"),
+  ALL_LANGS.filter(l => l.group === "indic"),
+  ALL_LANGS.filter(l => l.group === "cjk"),
+  ALL_LANGS.filter(l => l.group === "other"),
+];
+
 const CONFIDENCE_THRESHOLD = 85;
 const MAX_OCR_TIME_MS = 30000;
 
@@ -42,11 +61,16 @@ const MODE_OPTIONS: ModeOption[] = [
   { value: "manual", label: "Manual Selection" },
 ];
 
-function cleanExtractedText(text: string) {
+function cleanExtractedText(text: string): string {
   return text.replace(/[^a-zA-Z\s.,'"?!-]/g, "").replace(/\s+/g, " ").trim();
 }
 
-function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promise<Blob> {
+
+function getStableFileKey(file: File): string {
+  return `${file.name}_${file.size}_${file.lastModified}`;
+}
+
+function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promise<Blob | File> {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const url = URL.createObjectURL(file);
@@ -73,7 +97,7 @@ function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promis
         return;
       }
       ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-      canvas.toBlob((blob) => {
+      canvas.toBlob(blob => {
         if (blob) resolve(blob);
         else reject(new Error("Failed to resize image"));
       }, file.type || "image/png", 0.8);
@@ -88,6 +112,7 @@ function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promis
 
 export default function SearchableLangOcr() {
   const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [lang, setLang] = useState<LangOption[]>([ALL_LANGS.find(l => l.value === "eng")!]);
   const [mode, setMode] = useState<ModeOption>(MODE_OPTIONS[0]);
   const [progress, setProgress] = useState("");
@@ -97,133 +122,170 @@ export default function SearchableLangOcr() {
   const [timer, setTimer] = useState(0);
 
   const cancelFlag = useRef(false);
-  const ocrCache = useRef(new Map<string, string>());
+  const ocrCache = useRef<Map<string, string>>(new Map());
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const progressRef = useRef("");
 
-  const resetState = () => {
+  const updateProgress = (msg: string) => {
+    progressRef.current = msg;
+    setProgress(msg);
+  };
+
+  const resetState = useCallback(() => {
     setFullText("");
     setProgress("");
     setImageError("");
     setTimer(0);
     cancelFlag.current = false;
-    ocrCache.current.clear();
     stopTimer();
-  };
+  }, []);
 
-  useEffect(() => {
-    if (file && mode.value === "automatic") {
-      autoDetectLanguageByConfidence(file);
-    }
-    // eslint-disable-next-line
-  }, [file, mode]);
-
-  const startTimer = () => {
+  function startTimer() {
     setTimer(0);
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timerRef.current = setInterval(() => setTimer(t => t + 1), 1000);
     timeoutRef.current = setTimeout(() => {
       cancelOcrProcess();
       setImageError("OCR timed out after 30 seconds.");
-      setProgress("OCR timed out.");
+      updateProgress("OCR timed out.");
     }, MAX_OCR_TIME_MS);
-  };
+  }
 
-  const stopTimer = () => {
+  function stopTimer() {
     if (timerRef.current) clearInterval(timerRef.current);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timerRef.current = null;
     timeoutRef.current = null;
-    setTimer(0);
+  }
+
+  const cancelOcrProcess = () => {
+    cancelFlag.current = true;
+    setLoading(false);
+    updateProgress("Operation cancelled");
+    stopTimer();
   };
+
+  useEffect(() => {
+    resetState();
+  }, [file, mode, resetState]);
+
+  useEffect(() => {
+    if (!file || mode.value !== "automatic") return;
+    let active = true;
+
+    (async () => {
+      updateProgress("Auto-detecting language...");
+      setLoading(true);
+      cancelFlag.current = false;
+      try {
+        const preprocessedFile = await resizeImageFile(file, 300, 1200);
+        const url = URL.createObjectURL(preprocessedFile as Blob);
+        setFileUrl(url);
+        const startTime = performance.now();
+        let detectedLang = false;
+
+        for (const group of LANG_GROUPS) {
+          if (!active || cancelFlag.current) break;
+          updateProgress(`Trying group: ${group.map(l => l.label).join(", ")}`);
+          for (const langOpt of group) {
+            if (!active || cancelFlag.current) break;
+            updateProgress(`Trying ${langOpt.label}...`);
+            const { data } = await Tesseract.recognize(url, langOpt.value);
+            const cleaned = cleanExtractedText(data.text || "");
+            const confidence = data.confidence || 0;
+            if (confidence >= CONFIDENCE_THRESHOLD && cleaned.length > 3) {
+              setLang([langOpt]);
+              setFullText(cleaned);
+              updateProgress(`Detected ${langOpt.label} (confidence: ${Math.round(confidence)}), in ${((performance.now() - startTime) / 1000).toFixed(2)}s`);
+              detectedLang = true;
+              break;
+            }
+          }
+          if (detectedLang) break;
+        }
+
+        if (!detectedLang) {
+          updateProgress("No confident detection found. Please select language manually.");
+          setImageError("Please select language manually.");
+        }
+
+        if (!cancelFlag.current) {
+          URL.revokeObjectURL(url);
+          setFileUrl(null);
+        }
+      } catch {
+        if (!cancelFlag.current) {
+          updateProgress("Error: auto-detect failed");
+          setImageError("Script detection failed.");
+        }
+      }
+      setLoading(false);
+    })();
+
+    return () => {
+      active = false;
+      cancelFlag.current = true;
+    };
+  }, [file, mode]);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetState();
     const selected = e.target.files?.[0];
-    if (!selected) return setFile(null);
-    if (selected.size > 5 * 1024 * 1024) return setImageError("File size should be less than 5MB");
-    setFile(selected);
-  };
-
-  async function autoDetectLanguageByConfidence(file: File) {
-    setProgress("Auto-detecting language...");
-    cancelFlag.current = false;
-    setLoading(true);
-    try {
-      const preprocessedFile = await resizeImageFile(file, 300, 1200);
-      const url = URL.createObjectURL(preprocessedFile);
-      const startTime = performance.now();
-      for (const group of LANG_GROUPS) {
-        if (cancelFlag.current) {
-          URL.revokeObjectURL(url);
-          setLoading(false);
-          resetState();
-          return;
-        }
-        setProgress(`Trying group: ${group.map(l => l.label).join(", ")}`);
-        for (const langOpt of group) {
-          if (cancelFlag.current) {
-            URL.revokeObjectURL(url);
-            setLoading(false);
-            resetState();
-            return;
-          }
-          setProgress(`Trying ${langOpt.label}...`);
-          const { data } = await Tesseract.recognize(url, langOpt.value);
-          const cleaned = cleanExtractedText(data.text || "");
-          const confidence = data.confidence || 0;
-          if (confidence >= CONFIDENCE_THRESHOLD && cleaned.length > 3) {
-            const endTime = performance.now();
-            setLang([langOpt]);
-            setFullText(cleaned);
-            setProgress(`Detected ${langOpt.label} (confidence: ${Math.round(confidence)}), in ${((endTime - startTime) / 1000).toFixed(2)}s`);
-            URL.revokeObjectURL(url);
-            setLoading(false);
-            return;
-          }
-        }
-      }
-      setProgress("No confident detection found. Please select language manually.");
-      setImageError("Please select language manually.");
-      URL.revokeObjectURL(url);
-      setLoading(false);
-    } catch {
-      setProgress(cancelFlag.current ? "Cancelled" : "Error: auto-detect failed");
-      setImageError("Script detection failed.");
-      setLoading(false);
+    if (!selected) {
+      setFile(null);
+      setFileUrl(null);
+      return;
     }
-  }
+    if (selected.size > 5 * 1024 * 1024) {
+      setImageError("File size should be less than 5MB");
+      setFile(null);
+      setFileUrl(null);
+      return;
+    }
+    setFile(selected);
+    const url = URL.createObjectURL(selected);
+    setFileUrl(url);
+  };
 
   const onAnalyze = async () => {
     if (!file || lang.length === 0) return;
     setLoading(true);
-    setProgress("Preprocessing image...");
+    updateProgress("Preprocessing image...");
     cancelFlag.current = false;
     setFullText("");
     startTimer();
     try {
       const preprocessedFile = await resizeImageFile(file, 300, 1200);
-      const url = URL.createObjectURL(preprocessedFile);
+      const url = URL.createObjectURL(preprocessedFile as Blob);
+      setFileUrl(url);
       let combinedText = "";
       for (const langOpt of lang) {
         if (cancelFlag.current) break;
-        const cacheKey = url + "_" + langOpt.value;
-        let text = ocrCache.current.get(cacheKey) || "";
+        const fileKey = getStableFileKey(file) + "_" + langOpt.value;
+        let text = ocrCache.current.get(fileKey);
         if (!text) {
           const { data } = await Tesseract.recognize(url, langOpt.value, {
-            logger: (m) => m.status === "recognizing text" && setProgress(`OCR ${langOpt.label}: ${Math.round((m.progress ?? 0) * 100)}%`),
+            logger: (m) => m.status === "recognizing text" && updateProgress(`OCR ${langOpt.label}: ${Math.round((m.progress ?? 0) * 100)}%`),
           });
           text = cleanExtractedText(data.text || "");
-          ocrCache.current.set(cacheKey, text);
+          ocrCache.current.set(fileKey, text);
         }
         combinedText += text + "\n\n";
       }
       setFullText(combinedText.trim());
-      setProgress(`OCR Complete in ${(performance.now() / 1000).toFixed(2)} seconds`);
+      updateProgress("OCR Complete");
       if (!combinedText.trim()) setImageError("No text detected; try clearer image.");
-      URL.revokeObjectURL(url);
+      if (!cancelFlag.current) {
+        URL.revokeObjectURL(url);
+        setFileUrl(null);
+      }
     } catch {
-      setProgress(cancelFlag.current ? "OCR cancelled" : "Error during OCR");
-      setImageError("OCR failed; check file and languages.");
+      if (!cancelFlag.current) {
+        updateProgress("Error during OCR");
+        setImageError("OCR failed; check file and languages.");
+      }
     } finally {
       stopTimer();
       setLoading(false);
@@ -233,14 +295,11 @@ export default function SearchableLangOcr() {
   const onClear = () => {
     cancelFlag.current = true;
     setFile(null);
+    if (fileUrl) {
+      URL.revokeObjectURL(fileUrl);
+      setFileUrl(null);
+    }
     setLang([ALL_LANGS.find(l => l.value === "eng")!]);
-    resetState();
-  };
-
-  const cancelOcrProcess = () => {
-    cancelFlag.current = true;
-    setLoading(false);
-    setProgress("Operation cancelled");
     resetState();
   };
 
@@ -255,6 +314,7 @@ export default function SearchableLangOcr() {
   return (
     <div className="container" aria-live="polite">
       <h1 className="title">Searchable Language OCR</h1>
+      <p className="subtitle">Upload an image and extract text in multiple languages.</p>
 
       <ModeSelectComponent
         mode={mode}
@@ -269,7 +329,7 @@ export default function SearchableLangOcr() {
         <LangSelectComponent
           lang={lang}
           onLangChange={(val) => setLang(Array.isArray(val) ? [...val] : val ? [val] : [])}
-          allLangs={ALL_LANGS.filter((l) => l.value !== "osd")}
+          allLangs={ALL_LANGS.filter(l => l.value !== "osd")}
           loading={loading}
           isMulti={false}
           selectProps={{ inputId: "lang-select", instanceId: "lang-select-instance" }}
@@ -288,9 +348,21 @@ export default function SearchableLangOcr() {
 
       <ErrorMessageComponent message={imageError} />
 
+      {fileUrl && (
+        <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+          <img src={fileUrl} alt="Uploaded preview" style={{ maxWidth: '100%', borderRadius: '12px' }} />
+        </div>
+      )}
+
       <ExtractedTextSectionComponent progress={progress} fullText={fullText} loading={loading} />
 
-      {loading && <div style={{ marginTop: 10 }}><p>Elapsed time: {timer} second{timer !== 1 ? "s" : ""}</p></div>}
+      {loading && (
+        <div style={{ marginTop: 10 }}>
+          <p>
+            Elapsed time: {timer} second{timer !== 1 ? "s" : ""}
+          </p>
+        </div>
+      )}
     </div>
   );
 }

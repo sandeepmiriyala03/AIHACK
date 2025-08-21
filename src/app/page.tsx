@@ -8,18 +8,15 @@ export default function About() {
   return (
     <>
       <Navbar />
-      <main className="container">
-        <h1 className="title">AI Document Analyzer</h1>
-        <p>
-          This application allows users to upload documents and analyze them using
-          Optical Character Recognition (OCR) and Natural Language Processing (NLP)
-          techniques.
-        </p>
-        <p>
-          The goal is to provide an easy-to-use interface for document analysis,
-          making it accessible for various use cases such as data extraction,
-          information retrieval, and more.
-        </p>   
+      <main className="container" style={{ padding: "2rem", textAlign: "center" }}>
+        <h1 className="title" style={{ marginBottom: "1rem" }}>Welcome to MultiDecode!</h1>
+        <div style={{ fontSize: "1.1rem", color: "#333" }}>
+          <div>• Easily upload images and documents for text extraction.</div>
+          <div>• Support for over 38 languages with powerful OCR technology.</div>
+          <div>• Quickly analyze and process your documents with a user-friendly interface.</div>
+           <div>• Install the app for a smoother and enhanced experience.</div>
+        </div>
+
       </main>
       <GoToTopButton />
     </>

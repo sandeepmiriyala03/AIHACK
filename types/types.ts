@@ -6,4 +6,5 @@ export type ModeOption = {
 export type LangOption = {
   value: string;
   label: string;
+  group?: "latin" | "indic" | "cjk" | "other" | "detection";
 };

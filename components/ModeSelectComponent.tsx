@@ -20,13 +20,29 @@ export function ModeSelectComponent({
   };
 
   return (
-    <Select
-      value={mode}
-      onChange={handleChange}
-      options={modeOptions}
-      inputId={selectProps?.inputId}
-      instanceId={selectProps?.instanceId}
-      isClearable={false}
-    />
+    <div
+      className="mode-select-wrapper"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "12px",
+        maxWidth: 400,
+      }}
+    >
+      <label htmlFor={selectProps?.inputId || "mode-select"}
+        style={{ whiteSpace: "nowrap", fontWeight: 600 }}>
+        Select OCR Mode:
+      </label>
+      <div style={{ flexGrow: 1 }}>
+        <Select
+          value={mode}
+          onChange={handleChange}
+          options={modeOptions}
+          inputId={selectProps?.inputId}
+          instanceId={selectProps?.instanceId}
+          isClearable={false}
+        />
+      </div>
+    </div>
   );
 }
