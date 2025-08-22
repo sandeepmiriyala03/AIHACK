@@ -24,29 +24,41 @@ export default function Footer() {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
-
   const lastDeployed = process.env.NEXT_PUBLIC_LAST_DEPLOYED || "N/A";
-
   return (
-    <footer className="text-center p-4 border-t border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 mt-10 select-none text-sm">
-      <nav aria-label="Footer navigation" className="mb-3">
-        <Link href="/upload" className="mx-3 hover:text-blue-700 dark:hover:text-blue-400">
-          ⬆️ Upload document
+    <footer
+      style={{
+        textAlign: "center",
+        padding: "1rem 0",
+        borderTop: "1px solid #eaeaea",
+        fontSize: "0.9rem",
+        color: "#666",
+        marginTop: "2rem",
+        userSelect: "none",
+      }}
+    >
+      <nav aria-label="Footer navigation" style={{ marginBottom: 12 }}>
+        <Link href="/upload" style={{ margin: "0 12px" }}>
+          <span className="icon upload-icon" aria-label="Upload">
+                ⬆️
+              </span> Upload document
         </Link>
-        <Link href="/OCR" className="mx-3 hover:text-blue-700 dark:hover:text-blue-400">
-          ⬆️ Image to Text
+        <Link href="/OCR" style={{ margin: "0 12px" }}>
+         <span className="icon upload-icon" aria-label="Upload">
+                ⬆️
+              </span> Image to Text
         </Link>
       </nav>
-      <p className="mb-1">
-        Developed by Sandeep Miriyala&nbsp;|&nbsp;
-        <img
-          src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
-          alt="Indian Flag"
-          className="inline-block w-5 h-3 align-middle mx-1"
-        />
-        IST: {currentTime} &nbsp;|&nbsp; © {currentYear}
-      </p>
-      <p>
+     <p>
+  Developed by Sandeep Miriyala using Next.js&nbsp;|&nbsp;
+  <img
+    src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
+    alt="Indian Flag"
+    style={{ width: 20, height: 14, verticalAlign: "middle", margin: "0 6px" }}
+  />
+  IST: {currentTime} &nbsp;|&nbsp; © {currentYear}
+</p>
+<p>
         Last deployed on: <span className="font-semibold">{lastDeployed}</span>
       </p>
     </footer>
