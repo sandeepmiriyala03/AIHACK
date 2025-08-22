@@ -338,6 +338,7 @@ export default function SearchableLangOcr() {
 
   return (
     <div className="container" aria-live="polite">
+      
       <h1 className="title">Searchable Language OCR</h1>
       <p className="subtitle">Upload an image and extract text in multiple languages. Total languages available: {ALL_LANGS.length}</p>
       <ModeSelectComponent
