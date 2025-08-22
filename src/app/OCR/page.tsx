@@ -17,8 +17,9 @@ export default function UploadPage() {
             📤 Upload & Decode Instantly
           </h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto">
-            Upload your images or documents below and let <span className="text-blue-600 font-semibold">MultiDecode</span> 
-            extract text in seconds — with support for <b>34+ languages</b>.
+            Upload your images or documents below and let{" "}
+            <span className="text-blue-600 font-semibold">MultiDecode</span> extract text in seconds — with support for{" "}
+            <b>34+ languages</b>.
           </p>
         </header>
 
@@ -26,13 +27,11 @@ export default function UploadPage() {
         <section className="mb-12 max-w-4xl mx-auto text-left">
           <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">How to Use</h2>
           <ol className="list-decimal list-inside space-y-3 text-gray-700 dark:text-gray-300 text-lg">
-            <li>Click the "Choose File" button to upload an image or document.</li>
+            <li>Click the &quot;Choose File&quot; button to upload an image or document.</li>
             <li>Select your preferred language for OCR analysis (or let auto-detect handle it).</li>
             <li>View the extracted text instantly.</li>
           </ol>
         </section>
-
-    
 
         {/* Extra Info */}
         <section className="mb-16 max-w-4xl mx-auto text-left">
@@ -48,8 +47,7 @@ export default function UploadPage() {
         <section className="mb-16 max-w-4xl mx-auto text-left">
           <h2 className="text-2xl font-semibold mb-4 text-gray-900 dark:text-white">🔒 Privacy First</h2>
           <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-            Your files are processed securely. <b>We do not save or store</b> any uploads or extracted text. 
-            All your documents remain private and only accessible to you.
+            Your files are processed securely. <b>We do not save or store</b> any uploads or extracted text. All your documents remain private and only accessible to you.
           </p>
         </section>
 
@@ -59,7 +57,8 @@ export default function UploadPage() {
             Ready to get started? Upload your file now and let MultiDecode handle the rest 🎉
           </p>
         </section>
-            {/* The OCR/Analyzer Component */}
+
+        {/* The OCR/Analyzer Component */}
         <section className="mb-16">
           <FileLanguageAnalyzer />
         </section>
