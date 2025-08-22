@@ -19,6 +19,7 @@ export default function About() {
 
       </main>
       <GoToTopButton />
+
     </>
   );
 }

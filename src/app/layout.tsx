@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "@/Styles/globals.css";
-
+import Footer from "@/components/Footer";
 export const metadata: Metadata = {
-  title: "Quick AI Document Scanner",
-  description: "Fast document upload and AI-powered text extraction",
+  title: "SmartScan AI - Instant Document Text Extraction",
+  description: "Effortlessly upload documents and extract text quickly with AI-powered OCR technology",
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -16,10 +17,11 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="#171347" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
-         
+     
       </head>
       <body>
         {children}
+        <Footer />
       </body>
     </html>
   );
