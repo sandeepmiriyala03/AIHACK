@@ -1,28 +1,43 @@
-
-
 .footer {
+  padding: 1rem 2rem;
+  background-color: var(--footer-bg, #f8fafc);
+  color: var(--footer-text, #374151);
   text-align: center;
-  padding: 1rem 0;
-  border-top: 1px solid #eaeaea;
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 2rem;
-  user-select: none;
+  font-size: 1rem;
 }
 
-.nav {
-  margin-bottom: 12px;
+.attribution {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 1.125rem;
 }
 
-.navLink {
-  margin: 0 12px;
+.symbol {
+  font-size: 1.5rem;
 }
 
 .flagWrapper {
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 6px;
-  width: 20px;
-  height: 14px;
   position: relative;
+  width: 24px;
+  height: 16px;
+  display: inline-block;
+}
+
+.deployment {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--footer-text-secondary, #6b7280);
+}
+
+.deploymentDate {
+  font-weight: 600;
+}
+.deploymentSymbol {
+  margin-right: 0.25rem;
+  font-size: 1.25rem; /* 20px */
+  vertical-align: middle;
 }
