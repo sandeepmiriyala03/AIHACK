@@ -7,6 +7,7 @@ import type { ModeOption, LangOption } from "../types/types";
 import { ActionsComponent } from "./ActionsComponent";
 import { ErrorMessageComponent } from "./ErrorMessageComponent";
 import { ExtractedTextSectionComponent } from "./ExtractedTextSectionComponent";
+import Image from "next/image";
 
 // Language configuration with groups
 const ALL_LANGS: LangOption[] = [
@@ -45,37 +46,48 @@ const ALL_LANGS: LangOption[] = [
   { value: "urd", label: "Urdu", group: "other" },
   { value: "vie", label: "Vietnamese", group: "other" },
 ];
-
 const LANG_GROUPS: LangOption[][] = [
   ALL_LANGS.filter((l) => l.group === "latin"),
   ALL_LANGS.filter((l) => l.group === "indic"),
   ALL_LANGS.filter((l) => l.group === "cjk"),
   ALL_LANGS.filter((l) => l.group === "other"),
 ];
-
 const CONFIDENCE_THRESHOLD = 85;
 const MAX_OCR_TIME_MS = 30000;
-
-// Set a minimum width to prevent too small images for OCR
-const MIN_IMAGE_WIDTH = 100; // e.g. 100px minimum width for resizing if smaller
-
+const MIN_IMAGE_WIDTH = 100;
 const MODE_OPTIONS: ModeOption[] = [
   { value: "automatic", label: "Automatic Detection" },
   { value: "manual", label: "Manual Selection" },
 ];
 
+/** Clean and normalize extracted OCR text */
 function cleanExtractedText(text: string): string {
-  // Don't restrict to only a-z A-Z here as it would remove characters from other languages
   return text.replace(/\s+/g, " ").trim();
 }
 
+/** Generate a stable key for caching OCR results based on the file */
 function getStableFileKey(file: File): string {
   return `${file.name}_${file.size}_${file.lastModified}`;
 }
 
-function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promise<Blob | File> {
+/**
+ * Resize an image file client-side to be within min/max width bounds.
+ * Uses HTML5 Canvas and Image - browser-only APIs.
+ * To avoid SSR issues, call this only on client.
+ */
+function resizeImageFile(
+  file: File,
+  minWidth: number,
+  maxWidth: number
+): Promise<Blob | File> {
   return new Promise((resolve, reject) => {
-    const img = new Image();
+    if (typeof window === "undefined") {
+      // Not on client - reject or resolve original file
+      resolve(file);
+      return;
+    }
+
+    const img = new window.Image();
     const url = URL.createObjectURL(file);
     img.onload = () => {
       URL.revokeObjectURL(url);
@@ -120,10 +132,13 @@ function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promis
   });
 }
 
+/** Main React component */
 export default function SearchableLangOcr() {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
-  const [lang, setLang] = useState<LangOption[]>([ALL_LANGS.find((l) => l.value === "eng")!]);
+  const [lang, setLang] = useState<LangOption[]>([
+    ALL_LANGS.find((l) => l.value === "eng")!,
+  ]);
   const [mode, setMode] = useState<ModeOption>(MODE_OPTIONS[0]);
   const [progress, setProgress] = useState("");
   const [fullText, setFullText] = useState("");
@@ -137,11 +152,13 @@ export default function SearchableLangOcr() {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressRef = useRef("");
 
+  /** Update OCR progress text */
   const updateProgress = (msg: string) => {
     progressRef.current = msg;
     setProgress(msg);
   };
 
+  /** Reset component state */
   const resetState = useCallback(() => {
     setFullText("");
     setProgress("");
@@ -151,6 +168,7 @@ export default function SearchableLangOcr() {
     stopTimer();
   }, []);
 
+  /** Start OCR timer and abort after timeout */
   function startTimer() {
     setTimer(0);
     if (timerRef.current) clearInterval(timerRef.current);
@@ -163,6 +181,7 @@ export default function SearchableLangOcr() {
     }, MAX_OCR_TIME_MS);
   }
 
+  /** Stop OCR timer */
   function stopTimer() {
     if (timerRef.current) clearInterval(timerRef.current);
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -170,6 +189,7 @@ export default function SearchableLangOcr() {
     timeoutRef.current = null;
   }
 
+  /** Cancel OCR processing */
   const cancelOcrProcess = () => {
     cancelFlag.current = true;
     setLoading(false);
@@ -177,13 +197,15 @@ export default function SearchableLangOcr() {
     stopTimer();
   };
 
+  /** Reset language if manual mode and no language selected */
   useEffect(() => {
     resetState();
     if (mode.value === "manual" && lang.length === 0) {
       setLang([ALL_LANGS.find((l) => l.value === "eng")!]);
     }
-  }, [file, mode, resetState]);
+  }, [file, mode, lang.length, resetState]);
 
+  /** Auto language detection on file change in automatic mode */
   useEffect(() => {
     if (!file || mode.value !== "automatic") return;
     let active = true;
@@ -194,12 +216,14 @@ export default function SearchableLangOcr() {
       cancelFlag.current = false;
 
       try {
-        // Resize image to be between MIN_IMAGE_WIDTH and 800px width
-        const preprocessedFile = await resizeImageFile(file, MIN_IMAGE_WIDTH, 800);
+        const preprocessedFile = await resizeImageFile(
+          file,
+          MIN_IMAGE_WIDTH,
+          800
+        );
         const url = URL.createObjectURL(preprocessedFile as Blob);
         setFileUrl(url);
 
-        // Parallel detection across all languages
         const recognitionPromises = LANG_GROUPS.flat().map(async (langOpt) => {
           if (!active || cancelFlag.current) return null;
           updateProgress(`Trying ${langOpt.label}...`);
@@ -207,7 +231,11 @@ export default function SearchableLangOcr() {
             const result = await Tesseract.recognize(url, langOpt.value, {
               logger: (m) => {
                 if (m.status === "recognizing text") {
-                  updateProgress(`OCR ${langOpt.label}: ${Math.round((m.progress ?? 0) * 100)}%`);
+                  updateProgress(
+                    `OCR ${langOpt.label}: ${Math.round(
+                      (m.progress ?? 0) * 100
+                    )}%`
+                  );
                 }
               },
             });
@@ -233,14 +261,33 @@ export default function SearchableLangOcr() {
 
         const successful = results
           .filter((r) => r.status === "fulfilled")
-          .map((r) => (r as PromiseFulfilledResult<{ langOpt: LangOption; cleaned: string; confidence: number }>).value)
-          .filter((r) => r !== null) as { langOpt: LangOption; cleaned: string; confidence: number }[];
+          .map(
+            (r) =>
+              (
+                r as PromiseFulfilledResult<{
+                  langOpt: LangOption;
+                  cleaned: string;
+                  confidence: number;
+                }>
+              ).value
+          )
+          .filter((r) => r !== null) as {
+          langOpt: LangOption;
+          cleaned: string;
+          confidence: number;
+        }[];
 
         if (successful.length > 0) {
-          const best = successful.reduce((a, b) => (a.confidence > b.confidence ? a : b));
+          const best = successful.reduce((a, b) =>
+            a.confidence > b.confidence ? a : b
+          );
           setLang([best.langOpt]);
           setFullText(best.cleaned);
-          updateProgress(`Detected ${best.langOpt.label} (confidence: ${Math.round(best.confidence)})`);
+          updateProgress(
+            `Detected ${best.langOpt.label} (confidence: ${Math.round(
+              best.confidence
+            )})`
+          );
           setImageError("");
         } else {
           updateProgress("No confident detection found. Please select language manually.");
@@ -263,8 +310,9 @@ export default function SearchableLangOcr() {
       active = false;
       cancelFlag.current = true;
     };
-  }, [file, mode]);
+  }, [file, mode, lang.length]);
 
+  /** Handle user file selection */
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     resetState();
     const selected = e.target.files?.[0];
@@ -273,12 +321,12 @@ export default function SearchableLangOcr() {
       setFileUrl(null);
       return;
     }
-    // Removed file size restriction per user request
     setFile(selected);
     const url = URL.createObjectURL(selected);
     setFileUrl(url);
   };
 
+  /** Perform OCR analysis on the selected file and language(s) */
   const onAnalyze = async () => {
     if (!file || lang.length === 0) return;
     setLoading(true);
@@ -292,7 +340,6 @@ export default function SearchableLangOcr() {
       setFileUrl(url);
       let combinedText = "";
 
-      // Use only the first language option for manual mode
       const selectedLangs = mode.value === "manual" ? [lang[0]] : lang;
 
       for (const langOpt of selectedLangs) {
@@ -302,7 +349,8 @@ export default function SearchableLangOcr() {
         if (!text) {
           const { data } = await Tesseract.recognize(url, langOpt.value, {
             logger: (m) =>
-              m.status === "recognizing text" && updateProgress(`OCR ${langOpt.label}: ${Math.round((m.progress ?? 0) * 100)}%`),
+              m.status === "recognizing text" &&
+              updateProgress(`OCR ${langOpt.label}: ${Math.round((m.progress ?? 0) * 100)}%`),
           });
           text = cleanExtractedText(data.text || "");
           ocrCache.current.set(fileKey, text);
@@ -327,6 +375,7 @@ export default function SearchableLangOcr() {
     }
   };
 
+  /** Clear the selected file and reset state */
   const onClear = () => {
     cancelFlag.current = true;
     setFile(null);
@@ -334,11 +383,11 @@ export default function SearchableLangOcr() {
       URL.revokeObjectURL(fileUrl);
       setFileUrl(null);
     }
-    // Reset language selection, default to English
     setLang([ALL_LANGS.find((l) => l.value === "eng")!]);
     resetState();
   };
 
+  /** Change OCR mode */
   const onModeChange = (option: ModeOption | null) => {
     if (option) {
       cancelFlag.current = true;
@@ -392,8 +441,23 @@ export default function SearchableLangOcr() {
       <ErrorMessageComponent message={imageError} />
 
       {fileUrl && (
-        <div style={{ marginTop: "1rem", textAlign: "center" }}>
-          <img src={fileUrl} alt="Uploaded preview" style={{ maxWidth: "100%", borderRadius: "12px" }} />
+        <div
+          style={{
+            marginTop: "1rem",
+            textAlign: "center",
+            borderRadius: "12px",
+            overflow: "hidden",
+            display: "inline-block",
+          }}
+        >
+          <Image
+            src={fileUrl}
+            alt="Uploaded preview"
+            layout="responsive"
+            width={800}
+            height={600}
+            priority
+          />
         </div>
       )}
 

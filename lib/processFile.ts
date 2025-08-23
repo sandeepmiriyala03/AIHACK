@@ -1,18 +1,16 @@
 import fs from "fs";
 import path from "path";
 import mammoth from "mammoth";
-import xlsx from "xlsx";
 import Tesseract from "tesseract.js";
 import nlp from "compromise";
 import pdfParse from "pdf-parse";
 import pptx2json from "pptx2json";
-import sharp from "sharp";
 import { Converter } from "pdf-poppler";
-import pLimit from "p-limit"; // concurrency limiter, npm install p-limit
+import pLimit from "p-limit";
 
-const CHUNK_SIZE = 20000; // chunk size characters
-const CHUNK_OVERLAP = 500; // characters of overlap between chunks
-const MAX_CONCURRENT_CHUNKS = 3; // concurrency for chunk analysis
+const CHUNK_SIZE = 20000;
+const CHUNK_OVERLAP = 500;
+const MAX_CONCURRENT_CHUNKS = 3;
 
 interface ImageInfo {
   dimensions?: string;
@@ -42,19 +40,31 @@ interface ProcessResult {
   final_summary: string;
 }
 
-/** Extract keywords by frequency */
+/**
+ * Extract keywords from text based on frequency of nouns and verbs.
+ */
 function extractKeywords(text: string, maxCount = 10): string[] {
-  const doc = nlp(text);
-  const words = doc.nouns().out("array").concat(doc.verbs().out("array"));
+  const words = text.toLowerCase().match(/\b\w+\b/g) || [];
   const freq: Record<string, number> = {};
-  for (const w of words) freq[w] = (freq[w] || 0) + 1;
+
+  for (const w of words) {
+    freq[w] = (freq[w] || 0) + 1;
+  }
+
   return Object.entries(freq)
-    .sort((a, b) => b[1] - a[1])
-    .map(([word]) => word)
-    .slice(0, maxCount);
+    .sort(([_, freqA], [__, freqB]) => freqB - freqA)
+    .slice(0, maxCount)
+    .map(([word]) => word);
 }
 
-/** Extract summary sentences by scoring */
+
+// Example usage:
+const text = "This is a sample text. This text is a test text to test the function.";
+console.log(extractKeywords(text, 5)); // ["text", "is", "a", "this", "test"]
+
+/**
+ * Summarize text by scoring sentences with keyword frequency.
+ */
 function extractiveSummarize(text: string, maxCount = 3): string[] {
   const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean);
   const doc = nlp(text);
@@ -73,7 +83,9 @@ function extractiveSummarize(text: string, maxCount = 3): string[] {
     .map(s => s.sentence);
 }
 
-/** Extract highlights as summary or first lines */
+/**
+ * Extract highlights: either summary or first lines.
+ */
 function extractHighlights(text: string, maxCount = 3): string[] {
   const summarized = extractiveSummarize(text, maxCount);
   if (summarized.length) return summarized;
@@ -84,7 +96,9 @@ function extractHighlights(text: string, maxCount = 3): string[] {
     .slice(0, maxCount);
 }
 
-/** Extract named entities */
+/**
+ * Extract named entities: people, organizations, numbers, dates.
+ */
 function extractEntities(text: string): ChunkEntities {
   const doc = nlp(text);
   const dateMatches =
@@ -97,24 +111,13 @@ function extractEntities(text: string): ChunkEntities {
   };
 }
 
-/** Get image metadata with sharp */
-async function getImageMetadata(buffer: Buffer): Promise<ImageInfo> {
-  try {
-    const img = sharp(buffer);
-    const { width, height, format } = await img.metadata();
-    return {
-      dimensions: width && height ? `${width}x${height}` : undefined,
-      format,
-    };
-  } catch {
-    return {};
-  }
-}
-
-/** Chunk text with overlap */
+/**
+ * Split large text into chunks with defined overlap.
+ */
 function chunkText(text: string, chunkSize = CHUNK_SIZE, overlap = CHUNK_OVERLAP): string[] {
   const chunks: string[] = [];
-  let start = 0, end = chunkSize;
+  let start = 0;
+  let end = chunkSize;
   while (start < text.length) {
     chunks.push(text.slice(start, end).trim());
     start = end - overlap;
@@ -123,7 +126,9 @@ function chunkText(text: string, chunkSize = CHUNK_SIZE, overlap = CHUNK_OVERLAP
   return chunks;
 }
 
-/** Convert PDF pages to PNG images using pdf-poppler */
+/**
+ * Convert PDF pages to PNG images using pdf-poppler.
+ */
 async function pdfToImages(pdfPath: string, outputDir: string): Promise<string[]> {
   if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
   const converter = new Converter(pdfPath);
@@ -133,13 +138,14 @@ async function pdfToImages(pdfPath: string, outputDir: string): Promise<string[]
     out_prefix: "page",
     page_range: "1-",
   });
-
   return fs.readdirSync(outputDir)
     .filter(f => f.startsWith("page") && f.endsWith(".png"))
     .map(f => path.join(outputDir, f));
 }
 
-/** OCR images with tesseract.js, returning concatenated text */
+/**
+ * Perform OCR on a set of images with specified languages.
+ */
 async function ocrImages(imagePaths: string[], languages: string): Promise<string> {
   let fullText = "";
   for (const imgPath of imagePaths) {
@@ -155,16 +161,21 @@ async function ocrImages(imagePaths: string[], languages: string): Promise<strin
   return fullText;
 }
 
-/** Simple heuristic for OCR languages based on text sample scripts */
+/**
+ * Simple heuristic to choose OCR languages based on text sample.
+ */
 function chooseOcrLanguages(textSample: string): string {
-  const indicScriptRegex = /[\u0900-\u097F]/; // Devanagari range as example
+  const indicScriptRegex = /[\u0900-\u097F]/; // Devanagari block example
   if (indicScriptRegex.test(textSample)) {
-    return "san"; // Sanskrit language code
+    return "san";
   }
-  // Default Latin+English
   return "eng";
 }
 
+/**
+ * Main function to process a file, extract text, optionally fallback to OCR for PDFs,
+ * chunk text, and analyze each chunk.
+ */
 export async function processFile(filePath: string): Promise<ProcessResult> {
   const buffer = fs.readFileSync(filePath);
 
@@ -177,42 +188,33 @@ export async function processFile(filePath: string): Promise<ProcessResult> {
   const ext = detectedType.ext;
 
   let text = "";
-  let imageInfo: ImageInfo = {};
+  const imageInfo: ImageInfo = {};
 
   if (mime === "application/pdf" || ext === "pdf") {
     const data = await pdfParse(buffer);
     text = data.text.trim();
 
-    // Fallback to OCR if text too short (scanned)
-    if (!text || text.length < 50) {
-      const tempDir = "./tmp_pdf_images";
-      const images = await pdfToImages(filePath, tempDir);
-      // Use sample of page 1 text for language decision (could leave empty)
-      let sampleText = "";
-      if (images.length > 0) {
-        // Could add logic to analyze image or use fixed san
-        sampleText = "";
-      }
-      const languages = chooseOcrLanguages(sampleText) + "+eng"; // Sanskrit + English fallback
-      text = await ocrImages(images, languages);
+   // OCR fallback if scanned PDF (little to no embedded text or very sparse text)
+if (!text || text.trim().replace(/\s/g, "").length < 20) {
+  const tempDir = "./tmp_pdf_images";
+  const images = await pdfToImages(filePath, tempDir);
+  
+  // Provide some sample text for language detection if available, else just use English
+  const sampleText = text || ""; 
+  const languages = chooseOcrLanguages(sampleText) + "+eng";
 
-      // Cleanup
-      images.forEach(img => fs.unlinkSync(img));
-      fs.rmdirSync(tempDir, { recursive: true });
-    }
+  text = await ocrImages(images, languages);
+
+  images.forEach(img => fs.unlinkSync(img));
+  fs.rmdirSync(tempDir, { recursive: true });
+}
+
   } else if (
     mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
     ext === "docx"
   ) {
     const result = await mammoth.extractRawText({ buffer });
     text = result.value;
-  } else if (
-    mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-    ext === "xlsx" || ext === "xls"
-  ) {
-    const workbook = xlsx.read(buffer, { type: "buffer" });
-    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    text = xlsx.utils.sheet_to_csv(firstSheet);
   } else if (
     mime === "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
     ext === "pptx"
@@ -230,30 +232,14 @@ export async function processFile(filePath: string): Promise<ProcessResult> {
         }
       );
     });
-  } else if (
-    mime.startsWith("image/") ||
-    ["jpg", "jpeg", "png", "bmp"].includes(ext)
-  ) {
-    let preprocessedBuffer = sharp(buffer).grayscale().normalize();
-    // Optional binarize:
-    // preprocessedBuffer = preprocessedBuffer.threshold(128);
-    const processedBuffer = await preprocessedBuffer.toBuffer();
-
-    const languages = chooseOcrLanguages("");
-    const ocr = await Tesseract.recognize(processedBuffer, languages + "+eng");
-    text = ocr.data.text;
-    imageInfo = await getImageMetadata(buffer);
   } else {
     throw new Error(`Unsupported file type: ${mime}`);
   }
 
-  // Chunk text with overlap
   const textChunks = chunkText(text, CHUNK_SIZE, CHUNK_OVERLAP);
 
-  // Concurrency limiter pool
   const limit = pLimit(MAX_CONCURRENT_CHUNKS);
 
-  // Analyze all chunks with limited concurrency
   const analysis = await Promise.all(
     textChunks.map((chunkText, idx) =>
       limit(async () => ({

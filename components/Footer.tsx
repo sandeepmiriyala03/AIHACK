@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-
+import Image from "next/image";
+import styles from "../Styles/Footer.module.css";
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const [currentTime, setCurrentTime] = useState("");
@@ -24,41 +25,33 @@ export default function Footer() {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
   const lastDeployed = process.env.NEXT_PUBLIC_LAST_DEPLOYED || "N/A";
+
   return (
-    <footer
-      style={{
-        textAlign: "center",
-        padding: "1rem 0",
-        borderTop: "1px solid #eaeaea",
-        fontSize: "0.9rem",
-        color: "#666",
-        marginTop: "2rem",
-        userSelect: "none",
-      }}
-    >
-      <nav aria-label="Footer navigation" style={{ marginBottom: 12 }}>
-        <Link href="/upload" style={{ margin: "0 12px" }}>
-          <span className="icon upload-icon" aria-label="Upload">
-                ⬆️
-              </span> Upload document
+    <footer className={styles.footer}>
+      <nav aria-label="Footer navigation" className={styles.nav}>
+        <Link href="/upload" className={styles.navLink}>
+          <span className="icon upload-icon" aria-label="Upload">⬆️</span> Upload document
         </Link>
-        <Link href="/OCR" style={{ margin: "0 12px" }}>
-         <span className="icon upload-icon" aria-label="Upload">
-                ⬆️
-              </span> Image to Text
+        <Link href="/OCR" className={styles.navLink}>
+          <span className="icon upload-icon" aria-label="Upload">⬆️</span> Image to Text
         </Link>
       </nav>
-     <p>
-  Developed by Sandeep Miriyala using Next.js&nbsp;|&nbsp;
-  <img
-    src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
-    alt="Indian Flag"
-    style={{ width: 20, height: 14, verticalAlign: "middle", margin: "0 6px" }}
-  />
-  IST: {currentTime} &nbsp;|&nbsp; © {currentYear}
-</p>
-<p>
+      <p>
+        Developed by Sandeep Miriyala using Next.js&nbsp;|&nbsp;
+        <span className={styles.flagWrapper}>
+          <Image
+            src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
+            alt="Indian Flag"
+            layout="fill"
+            objectFit="contain"
+            priority
+          />
+        </span>
+        IST: {currentTime} &nbsp;|&nbsp; © {currentYear}
+      </p>
+      <p>
         Last deployed on: <span className="font-semibold">{lastDeployed}</span>
       </p>
     </footer>

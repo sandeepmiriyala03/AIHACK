@@ -1,0 +1,28 @@
+
+
+.footer {
+  text-align: center;
+  padding: 1rem 0;
+  border-top: 1px solid #eaeaea;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 2rem;
+  user-select: none;
+}
+
+.nav {
+  margin-bottom: 12px;
+}
+
+.navLink {
+  margin: 0 12px;
+}
+
+.flagWrapper {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 6px;
+  width: 20px;
+  height: 14px;
+  position: relative;
+}
