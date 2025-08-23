@@ -18,9 +18,7 @@ export default function GoToTopButton() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
   if (!visible) return null;
-
   return (
     <button
       onClick={scrollToTop}
@@ -28,7 +26,7 @@ export default function GoToTopButton() {
       aria-label="Go to top"
       title="Go to top"
     >
-      ↑ Top
+      ↑ 
     </button>
   );
 }
