@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import mammoth from "mammoth";
 import xlsx from "xlsx";
 import Tesseract from "tesseract.js";
@@ -6,8 +7,12 @@ import nlp from "compromise";
 import pdfParse from "pdf-parse";
 import pptx2json from "pptx2json";
 import sharp from "sharp";
+import { Converter } from "pdf-poppler";
+import pLimit from "p-limit"; // concurrency limiter, npm install p-limit
 
-const CHUNK_SIZE = 10000; // characters per chunk, adjust for memory/quality
+const CHUNK_SIZE = 20000; // chunk size characters
+const CHUNK_OVERLAP = 500; // characters of overlap between chunks
+const MAX_CONCURRENT_CHUNKS = 3; // concurrency for chunk analysis
 
 interface ImageInfo {
   dimensions?: string;
@@ -37,6 +42,7 @@ interface ProcessResult {
   final_summary: string;
 }
 
+/** Extract keywords by frequency */
 function extractKeywords(text: string, maxCount = 10): string[] {
   const doc = nlp(text);
   const words = doc.nouns().out("array").concat(doc.verbs().out("array"));
@@ -48,6 +54,7 @@ function extractKeywords(text: string, maxCount = 10): string[] {
     .slice(0, maxCount);
 }
 
+/** Extract summary sentences by scoring */
 function extractiveSummarize(text: string, maxCount = 3): string[] {
   const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean);
   const doc = nlp(text);
@@ -57,9 +64,7 @@ function extractiveSummarize(text: string, maxCount = 3): string[] {
   const scored = sentences.map(sentence => {
     const sentenceTokens = sentence.toLowerCase().split(/\W+/);
     let score = 0;
-    for (const token of sentenceTokens) {
-      if (freq[token]) score += freq[token];
-    }
+    for (const token of sentenceTokens) if (freq[token]) score += freq[token];
     return { sentence, score };
   });
   return scored
@@ -68,6 +73,7 @@ function extractiveSummarize(text: string, maxCount = 3): string[] {
     .map(s => s.sentence);
 }
 
+/** Extract highlights as summary or first lines */
 function extractHighlights(text: string, maxCount = 3): string[] {
   const summarized = extractiveSummarize(text, maxCount);
   if (summarized.length) return summarized;
@@ -78,6 +84,7 @@ function extractHighlights(text: string, maxCount = 3): string[] {
     .slice(0, maxCount);
 }
 
+/** Extract named entities */
 function extractEntities(text: string): ChunkEntities {
   const doc = nlp(text);
   const dateMatches =
@@ -90,6 +97,7 @@ function extractEntities(text: string): ChunkEntities {
   };
 }
 
+/** Get image metadata with sharp */
 async function getImageMetadata(buffer: Buffer): Promise<ImageInfo> {
   try {
     const img = sharp(buffer);
@@ -103,50 +111,104 @@ async function getImageMetadata(buffer: Buffer): Promise<ImageInfo> {
   }
 }
 
-function chunkText(text: string, chunkSize = CHUNK_SIZE): string[] {
-  const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean);
+/** Chunk text with overlap */
+function chunkText(text: string, chunkSize = CHUNK_SIZE, overlap = CHUNK_OVERLAP): string[] {
   const chunks: string[] = [];
-  let current = "";
-  for (const sentence of sentences) {
-    if ((current + sentence).length > chunkSize && current) {
-      chunks.push(current.trim());
-      current = sentence + " ";
-    } else {
-      current += sentence + " ";
-    }
+  let start = 0, end = chunkSize;
+  while (start < text.length) {
+    chunks.push(text.slice(start, end).trim());
+    start = end - overlap;
+    end = start + chunkSize;
   }
-  if (current.trim()) chunks.push(current.trim());
   return chunks;
 }
 
+/** Convert PDF pages to PNG images using pdf-poppler */
+async function pdfToImages(pdfPath: string, outputDir: string): Promise<string[]> {
+  if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+  const converter = new Converter(pdfPath);
+  await converter.convert({
+    format: "png",
+    out_dir: outputDir,
+    out_prefix: "page",
+    page_range: "1-",
+  });
+
+  return fs.readdirSync(outputDir)
+    .filter(f => f.startsWith("page") && f.endsWith(".png"))
+    .map(f => path.join(outputDir, f));
+}
+
+/** OCR images with tesseract.js, returning concatenated text */
+async function ocrImages(imagePaths: string[], languages: string): Promise<string> {
+  let fullText = "";
+  for (const imgPath of imagePaths) {
+    try {
+      const { data: { text } } = await Tesseract.recognize(imgPath, languages, {
+        logger: m => console.log(m.status, Math.floor(m.progress * 100) + "%"),
+      });
+      fullText += text + "\n";
+    } catch (err) {
+      console.error("OCR error on image:", imgPath, err);
+    }
+  }
+  return fullText;
+}
+
+/** Simple heuristic for OCR languages based on text sample scripts */
+function chooseOcrLanguages(textSample: string): string {
+  const indicScriptRegex = /[\u0900-\u097F]/; // Devanagari range as example
+  if (indicScriptRegex.test(textSample)) {
+    return "san"; // Sanskrit language code
+  }
+  // Default Latin+English
+  return "eng";
+}
+
 export async function processFile(filePath: string): Promise<ProcessResult> {
-  const buffer: Buffer = fs.readFileSync(filePath);
+  const buffer = fs.readFileSync(filePath);
 
   const fileTypeModule = await import("file-type");
-  const fromBuffer = typeof fileTypeModule.fileTypeFromBuffer === "function"
-    ? fileTypeModule.fileTypeFromBuffer
-    : undefined;
+  const fromBuffer = fileTypeModule.fileTypeFromBuffer;
   if (!fromBuffer) throw new Error("file-type: fileTypeFromBuffer function not found");
   const detectedType = await fromBuffer(buffer);
   if (!detectedType) throw new Error("Unable to determine file type");
-  const mime: string = detectedType.mime;
-  const ext: string = detectedType.ext;
+  const mime = detectedType.mime;
+  const ext = detectedType.ext;
+
   let text = "";
   let imageInfo: ImageInfo = {};
 
   if (mime === "application/pdf" || ext === "pdf") {
-    const data: { text: string } = await pdfParse(buffer);
-    text = data.text;
+    const data = await pdfParse(buffer);
+    text = data.text.trim();
+
+    // Fallback to OCR if text too short (scanned)
+    if (!text || text.length < 50) {
+      const tempDir = "./tmp_pdf_images";
+      const images = await pdfToImages(filePath, tempDir);
+      // Use sample of page 1 text for language decision (could leave empty)
+      let sampleText = "";
+      if (images.length > 0) {
+        // Could add logic to analyze image or use fixed san
+        sampleText = "";
+      }
+      const languages = chooseOcrLanguages(sampleText) + "+eng"; // Sanskrit + English fallback
+      text = await ocrImages(images, languages);
+
+      // Cleanup
+      images.forEach(img => fs.unlinkSync(img));
+      fs.rmdirSync(tempDir, { recursive: true });
+    }
   } else if (
     mime === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
     ext === "docx"
   ) {
-    const result: { value: string } = await mammoth.extractRawText({ buffer });
+    const result = await mammoth.extractRawText({ buffer });
     text = result.value;
   } else if (
     mime === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
-    ext === "xlsx" ||
-    ext === "xls"
+    ext === "xlsx" || ext === "xls"
   ) {
     const workbook = xlsx.read(buffer, { type: "buffer" });
     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -161,15 +223,9 @@ export async function processFile(filePath: string): Promise<ProcessResult> {
         null,
         (err: Error | null, data: { slides: { shapes?: { text?: string }[] }[] }) => {
           if (err) return reject(err);
-          const slidesText = data.slides
-            .map(slide =>
-              slide.shapes
-                ? slide.shapes
-                    .map(shape => (shape.text ? shape.text : ""))
-                    .join(" ")
-                : ""
-            )
-            .join("\n");
+          const slidesText = data.slides.map(slide =>
+            slide.shapes ? slide.shapes.map(shape => shape.text || "").join(" ") : ""
+          ).join("\n");
           resolve(slidesText);
         }
       );
@@ -178,38 +234,45 @@ export async function processFile(filePath: string): Promise<ProcessResult> {
     mime.startsWith("image/") ||
     ["jpg", "jpeg", "png", "bmp"].includes(ext)
   ) {
-    const preprocessedBuffer = await sharp(buffer)
-      .grayscale()
-      .normalize()
-      .toBuffer();
-    const ocr = await Tesseract.recognize(preprocessedBuffer, "eng");
+    let preprocessedBuffer = sharp(buffer).grayscale().normalize();
+    // Optional binarize:
+    // preprocessedBuffer = preprocessedBuffer.threshold(128);
+    const processedBuffer = await preprocessedBuffer.toBuffer();
+
+    const languages = chooseOcrLanguages("");
+    const ocr = await Tesseract.recognize(processedBuffer, languages + "+eng");
     text = ocr.data.text;
     imageInfo = await getImageMetadata(buffer);
   } else {
     throw new Error(`Unsupported file type: ${mime}`);
   }
 
-  const textChunks = chunkText(text, CHUNK_SIZE);
+  // Chunk text with overlap
+  const textChunks = chunkText(text, CHUNK_SIZE, CHUNK_OVERLAP);
 
+  // Concurrency limiter pool
+  const limit = pLimit(MAX_CONCURRENT_CHUNKS);
+
+  // Analyze all chunks with limited concurrency
   const analysis = await Promise.all(
-    textChunks.map(async (chunkText, idx) => ({
-      chunk_number: idx + 1,
-      keywords: extractKeywords(chunkText, 12),
-      highlights: extractHighlights(chunkText, 4),
-      summary: extractiveSummarize(chunkText, 3),
-      entities: extractEntities(chunkText),
-    }))
+    textChunks.map((chunkText, idx) =>
+      limit(async () => ({
+        chunk_number: idx + 1,
+        keywords: extractKeywords(chunkText, 12),
+        highlights: extractHighlights(chunkText, 4),
+        summary: extractiveSummarize(chunkText, 3),
+        entities: extractEntities(chunkText),
+      }))
+    )
   );
 
   const finalSummary = analysis.map(a => a.summary.join(" ")).join(" ");
 
-  const result: ProcessResult = {
+  return {
     total_chunks: analysis.length,
     file_type: ext,
-    ...(Object.keys(imageInfo).length && { image_info: imageInfo }),
+    ...(Object.keys(imageInfo).length ? { image_info: imageInfo } : {}),
     analysis,
     final_summary: finalSummary,
   };
-
-  return result;
 }
