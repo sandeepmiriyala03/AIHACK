@@ -1,6 +1,8 @@
 /* ================================
    Google Fonts and Base/Reset remain unchanged
 ================================ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 body {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
@@ -9,7 +11,6 @@ body {
   margin: 0;
   background: #f9fafb; /* soft light bg */
 }
-
 
 /* ================================
    Container & Layout
@@ -23,6 +24,13 @@ body {
   box-shadow: 0 8px 24px rgba(50, 50, 93, 0.1);
 }
 
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%;
+    margin: 30px auto;
+    padding: 0 16px;
+  }
+}
 
 /* ================================
    Title
@@ -33,12 +41,24 @@ body {
   user-select: none;
   font-size: 2.25rem;
   letter-spacing: 1.8px;
-  font-weight: 600; /* Semi-bold but not heavy */
+  font-weight: 600;
   font-family: 'Poppins', sans-serif;
   text-shadow: none;
   margin-bottom: 24px;
 }
 
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+    letter-spacing: 1.2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.4rem;
+  }
+}
 
 /* ================================
    Instructions
@@ -53,9 +73,8 @@ body {
   background: linear-gradient(90deg, #fcfdff 0%, #e6ebf1 100%);
   text-align: center;
   box-shadow: 0 4px 16px #dce2ea88;
-  font-weight: 400; /* normal weight */
+  font-weight: 400;
 }
-
 
 /* ================================
    Upload Area
@@ -82,6 +101,12 @@ body {
   background: #dbe9ff;
 }
 
+@media (max-width: 480px) {
+  .uploadArea {
+    padding: 20px;
+    max-width: 100%;
+  }
+}
 
 /* ================================
    File Input Label
@@ -114,7 +139,6 @@ body {
   outline: 3px solid #5776ff;
   outline-offset: 3px;
 }
-
 
 /* ================================
    Upload Buttons
@@ -170,6 +194,15 @@ body {
   box-shadow: 0 5px 16px #7f8c8d88;
 }
 
+@media (max-width: 480px) {
+  .uploadButton,
+  .uploadButton.cancel,
+  .uploadButton.clear {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    border-radius: 28px;
+  }
+}
 
 /* ================================
    File Info & Error Msg
@@ -195,7 +228,6 @@ body {
   box-shadow: 0 4px 14px rgba(192,57,43,0.6);
 }
 
-
 /* ================================
    Analysis Section
 ================================ */
@@ -207,6 +239,12 @@ body {
   padding: 28px 32px;
   box-shadow: 0 6px 40px #e9f0fd74;
   color: #324a7a;
+}
+
+@media (max-width: 480px) {
+  .analysisSection {
+    padding: 20px 16px;
+  }
 }
 
 .analysisTitle {
@@ -244,6 +282,13 @@ body {
   overflow-y: auto;
 }
 
+@media (max-width: 480px) {
+  .extractedText {
+    font-size: 14px;
+    padding: 15px;
+    max-height: 280px;
+  }
+}
 
 /* ================================
    Mode and Lang Select Labels
@@ -265,6 +310,12 @@ body {
   font-size: 1.05rem;
 }
 
+@media (max-width: 480px) {
+  .mode-select-label,
+  .lang-select-label {
+    font-size: 0.95rem;
+  }
+}
 
 /* ================================
    Misc & Helpers
@@ -272,7 +323,6 @@ body {
 .actions {
   margin-top: 18px;
 }
-
 
 /* ================================
    Navbar & Menu
@@ -312,7 +362,6 @@ body {
   color: #5575d3;
   cursor: pointer;
 }
-
 
 .nav-menu {
   display: flex;
@@ -358,9 +407,7 @@ body {
   z-index: 2;
 }
 
-/* ================================
-   Mobile Responsive Menu
-================================ */
+/* Mobile Responsive Menu */
 @media (max-width: 640px) {
   .menu-toggle {
     display: block;
@@ -440,6 +487,7 @@ body {
 .goToTopButton.show {
   animation: fadeInUp 0.4s ease forwards;
 }
+
 .installButton {
   background: linear-gradient(90deg, #5674ff 0%, #3b59d1 100%);
   color: #f0f5ff;
@@ -472,4 +520,58 @@ body {
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+}
+
+/* Responsive layout tweaks */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .uploadButton,
+  .installButton {
+    font-size: 0.95rem;
+    padding: 10px 24px;
+  }
+
+  .container {
+    max-width: 90%;
+    margin: 30px auto;
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    letter-spacing: 1px;
+  }
+
+  .uploadButton,
+  .installButton {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 28px;
+  }
+
+  .extractedText {
+    font-size: 14px;
+    padding: 15px;
+    max-height: 280px;
+  }
+
+  .instructions {
+    font-size: 14px;
+    padding: 15px 18px;
+    margin: 12px 0 20px;
+  }
+
+  .mode-select-label,
+  .lang-select-label {
+    font-size: 0.95rem;
+  }
 }

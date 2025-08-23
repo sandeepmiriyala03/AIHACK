@@ -43,25 +43,24 @@ export default function Navbar() {
           <li className="upload">
             <Link href="/upload">
               <span className="icon upload-icon" aria-label="Upload">
-                ⬆️
+                📤
               </span>
-              Upload document
+          Upload Doc
             </Link>
           </li>
 
           <li className="upload">
             <Link href="/OCR">
               <span className="icon upload-icon" aria-label="Upload">
-                ⬆️
+                🖼️ 
               </span>
-              Image to Text
+             Image OCR
             </Link>
            </li>
-
           <li className="upload">
             <Link href="/Sanskrit">
               <span className="icon upload-icon" aria-label="Upload">
-                ⬆️
+                𑀧𑀸𑀥𑀦𑁂
               </span>
              यथाक्षरं पठनम्
             </Link>
