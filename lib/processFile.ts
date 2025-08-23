@@ -6,7 +6,6 @@ import Tesseract from "tesseract.js";
 import nlp from "compromise";
 import pdfParse from "pdf-parse";
 import pptx2json from "pptx2json";
-import { Converter } from "pdf-poppler";
 import pLimit from "p-limit";
 import { v4 as uuidv4 } from "uuid";
 
@@ -108,11 +107,17 @@ function chunkText(text: string, chunkSize = CHUNK_SIZE, overlap = CHUNK_OVERLAP
   return chunks;
 }
 
+// Dynamically import and use pdf-poppler only outside Vercel:
 async function pdfToImages(pdfPath: string): Promise<{ images: string[]; tempDir: string }> {
+  if (isVercel) {
+    throw new Error("pdf-poppler is not supported on Vercel");
+  }
+  const { Converter } = await import("pdf-poppler");
+
   const tempDir = path.join(os.tmpdir(), "tmp_pdf_images_" + uuidv4());
   await fs.mkdir(tempDir, { recursive: true });
-  const converter = new Converter(pdfPath);
 
+  const converter = new Converter(pdfPath);
   await converter.convert({
     format: "png",
     out_dir: tempDir,
@@ -177,7 +182,6 @@ export async function processFile(filePath: string): Promise<ProcessResult> {
     const data = await pdfParse(buffer);
     text = data.text.trim();
 
-    // Only attempt PDF-to-image & OCR if not running on Vercel (due to native binaries)
     if ((!text || text.trim().replace(/\s/g, "").length < 20) && !isVercel) {
       const { images, tempDir } = await pdfToImages(filePath);
 
