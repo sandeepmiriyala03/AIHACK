@@ -5,7 +5,6 @@ import path from "path";
 import os from "os";
 import { processFile } from "../../lib/processFile";
 
-// Minimal Multer File interface with buffer
 interface MulterFile {
   fieldname: string;
   originalname: string;
@@ -15,7 +14,6 @@ interface MulterFile {
   buffer: Buffer;
 }
 
-// Extend NextApiRequest to include multer's file property
 interface MulterRequest extends NextApiRequest {
   file: MulterFile;
 }
@@ -30,8 +28,11 @@ function runMiddleware(
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     fn(req, res, (result?: unknown) => {
-      if (result instanceof Error) return reject(result);
-      resolve();
+      if (result instanceof Error) {
+        reject(result);
+      } else {
+        resolve();
+      }
     });
   });
 }
@@ -42,7 +43,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log(`Received ${req.method} request to ${req.url}`);
+
   if (req.method !== "POST") {
+    console.warn(`Method not allowed: ${req.method}`);
     res.status(405).json({ error: `Method '${req.method}' Not Allowed` });
     return;
   }
@@ -61,35 +65,38 @@ export default async function handler(
     const mreq = req as MulterRequest;
 
     if (!mreq.file || !mreq.file.buffer) {
+      console.warn("No file or empty buffer in upload");
       res.status(400).json({ error: "No file uploaded" });
       return;
     }
 
-    // Write buffer to temp file
+    console.log(`Uploading file: ${mreq.file.originalname} (${mreq.file.size} bytes)`);
+
     const tempDir = os.tmpdir();
-    const tempFilePath = path.join(
-      tempDir,
-      `${Date.now()}-${mreq.file.originalname}`
-    );
+    const tempFilePath = path.join(tempDir, `${Date.now()}-${mreq.file.originalname}`);
 
     try {
       await fs.writeFile(tempFilePath, mreq.file.buffer);
+      console.log(`Written file to temp path: ${tempFilePath}`);
 
-      // Call your existing processFile function with the file path
       const result = await processFile(tempFilePath);
+      console.log("File processed successfully");
 
       res.status(200).json(result);
     } finally {
-      // Cleanup: delete temp file regardless of success/error
       try {
         await fs.unlink(tempFilePath);
-      } catch {
-        // ignore cleanup errors
+        console.log(`Deleted temp file: ${tempFilePath}`);
+      } catch (unlinkErr) {
+        console.error("Error deleting temp file:", unlinkErr);
       }
     }
   } catch (err) {
+    console.error("Upload error:", err);
     let message = "Unknown error";
-    if (err instanceof Error) message = err.message;
+    if (err instanceof Error) {
+      message = err.message;
+    }
     res.status(500).json({ error: `Upload error: ${message}` });
   }
 }
