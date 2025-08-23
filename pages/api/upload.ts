@@ -1,20 +1,18 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import multer from "multer";
-import fs from "fs";
+import fs from "fs/promises";
+import path from "path";
 import os from "os";
 import { processFile } from "../../lib/processFile";
 
-// Minimal Multer File interface
+// Minimal Multer File interface with buffer
 interface MulterFile {
   fieldname: string;
   originalname: string;
   encoding: string;
   mimetype: string;
   size: number;
-  destination: string;
-  filename: string;
-  path: string;
-  buffer?: Buffer;
+  buffer: Buffer;
 }
 
 // Extend NextApiRequest to include multer's file property
@@ -22,7 +20,8 @@ interface MulterRequest extends NextApiRequest {
   file: MulterFile;
 }
 
-const upload = multer({ dest: os.tmpdir() });
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 function runMiddleware(
   req: unknown,
@@ -49,7 +48,6 @@ export default async function handler(
   }
 
   try {
-    // Use unknown and cast, to satisfy eslint and TypeScript
     await runMiddleware(
       req as unknown,
       res as unknown,
@@ -62,34 +60,32 @@ export default async function handler(
 
     const mreq = req as MulterRequest;
 
-    if (!mreq.file) {
+    if (!mreq.file || !mreq.file.buffer) {
       res.status(400).json({ error: "No file uploaded" });
       return;
     }
 
-    const filePath = mreq.file.path;
+    // Write buffer to temp file
+    const tempDir = os.tmpdir();
+    const tempFilePath = path.join(
+      tempDir,
+      `${Date.now()}-${mreq.file.originalname}`
+    );
 
     try {
-      const result = await processFile(filePath);
+      await fs.writeFile(tempFilePath, mreq.file.buffer);
 
-      try {
-        fs.unlinkSync(filePath);
-      } catch {
-        // ignore errors
-      }
+      // Call your existing processFile function with the file path
+      const result = await processFile(tempFilePath);
 
       res.status(200).json(result);
-    } catch (error) {
-      if (fs.existsSync(filePath)) {
-        try {
-          fs.unlinkSync(filePath);
-        } catch {
-          // ignore errors
-        }
+    } finally {
+      // Cleanup: delete temp file regardless of success/error
+      try {
+        await fs.unlink(tempFilePath);
+      } catch {
+        // ignore cleanup errors
       }
-      let message = "Unknown error";
-      if (error instanceof Error) message = error.message;
-      res.status(500).json({ error: message });
     }
   } catch (err) {
     let message = "Unknown error";
