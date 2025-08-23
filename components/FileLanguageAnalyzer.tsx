@@ -56,13 +56,17 @@ const LANG_GROUPS: LangOption[][] = [
 const CONFIDENCE_THRESHOLD = 85;
 const MAX_OCR_TIME_MS = 30000;
 
+// Set a minimum width to prevent too small images for OCR
+const MIN_IMAGE_WIDTH = 100; // e.g. 100px minimum width for resizing if smaller
+
 const MODE_OPTIONS: ModeOption[] = [
   { value: "automatic", label: "Automatic Detection" },
   { value: "manual", label: "Manual Selection" },
 ];
 
 function cleanExtractedText(text: string): string {
-  return text.replace(/[^a-zA-Z\s.,'"?!-]/g, "").replace(/\s+/g, " ").trim();
+  // Don't restrict to only a-z A-Z here as it would remove characters from other languages
+  return text.replace(/\s+/g, " ").trim();
 }
 
 function getStableFileKey(file: File): string {
@@ -77,6 +81,7 @@ function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promis
       URL.revokeObjectURL(url);
       let targetWidth = img.width;
       let targetHeight = img.height;
+
       if (img.width < minWidth) {
         targetWidth = minWidth;
         targetHeight = Math.round((img.height * minWidth) / img.width);
@@ -87,6 +92,7 @@ function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promis
         resolve(file);
         return;
       }
+
       const canvas = document.createElement("canvas");
       canvas.width = targetWidth;
       canvas.height = targetHeight;
@@ -96,6 +102,7 @@ function resizeImageFile(file: File, minWidth: number, maxWidth: number): Promis
         return;
       }
       ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
       canvas.toBlob(
         (blob) => {
           if (blob) resolve(blob);
@@ -172,6 +179,9 @@ export default function SearchableLangOcr() {
 
   useEffect(() => {
     resetState();
+    if (mode.value === "manual" && lang.length === 0) {
+      setLang([ALL_LANGS.find((l) => l.value === "eng")!]);
+    }
   }, [file, mode, resetState]);
 
   useEffect(() => {
@@ -184,7 +194,8 @@ export default function SearchableLangOcr() {
       cancelFlag.current = false;
 
       try {
-        const preprocessedFile = await resizeImageFile(file, 300, 800); // reduced maxWidth for speed
+        // Resize image to be between MIN_IMAGE_WIDTH and 800px width
+        const preprocessedFile = await resizeImageFile(file, MIN_IMAGE_WIDTH, 800);
         const url = URL.createObjectURL(preprocessedFile as Blob);
         setFileUrl(url);
 
@@ -262,12 +273,7 @@ export default function SearchableLangOcr() {
       setFileUrl(null);
       return;
     }
-    if (selected.size > 5 * 1024 * 1024) {
-      setImageError("File size should be less than 5MB");
-      setFile(null);
-      setFileUrl(null);
-      return;
-    }
+    // Removed file size restriction per user request
     setFile(selected);
     const url = URL.createObjectURL(selected);
     setFileUrl(url);
@@ -281,11 +287,15 @@ export default function SearchableLangOcr() {
     setFullText("");
     startTimer();
     try {
-      const preprocessedFile = await resizeImageFile(file, 300, 1200);
+      const preprocessedFile = await resizeImageFile(file, MIN_IMAGE_WIDTH, 1200);
       const url = URL.createObjectURL(preprocessedFile as Blob);
       setFileUrl(url);
       let combinedText = "";
-      for (const langOpt of lang) {
+
+      // Use only the first language option for manual mode
+      const selectedLangs = mode.value === "manual" ? [lang[0]] : lang;
+
+      for (const langOpt of selectedLangs) {
         if (cancelFlag.current) break;
         const fileKey = getStableFileKey(file) + "_" + langOpt.value;
         let text = ocrCache.current.get(fileKey);
@@ -324,6 +334,7 @@ export default function SearchableLangOcr() {
       URL.revokeObjectURL(fileUrl);
       setFileUrl(null);
     }
+    // Reset language selection, default to English
     setLang([ALL_LANGS.find((l) => l.value === "eng")!]);
     resetState();
   };
@@ -338,9 +349,11 @@ export default function SearchableLangOcr() {
 
   return (
     <div className="container" aria-live="polite">
-      
       <h1 className="title">Searchable Language OCR</h1>
-      <p className="subtitle">Upload an image and extract text in multiple languages. Total languages available: {ALL_LANGS.length}</p>
+      <p className="subtitle">
+        Upload an image and extract text in multiple languages. Total languages available: {ALL_LANGS.length}
+      </p>
+
       <ModeSelectComponent
         mode={mode}
         onModeChange={onModeChange}
@@ -348,7 +361,12 @@ export default function SearchableLangOcr() {
         selectProps={{ inputId: "mode-select", instanceId: "mode-select-instance" }}
       />
 
-      <FileUploadComponent file={file} onFileChange={onFileChange} loading={loading} />
+      <FileUploadComponent
+        key={file ? `${file.name}_${file.size}_${file.lastModified}` : "empty"}
+        file={file}
+        onFileChange={onFileChange}
+        loading={loading}
+      />
 
       {mode.value === "manual" && (
         <LangSelectComponent
