@@ -14,6 +14,8 @@ const CHUNK_SIZE = 20000;
 const CHUNK_OVERLAP = 500;
 const MAX_CONCURRENT_CHUNKS = 3;
 
+const isVercel = !!process.env.VERCEL;
+
 interface ImageInfo {
   dimensions?: string;
   format?: string | undefined;
@@ -42,7 +44,6 @@ interface ProcessResult {
   final_summary: string;
 }
 
-// Keyword extraction remains unchanged
 function extractKeywords(text: string, maxCount = 10): string[] {
   const words = text.toLowerCase().match(/\b\w+\b/g) || [];
   const freq: Record<string, number> = {};
@@ -55,7 +56,6 @@ function extractKeywords(text: string, maxCount = 10): string[] {
     .map(([word]) => word);
 }
 
-// Summarize remains unchanged
 function extractiveSummarize(text: string, maxCount = 3): string[] {
   const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean);
   const doc = nlp(text);
@@ -74,7 +74,6 @@ function extractiveSummarize(text: string, maxCount = 3): string[] {
     .map(s => s.sentence);
 }
 
-// Extract highlights unchanged
 function extractHighlights(text: string, maxCount = 3): string[] {
   const summarized = extractiveSummarize(text, maxCount);
   if (summarized.length) return summarized;
@@ -85,7 +84,6 @@ function extractHighlights(text: string, maxCount = 3): string[] {
     .slice(0, maxCount);
 }
 
-// Extract entities unchanged
 function extractEntities(text: string): ChunkEntities {
   const doc = nlp(text);
   const dateMatches =
@@ -98,7 +96,6 @@ function extractEntities(text: string): ChunkEntities {
   };
 }
 
-// Chunk text unchanged
 function chunkText(text: string, chunkSize = CHUNK_SIZE, overlap = CHUNK_OVERLAP): string[] {
   const chunks: string[] = [];
   let start = 0;
@@ -111,7 +108,6 @@ function chunkText(text: string, chunkSize = CHUNK_SIZE, overlap = CHUNK_OVERLAP
   return chunks;
 }
 
-// Use async version for pdf to images with unique temp folder
 async function pdfToImages(pdfPath: string): Promise<{ images: string[]; tempDir: string }> {
   const tempDir = path.join(os.tmpdir(), "tmp_pdf_images_" + uuidv4());
   await fs.mkdir(tempDir, { recursive: true });
@@ -131,7 +127,6 @@ async function pdfToImages(pdfPath: string): Promise<{ images: string[]; tempDir
   return { images: imageFiles, tempDir };
 }
 
-// Async cleanup of temp files and folder
 async function cleanupFiles(filePaths: string[], folder: string) {
   try {
     await Promise.all(filePaths.map(f => fs.unlink(f)));
@@ -141,7 +136,6 @@ async function cleanupFiles(filePaths: string[], folder: string) {
   }
 }
 
-// OCR images unchanged but uses async fs.delete from above
 async function ocrImages(imagePaths: string[], languages: string): Promise<string> {
   let fullText = "";
   for (const imgPath of imagePaths) {
@@ -183,11 +177,10 @@ export async function processFile(filePath: string): Promise<ProcessResult> {
     const data = await pdfParse(buffer);
     text = data.text.trim();
 
-    if (!text || text.trim().replace(/\s/g, "").length < 20) {
-      // PDF is scanned or very sparse text, perform OCR
+    // Only attempt PDF-to-image & OCR if not running on Vercel (due to native binaries)
+    if ((!text || text.trim().replace(/\s/g, "").length < 20) && !isVercel) {
       const { images, tempDir } = await pdfToImages(filePath);
 
-      // Sample text for language detection
       const sampleText = text || "";
       const languages = chooseOcrLanguages(sampleText) + "+eng";
 
