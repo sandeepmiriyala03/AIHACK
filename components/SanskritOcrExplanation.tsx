@@ -3,7 +3,7 @@ import React from "react";
 export const SanskritOcrExplanation: React.FC = () => {
   return (
     <section className="sanskrit-explanation p-6 bg-gray-50 dark:bg-gray-900 rounded-md shadow-md max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">पठनम् (Paṭhanam)</h2>
+      <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">पठनम् </h2>
       <p className="mb-4 leading-relaxed text-gray-800 dark:text-gray-300" style={{ whiteSpace: "pre-line" }}>
         {`पठनम् इति पाठितस्य वस्तुनः अर्थसङ्ग्रहः। न केवलं अक्षराणां पठनीयता, परं तस्यार्थस्य अवबोधनं अपि तत्र हेतुः अस्ति। यथाक्षरं पठनं मा केवलं शब्दानां उच्चारणम्, अपितु तेषां ज्ञानार्थमपि पाठः। पठनकाले शब्दानां स्वरूपं मनसि स्थापयित्वा तस्य अर्थं बोधयेत्। अर्थबोधेनैव पठितस्य सारः सम्यक् विज्ञायते।
 सत्यं पठनं तु यथाक्षरं, अर्थपूर्णं च भवेत्। अतः शास्त्रेषु, ग्रन्थेषु यस्मिन् पाठे यथाक्षरं पठनं क्रियते, तद्यथार्थता संरक्ष्यते।
