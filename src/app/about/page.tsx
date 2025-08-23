@@ -4,18 +4,21 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 
+// Define valid keys as union type
+type SectionKey = "intro" | "features" | "howItWorks" | "privacy" | "cta";
+
 export default function About() {
   // Expanded states for all sections
-  const [expanded, setExpanded] = useState({
+  const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
     intro: false,
     features: false,
     howItWorks: false,
     privacy: false,
-    cta: false
+    cta: false,
   });
 
-  // Toggle function by key
-  const toggleSection = (key) => {
+  // Toggle function by key with typed parameter
+  const toggleSection = (key: SectionKey) => {
     setExpanded((prev) => ({
       ...prev,
       [key]: !prev[key],
@@ -23,13 +26,12 @@ export default function About() {
   };
 
   // Helper UI text for expand/collapse icon
-  const icon = (isExpanded) => (isExpanded ? "▾" : "▸");
+  const icon = (isExpanded: boolean) => (isExpanded ? "▾" : "▸");
 
   return (
     <>
       <Navbar />
       <main className="container px-6 md:px-12 lg:px-24 py-12">
-
         {/* Hero Section (not collapsible) */}
         <header className="page-header mb-12 text-left">
           <h1 className="title text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -47,7 +49,9 @@ export default function About() {
             onClick={() => toggleSection("intro")}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') toggleSection("intro"); }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') toggleSection("intro");
+            }}
             aria-expanded={expanded.intro}
             aria-controls="intro-content"
           >
@@ -55,18 +59,10 @@ export default function About() {
           </h2>
           {expanded.intro && (
             <div id="intro-content">
-              <p>
-                MultiDecode is your friendly platform for exploring and analyzing documents using powerful AI and OCR tools...
-              </p>
-              <p>
-                The platform is designed with younger users and beginners in mind...
-              </p>
-              <p>
-                We support <b>over 34 languages</b>, making text extraction seamless...
-              </p>
-              <p>
-                If you have any questions, feedback, or need support, don’t hesitate to contact us.
-              </p>
+              <p>MultiDecode is your friendly platform for exploring and analyzing documents using powerful AI and OCR tools...</p>
+              <p>The platform is designed with younger users and beginners in mind...</p>
+              <p>We support <b>over 34 languages</b>, making text extraction seamless...</p>
+              <p>If you have any questions, feedback, or need support, don’t hesitate to contact us.</p>
             </div>
           )}
         </section>
@@ -78,7 +74,9 @@ export default function About() {
             onClick={() => toggleSection("features")}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') toggleSection("features"); }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') toggleSection("features");
+            }}
             aria-expanded={expanded.features}
             aria-controls="features-content"
           >
@@ -102,7 +100,9 @@ export default function About() {
             onClick={() => toggleSection("howItWorks")}
             aria-expanded={expanded.howItWorks}
             tabIndex={0}
-            onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') toggleSection("howItWorks"); }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') toggleSection("howItWorks");
+            }}
             aria-controls="how-it-works-content"
             role="button"
           >
@@ -130,7 +130,9 @@ export default function About() {
             onClick={() => toggleSection("privacy")}
             aria-expanded={expanded.privacy}
             tabIndex={0}
-            onKeyDown={(e) => { if(e.key === 'Enter' || e.key === ' ') toggleSection("privacy"); }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') toggleSection("privacy");
+            }}
             aria-controls="privacy-content"
             role="button"
           >
@@ -138,9 +140,7 @@ export default function About() {
           </h2>
           {expanded.privacy && (
             <p id="privacy-content" className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed text-justify">
-              Your privacy comes first. MultiDecode <b>does NOT save, share, or
-              store</b> your files or extracted text. Everything is handled securely
-              so only you have access to your data.
+              Your privacy comes first. MultiDecode <b>does NOT save, share, or store</b> your files or extracted text. Everything is handled securely so only you have access to your data.
             </p>
           )}
         </section>

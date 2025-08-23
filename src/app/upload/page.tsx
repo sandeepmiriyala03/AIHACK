@@ -7,21 +7,23 @@ import FileUploadManager from "@/components/FileUploadManager";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 
+type SectionKey = "instructions" | "fileUpload";
+
 export default function Upload() {
   // Track expanded state for each section
-  const [expanded, setExpanded] = useState({
+  const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
     instructions: true,
     fileUpload: true,
   });
 
-  const toggleSection = (section) => {
+  const toggleSection = (section: SectionKey) => {
     setExpanded((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
   };
 
-  const icon = (isExpanded) => (isExpanded ? "▾" : "▸");
+  const icon = (isExpanded: boolean) => (isExpanded ? "▾" : "▸");
 
   return (
     <>

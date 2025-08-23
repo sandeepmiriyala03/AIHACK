@@ -5,8 +5,10 @@ import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 
+type SectionKey = "hero" | "mission" | "features" | "howItWorks" | "whyChoose" | "privacy";
+
 export default function About() {
-  const [expanded, setExpanded] = useState({
+  const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
     hero: true,
     mission: true,
     features: true,
@@ -15,20 +17,19 @@ export default function About() {
     privacy: true,
   });
 
-  const toggleSection = (key) => {
+  const toggleSection = (key: SectionKey) => {
     setExpanded((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
   };
 
-  const icon = (open) => (open ? "▾" : "▸");
+  const icon = (open: boolean) => (open ? "▾" : "▸");
 
   return (
     <>
       <Navbar />
       <main className="w-full min-h-screen bg-white dark:bg-gray-900 px-6 md:px-12 lg:px-24 py-16">
-
         {/* Hero Section */}
         <section className="mb-20 max-w-5xl mx-auto">
           <h2
@@ -153,7 +154,7 @@ export default function About() {
           )}
         </section>
 
-        {/* Privacy Section */}
+        {/* Privacy */}
         <section className="mb-16 max-w-5xl mx-auto">
           <h2
             tabIndex={0}

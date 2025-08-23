@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "@/Styles/globals.css";
 import Footer from "@/components/Footer";
 export const metadata: Metadata = {
-  title: "SmartScan AI - Instant Document Text Extraction",
-  description: "Effortlessly upload documents and extract text quickly with AI-powered OCR technology",
+  title: "Multi-Language OCR Text Extractor",
+  description: "Multi-Language OCR Text Extractor",
 };
 
 export default function RootLayout({

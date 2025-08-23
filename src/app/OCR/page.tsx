@@ -6,21 +6,23 @@ import FileLanguageAnalyzer from "@/components/FileLanguageAnalyzer";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 
+type SectionKey = "howToUse" | "whatYouCanUpload" | "privacyFirst";
+
 export default function UploadPage() {
-  const [expanded, setExpanded] = useState({
+  const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
     howToUse: true,
     whatYouCanUpload: true,
     privacyFirst: true,
   });
 
-  const toggleSection = (section) => {
+  const toggleSection = (section: SectionKey) => {
     setExpanded((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
   };
 
-  const icon = (isExpanded) => (isExpanded ? "▾" : "▸");
+  const icon = (isExpanded: boolean) => (isExpanded ? "▾" : "▸");
 
   return (
     <>
@@ -47,7 +49,7 @@ export default function UploadPage() {
             aria-controls="howto-content"
             onClick={() => toggleSection("howToUse")}
             onKeyDown={(e) => {
-              if(e.key === "Enter" || e.key === " ") toggleSection("howToUse");
+              if (e.key === "Enter" || e.key === " ") toggleSection("howToUse");
             }}
             className="cursor-pointer text-2xl font-semibold mb-4 text-gray-900 dark:text-white select-none"
           >
@@ -71,7 +73,7 @@ export default function UploadPage() {
             aria-controls="upload-content"
             onClick={() => toggleSection("whatYouCanUpload")}
             onKeyDown={(e) => {
-              if(e.key === "Enter" || e.key === " ") toggleSection("whatYouCanUpload");
+              if (e.key === "Enter" || e.key === " ") toggleSection("whatYouCanUpload");
             }}
             className="cursor-pointer text-2xl font-semibold mb-4 text-gray-900 dark:text-white select-none"
           >
@@ -98,7 +100,7 @@ export default function UploadPage() {
             aria-controls="privacy-content"
             onClick={() => toggleSection("privacyFirst")}
             onKeyDown={(e) => {
-              if(e.key === "Enter" || e.key === " ") toggleSection("privacyFirst");
+              if (e.key === "Enter" || e.key === " ") toggleSection("privacyFirst");
             }}
             className="cursor-pointer text-2xl font-semibold mb-4 text-gray-900 dark:text-white select-none"
           >
