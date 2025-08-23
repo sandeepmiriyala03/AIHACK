@@ -56,8 +56,16 @@ export default function Navbar() {
               </span>
               Image to Text
             </Link>
-          </li>
+           </li>
 
+          <li className="upload">
+            <Link href="/Sanskrit">
+              <span className="icon upload-icon" aria-label="Upload">
+                ⬆️
+              </span>
+             यथाक्षरं पठनम्
+            </Link>
+            </li>
           <li className="install">
             {/* Install button from InstallApp component */}
             <InstallApp />
