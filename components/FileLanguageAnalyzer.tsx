@@ -46,6 +46,7 @@ const ALL_LANGS: LangOption[] = [
   { value: "urd", label: "Urdu", group: "other" },
   { value: "vie", label: "Vietnamese", group: "other" },
 ];
+
 const LANG_GROUPS: LangOption[][] = [
   ALL_LANGS.filter((l) => l.group === "latin"),
   ALL_LANGS.filter((l) => l.group === "indic"),

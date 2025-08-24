@@ -43,6 +43,51 @@ interface ProcessResult {
   final_summary: string;
 }
 
+const ALL_LANGS: LangOption[] = [
+  { value: "ara", label: "Arabic", group: "other" },
+  { value: "asm", label: "Assamese", group: "indic" },
+  { value: "ben", label: "Bengali", group: "indic" },
+  { value: "bod", label: "Bodo", group: "indic" },
+  { value: "chi_sim", label: "Chinese (Simplified)", group: "cjk" },
+  { value: "chi_tra", label: "Chinese (Traditional)", group: "cjk" },
+  { value: "deu", label: "German", group: "latin" },
+  { value: "eng", label: "English", group: "latin" },
+  { value: "fra", label: "French", group: "latin" },
+  { value: "guj", label: "Gujarati", group: "indic" },
+  { value: "hin", label: "Hindi", group: "indic" },
+  { value: "ita", label: "Italian", group: "latin" },
+  { value: "jpn", label: "Japanese", group: "cjk" },
+  { value: "kan", label: "Kannada", group: "indic" },
+  { value: "kor", label: "Korean", group: "cjk" },
+  { value: "mal", label: "Malayalam", group: "indic" },
+  { value: "mar", label: "Marathi", group: "indic" },
+  { value: "nep", label: "Nepali", group: "indic" },
+  { value: "nld", label: "Dutch", group: "latin" },
+  { value: "ori", label: "Odia", group: "indic" },
+  { value: "osd", label: "Orientation and Script Detection (OSD)", group: "detection" },
+  { value: "pan", label: "Punjabi", group: "indic" },
+  { value: "por", label: "Portuguese", group: "latin" },
+  { value: "rus", label: "Russian", group: "other" },
+  { value: "san", label: "Sanskrit", group: "indic" },
+  { value: "snd", label: "Sindhi", group: "indic" },
+  { value: "spa", label: "Spanish", group: "latin" },
+  { value: "swe", label: "Swedish", group: "latin" },
+  { value: "tam", label: "Tamil", group: "indic" },
+  { value: "tel", label: "Telugu", group: "indic" },
+  { value: "tha", label: "Thai", group: "other" },
+  { value: "tur", label: "Turkish", group: "latin" },
+  { value: "urd", label: "Urdu", group: "other" },
+  { value: "vie", label: "Vietnamese", group: "other" },
+];
+
+
+// Then, define your functions and exports below
+interface LangOption {
+  value: string;
+  label: string;
+  group: string;
+} 
+
 function extractKeywords(text: string, maxCount = 10): string[] {
   const words = text.toLowerCase().match(/\b\w+\b/g) || [];
   const freq: Record<string, number> = {};
@@ -155,13 +200,41 @@ async function ocrImages(imagePaths: string[], languages: string): Promise<strin
   }
   return fullText;
 }
-
 function chooseOcrLanguages(textSample: string): string {
-  const indicScriptRegex = /[\u0900-\u097F]/; // Devanagari block example
-  if (indicScriptRegex.test(textSample)) {
-    return "san";
+  const detectedLangs = new Set<string>();
+
+  // Example Unicode regexes or keywords per group (simplified)
+  const langRegexes: Record<string, RegExp> = {
+    indic: /[\u0900-\u097F\u0A00-\u0A7F\u0B00-\u0B7F\u0C00-\u0C7F\u0D00-\u0D7F]/, // Devanagari, Gurmukhi, Bengali, etc.
+    cjk: /[\u4E00-\u9FFF\u3040-\u30FF\u31F0-\u31FF]/, // Common CJK blocks (Han, Hiragana, Katakana)
+    latin: /[a-zA-Z]/, // Basic Latin Letters
+    other: /./, // Default to include any if needed
+  };
+
+  // Check groups based on presence of their Unicode ranges in text
+  for (const lang of ALL_LANGS) {
+    const group = lang.group;
+    if (group in langRegexes) {
+      if (langRegexes[group].test(textSample)) {
+        detectedLangs.add(lang.value);
+      }
+    }
   }
-  return "eng";
+
+  // Always include 'eng' (English) as fallback
+  detectedLangs.add("eng");
+
+  // If none detected by regex, fallback to Sanskrit if Indic pattern found, else English
+  if (detectedLangs.size === 1 && !detectedLangs.has("eng")) {
+    detectedLangs.clear();
+    if (/[\u0900-\u097F]/.test(textSample)) {
+      detectedLangs.add("san");
+    } else {
+      detectedLangs.add("eng");
+    }
+  }
+
+  return Array.from(detectedLangs).join("+");
 }
 
 export async function processFile(filePath: string): Promise<ProcessResult> {
