@@ -4,20 +4,17 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 
-// Define valid keys as union type
-type SectionKey = "intro" | "features" | "howItWorks" | "privacy" | "cta";
+type SectionKey = "framework" | "ocr" | "languageData" | "installation" | "summary";
 
 export default function About() {
-  // Expanded states for all sections
   const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
-    intro: false,
-    features: false,
-    howItWorks: false,
-    privacy: false,
-    cta: false,
+    framework: false,
+    ocr: false,
+    languageData: false,
+    installation: false,
+    summary: false,
   });
 
-  // Toggle function by key with typed parameter
   const toggleSection = (key: SectionKey) => {
     setExpanded((prev) => ({
       ...prev,
@@ -25,134 +22,131 @@ export default function About() {
     }));
   };
 
-  // Helper UI text for expand/collapse icon
   const icon = (isExpanded: boolean) => (isExpanded ? "▾" : "▸");
 
   return (
     <>
       <Navbar />
-      <main className="container px-6 md:px-12 lg:px-24 py-12">
-        {/* Hero Section (not collapsible) */}
-        <header className="page-header mb-12 text-left">
-          <h1 className="title text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
-            Welcome to <span className="text-blue-600">AksharaTantra</span> 🚀
-          </h1>
-          <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl">
-            Powerful, easy-to-use OCR platform supporting over 34 languages — upload your images and documents to instantly extract, explore, and understand text anywhere, anytime.
-          </p>
-        </header>
 
-        {/* Intro / Story Section */}
-        <section className="instructions mb-12 max-w-4xl text-justify space-y-6 text-gray-800 dark:text-gray-300">
-          <h2
-            className="cursor-pointer font-semibold text-xl mb-4"
-            onClick={() => toggleSection("intro")}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') toggleSection("intro");
-            }}
-            aria-expanded={expanded.intro}
-            aria-controls="intro-content"
-          >
-            Intro / Story {icon(expanded.intro)}
-          </h2>
-          {expanded.intro && (
-            <div id="intro-content">
-              <p>AksharaTantra is your friendly platform for exploring and analyzing documents using powerful AI and OCR tools...</p>
-              <p>The platform is designed with younger users and beginners in mind...</p>
-              <p>We support <b>over 34 languages</b>, making text extraction seamless...</p>
-              <p>If you have any questions, feedback, or need support, don’t hesitate to contact us.</p>
-            </div>
-          )}
-        </section>
+      <main className="container">
+        <h1 className="title">Tools and Technologies Used</h1>
 
-        {/* Features Section */}
-        <section className="features mb-16 max-w-5xl">
+        {/* Framework and Platform */}
+        <section className="section">
           <h2
-            className="cursor-pointer text-2xl font-semibold mb-6 text-gray-900 dark:text-white"
-            onClick={() => toggleSection("features")}
-            role="button"
             tabIndex={0}
+            onClick={() => toggleSection("framework")}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') toggleSection("features");
+              if (e.key === "Enter" || e.key === " ") toggleSection("framework");
             }}
-            aria-expanded={expanded.features}
-            aria-controls="features-content"
+            role="button"
+            aria-expanded={expanded.framework}
+            className="section-header"
           >
-            ✨ What Makes AksharaTantra Special? {icon(expanded.features)}
+            Framework and Platform {icon(expanded.framework)}
           </h2>
-          {expanded.features && (
-            <ul id="features-content" className="space-y-3 text-lg text-gray-700 dark:text-gray-300 list-disc pl-6">
-              <li>🌍 <b>34+ Languages</b> supported with advanced OCR.</li>
-              <li>⚡ <b>Fast & Accurate</b> extraction for instant results.</li>
-              <li>📱 <b>User-Friendly</b> on desktop, tablet, and mobile.</li>
-              <li>📤 <b>Upload Anything</b> — from scanned docs to photos.</li>
-              <li>💡 <b>Educational & Fun</b> design for younger audiences.</li>
+          {expanded.framework && (
+            <ul className="section-list">
+              <li><strong>Next.js:</strong> React framework for SSR, SSG, and API routes enabling fast, SEO-friendly apps.</li>
+              <li><strong>Progressive Web App (PWA):</strong> Provides offline capabilities, push notifications, and installability.</li>
             </ul>
           )}
         </section>
 
-        {/* How It Works */}
-        <section className="how-it-works mb-16 max-w-5xl">
+        {/* OCR and Document Processing */}
+        <section className="section">
           <h2
-            className="cursor-pointer text-2xl font-semibold mb-6 text-gray-900 dark:text-white"
-            onClick={() => toggleSection("howItWorks")}
-            aria-expanded={expanded.howItWorks}
             tabIndex={0}
+            onClick={() => toggleSection("ocr")}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') toggleSection("howItWorks");
+              if (e.key === "Enter" || e.key === " ") toggleSection("ocr");
             }}
-            aria-controls="how-it-works-content"
             role="button"
+            aria-expanded={expanded.ocr}
+            className="section-header"
           >
-            🛠 How It Works {icon(expanded.howItWorks)}
+            OCR and Document Processing {icon(expanded.ocr)}
           </h2>
-          {expanded.howItWorks && (
-            <div id="how-it-works-content" className="grid gap-6 md:grid-cols-3 text-gray-800 dark:text-gray-200">
-              <div className="p-4 border rounded-lg shadow-sm hover:shadow-md transition">
-                📤 <b>Step 1:</b> Upload an image or document
-              </div>
-              <div className="p-4 border rounded-lg shadow-sm hover:shadow-md transition">
-                🔍 <b>Step 2:</b> AksharaTantra extracts the text instantly
-              </div>
-              <div className="p-4 border rounded-lg shadow-sm hover:shadow-md transition">
-                📄 <b>Step 3:</b> Copy, edit, or export your result
-              </div>
-            </div>
+          {expanded.ocr && (
+            <ul className="section-list">
+              <li><strong>Tesseract.js:</strong> JavaScript OCR engine for multi-language text recognition from images.</li>
+              <li><strong>pdf-poppler:</strong> Converts PDF pages to images server-side for better OCR (outside Vercel).</li>
+              <li><strong>pdf-parse:</strong> Extracts text directly from PDFs.</li>
+              <li><strong>mammoth:</strong> Extracts text from Microsoft Word (.docx) files.</li>
+              <li><strong>pptx2json:</strong> Parses PPTX slides for text extraction.</li>
+              <li><strong>Compromise (nlp):</strong> Natural Language Processing library for keyword extraction and summarization.</li>
+            </ul>
           )}
         </section>
 
-        {/* Privacy & Security */}
-        <section className="privacy mb-16 max-w-5xl">
+        {/* OCR Language Data */}
+        <section className="section">
           <h2
-            className="cursor-pointer text-2xl font-semibold mb-6 text-gray-900 dark:text-white"
-            onClick={() => toggleSection("privacy")}
-            aria-expanded={expanded.privacy}
             tabIndex={0}
+            onClick={() => toggleSection("languageData")}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') toggleSection("privacy");
+              if (e.key === "Enter" || e.key === " ") toggleSection("languageData");
             }}
-            aria-controls="privacy-content"
             role="button"
+            aria-expanded={expanded.languageData}
+            className="section-header"
           >
-            🔒 Privacy & Security {icon(expanded.privacy)}
+            OCR Language Data and Models {icon(expanded.languageData)}
           </h2>
-          {expanded.privacy && (
-            <p id="privacy-content" className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed text-justify">
-              Your privacy comes first. AksharaTantra <b>does NOT save, share, or store</b> your files or extracted text. Everything is handled securely so only you have access to your data.
+          {expanded.languageData && (
+            <>
+              <p className="section-text">OCR trained language models (.traineddata files) sourced from:</p>
+              <ul className="section-list">
+                <li><a href="https://github.com/tesseract-ocr/tessdata_best" target="_blank" rel="noopener noreferrer" className="link">tessdata_best</a> – high quality OCR language models.</li>
+                <li><a href="https://github.com/tesseract-ocr/tessdata" target="_blank" rel="noopener noreferrer" className="link">tessdata</a> – standard OCR models.</li>
+              </ul>
+              <p className="section-text">Language data placed in <code>public/tessdata</code> folder.</p>
+            </>
+          )}
+        </section>
+
+        {/* App Installation and Testing */}
+        <section className="section">
+          <h2
+            tabIndex={0}
+            onClick={() => toggleSection("installation")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") toggleSection("installation");
+            }}
+            role="button"
+            aria-expanded={expanded.installation}
+            className="section-header"
+          >
+            Application Installation and Testing {icon(expanded.installation)}
+          </h2>
+          {expanded.installation && (
+            <ul className="section-list">
+              <li>Supports PWA installation for desktops and mobiles.</li>
+              <li>Testing includes manual validation of OCR accuracy on images and documents.</li>
+              <li>Automated and performance tests with chunk concurrency control (using p-limit).</li>
+            </ul>
+          )}
+        </section>
+
+        {/* Summary */}
+        <section className="section">
+          <h2
+            tabIndex={0}
+            onClick={() => toggleSection("summary")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") toggleSection("summary");
+            }}
+            role="button"
+            aria-expanded={expanded.summary}
+            className="section-header"
+          >
+            Summary {icon(expanded.summary)}
+          </h2>
+          {expanded.summary && (
+            <p className="section-text">
+              This project combines modern web technologies (Next.js, PWA) with advanced OCR and NLP tools and multi-language support to provide fast, accurate document and image text extraction and analysis.
             </p>
           )}
-        </section>
-
-        {/* Call To Action */}
-        <section className="text-center mt-12">
-          <a
-            href="/upload"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg md:text-xl px-8 py-4 rounded-lg shadow-lg transition"
-          >
-            🚀 Start Using AksharaTantra Today
-          </a>
         </section>
       </main>
 

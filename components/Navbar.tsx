@@ -31,15 +31,8 @@ export default function Navbar() {
         </button>
 
        <ul className={isOpen ? "nav-menu open" : "nav-menu"}>
-         {/*  <li className="about">
-            <Link href="/about">
-              <span className="icon about-icon" aria-label="Home">
-                🏠
-              </span>
-              About
-            </Link>
-          </li> 
- */}
+  
+
           <li className="upload">
             <Link href="/upload">
               <span className="icon upload-icon" aria-label="Upload">
@@ -65,6 +58,15 @@ export default function Navbar() {
              यथाक्षरं पठनम्
             </Link>
             </li>
+   <li className="about">
+            <Link href="/about">
+              <span className="icon about-icon" aria-label="Home">
+                🧰
+              </span>
+              Tools & Technologies
+            </Link>
+          </li> 
+             
           <li className="install">
             {/* Install button from InstallApp component */}
             <InstallApp />
