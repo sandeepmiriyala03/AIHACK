@@ -4,7 +4,12 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 
-type SectionKey = "framework" | "ocr" | "languageData" | "installation" | "summary";
+type SectionKey =
+  | "framework"
+  | "ocr"
+  | "languageData"
+  | "installation"
+  | "summary";
 
 export default function About() {
   const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
@@ -47,8 +52,14 @@ export default function About() {
           </h2>
           {expanded.framework && (
             <ul className="section-list">
-              <li><strong>Next.js:</strong> React framework for SSR, SSG, and API routes enabling fast, SEO-friendly apps.</li>
-              <li><strong>Progressive Web App (PWA):</strong> Provides offline capabilities, push notifications, and installability.</li>
+              <li>
+                <strong>Next.js:</strong> React framework for SSR, SSG, and API routes enabling fast,
+                SEO-friendly apps.
+              </li>
+              <li>
+                <strong>Progressive Web App (PWA):</strong> Provides offline capabilities, push notifications,
+                and installability.
+              </li>
             </ul>
           )}
         </section>
@@ -95,7 +106,9 @@ export default function About() {
           </h2>
           {expanded.languageData && (
             <>
-              <p className="section-text">OCR trained language models (.traineddata files) sourced from:</p>
+              <p className="section-text">
+                OCR trained language models (.traineddata files) sourced from:
+              </p>
               <ul className="section-list">
                 <li><a href="https://github.com/tesseract-ocr/tessdata_best" target="_blank" rel="noopener noreferrer" className="link">tessdata_best</a> – high quality OCR language models.</li>
                 <li><a href="https://github.com/tesseract-ocr/tessdata" target="_blank" rel="noopener noreferrer" className="link">tessdata</a> – standard OCR models.</li>
