@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "AksharaTantra",
-  description: "A modern OCR tool for 34 languages.",
+  description: "OCR 34 languages",
 };
 
 
