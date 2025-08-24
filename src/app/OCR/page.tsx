@@ -32,7 +32,7 @@ export default function UploadPage() {
         {/* Hero Section */}
         <header className="mb-12 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
-            📤 Upload & Decode Instantly
+            📤 Upload &amp; Decode Instantly
           </h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto">
             Upload your images or documents and let{" "}
@@ -61,7 +61,7 @@ export default function UploadPage() {
               id="howto-content"
               className="list-decimal list-inside space-y-3 text-gray-700 dark:text-gray-300 text-lg"
             >
-              <li>Click the "Choose File" button to upload an image or document.</li>
+              <li>Click the &quot;Choose File&quot; button to upload an image or document.</li>
               <li>Select your preferred language for OCR analysis (or let auto-detect handle it).</li>
               <li>View the extracted text instantly.</li>
             </ol>
@@ -121,7 +121,7 @@ export default function UploadPage() {
           )}
         </section>
 
-        {/* FileLanguageAnalyzer (no expand/collapse) */}
+        {/* FileLanguageAnalyzer */}
         <section className="mb-16">
           <FileLanguageAnalyzer />
         </section>
