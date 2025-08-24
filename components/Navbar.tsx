@@ -7,19 +7,20 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <div className="logo">
-          <img
-            src="/icon-512.png"
-            alt="AksharaTantra logo"
-            style={{
-              width: 48,
-              height: 48,
-              marginRight: 12,
-              verticalAlign: "middle",
-              objectFit: "contain",
-            }}
-          />
-     AksharaTantra    
+         <div className="logo">
+        <img
+  src="/icon-512.png"
+  alt="AksharaTantra logo"
+  style={{
+    width: 35,          
+    height: 35,          // reduced from 48
+    marginRight: 16,
+    verticalAlign: "middle",
+    objectFit: "contain",
+  }}
+/>
+
+    AksharaTantra    
         </div>
 
         <button
@@ -38,7 +39,7 @@ export default function Navbar() {
               <span className="icon upload-icon" aria-label="Upload">
                 📤
               </span>
-          Upload Doc
+          Upload 
             </Link>
           </li>
 
@@ -47,7 +48,7 @@ export default function Navbar() {
               <span className="icon upload-icon" aria-label="Upload">
                 🖼️ 
               </span>
-             Image OCR
+             OCR
             </Link>
            </li>
           <li className="upload">
@@ -63,7 +64,7 @@ export default function Navbar() {
               <span className="icon about-icon" aria-label="Home">
                 🧰
               </span>
-              Tools & Technologies
+           Tech stack
             </Link>
           </li> 
              

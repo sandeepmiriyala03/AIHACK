@@ -32,6 +32,13 @@ body {
   }
 }
 
+@media (min-width: 1025px) {
+  .container {
+    max-width: 1140px; /* wider container on large screens */
+    padding: 0 32px;
+  }
+}
+
 /* ================================
    Title
 ================================ */
@@ -79,23 +86,29 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 32px;
 }
 
 .logo {
   font-family: 'Orbitron', monospace;
   color: #4459d9;
-  font-size: 2.6rem;
-  text-shadow: 3px 6px 24px #7c8dffcc;
-  font-weight: 800;
-  letter-spacing: 2.4px;
+  font-size: 2.4rem;
+  text-shadow: 2px 4px 18px rgba(124, 141, 255, 0.8);
+  font-weight: 900;
+  letter-spacing: 2px;
   user-select: none;
   cursor: default;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .logo:hover {
-  color: #3543a4;
-  text-shadow: 4px 8px 32px #8d9effdd;
+  color: #2e3a91;
+  text-shadow: 5px 10px 40px rgba(141, 158, 255, 0.9);
+  transform: scale(1.05);
+  transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
+  cursor: pointer;
 }
 
 .menu-toggle {
@@ -118,20 +131,26 @@ body {
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 1.6rem;
+  gap: 1.6rem;            /* smaller gap for desktop */
   margin: 0;
   padding: 0;
   align-items: center;
+  width: auto;
+  justify-content: flex-start; /* align items to the left with normal gaps */
+  transition: max-height 0.3s ease;
 }
 
 .nav-menu.open {
   animation: fadeInUp 0.35s ease forwards;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nav-menu li a {
   border-radius: 44px;
-  padding: 1em 2.6em;
-  font-size: 1.05rem;
+  padding: 0.85em 1.6em;  /* less side padding */
+  font-size: 1.07rem;
+  min-width: 80px;        /* keep tap size but not too wide */
   font-weight: 600;
   background: #e8ecff;
   color: #5674ff;
@@ -147,13 +166,14 @@ body {
   user-select: none;
   box-shadow: 0 0 0 transparent;
   text-decoration: none;
+  text-align: center;
 }
 
 .nav-menu li a:hover,
 .nav-menu li a:focus {
   background: #bbc9ff;
   border-color: #5674ff;
-  box-shadow: 0 4px 20px #5674ff80;
+  box-shadow: 0 4px 24px #5674ff80;
   color: #2a3e63;
   transform: translateY(-3px) scale(1.07);
   outline: none;
@@ -173,34 +193,52 @@ body {
   color: #0d1c35;
 }
 
-@media (max-width: 640px) {
+/* ================================
+   Responsive Styles
+================================ */
+
+@media (max-width: 1024px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 768px) {
   .menu-toggle {
     display: block;
   }
+
   .nav-menu {
-    position: absolute;
+    position: fixed;
     top: 70px;
     left: 0;
     width: 100%;
+    height: calc(100vh - 70px);
     flex-direction: column;
-    background: #e7eafeee;
+    background: rgba(231, 234, 254, 0.95);
     backdrop-filter: blur(16px);
     max-height: 0;
     overflow: hidden;
     border-radius: 0 0 28px 28px;
-    box-shadow: 0 8px 24px #4251d7aa;
+    box-shadow: 0 8px 24px rgba(66, 81, 215, 0.67);
     transition: max-height 0.3s ease;
+    z-index: 399;
   }
+
   .nav-menu.open {
-    max-height: 480px;
+    max-height: 100vh; /* Full height menu on open */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
   }
+
   .nav-menu li {
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     text-align: center;
   }
+
   .nav-menu li a {
     width: 100%;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     padding: 1.2em 0;
     border-radius: 0;
     box-shadow: none;
@@ -208,7 +246,21 @@ body {
   }
 }
 
-/* Fade in up animation */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.8rem;
+    letter-spacing: 1.2px;
+  }
+
+  .nav-menu li a {
+    font-size: 1.2rem;
+    padding: 1em 0;
+  }
+}
+
+/* ================================
+   Animations
+================================ */
 @keyframes fadeInUp {
   from {
     opacity: 0;
