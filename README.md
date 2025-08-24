@@ -1,6 +1,6 @@
-# MultiDecode
+# AksharaTantra
 
-MultiDecode is a fast, easy-to-use OCR (Optical Character Recognition) service that extracts text from images and documents in over 34+ languages. It enables users to quickly upload and analyze files, converting images to editable text with high accuracy.
+AksharaTantra is a fast, easy-to-use OCR (Optical Character Recognition) service that extracts text from images and documents in over 34+ languages. It enables users to quickly upload and analyze files, converting images to editable text with high accuracy.
 
 ## Key Features
 
@@ -12,7 +12,7 @@ MultiDecode is a fast, easy-to-use OCR (Optical Character Recognition) service t
 
 ## Sections
 
-- **About:** Learn what MultiDecode does and how it can help you.
+- **About:** Learn what AksharaTantra does and how it can help you.
 - **Upload:** Upload your images or documents to extract text.
 - **Image to Text:** Convert images into editable text.
 - **Install:** Option to install the app on your mobile device for faster access.
@@ -27,7 +27,7 @@ MultiDecode is a fast, easy-to-use OCR (Optical Character Recognition) service t
 
 ## Getting Started
 
-Visit the live app here: [https://multidecode.vercel.app/](https://multidecode.vercel.app/)
+Visit the live app here: [https://AksharaTantra.vercel.app/](https://AksharaTantra.vercel.app/)
 
 ## Suggestions and Feedback
 

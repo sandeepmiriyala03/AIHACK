@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 import SanskritOcrPage from "@/components/SanskritOcrPage";
-
+import "@/Styles/Navbar.css";
 export default function UploadPage() {
   const [showOcr, setShowOcr] = useState(true);
 

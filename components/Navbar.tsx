@@ -10,7 +10,7 @@ export default function Navbar() {
         <div className="logo">
           <img
             src="/icon-512.png"
-            alt="MultiDecode logo"
+            alt="AksharaTantra logo"
             style={{
               width: 48,
               height: 48,
@@ -19,8 +19,7 @@ export default function Navbar() {
               objectFit: "contain",
             }}
           />
-AksharaTantra
-          
+     AksharaTantra    
         </div>
 
         <button
@@ -31,16 +30,16 @@ AksharaTantra
           ☰
         </button>
 
-        <ul className={isOpen ? "nav-menu open" : "nav-menu"}>
-          <li className="about">
+       <ul className={isOpen ? "nav-menu open" : "nav-menu"}>
+         {/*  <li className="about">
             <Link href="/about">
               <span className="icon about-icon" aria-label="Home">
                 🏠
               </span>
               About
             </Link>
-          </li>
-
+          </li> 
+ */}
           <li className="upload">
             <Link href="/upload">
               <span className="icon upload-icon" aria-label="Upload">
@@ -61,7 +60,7 @@ AksharaTantra
           <li className="upload">
             <Link href="/Sanskrit">
               <span className="icon upload-icon" aria-label="Upload">
-                𑀧𑀸𑀥𑀦𑁂
+                
               </span>
              यथाक्षरं पठनम्
             </Link>

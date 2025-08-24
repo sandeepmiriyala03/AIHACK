@@ -324,122 +324,7 @@ body {
   margin-top: 18px;
 }
 
-/* ================================
-   Navbar & Menu
-================================ */
-.navbar {
-  background: #f6f8fa;
-  position: sticky;
-  top: 0;
-  z-index: 300;
-  padding: 1.1rem 2rem;
-  border-radius: 0 0 28px 28px;
-  box-shadow: 0 4px 32px #bec9d6;
-  font-family: 'Poppins', sans-serif;
-}
 
-.nav-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.logo {
-  font-family: 'Orbitron', sans-serif;
-  color: #5674ff;
-  font-size: 2.4rem;
-  text-shadow: 2px 4px 18px #8ca1ff88;
-  font-weight: 700;
-  letter-spacing: 2px;
-  user-select: none;
-}
-
-.menu-toggle {
-  display: none;
-  background: transparent;
-  border: none;
-  font-size: 2.4rem;
-  color: #5575d3;
-  cursor: pointer;
-}
-
-.nav-menu {
-  display: flex;
-  list-style: none;
-  gap: 1.6rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-menu li a {
-  border-radius: 44px;
-  padding: 1em 2.4em;
-  font-size: 1rem;
-  font-weight: 600;
-  background: #e8ecff;
-  color: #5674ff;
-  border: 2px solid #a3b1ff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  transition: all 0.25s ease;
-  user-select: none;
-}
-
-.nav-menu li.upload a {
-  background: linear-gradient(90deg, #d9e2ff 25%, #5674ff 95%);
-  color: #34495e;
-}
-
-.nav-menu li.about a {
-  background: linear-gradient(90deg, #a3b1ff 10%, #5674ff 100%);
-  color: #2c3e50;
-}
-
-.nav-menu li a:hover,
-.nav-menu li a:focus {
-  background: #dee6ff;
-  color: #2a3e63;
-  transform: scale(1.05);
-  box-shadow: 0 0 20px #7f9aff70;
-  border-color: #dae2ff;
-  outline: none;
-  z-index: 2;
-}
-
-/* Mobile Responsive Menu */
-@media (max-width: 640px) {
-  .menu-toggle {
-    display: block;
-  }
-  .nav-menu {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    flex-direction: column;
-    background: #f6f8faee;
-    backdrop-filter: blur(10px);
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    border-radius: 0 0 24px 24px;
-  }
-  .nav-menu.open {
-    max-height: 500px;
-  }
-  .nav-menu li {
-    margin: 1rem 0;
-    text-align: center;
-  }
-  .nav-menu li a {
-    width: 100%;
-    font-size: 1.2rem;
-    padding: 1em 0;
-    border-radius: 0;
-    box-shadow: none;
-  }
-}
 
 /* ================================
    GoToTopButton Styles
@@ -488,39 +373,42 @@ body {
   animation: fadeInUp 0.4s ease forwards;
 }
 
-.installButton {
+.installPrompt {
   background: linear-gradient(90deg, #5674ff 0%, #3b59d1 100%);
   color: #f0f5ff;
   border: none;
-  border-radius: 36px;
+  border-radius: 44px;
   padding: 14px 36px;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
   font-size: 1.1rem;
   cursor: pointer;
   box-shadow: 0 6px 20px #3b59d160, 0 4px 10px #2e3e960f;
-  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.25s ease;
   user-select: none;
   text-align: center;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.installButton:hover,
-.installButton:focus {
+.installPrompt:hover,
+.installPrompt:focus {
   background: linear-gradient(90deg, #3b59d1 0%, #5674ff 100%);
   box-shadow: 0 9px 28px #3451c7b5, 0 6px 18px #243e92bb;
   outline: none;
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.05);
 }
 
-.installButton:disabled,
-.installButton.disabled {
+.installPrompt:disabled,
+.installPrompt.disabled {
   background: #a3b1ff88;
   color: #dbe1ff;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
 }
+
 
 /* Responsive layout tweaks */
 @media (max-width: 768px) {
@@ -529,7 +417,7 @@ body {
   }
 
   .uploadButton,
-  .installButton {
+  .installPrompt {
     font-size: 0.95rem;
     padding: 10px 24px;
   }
@@ -552,7 +440,7 @@ body {
   }
 
   .uploadButton,
-  .installButton {
+  .installPrompt {
     font-size: 0.85rem;
     padding: 8px 16px;
     border-radius: 28px;

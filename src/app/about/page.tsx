@@ -59,7 +59,7 @@ export default function About() {
           </h2>
           {expanded.intro && (
             <div id="intro-content">
-              <p>MultiDecode is your friendly platform for exploring and analyzing documents using powerful AI and OCR tools...</p>
+              <p>AksharaTantra is your friendly platform for exploring and analyzing documents using powerful AI and OCR tools...</p>
               <p>The platform is designed with younger users and beginners in mind...</p>
               <p>We support <b>over 34 languages</b>, making text extraction seamless...</p>
               <p>If you have any questions, feedback, or need support, don’t hesitate to contact us.</p>
@@ -80,7 +80,7 @@ export default function About() {
             aria-expanded={expanded.features}
             aria-controls="features-content"
           >
-            ✨ What Makes MultiDecode Special? {icon(expanded.features)}
+            ✨ What Makes AksharaTantra Special? {icon(expanded.features)}
           </h2>
           {expanded.features && (
             <ul id="features-content" className="space-y-3 text-lg text-gray-700 dark:text-gray-300 list-disc pl-6">
@@ -114,7 +114,7 @@ export default function About() {
                 📤 <b>Step 1:</b> Upload an image or document
               </div>
               <div className="p-4 border rounded-lg shadow-sm hover:shadow-md transition">
-                🔍 <b>Step 2:</b> MultiDecode extracts the text instantly
+                🔍 <b>Step 2:</b> AksharaTantra extracts the text instantly
               </div>
               <div className="p-4 border rounded-lg shadow-sm hover:shadow-md transition">
                 📄 <b>Step 3:</b> Copy, edit, or export your result
@@ -140,7 +140,7 @@ export default function About() {
           </h2>
           {expanded.privacy && (
             <p id="privacy-content" className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed text-justify">
-              Your privacy comes first. MultiDecode <b>does NOT save, share, or store</b> your files or extracted text. Everything is handled securely so only you have access to your data.
+              Your privacy comes first. AksharaTantra <b>does NOT save, share, or store</b> your files or extracted text. Everything is handled securely so only you have access to your data.
             </p>
           )}
         </section>
@@ -151,7 +151,7 @@ export default function About() {
             href="/upload"
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg md:text-xl px-8 py-4 rounded-lg shadow-lg transition"
           >
-            🚀 Start Using MultiDecode Today
+            🚀 Start Using AksharaTantra Today
           </a>
         </section>
       </main>

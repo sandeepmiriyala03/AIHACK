@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import FileLanguageAnalyzer from "@/components/FileLanguageAnalyzer";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
-
+import "@/Styles/Navbar.css";
 type SectionKey = "howToUse" | "whatYouCanUpload" | "privacyFirst";
 
 export default function UploadPage() {
@@ -35,7 +35,7 @@ export default function UploadPage() {
           </h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto">
             Upload your images or documents and let{" "}
-            <span className="text-blue-600 font-semibold">MultiDecode</span> extract text in seconds — with support for{" "}
+            <span className="text-blue-600 font-semibold">AksharaTantra</span> extract text in seconds — with support for{" "}
             <b>34+ languages</b>.
           </p>
         </header>

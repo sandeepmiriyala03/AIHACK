@@ -1,7 +1,7 @@
 {
-  "name": "MultiDecode",
-  "short_name": "MultiDecode",
-  "description": "MultiDecode is a web application that decodes various file formats using AI.",
+  "name": "AksharaTantra",
+  "short_name": "AksharaTantra",
+  "description": "AksharaTantra is a web application that decodes various file formats using AI.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#171347",

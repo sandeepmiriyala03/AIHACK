@@ -1,0 +1,221 @@
+/* ================================
+    Google Fonts and Base/Reset remain unchanged
+================================ */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #3a3a3a;
+  line-height: 1.6;
+  margin: 0;
+  background: #f9fafb; /* soft light bg */
+}
+
+/* ================================
+   Container & Layout
+================================ */
+.container {
+  max-width: 720px;
+  margin: 50px auto;
+  padding: 0 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(50, 50, 93, 0.1);
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 90%;
+    margin: 30px auto;
+    padding: 0 16px;
+  }
+}
+
+/* ================================
+   Title
+================================ */
+.title {
+  text-align: center;
+  color: #2c3e50;
+  user-select: none;
+  font-size: 2.25rem;
+  letter-spacing: 1.8px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: none;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+    letter-spacing: 1.2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.4rem;
+  }
+}
+
+/* ================================
+   Navbar & Menu Enhanced Styles
+================================ */
+.navbar {
+  background: linear-gradient(135deg, #f6f8fa, #e9efff);
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  padding: 1.1rem 2rem;
+  border-radius: 0 0 28px 28px;
+  box-shadow: 0 8px 36px rgba(86, 116, 255, 0.15);
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.4s ease;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: 'Orbitron', monospace;
+  color: #4459d9;
+  font-size: 2.6rem;
+  text-shadow: 3px 6px 24px #7c8dffcc;
+  font-weight: 800;
+  letter-spacing: 2.4px;
+  user-select: none;
+  cursor: default;
+  transition: color 0.3s ease;
+}
+
+.logo:hover {
+  color: #3543a4;
+  text-shadow: 4px 8px 32px #8d9effdd;
+}
+
+.menu-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 2.4rem;
+  color: #4459d9;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+  color: #2a34a0;
+  transform: rotate(90deg);
+  outline: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 1.6rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-menu.open {
+  animation: fadeInUp 0.35s ease forwards;
+}
+
+.nav-menu li a {
+  border-radius: 44px;
+  padding: 1em 2.6em;
+  font-size: 1.05rem;
+  font-weight: 600;
+  background: #e8ecff;
+  color: #5674ff;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    transform 0.25s ease;
+  user-select: none;
+  box-shadow: 0 0 0 transparent;
+  text-decoration: none;
+}
+
+.nav-menu li a:hover,
+.nav-menu li a:focus {
+  background: #bbc9ff;
+  border-color: #5674ff;
+  box-shadow: 0 4px 20px #5674ff80;
+  color: #2a3e63;
+  transform: translateY(-3px) scale(1.07);
+  outline: none;
+  z-index: 2;
+}
+
+.nav-menu li.upload a {
+  background: linear-gradient(90deg, #a7b8ff 20%, #5674ff 95%);
+  color: #192a4d;
+  border-color: #3550d7;
+}
+
+.nav-menu li.upload a:hover,
+.nav-menu li.upload a:focus {
+  background: linear-gradient(90deg, #889dff 20%, #3b53d7 95%);
+  box-shadow: 0 6px 28px #5674ffaa;
+  color: #0d1c35;
+}
+
+@media (max-width: 640px) {
+  .menu-toggle {
+    display: block;
+  }
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    background: #e7eafeee;
+    backdrop-filter: blur(16px);
+    max-height: 0;
+    overflow: hidden;
+    border-radius: 0 0 28px 28px;
+    box-shadow: 0 8px 24px #4251d7aa;
+    transition: max-height 0.3s ease;
+  }
+  .nav-menu.open {
+    max-height: 480px;
+  }
+  .nav-menu li {
+    margin: 1rem 0;
+    text-align: center;
+  }
+  .nav-menu li a {
+    width: 100%;
+    font-size: 1.3rem;
+    padding: 1.2em 0;
+    border-radius: 0;
+    box-shadow: none;
+    justify-content: center;
+  }
+}
+
+/* Fade in up animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
-
+import "@/Styles/Navbar.css";
 type SectionKey = "hero" | "mission" | "features" | "howItWorks" | "whyChoose" | "privacy";
 
 export default function About() {
@@ -43,11 +43,11 @@ export default function About() {
             }}
             className="cursor-pointer text-3xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white text-left select-none"
           >
-            {icon(expanded.hero)} Welcome to <span className="text-blue-600">MultiDecode</span> 🚀
+            {icon(expanded.hero)} Welcome to <span className="text-blue-600">AksharaTantra</span> 🚀
           </h2>
           {expanded.hero && (
             <p id="hero-content" className="text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 leading-relaxed text-justify">
-              MultiDecode makes text extraction simple, fast, and accessible. Whether it’s images, scanned documents, or multilingual files – we help you decode information efficiently.
+              AksharaTantra makes text extraction simple, fast, and accessible. Whether it’s images, scanned documents, or multilingual files – we help you decode information efficiently.
             </p>
           )}
         </section>
@@ -120,7 +120,7 @@ export default function About() {
                 📤 <b>Step 1:</b> Upload your file
               </div>
               <div className="p-6 border rounded-lg hover:shadow-lg transition">
-                🔍 <b>Step 2:</b> Let MultiDecode extract the text
+                🔍 <b>Step 2:</b> Let AksharaTantra extract the text
               </div>
               <div className="p-6 border rounded-lg hover:shadow-lg transition">
                 📄 <b>Step 3:</b> Copy, analyze, or export instantly
@@ -142,7 +142,7 @@ export default function About() {
             }}
             className="cursor-pointer text-2xl font-semibold mb-6 text-gray-900 dark:text-white text-left select-none"
           >
-            {icon(expanded.whyChoose)} Why Choose MultiDecode?
+            {icon(expanded.whyChoose)} Why Choose AksharaTantra?
           </h2>
           {expanded.whyChoose && (
             <ul id="why-choose-content" className="space-y-3 text-lg text-gray-700 dark:text-gray-300 text-left">
@@ -171,7 +171,7 @@ export default function About() {
           </h2>
           {expanded.privacy && (
             <p id="privacy-content" className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed text-justify">
-              At MultiDecode, your privacy comes first. We <b>do not save, share, or store</b> any files or extracted text. All processing is done securely, so your information stays only with you.
+              At AksharaTantra, your privacy comes first. We <b>do not save, share, or store</b> any files or extracted text. All processing is done securely, so your information stays only with you.
             </p>
           )}
         </section>
@@ -182,7 +182,7 @@ export default function About() {
             href="/upload"
             className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg md:text-xl px-8 py-4 rounded-lg shadow-lg transition"
           >
-            🚀 Try MultiDecode Now
+            🚀 Try AksharaTantra Now
           </a>
         </section>
       </main>

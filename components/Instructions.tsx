@@ -7,7 +7,7 @@ export default function Instructions() {
 
       <p>
         Please follow these guidelines to ensure the best experience while using{" "}
-        <span className="text-blue-600 font-semibold">MultiDecode</span>.
+        <span className="text-blue-600 font-semibold">AksharaTantra</span>.
       </p>
 
       <ul className="list-disc pl-6 space-y-2">

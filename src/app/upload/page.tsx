@@ -6,7 +6,7 @@ import Instructions from "@/components/Instructions";
 import FileUploadManager from "@/components/FileUploadManager";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
-
+import "@/Styles/Navbar.css";
 type SectionKey = "instructions" | "fileUpload";
 
 export default function Upload() {
