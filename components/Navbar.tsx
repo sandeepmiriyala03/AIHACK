@@ -19,7 +19,8 @@ export default function Navbar() {
               objectFit: "contain",
             }}
           />
-          MultiDecode
+AksharaTantra
+          
         </div>
 
         <button
