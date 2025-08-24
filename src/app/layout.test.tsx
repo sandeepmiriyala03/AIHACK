@@ -4,7 +4,7 @@ import RootLayout from './layout'; // adjust import path as needed
 
 describe('RootLayout', () => {
   test('renders children and Footer component', () => {
-    const childText = 'OCR ';
+    const childText = 'Tools and Technologies Used';
     render(
       <RootLayout>
         <div>{childText}</div>
