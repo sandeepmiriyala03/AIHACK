@@ -35,7 +35,7 @@ export default function About() {
         {/* Hero Section (not collapsible) */}
         <header className="page-header mb-12 text-left">
           <h1 className="title text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
-            Welcome to <span className="text-blue-600">MultiDecode</span> 🚀
+            Welcome to <span className="text-blue-600">AksharaTantra</span> 🚀
           </h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl">
             Powerful, easy-to-use OCR platform supporting over 34 languages — upload your images and documents to instantly extract, explore, and understand text anywhere, anytime.
