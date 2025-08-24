@@ -5,16 +5,23 @@ import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 import "@/Styles/Navbar.css";
-type SectionKey = "hero" | "mission" | "features" | "howItWorks" | "whyChoose" | "privacy";
+
+type SectionKey =
+  | "hero"
+  | "mission"
+  | "features"
+  | "howItWorks"
+  | "whyChoose"
+  | "privacy";
 
 export default function About() {
   const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
-    hero: true,
-    mission: true,
-    features: true,
-    howItWorks: true,
-    whyChoose: true,
-    privacy: true,
+    hero: false,
+    mission: false,
+    features: false,
+    howItWorks: false,
+    whyChoose: false,
+    privacy: false,
   });
 
   const toggleSection = (key: SectionKey) => {
@@ -46,8 +53,13 @@ export default function About() {
             {icon(expanded.hero)} Welcome to <span className="text-blue-600">AksharaTantra</span> 🚀
           </h2>
           {expanded.hero && (
-            <p id="hero-content" className="text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 leading-relaxed text-justify">
-              AksharaTantra makes text extraction simple, fast, and accessible. Whether it’s images, scanned documents, or multilingual files – we help you decode information efficiently.
+            <p
+              id="hero-content"
+              className="text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 leading-relaxed text-justify"
+            >
+              AksharaTantra makes text extraction simple, fast, and accessible.
+              Whether it’s images, scanned documents, or multilingual files –
+              we help you decode information efficiently.
             </p>
           )}
         </section>
@@ -68,7 +80,10 @@ export default function About() {
             {icon(expanded.mission)} Our Mission
           </h2>
           {expanded.mission && (
-            <p id="mission-content" className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed text-justify">
+            <p
+              id="mission-content"
+              className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed text-justify"
+            >
               To empower people around the world by making information accessible in any language, from any document, at any time.
             </p>
           )}
@@ -90,7 +105,10 @@ export default function About() {
             {icon(expanded.features)} Key Features
           </h2>
           {expanded.features && (
-            <div id="features-content" className="grid gap-6 md:grid-cols-2 text-gray-800 dark:text-gray-200 text-left">
+            <div
+              id="features-content"
+              className="grid gap-6 md:grid-cols-2 text-gray-800 dark:text-gray-200 text-left"
+            >
               <div>🌍 <b>Multi-Language OCR</b> – Supports 34+ languages.</div>
               <div>⚡ <b>Fast & Accurate</b> – Extract text in seconds.</div>
               <div>📱 <b>User-Friendly</b> – Works on both mobile & desktop.</div>

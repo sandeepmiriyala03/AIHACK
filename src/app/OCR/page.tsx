@@ -6,13 +6,14 @@ import FileLanguageAnalyzer from "@/components/FileLanguageAnalyzer";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 import "@/Styles/Navbar.css";
+
 type SectionKey = "howToUse" | "whatYouCanUpload" | "privacyFirst";
 
 export default function UploadPage() {
   const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
-    howToUse: true,
-    whatYouCanUpload: true,
-    privacyFirst: true,
+    howToUse: false,
+    whatYouCanUpload: false,
+    privacyFirst: false,
   });
 
   const toggleSection = (section: SectionKey) => {
@@ -35,12 +36,12 @@ export default function UploadPage() {
           </h1>
           <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto">
             Upload your images or documents and let{" "}
-            <span className="text-blue-600 font-semibold">AksharaTantra</span> extract text in seconds — with support for{" "}
-            <b>34+ languages</b>.
+            <span className="text-blue-600 font-semibold">AksharaTantra</span> extract text in seconds — with
+            support for <b>34+ languages</b>.
           </p>
         </header>
 
-        {/* How to Use - Expandable */}
+        {/* How to Use */}
         <section className="mb-12 max-w-4xl mx-auto text-left">
           <h2
             tabIndex={0}
@@ -56,15 +57,18 @@ export default function UploadPage() {
             How to Use {icon(expanded.howToUse)}
           </h2>
           {expanded.howToUse && (
-            <ol id="howto-content" className="list-decimal list-inside space-y-3 text-gray-700 dark:text-gray-300 text-lg">
-              <li>Click the &quot;Choose File&quot; button to upload an image or document.</li>
+            <ol
+              id="howto-content"
+              className="list-decimal list-inside space-y-3 text-gray-700 dark:text-gray-300 text-lg"
+            >
+              <li>Click the "Choose File" button to upload an image or document.</li>
               <li>Select your preferred language for OCR analysis (or let auto-detect handle it).</li>
               <li>View the extracted text instantly.</li>
             </ol>
           )}
         </section>
 
-        {/* What You Can Upload - Expandable */}
+        {/* What You Can Upload */}
         <section className="mb-16 max-w-4xl mx-auto text-left">
           <h2
             tabIndex={0}
@@ -91,7 +95,7 @@ export default function UploadPage() {
           )}
         </section>
 
-        {/* Privacy First - Expandable */}
+        {/* Privacy First */}
         <section className="mb-16 max-w-4xl mx-auto text-left">
           <h2
             tabIndex={0}
@@ -111,12 +115,13 @@ export default function UploadPage() {
               id="privacy-content"
               className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
             >
-              Your files are processed securely. <b>We do not save or store</b> any uploads or extracted text. All your documents remain private and only accessible to you.
+              Your files are processed securely. <b>We do not save or store</b> any uploads or extracted text.
+              All your documents remain private and only accessible to you.
             </p>
           )}
         </section>
 
-        {/* FileLanguageAnalyzer - no expand/collapse */}
+        {/* FileLanguageAnalyzer (no expand/collapse) */}
         <section className="mb-16">
           <FileLanguageAnalyzer />
         </section>

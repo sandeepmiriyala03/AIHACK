@@ -7,13 +7,14 @@ import FileUploadManager from "@/components/FileUploadManager";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 import "@/Styles/Navbar.css";
+
 type SectionKey = "instructions" | "fileUpload";
 
 export default function Upload() {
-  // Track expanded state for each section
+  // All sections collapsed initially
   const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
-    instructions: true,
-    fileUpload: true,
+    instructions: false,
+    fileUpload: false,
   });
 
   const toggleSection = (section: SectionKey) => {
