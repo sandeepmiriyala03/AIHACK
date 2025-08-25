@@ -7,21 +7,10 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="nav-container">
-         <div className="logo">
-        <img
-  src="/icon-512.png"
-  alt="AksharaTantra logo"
-  style={{
-    width: 35,          
-    height: 35,          // reduced from 48
-    marginRight: 16,
-    verticalAlign: "middle",
-    objectFit: "contain",
-  }}
-/>
+      <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
+  <span>AksharaTantra</span>
+</div>
 
-    AksharaTantra    
-        </div>
 
         <button
           className="menu-toggle"
