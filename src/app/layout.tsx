@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "AksharaTantra",
   description: "OCR 34 languages",
+   
 };
 
 
@@ -15,6 +16,8 @@ export default function RootLayout({
   return (
     <html lang="en">
        <head>
+        <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
+
         <link rel="manifest" href="manifest.json" />
         <meta name="theme-color" content="#26ffe7" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
