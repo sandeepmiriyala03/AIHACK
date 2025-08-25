@@ -67,6 +67,14 @@ export default function Navbar() {
            Tech stack
             </Link>
           </li> 
+            <li className="about">
+            <Link href="/Media">
+              <span className="icon about-icon" aria-label="Media">
+                🎥
+              </span>
+            Media
+            </Link>
+          </li> 
              
           <li className="install">
             {/* Install button from InstallApp component */}
