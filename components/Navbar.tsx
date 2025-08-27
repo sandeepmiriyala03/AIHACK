@@ -65,11 +65,11 @@ export default function Navbar() {
             </Link>
           </li>  */}
             <li className="about">
-            <Link href="/Manuscript">
+            <Link href="/Media">
               <span className="icon about-icon" aria-label="Media">
                 🎥
               </span>
-            Manuscript
+            Media
             </Link>
           </li> 
              
