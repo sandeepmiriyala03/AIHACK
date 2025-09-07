@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Tesseract from "tesseract.js";
 import { FileUploadComponent } from "./FileUploadComponent";
@@ -10,15 +8,6 @@ import { ActionsComponent } from "./ActionsComponent";
 import { ErrorMessageComponent } from "./ErrorMessageComponent";
 import { ExtractedTextSectionComponent } from "./ExtractedTextSectionComponent";
 import Image from "next/image";
-import { DownloadManager } from "./DownloadManager"; // New Import
-
-interface Page {
-  id: string;
-  file: File | null;
-  fileUrl: string | null;
-  text: string;
-  notes: string;
-}
 
 // Language configuration with groups
 const ALL_LANGS: LangOption[] = [
@@ -146,13 +135,14 @@ function resizeImageFile(
 
 /** Main React component */
 export default function SearchableLangOcr() {
-  const [pages, setPages] = useState<Page[]>([]);
-  const [activePageId, setActivePageId] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [lang, setLang] = useState<LangOption[]>([
     ALL_LANGS.find((l) => l.value === "eng")!,
   ]);
   const [mode, setMode] = useState<ModeOption>(MODE_OPTIONS[0]);
   const [progress, setProgress] = useState("");
+  const [fullText, setFullText] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageError, setImageError] = useState("");
   const [timer, setTimer] = useState(0);
@@ -163,20 +153,15 @@ export default function SearchableLangOcr() {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressRef = useRef("");
 
-  const activePage = activePageId ? pages.find(p => p.id === activePageId) : null;
-  const file = activePage?.file || null;
-  const fileUrl = activePage?.fileUrl || null;
-  const fullText = activePage?.text || "";
-
   /** Update OCR progress text */
   const updateProgress = (msg: string) => {
     progressRef.current = msg;
     setProgress(msg);
   };
 
-  /** Reset component state for a new page */
-  const resetPage = useCallback(() => {
-    setActivePageId(null);
+  /** Reset component state */
+  const resetState = useCallback(() => {
+    setFullText("");
     setProgress("");
     setImageError("");
     setTimer(0);
@@ -215,10 +200,11 @@ export default function SearchableLangOcr() {
 
   /** Reset language if manual mode and no language selected */
   useEffect(() => {
+    resetState();
     if (mode.value === "manual" && lang.length === 0) {
       setLang([ALL_LANGS.find((l) => l.value === "eng")!]);
     }
-  }, [mode, lang.length]);
+  }, [file, mode, lang.length, resetState]);
 
   /** Auto language detection on file change in automatic mode */
   useEffect(() => {
@@ -237,7 +223,8 @@ export default function SearchableLangOcr() {
           800
         );
         const url = URL.createObjectURL(preprocessedFile as Blob);
-        
+        setFileUrl(url);
+
         const recognitionPromises = LANG_GROUPS.flat().map(async (langOpt) => {
           if (!active || cancelFlag.current) return null;
           updateProgress(`Trying ${langOpt.label}...`);
@@ -268,6 +255,7 @@ export default function SearchableLangOcr() {
 
         if (!active || cancelFlag.current) {
           URL.revokeObjectURL(url);
+          setFileUrl(null);
           setLoading(false);
           return;
         }
@@ -295,6 +283,7 @@ export default function SearchableLangOcr() {
             a.confidence > b.confidence ? a : b
           );
           setLang([best.langOpt]);
+          setFullText(best.cleaned);
           updateProgress(
             `Detected ${best.langOpt.label} (confidence: ${Math.round(
               best.confidence
@@ -307,6 +296,7 @@ export default function SearchableLangOcr() {
         }
 
         URL.revokeObjectURL(url);
+        setFileUrl(null);
       } catch {
         if (!cancelFlag.current) {
           updateProgress("Error: auto-detect failed");
@@ -321,48 +311,41 @@ export default function SearchableLangOcr() {
       active = false;
       cancelFlag.current = true;
     };
-  }, [file, mode]);
+  }, [file, mode, lang.length]);
 
   /** Handle user file selection */
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    resetState();
     const selected = e.target.files?.[0];
     if (!selected) {
+      setFile(null);
+      setFileUrl(null);
       return;
     }
-    const newPageId = Date.now().toString();
+    setFile(selected);
     const url = URL.createObjectURL(selected);
-    const newPage: Page = {
-      id: newPageId,
-      file: selected,
-      fileUrl: url,
-      text: "",
-      notes: "",
-    };
-    setPages(prevPages => {
-      const updatedPages = [...prevPages, newPage];
-      setActivePageId(newPageId);
-      return updatedPages;
-    });
-    resetPage();
+    setFileUrl(url);
   };
 
   /** Perform OCR analysis on the selected file and language(s) */
   const onAnalyze = async () => {
-    if (!activePage || !activePage.file || lang.length === 0) return;
+    if (!file || lang.length === 0) return;
     setLoading(true);
     updateProgress("Preprocessing image...");
     cancelFlag.current = false;
+    setFullText("");
     startTimer();
     try {
-      const preprocessedFile = await resizeImageFile(activePage.file, MIN_IMAGE_WIDTH, 1200);
+      const preprocessedFile = await resizeImageFile(file, MIN_IMAGE_WIDTH, 1200);
       const url = URL.createObjectURL(preprocessedFile as Blob);
-      
+      setFileUrl(url);
       let combinedText = "";
+
       const selectedLangs = mode.value === "manual" ? [lang[0]] : lang;
 
       for (const langOpt of selectedLangs) {
         if (cancelFlag.current) break;
-        const fileKey = getStableFileKey(activePage.file) + "_" + langOpt.value;
+        const fileKey = getStableFileKey(file) + "_" + langOpt.value;
         let text = ocrCache.current.get(fileKey);
         if (!text) {
           const { data } = await Tesseract.recognize(url, langOpt.value, {
@@ -375,16 +358,12 @@ export default function SearchableLangOcr() {
         }
         combinedText += text + "\n\n";
       }
-
-      setPages(prevPages => prevPages.map(page =>
-        page.id === activePageId ? { ...page, text: combinedText.trim() } : page
-      ));
-      
+      setFullText(combinedText.trim());
       updateProgress("OCR Complete");
-
       if (!combinedText.trim()) setImageError("No text detected; try clearer image.");
       if (!cancelFlag.current) {
         URL.revokeObjectURL(url);
+        setFileUrl(null);
       }
     } catch {
       if (!cancelFlag.current) {
@@ -396,29 +375,25 @@ export default function SearchableLangOcr() {
       setLoading(false);
     }
   };
-  
-  /** Handle adding a new page */
-  const onAddNewPage = () => {
-    resetPage();
-    setPages(prevPages => prevPages.map(page => ({ ...page, file: null, fileUrl: null, text: "" })));
-    setActivePageId(null);
-  }
 
-  /** Clear all pages and reset state */
+  /** Clear the selected file and reset state */
   const onClear = () => {
-    cancelOcrProcess();
-    pages.forEach(page => page.fileUrl && URL.revokeObjectURL(page.fileUrl));
-    setPages([]);
-    setActivePageId(null);
-    resetPage();
+    cancelFlag.current = true;
+    setFile(null);
+    if (fileUrl) {
+      URL.revokeObjectURL(fileUrl);
+      setFileUrl(null);
+    }
+    setLang([ALL_LANGS.find((l) => l.value === "eng")!]);
+    resetState();
   };
 
   /** Change OCR mode */
   const onModeChange = (option: ModeOption | null) => {
     if (option) {
-      cancelOcrProcess();
+      cancelFlag.current = true;
       setMode(option);
-      resetPage();
+      resetState();
     }
   };
 
@@ -429,32 +404,31 @@ export default function SearchableLangOcr() {
         Upload an image and extract text in multiple languages. Total languages available: {ALL_LANGS.length}
       </p>
 
-      <div className="flex-container">
-        <ModeSelectComponent
-          mode={mode}
-          onModeChange={onModeChange}
-          modeOptions={MODE_OPTIONS}
-          selectProps={{ inputId: "mode-select", instanceId: "mode-select-instance" }}
-        />
-        {mode.value === "manual" && (
-          <LangSelectComponent
-            lang={lang}
-            onLangChange={(val) => setLang(Array.isArray(val) ? [...val] : val ? [val] : [])}
-            allLangs={ALL_LANGS.filter((l) => l.value !== "osd")}
-            loading={loading}
-            isMulti={false}
-            selectProps={{ inputId: "lang-select", instanceId: "lang-select-instance" }}
-          />
-        )}
-      </div>
+      <ModeSelectComponent
+        mode={mode}
+        onModeChange={onModeChange}
+        modeOptions={MODE_OPTIONS}
+        selectProps={{ inputId: "mode-select", instanceId: "mode-select-instance" }}
+      />
 
       <FileUploadComponent
-        key={activePage ? activePage.id : "empty"}
+        key={file ? `${file.name}_${file.size}_${file.lastModified}` : "empty"}
         file={file}
         onFileChange={onFileChange}
         loading={loading}
       />
-      
+
+      {mode.value === "manual" && (
+        <LangSelectComponent
+          lang={lang}
+          onLangChange={(val) => setLang(Array.isArray(val) ? [...val] : val ? [val] : [])}
+          allLangs={ALL_LANGS.filter((l) => l.value !== "osd")}
+          loading={loading}
+          isMulti={false}
+          selectProps={{ inputId: "lang-select", instanceId: "lang-select-instance" }}
+        />
+      )}
+
       <ActionsComponent
         mode={mode}
         loading={loading}
@@ -463,13 +437,20 @@ export default function SearchableLangOcr() {
         onAnalyze={onAnalyze}
         onClear={onClear}
         onCancel={cancelOcrProcess}
-        onAddNewPage={onAddNewPage}
       />
 
       <ErrorMessageComponent message={imageError} />
 
       {fileUrl && (
-        <div className="image-preview">
+        <div
+          style={{
+            marginTop: "1rem",
+            textAlign: "center",
+            borderRadius: "12px",
+            overflow: "hidden",
+            display: "inline-block",
+          }}
+        >
           <Image
             src={fileUrl}
             alt="Uploaded preview"
@@ -488,12 +469,6 @@ export default function SearchableLangOcr() {
           <p>
             Elapsed time: {timer} second{timer !== 1 ? "s" : ""}
           </p>
-        </div>
-      )}
-      
-      {pages.length > 0 && (
-        <div style={{ marginTop: 20 }}>
-          <DownloadManager pages={pages} />
         </div>
       )}
     </div>
