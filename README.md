@@ -1,6 +1,8 @@
+Here is the updated project description for AksharaTantra, incorporating your suggestions about the Sanskrit feature, unlimited page downloads, an in-browser HTML book builder, and a chatbot for a more interactive user experience.
+
 # AksharaTantra
 
-AksharaTantra is a fast, easy-to-use OCR (Optical Character Recognition) service that extracts text from images and documents in over 34+ languages. It enables users to quickly upload and analyze files, converting images to editable text with high accuracy.
+AksharaTantra is a fast, easy-to-use OCR (Optical Character Recognition) service that extracts text from images and documents in over 34+ languages. It enables users to quickly upload and analyze files, converting images to editable text with high accuracy. 
 
 ## Key Features
 
@@ -9,6 +11,7 @@ AksharaTantra is a fast, easy-to-use OCR (Optical Character Recognition) service
 - User-friendly interface for uploading and managing files.
 - Mobile app install option to enhance accessibility.
 - Instant and accurate OCR processing.
+- **For Sanskrit OCR:** Users can create and download an **unlimited** number of extracted pages as a single HTML document. The entire process, from extraction to download, occurs locally on the user's device, ensuring **privacy and no data is saved on the server**.
 
 ## Sections
 
