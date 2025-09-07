@@ -1,7 +1,7 @@
 /* ================================
    Google Fonts and Base/Reset remain unchanged
 ================================ */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
 
 body {
   font-family: 'Poppins', sans-serif;
@@ -10,6 +10,12 @@ body {
   line-height: 1.6;
   margin: 0;
   background: #f9fafb;
+}
+
+/* General styling for page content */
+.page-content {
+  padding: 50px 24px;
+  text-align: center;
 }
 
 /* ================================
@@ -45,7 +51,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 300;
-  padding: 1.1rem 0;      /* Remove left/right padding */
+  padding: 1.1rem 0; 
   border-radius: 0 0 28px 28px;
   box-shadow: 0 8px 36px rgba(86, 116, 255, 0.15);
   font-family: 'Poppins', sans-serif;
@@ -56,11 +62,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;               /* FULL width */
+  width: 100%;
   min-width: 0;
-  padding: 0 32px;           /* Consistent side padding */
+  padding: 0 32px;
   box-sizing: border-box;
-  margin: 0;                 /* REMOVE auto margin (don't center) */
+  margin: 0;
 }
 
 @media (max-width: 1024px) {
@@ -82,14 +88,12 @@ body {
   user-select: none;
   cursor: default;
   transition: color 0.3s ease, text-shadow 0.3s ease;
-
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-left: 0;          /* No left margin */
-  padding-left: 0;         /* No left padding */
+  margin-left: 0;
+  padding-left: 0;
 }
-
 .logo:hover {
   color: #2e3a91;
   text-shadow: 5px 10px 40px rgba(141, 158, 255, 0.9);
@@ -97,7 +101,6 @@ body {
   transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease;
   cursor: pointer;
 }
-
 @media (max-width: 480px) {
   .logo {
     font-size: 1.4rem;
@@ -120,14 +123,11 @@ body {
   justify-content: flex-start;
   transition: max-height 0.3s ease;
 }
-
 .nav-menu.open {
   animation: fadeInUp 0.35s ease forwards;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
-
-/* Menu Links */
 .nav-menu li a {
   border-radius: 44px;
   padding: 0.85em 1.6em;
@@ -149,9 +149,8 @@ body {
   box-shadow: 0 0 0 transparent;
   text-decoration: none;
   text-align: center;
+  cursor: pointer;
 }
-
-/* Special styling for .upload and hover states */
 .nav-menu li a:hover,
 .nav-menu li a:focus {
   background: #bbc9ff;
@@ -170,9 +169,34 @@ body {
 .nav-menu li.upload a:hover,
 .nav-menu li.upload a:focus {
   background: linear-gradient(90deg, #889dff 20%, #3b53d7 95%);
-  box-shadow: 0 6px 28px #5674ffaa;
+  box-shadow: 6px 6px 28px #5674ffaa;
   color: #0d1c35;
 }
+
+.install-button {
+  border-radius: 44px;
+  padding: 0.85em 1.6em;
+  font-size: 1.07rem;
+  min-width: 80px;
+  font-weight: 600;
+  background: #e8ecff;
+  color: #5674ff;
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease,
+    transform 0.25s ease;
+  user-select: none;
+  box-shadow: 0 0 0 transparent;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
 /* ================================
    Responsive Styles
 ================================ */
@@ -191,7 +215,6 @@ body {
   transform: rotate(90deg);
   outline: none;
 }
-
 @media (max-width: 768px) {
   .menu-toggle {
     display: block;
