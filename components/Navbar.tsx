@@ -48,22 +48,7 @@ export default function Navbar() {
              यथाक्षरं पठनम्
             </Link>
             </li>
-{/*    <li className="about">
-            <Link href="/about">
-              <span className="icon about-icon" aria-label="Home">
-                🧰
-              </span>
-           Tech stack
-            </Link>
-          </li> 
-           <li className="about">
-            <Link href="/Media">
-              <span className="icon about-icon" aria-label="Media">
-                🎥
-              </span>
-            Media
-            </Link>
-          </li>  */}
+
             <li className="about">
             <Link href="/Media">
               <span className="icon about-icon" aria-label="Media">
