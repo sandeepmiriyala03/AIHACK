@@ -1,0 +1,47 @@
+.pagesContainer {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+.pageCard {
+  min-width: 120px;
+  height: 100px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  box-shadow: none;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.pageCard.active {
+  border-color: #0070f3;
+  background-color: #e6f0ff;
+  box-shadow: 0 4px 6px rgba(0, 112, 243, 0.1);
+}
+
+.pageCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.deleteButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #ff4d4f;
+  font-size: 1.2rem;
+}
+
+.deleteButton:hover {
+  color: #f5222d;
+}
