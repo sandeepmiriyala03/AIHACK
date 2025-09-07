@@ -293,7 +293,7 @@ export default function SanskritOcrPage() {
   ${tabButtons}
 </div>
 ${tabContents}
-<footer>&copy; ${new Date().getFullYear()} YourProductName. All rights reserved.</footer>
+<footer>&copy; ${new Date().getFullYear()} AksharaTantra OCR generated.</footer>
 <script>
   function openPage(evt, pageName) {
     let i, tabcontent, tablinks;
