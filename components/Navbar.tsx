@@ -4,62 +4,46 @@ import InstallApp from "@/components/installapp";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const closeMenu = () => setIsOpen(false);
+
   return (
     <nav className="navbar">
       <div className="nav-container">
-      <div className="logo" style={{ display: 'flex', alignItems: 'center' }}>
-  <span>AksharaTantra</span>
-</div>
 
+        {/* Logo */}
+        <div className="logo">
+          <span>AksharaTantra</span>
+        </div>
 
+        {/* Toggle Button */}
         <button
           className="menu-toggle"
-          aria-label="Toggle menu"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle Menu"
         >
           ☰
         </button>
 
-       <ul className={isOpen ? "nav-menu open" : "nav-menu"}>
-  
-
-          <li className="upload">
-            <Link href="/upload">
-              <span className="icon upload-icon" aria-label="Upload">
-                📤
-              </span>
-          Upload 
-            </Link>
+        {/* Menu */}
+        <ul className={isOpen ? "nav-menu open" : "nav-menu"}>
+          <li className="upload" onClick={closeMenu}>
+            <Link href="/upload">📤 Upload</Link>
           </li>
 
-          <li className="upload">
-            <Link href="/OCR">
-              <span className="icon upload-icon" aria-label="Upload">
-                🖼️ 
-              </span>
-             OCR
-            </Link>
-           </li>
-          <li className="upload">
-            <Link href="/Sanskrit">
-              <span className="icon upload-icon" aria-label="Upload">
-                
-              </span>
-             यथाक्षरं पठनम्
-            </Link>
-            </li>
+          <li className="upload" onClick={closeMenu}>
+            <Link href="/OCR">🖼️ OCR</Link>
+          </li>
 
-            <li className="about">
-            <Link href="/Media">
-              <span className="icon about-icon" aria-label="Media">
-                🎥
-              </span>
-            Media
-            </Link>
-          </li> 
-             
-          <li className="install">
-            {/* Install button from InstallApp component */}
+          <li className="upload" onClick={closeMenu}>
+            <Link href="/Sanskrit">यथाक्षरं पठनम्</Link>
+          </li>
+
+          <li className="about" onClick={closeMenu}>
+            <Link href="/Media">🎥 Media</Link>
+          </li>
+
+          <li className="install" onClick={closeMenu}>
             <InstallApp />
           </li>
         </ul>

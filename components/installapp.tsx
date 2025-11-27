@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-// Utility functions to detect iOS Safari
+// Detect iOS Safari
 const isIOS = () =>
-  typeof window !== "undefined" && /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  typeof window !== "undefined" &&
+  /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 
 const isSafari = () =>
-  typeof window !== "undefined" && /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+  typeof window !== "undefined" &&
+  /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
 
-// Typing for installPrompt event
+// Detect Standalone (already installed)
+const isStandalone = () =>
+  typeof window !== "undefined" &&
+  (window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as any).standalone === true);
+
+// Detect browser PWA support
+const supportsPWA = () => typeof window !== "undefined" && "BeforeInstallPromptEvent" in window;
+
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
@@ -15,23 +25,30 @@ type BeforeInstallPromptEvent = Event & {
 
 export default function InstallApp() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [showInstallButton, setShowInstallButton] = useState(false);
-  const [showIosTip, setShowIosTip] = useState(false);
+  const [shouldShowFab, setShouldShowFab] = useState(false);
 
   useEffect(() => {
+    // 1️⃣ Do not show if already installed
+    if (isStandalone()) return;
+
+    // 2️⃣ iOS Safari → show custom manual FAB
     if (isIOS() && isSafari()) {
-      setShowIosTip(true);
+      setShouldShowFab(true);
       return;
     }
+
+    // 3️⃣ unsupported browser → do not show
+    if (!supportsPWA()) return;
 
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setInstallPrompt(e as BeforeInstallPromptEvent);
-      setShowInstallButton(true);
+      setShouldShowFab(true);
     };
 
     const handleAppInstalled = () => {
-      setShowInstallButton(false);
+      setShouldShowFab(false);
+      setInstallPrompt(null);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -43,51 +60,39 @@ export default function InstallApp() {
     };
   }, []);
 
+  // Install PWA
   const handleInstallClick = () => {
     if (!installPrompt) return;
+
     installPrompt.prompt();
     installPrompt.userChoice.then(() => {
-      setShowInstallButton(false);
+      setShouldShowFab(false);
       setInstallPrompt(null);
     });
   };
 
+  if (!shouldShowFab) return null;
 
-  // Show iOS tip button (non-PWA install prompt)
-  if (showIosTip) {
+  // iOS Safari → Manual badge
+  if (isIOS() && isSafari()) {
     return (
-    <button
-  className="installPrompt"
-  type="button"
-  aria-label="How to install app on iOS"
-  title="Install this app"
-  onClick={() =>
-    alert(
-      "To install this app on your iPhone or iPad:\n\n1. Tap the 'Share' icon in Safari's toolbar\n2. Tap 'Add to Home Screen'"
-    )
-  }
->
-  📲 Install App
-</button>
-
+      <button
+        className="fabInstallBtn"
+        onClick={() =>
+          alert(
+            "To install this app on iPhone/iPad:\n\n1. Tap the Share icon in Safari\n2. Tap 'Add to Home Screen'"
+          )
+        }
+      >
+        📲
+      </button>
     );
   }
 
-  // Show install prompt button when available
-  if (showInstallButton) {
-    return (
-   <button
-  onClick={handleInstallClick}
-  className="installPrompt"
-  aria-label="Install App"
-  title="Install this app"
-  type="button"
->
-  Install App
-</button>
-
-    );
-  }
-
-  return null;
+  // Android / Chrome → Native prompt
+  return (
+    <button className="fabInstallBtn" onClick={handleInstallClick}>
+      📲
+    </button>
+  );
 }
