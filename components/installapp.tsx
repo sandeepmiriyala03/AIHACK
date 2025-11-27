@@ -9,36 +9,37 @@ const isSafari = () =>
   typeof window !== "undefined" &&
   /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
 
-// Detect Standalone (already installed)
+// Detect Standalone (PWA installed)
 const isStandalone = () =>
   typeof window !== "undefined" &&
   (window.matchMedia("(display-mode: standalone)").matches ||
-    (window.navigator as any).standalone === true);
+    (navigator as Navigator & { standalone?: boolean }).standalone === true);
 
-// Detect browser PWA support
-const supportsPWA = () => typeof window !== "undefined" && "BeforeInstallPromptEvent" in window;
+// Detect browser install support
+const supportsPWA = () =>
+  typeof window !== "undefined" &&
+  "BeforeInstallPromptEvent" in window;
 
-type BeforeInstallPromptEvent = Event & {
+// Safe typing for event
+interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
-};
+}
 
 export default function InstallApp() {
-  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [installPrompt, setInstallPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [shouldShowFab, setShouldShowFab] = useState(false);
 
   useEffect(() => {
-    // 1️⃣ Do not show if already installed
-    if (isStandalone()) return;
+    if (isStandalone()) return; // already installed → no FAB
 
-    // 2️⃣ iOS Safari → show custom manual FAB
     if (isIOS() && isSafari()) {
-      setShouldShowFab(true);
+      setShouldShowFab(true); // iOS always manual
       return;
     }
 
-    // 3️⃣ unsupported browser → do not show
-    if (!supportsPWA()) return;
+    if (!supportsPWA()) return; // unsupported browser
 
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
@@ -60,7 +61,6 @@ export default function InstallApp() {
     };
   }, []);
 
-  // Install PWA
   const handleInstallClick = () => {
     if (!installPrompt) return;
 
@@ -73,14 +73,15 @@ export default function InstallApp() {
 
   if (!shouldShowFab) return null;
 
-  // iOS Safari → Manual badge
+  // iOS → show manual instructions
   if (isIOS() && isSafari()) {
     return (
       <button
         className="fabInstallBtn"
+        type="button"
         onClick={() =>
           alert(
-            "To install this app on iPhone/iPad:\n\n1. Tap the Share icon in Safari\n2. Tap 'Add to Home Screen'"
+            "To install this app:\n\n1. Tap the Share icon in Safari\n2. Tap 'Add to Home Screen'"
           )
         }
       >
@@ -89,9 +90,9 @@ export default function InstallApp() {
     );
   }
 
-  // Android / Chrome → Native prompt
+  // Android / Chrome → native install prompt
   return (
-    <button className="fabInstallBtn" onClick={handleInstallClick}>
+    <button className="fabInstallBtn" type="button" onClick={handleInstallClick}>
       📲
     </button>
   );

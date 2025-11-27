@@ -91,14 +91,17 @@ interface LangOption {
 function extractKeywords(text: string, maxCount = 10): string[] {
   const words = text.toLowerCase().match(/\b\w+\b/g) || [];
   const freq: Record<string, number> = {};
+
   for (const w of words) {
     freq[w] = (freq[w] || 0) + 1;
   }
+
   return Object.entries(freq)
-    .sort(([_, freqA], [__, freqB]) => freqB - freqA)
+    .sort(([, freqA], [, freqB]) => freqB - freqA)
     .slice(0, maxCount)
     .map(([word]) => word);
 }
+
 
 function extractiveSummarize(text: string, maxCount = 3): string[] {
   const sentences = text.split(/(?<=[.?!])\s+/).filter(Boolean);

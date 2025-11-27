@@ -14,17 +14,18 @@ export default function UploadPage() {
       <Navbar />
       <main className="container px-6 md:px-12 lg:px-24 py-12">
         <section className="mb-4">
-          <h2 
-            className="cursor-pointer text-2xl font-semibold text-gray-900 dark:text-white select-none"
-            onClick={() => setShowOcr(!showOcr)}
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if(e.key === "Enter" || e.key === " ") setShowOcr(!showOcr);
-            }}
-            aria-expanded={showOcr}
-          >
-            {showOcr ? "▾" : "▸"} Sanskrit OCR Tool
-          </h2>
+              <h2
+        role="button"
+        tabIndex={0}
+        aria-expanded={showOcr}
+        aria-controls="sanskrit-ocr-section"
+        className="cursor-pointer text-2xl font-semibold text-gray-900 dark:text-white select-none"
+        onClick={() => setShowOcr(!showOcr)}
+        onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && setShowOcr(!showOcr)}
+      >
+        {showOcr ? "▾" : "▸"} Sanskrit OCR Tool
+      </h2>
+
         </section>
         {showOcr && (
           <section className="mb-16">
