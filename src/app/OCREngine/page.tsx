@@ -1,28 +1,19 @@
 "use client";
 
-
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
-
 import "@/Styles/globals.css";
 import "@/Styles/Navbar.css";
 
-/* ---------------- MATERIAL UI ---------------- */
+/* ---------------- MATERIAL UI ICONS ---------------- */
 import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-  Box,
-} from "@mui/material";
-
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import LanguageIcon from "@mui/icons-material/Language";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
-import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
-import EditNoteIcon from "@mui/icons-material/EditNote";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+  LanguageIcon,
+  UploadFileIcon,
+  CleaningServicesIcon,
+  EditNoteIcon,
+  AutoFixHighIcon,
+  LibraryBooksIcon,
+} from "@mui/icons-material";
 
 export default function OcrEnginePage() {
   return (
@@ -42,104 +33,60 @@ export default function OcrEnginePage() {
           🧠 AksharaTantra OCR Engine
         </h1>
 
-        <div className="max-w-4xl mx-auto space-y-6">
+        <div className="max-w-4xl mx-auto space-y-8">
           {/* --------- 1. Language Selection ---------- */}
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box display="flex" gap={2} alignItems="center">
-                <LanguageIcon className="text-blue-600" />
-                <Typography variant="h6">Select Language</Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography color="text.secondary">
-                <b>LanguageSelector Component will render here.</b>  
-                Allows user to choose OCR language dynamically  
-                (Telugu, Sanskrit, Hindi, English, etc.)
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          <div className="flex items-center gap-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all">
+            <LanguageIcon className="text-3xl text-blue-600" />
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">Select Language</h3>
+              <p className="text-gray-600 dark:text-gray-400">LanguageSelector Component will render here</p>
+            </div>
+          </div>
 
           {/* --------- 2. Upload Section ---------- */}
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box display="flex" gap={2} alignItems="center">
-                <UploadFileIcon className="text-green-600" />
-                <Typography variant="h6">Upload Images (Single / Bulk)</Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography color="text.secondary">
-                <b>OcrUploader Component will render here.</b>  
-                Users upload multiple images and validate input.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          <div className="flex items-center gap-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all">
+            <UploadFileIcon className="text-3xl text-green-600" />
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">Upload Images</h3>
+              <p className="text-gray-600 dark:text-gray-400">OcrUploader Component will render here</p>
+            </div>
+          </div>
 
           {/* --------- 3. Cleaning Section ---------- */}
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box display="flex" gap={2} alignItems="center">
-                <CleaningServicesIcon className="text-yellow-600" />
-                <Typography variant="h6">OCR Text Cleaning</Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography color="text.secondary">
-                <b>TextCleaner Component will render here.</b>  
-                Fix spacing, unicode issues, remove OCR noise.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          <div className="flex items-center gap-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all">
+            <CleaningServicesIcon className="text-3xl text-yellow-600" />
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">OCR Text Cleaning</h3>
+              <p className="text-gray-600 dark:text-gray-400">TextCleaner Component will render here</p>
+            </div>
+          </div>
 
           {/* --------- 4. Editor ---------- */}
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box display="flex" gap={2} alignItems="center">
-                <EditNoteIcon className="text-purple-600" />
-                <Typography variant="h6">OCR Editor & Page Preview</Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography color="text.secondary">
-                <b>OcrEditor + OcrPreviewList Components will be here.</b>  
-                Edit text, reorder pages, delete pages.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          <div className="flex items-center gap-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all">
+            <EditNoteIcon className="text-3xl text-purple-600" />
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">OCR Editor</h3>
+              <p className="text-gray-600 dark:text-gray-400">OcrEditor + OcrPreviewList Components will be here</p>
+            </div>
+          </div>
 
           {/* --------- 5. Vedic Tools ---------- */}
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box display="flex" gap={2} alignItems="center">
-                <AutoFixHighIcon className="text-pink-500" />
-                <Typography variant="h6">Vedic Pitch Tools</Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography color="text.secondary">
-                <b>VedicPitchTools Component will render here.</b>  
-                Works only for Telugu & Sanskrit.  
-                Adds High 🔼 / Low 🔽 pitch marks.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          <div className="flex items-center gap-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all">
+            <AutoFixHighIcon className="text-3xl text-pink-500" />
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">Vedic Pitch Tools</h3>
+              <p className="text-gray-600 dark:text-gray-400">VedicPitchTools Component will render here</p>
+            </div>
+          </div>
 
           {/* --------- 6. Export Section ---------- */}
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Box display="flex" gap={2} alignItems="center">
-                <LibraryBooksIcon className="text-indigo-600" />
-                <Typography variant="h6">Export as HTML / EPUB / JSON</Typography>
-              </Box>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography color="text.secondary">
-                <b>HtmlBookBuilder + EpubGenerator + JsonExporter will render here.</b>  
-                Creates full digital book (HTML / EPUB / JSON).
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
+          <div className="flex items-center gap-4 p-6 bg-white/80 dark:bg-gray-800/80 rounded-2xl shadow-lg border border-gray-200/50 dark:border-gray-700/50 hover:shadow-xl transition-all">
+            <LibraryBooksIcon className="text-3xl text-indigo-600" />
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">Export Options</h3>
+              <p className="text-gray-600 dark:text-gray-400">HtmlBookBuilder + EpubGenerator + JsonExporter</p>
+            </div>
+          </div>
         </div>
       </main>
 
