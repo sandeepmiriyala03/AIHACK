@@ -1,41 +1,162 @@
-Here is the updated project description for AksharaTantra, incorporating your suggestions about the Sanskrit feature, unlimited page downloads, an in-browser HTML book builder, and a chatbot for a more interactive user experience.
+📘 AksharaTantra – Multilingual OCR & Vedic Text Builder
 
-# AksharaTantra
+AksharaTantra is a fast, offline-friendly, multilingual OCR engine built for extracting text from images and documents across 34+ global languages, including deep support for Telugu and Sanskrit (Vedic accents).
 
-AksharaTantra is a fast, easy-to-use OCR (Optical Character Recognition) service that extracts text from images and documents in over 34+ languages. It enables users to quickly upload and analyze files, converting images to editable text with high accuracy. 
+The entire engine runs inside the browser, using lightweight .gz OCR models — ensuring privacy, speed, and zero server dependency.
 
-## Key Features
+🚀 Key Features
+✅ 34+ Language OCR (Offline-Ready)
 
-- Supports text extraction from images, scanned documents, and PDFs.
-- Recognizes text in 34+ languages.
-- User-friendly interface for uploading and managing files.
-- Mobile app install option to enhance accessibility.
-- Instant and accurate OCR processing.
-- **For Sanskrit OCR:** Users can create and download an **unlimited** number of extracted pages as a single HTML document. The entire process, from extraction to download, occurs locally on the user's device, ensuring **privacy and no data is saved on the server**.
+Extract text from images, scanned documents, and camera photos.
 
-## Sections
+Tesseract .traineddata.gz files loaded directly in the browser.
 
-- **About:** Learn what AksharaTantra does and how it can help you.
-- **Upload:** Upload your images or documents to extract text.
-- **Image to Text:** Convert images into editable text.
-- **Install:** Option to install the app on your mobile device for faster access.
+No backend, no API gateway, no server calls.
 
-## Tech Stack
+✅ Sanskrit & Vedic Accent Support
 
-- **Next.js:** React framework for server-rendered applications.
-- **Tesseract.js:** JavaScript OCR engine for text extraction.
-- **Progressive Web App (PWA):** Provides an app-like experience on mobile devices.
-- **Tailwind CSS:** Utility-first CSS framework for styling.
-- **Vercel:** Hosting platform for deployment.
+Users can select Vedic Mode for Telugu or Sanskrit.
 
-## Getting Started
+Supports:
 
-Visit the live app here: [https://AksharaTantra.vercel.app/](https://AksharaTantra.vercel.app/)
+Udatta (High pitch)
 
-## Suggestions and Feedback
+Anudatta (Low pitch)
 
-Your feedback is welcome! Please feel free to share any suggestions or improvements.
+Svarita (Default)
 
----
+User can apply, edit, delete pitch marks in the editor.
 
-**Developed by Sandeep Miriyala**
+✅ Unlimited Page Builder (HTML Book Generator)
+
+Users can upload unlimited images (bulk mode).
+
+Each page is OCR-processed and editable.
+
+Finally export as:
+
+📄 HTML Book
+
+📘 EPUB
+
+📦 JSON dataset
+
+All generated files are built inside the browser, ensuring:
+
+No upload to server
+
+100% privacy
+
+Works offline
+
+✅ Smart Editor
+
+Supports:
+
+Multiple pages
+
+Page-wise edits
+
+Manual fix for split letters
+
+Merging / splitting lines
+
+Pitch annotations (Vedic)
+
+✅ PWA Installable
+
+Works like a mobile app (Android, iOS, Desktop)
+
+Offline OCR
+
+IndexedDB caching
+
+✅ Chatbot Assistance (Optional Module)
+
+Users can ask:
+
+"Fix OCR spacing"
+
+"Convert to Vedic style"
+
+"Summarize this page"
+
+"Transliterate this"
+
+This runs locally (no server).
+
+🗂 Main Sections
+🔹 About
+
+What the engine does, supported languages, advantages.
+
+🔹 Upload
+
+Choose language → choose mode → upload single or bulk images → OCR.
+
+🔹 Image to Text
+
+Editable OCR workspace.
+
+🔹 Install
+
+Install the PWA version to your phone/desktop.
+
+🧩 Tech Stack
+Layer	Technology
+UI Framework	Next.js (React)
+OCR Engine	Tesseract.js + .gz model files
+Storage	IndexedDB (browser database)
+Styling	Tailwind CSS
+Packaging	PWA with Service Workers
+Export Formats	HTML, EPUB, JSON
+Deployment	Vercel
+🛠 How It Works
+
+User selects language
+
+Loads the corresponding .gz OCR model
+
+User selects single or bulk upload mode
+
+OCR engine extracts text per page
+
+User edits/validates text
+
+Vedic mode → user marks Udatta / Anudatta
+
+User exports full book as
+
+HTML
+
+EPUB
+
+JSON
+
+All processing happens locally on the device.
+
+🔐 Privacy First
+
+No image or text is uploaded to any server.
+
+Everything (OCR, editing, export) runs on user's device.
+
+IndexedDB caching is used for:
+
+OCR results
+
+Page metadata
+
+User settings
+
+Users can clear all data anytime.
+
+🌐 Live Application
+
+👉 https://AksharaTantra.vercel.app/
+
+🙌 Suggestions & Feedback
+
+Your contributions, suggestions, and feature ideas are always welcome!
+
+👨‍💻 Developed by Sandeep Miriyala
