@@ -21,20 +21,57 @@
   justify-content: space-between;
 }
 
-/* LOGO */
+/* LOGO CONTAINER */
 .logo {
-  font-family: "Orbitron";
-  font-size: 1.85rem;
+  display: flex;                 /* icon + text on same line */
+  align-items: center;           /* vertical center */
+  gap: 8px;                      /* space between icon + text */
+  cursor: pointer;
+  text-decoration: none;
+
+  font-family: "Orbitron", sans-serif;
   font-weight: 900;
   color: #4459d9;
-  letter-spacing: 1.5px;
-  text-decoration: none;
-  transition: 0.3s ease;
+
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
+/* LOGO HOVER */
 .logo:hover {
   color: #2e3a91;
   transform: scale(1.03);
+}
+
+/* LOGO IMAGE */
+.logo img {
+  height: 28px;
+  width: 28px;
+  object-fit: contain;
+}
+
+/* RESPONSIVE: larger screens */
+@media (min-width: 768px) {
+  .logo {
+    font-size: 1.85rem;
+    gap: 10px;
+  }
+
+  .logo img {
+    height: 32px;
+    width: 32px;
+  }
+}
+
+/* RESPONSIVE: small mobile screens */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.4rem;
+  }
+
+  .logo img {
+    height: 24px;
+    width: 24px;
+  }
 }
 
 /* =============== NAV ITEMS =============== */
