@@ -1,22 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
-import GoToTopButton from "@/components/GoToTopButton";
-import ShareSection from "@/components/SocailMedia/ShareSection";
 
-import "@/Styles/globals.css";
-import "@/Styles/Navbar.css";
+// MUI Components
+import {
+  Box,
+  Container,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button,
+  Grid,
+  Paper,
+  Stack,
+  Divider,
+} from "@mui/material";
 
-// Material Icons
-import "@mui/icons-material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StarIcon from "@mui/icons-material/Star";
 import LockIcon from "@mui/icons-material/Lock";
 import BoltIcon from "@mui/icons-material/Bolt";
 import LanguageIcon from "@mui/icons-material/Language";
 import MobileFriendlyIcon from "@mui/icons-material/MobileFriendly";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+
+// Your Components
+import Navbar from "@/components/Navbar";
+import GoToTopButton from "@/components/GoToTopButton";
+import ShareSection from "@/components/SocailMedia/ShareSection";
 
 type SectionKey =
   | "hero"
@@ -27,175 +38,170 @@ type SectionKey =
   | "privacy";
 
 export default function About() {
-  const [expanded, setExpanded] = useState<Record<SectionKey, boolean>>({
-    hero: true,
-    mission: false,
-    features: false,
-    howItWorks: false,
-    whyChoose: false,
-    privacy: false,
-  });
+  const [expanded, setExpanded] = useState<SectionKey | false>("hero");
 
-  const toggle = (key: SectionKey) =>
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
-
-  const icon = (open: boolean) =>
-    open ? (
-      <ExpandLessIcon className="text-blue-600" />
-    ) : (
-      <ExpandMoreIcon className="text-blue-600" />
-    );
+  const handleToggle =
+    (key: SectionKey) =>
+    (_: any, isExpanded: boolean): void => {
+      setExpanded(isExpanded ? key : false);
+    };
 
   return (
     <>
       <Navbar />
 
-      <main className="w-full min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 px-6 md:px-12 lg:px-32 py-16">
+      <Container maxWidth="lg" sx={{ py: 8 }}>
+        {/* PAGE HEADER */}
+        <Box textAlign="center" sx={{ mb: 10 }}>
+          <Typography variant="h3" fontWeight="800" gutterBottom>
+            About <span style={{ color: "#1976d2" }}>AksharaTantra</span>
+          </Typography>
 
-        {/* HEADER */}
-        <header className="text-center mb-20">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-            About <span className="text-blue-600">AksharaTantra</span>
-          </h1>
+          <Typography variant="h6" sx={{ maxWidth: 700, mx: "auto", color: "text.secondary" }}>
+            A multilingual OCR + Vedic processing engine — private, offline-first, smart,
+            and built for the next generation.
+          </Typography>
+        </Box>
 
-          <p className="mt-4 text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            A modern multilingual OCR + Vedic processing engine — fast, private,
-            offline-capable & built for everyone.
-          </p>
-        </header>
+        {/* ===================== SECTIONS ===================== */}
+        <Stack spacing={3}>
 
-        {/* CORE CONTENT */}
-        <div className="space-y-10 max-w-5xl mx-auto">
-          {[
-            {
-              key: "hero",
-              title: (
-                <>
-                  <StarIcon className="text-yellow-500" /> Welcome to
-                  AksharaTantra
-                </>
-              ),
-              content:
-                "AksharaTantra makes text extraction simple, private, and lightning-fast. Upload any multilingual image and instantly extract clean, editable text.",
-            },
-            {
-              key: "mission",
-              title: (
-                <>
-                  <LanguageIcon className="text-green-600" /> Our Mission
-                </>
-              ),
-              content:
-                "To make global information accessible in any language without sacrificing privacy or performance.",
-            },
-            {
-              key: "features",
-              title: (
-                <>
-                  <BoltIcon className="text-blue-500" /> Key Features
-                </>
-              ),
-              content: (
-                <ul className="grid gap-5 md:grid-cols-2">
-                  <li>🌍 <b>34+ Languages Supported</b> — including Vedic-friendly Telugu & Sanskrit</li>
-                  <li>⚡ <b>High-Speed OCR</b> powered by optimized Tesseract engine</li>
-                  <li>📱 <b>PWA Support</b> — Install as an app on any device</li>
-                  <li>🧠 <b>Smart Cleanup</b> — spacing, Vedic pitch marking, grapheme handling</li>
-                </ul>
-              ),
-            },
-            {
-              key: "howItWorks",
-              title: (
-                <>
-                  <MobileFriendlyIcon className="text-purple-500" /> How It
-                  Works
-                </>
-              ),
-              content: (
-                <div className="grid md:grid-cols-3 gap-6">
-                  <div className="p-6 border dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-                    📤 <b>Upload</b>
-                    <p>Select single or bulk images in any language.</p>
-                  </div>
+          {/* HERO */}
+          <Accordion expanded={expanded === "hero"} onChange={handleToggle("hero")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <StarIcon color="warning" /> Welcome to AksharaTantra
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                AksharaTantra makes text extraction simple and private. Upload multilingual
+                images and extract clean, editable text instantly.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
 
-                  <div className="p-6 border dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-                    🔍 <b>OCR Extract</b>
-                    <p>AksharaTantra processes everything locally.</p>
-                  </div>
+          {/* MISSION */}
+          <Accordion expanded={expanded === "mission"} onChange={handleToggle("mission")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <LanguageIcon color="success" /> Our Mission
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                To make global information accessible in any language — with full privacy.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
 
-                  <div className="p-6 border dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
-                    📄 <b>Export</b>
-                    <p>Save as HTML, EPUB, JSON, or Book preview.</p>
-                  </div>
-                </div>
-              ),
-            },
-            {
-              key: "whyChoose",
-              title: (
-                <>
-                  ❤️ Why Choose Us?
-                </>
-              ),
-              content: (
-                <ul className="list-disc pl-8 space-y-2 text-lg">
-                  <li>Completely free & offline-first</li>
-                  <li>No server uploads — everything stays on your device</li>
-                  <li>Powerful multilingual & Vedic OCR engine</li>
-                  <li>High accuracy text cleanup and formatting</li>
-                </ul>
-              ),
-            },
-            {
-              key: "privacy",
-              title: (
-                <>
-                  <LockIcon className="text-red-500" /> Privacy & Security
-                </>
-              ),
-              content:
-                "No data is uploaded or stored anywhere. All OCR, all cleanup, all book building happens inside your browser. 100% private.",
-            },
-          ].map((sec) => (
-            <section key={sec.key}>
-              <button
-                onClick={() => toggle(sec.key as SectionKey)}
-                className="w-full flex justify-between items-center bg-gray-100 dark:bg-gray-800 px-5 py-4 rounded-lg shadow-sm hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-              >
-                <span className="text-left text-2xl font-semibold text-gray-900 dark:text-white">
-                  {sec.title}
-                </span>
-                {icon(expanded[sec.key as SectionKey])}
-              </button>
+          {/* FEATURES */}
+          <Accordion expanded={expanded === "features"} onChange={handleToggle("features")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <BoltIcon color="primary" /> Key Features
+              </Typography>
+            </AccordionSummary>
 
-              {expanded[sec.key as SectionKey] && (
-                <div className="mt-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-md text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-                  {sec.content}
-                </div>
-              )}
-            </section>
-          ))}
-        </div>
+            <AccordionDetails>
+              <Grid container spacing={2}>
+                {[
+                  "🌍 34+ languages including Telugu & Sanskrit",
+                  "⚡ Fast OCR powered by optimized Tesseract",
+                  "📱 PWA support on all devices",
+                  "🧠 Smart cleanup + Vedic pitch marking",
+                ].map((item, idx) => (
+                  <Grid item xs={12} md={6} key={idx}>
+                    <Paper sx={{ p: 2 }} elevation={2}>
+                      {item}
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
 
-        {/* CALL TO ACTION */}
-        <div className="text-center mt-20">
-          <a
+          {/* HOW IT WORKS */}
+          <Accordion expanded={expanded === "howItWorks"} onChange={handleToggle("howItWorks")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <MobileFriendlyIcon color="secondary" /> How It Works
+              </Typography>
+            </AccordionSummary>
+
+            <AccordionDetails>
+              <Grid container spacing={3}>
+                {[
+                  { title: "Upload", desc: "Upload single or bulk files" },
+                  { title: "OCR Extract", desc: "Processing is done locally" },
+                  { title: "Export", desc: "HTML, EPUB, JSON, Book mode" },
+                ].map((s, i) => (
+                  <Grid item xs={12} md={4} key={i}>
+                    <Paper sx={{ p: 3 }} elevation={3}>
+                      <Typography variant="h6">{s.title}</Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                        {s.desc}
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+
+          {/* WHY CHOOSE US */}
+          <Accordion expanded={expanded === "whyChoose"} onChange={handleToggle("whyChoose")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5">❤️ Why Choose Us?</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack spacing={1}>
+                <Typography>• Completely free</Typography>
+                <Typography>• Offline-first architecture</Typography>
+                <Typography>• No uploads — 100% local OCR</Typography>
+                <Typography>• Best for Vedic + multilingual workflows</Typography>
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+
+          {/* PRIVACY */}
+          <Accordion expanded={expanded === "privacy"} onChange={handleToggle("privacy")}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <LockIcon color="error" /> Privacy & Security
+              </Typography>
+            </AccordionSummary>
+
+            <AccordionDetails>
+              <Typography>
+                No data leaves your device. No server. No cloud. Total privacy.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </Stack>
+
+        {/* ===================== CTA ===================== */}
+        <Box textAlign="center" sx={{ mt: 10 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
             href="/upload"
-            className="inline-block bg-blue-600 hover:bg-blue-700 text-white text-lg md:text-xl px-10 py-4 rounded-full shadow-lg transition-transform hover:scale-105"
+            sx={{ px: 6, py: 2 }}
           >
             🚀 Try AksharaTantra Now
-          </a>
+          </Button>
 
-          {/* 🔗 Social Share Section */}
-          <div className="mt-10 flex flex-col items-center">
-            <p className="text-gray-600 dark:text-gray-300 mb-3">
-              Share AksharaTantra with others:
-            </p>
-            <ShareSection />
-          </div>
-        </div>
-      </main>
+          <Divider sx={{ my: 5 }} />
+
+          {/* SHARE SECTION */}
+          <Typography sx={{ mb: 2 }} color="text.secondary">
+            Enjoying AksharaTantra? Share it with your friends and colleagues!      <ShareSection />
+          </Typography>
+
+     
+        </Box>
+      </Container>
 
       <GoToTopButton />
     </>

@@ -1,71 +1,89 @@
 "use client";
 
+import ShareIcon from "@mui/icons-material/Share";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import XIcon from "@mui/icons-material/X"; // Twitter/X Icon
+import { IconButton, Button } from "@mui/material";
+
 export default function ShareSection() {
+  const currentUrl =
+    typeof window !== "undefined"
+      ? window.location.href
+      : "https://aksharatantra.vercel.app";
+
   const shareData = {
     title: "AksharaTantra – Multilingual OCR & Vedic Engine",
     text: "Try AksharaTantra — Fast, private OCR for Telugu, Sanskrit & 34+ languages.",
-    url: typeof window !== "undefined" ? window.location.href : "https://aksharatantra.vercel.app",
+    url: currentUrl,
   };
 
-  const handleShare = async () => {
+  const handleNativeShare = async () => {
     if (navigator.share) {
       try {
         await navigator.share(shareData);
-      } catch (err) {
-        console.log("Share cancelled", err);
+      } catch (e) {
+        console.log("Share cancelled", e);
       }
     } else {
-      alert("Share not supported on this device. Copy link manually!");
+      alert("Sharing not supported on this device. Use buttons below.");
     }
   };
 
   return (
     <div className="mt-16 text-center">
       <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-300">
-        Share with Friends 🙌
+        Share AksharaTantra
       </h3>
 
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex justify-center items-center gap-4">
 
-        {/* Native share button */}
-        <button
-          onClick={handleShare}
-          className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-md transition"
+        {/* Native Share */}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleNativeShare}
+          startIcon={<ShareIcon />}
+          sx={{ borderRadius: "50px", paddingX: 3 }}
         >
-          Share Now
-        </button>
+          Share
+        </Button>
 
-        {/* Social Links */}
-        <a
+        {/* WhatsApp */}
+        <IconButton
+          component="a"
           href={`https://wa.me/?text=${encodeURIComponent(
             shareData.text + " " + shareData.url
           )}`}
           target="_blank"
-          className="text-green-600 text-3xl hover:scale-110 transition"
+          sx={{ color: "#25D366" }}
         >
-          🟢
-        </a>
+          <WhatsAppIcon fontSize="large" />
+        </IconButton>
 
-        <a
+        {/* Facebook */}
+        <IconButton
+          component="a"
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
             shareData.url
           )}`}
           target="_blank"
-          className="text-blue-700 text-3xl hover:scale-110 transition"
+          sx={{ color: "#1877F2" }}
         >
-          📘
-        </a>
+          <FacebookIcon fontSize="large" />
+        </IconButton>
 
-        <a
+        {/* X (Twitter) */}
+        <IconButton
+          component="a"
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
             shareData.text
           )}&url=${encodeURIComponent(shareData.url)}`}
           target="_blank"
-          className="text-sky-500 text-3xl hover:scale-110 transition"
+          sx={{ color: "black" }}
         >
-          🐦
-        </a>
-
+          <XIcon fontSize="large" />
+        </IconButton>
       </div>
     </div>
   );
