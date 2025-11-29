@@ -38,13 +38,7 @@ export default function Footer() {
      ⚛️&nbsp;&nbsp; 📱 &nbsp;&nbsp;
         &nbsp; © {currentYear} &nbsp;&nbsp; IST: {currentTime} &nbsp;
         <span className={styles.flagWrapper}>
-          <Image
-            src="https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg"
-            alt="Indian Flag"
-            layout="fill"
-            objectFit="contain"
-            priority
-          />
+        
         </span>
       </p>
      <p className={styles.deployment}>

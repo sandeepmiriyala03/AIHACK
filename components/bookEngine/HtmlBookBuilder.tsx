@@ -4,14 +4,33 @@ export default function HtmlBookBuilder() {
   return null; // UI will be handled in OcrEnginePage
 }
 
+// --- helper to escape basic HTML chars in page text ---
+function escapeHtml(text: string) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 // -------- BOOK HTML BUILDER ENGINE -------- //
 export function buildHtmlBook(title: string, pages: string[]) {
+  const safeTitle = escapeHtml(title);
+  const bodyPages = pages
+    .map(
+      (p, i) => `
+      <div class="page">
+        <h2>Page ${i + 1}</h2>
+        <p>${escapeHtml(p).replace(/\n/g, "<br/>")}</p>
+      </div>`
+    )
+    .join("");
+
   return `
   <!DOCTYPE html>
   <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>${title}</title>
+    <title>${safeTitle}</title>
     <style>
       body { font-family: serif; padding: 40px; line-height: 1.7; }
       h1 { text-align: center; }
@@ -19,16 +38,8 @@ export function buildHtmlBook(title: string, pages: string[]) {
     </style>
   </head>
   <body>
-    <h1>${title}</h1>
-    ${pages
-      .map(
-        (p, i) => `
-      <div class="page">
-        <h2>Page ${i + 1}</h2>
-        <p>${p.replace(/\n/g, "<br/>")}</p>
-      </div>`
-      )
-      .join("")}
+    <h1>${safeTitle}</h1>
+    ${bodyPages}
   </body>
   </html>
   `;
