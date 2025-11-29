@@ -2,7 +2,7 @@
 import React from 'react';
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
-import ImageReader from "@/components/ImageReader"; // Import the ImageReader component
+import ImageReader from "@/components/ImageReader"; 
 
 export default function About() {
   return (
