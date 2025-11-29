@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 
 import BulkOcrProcessor from "@/components/ocrEngine/BulkOcrProcessor";
-import OcrCore from "@/components/ocrEngine/OcrCore";
 import TextCleaner from "@/components/ocrEngine/TextCleaner";
 import VedicPitchTools from "@/components/ocrEngine/VedicPitchTools";
 
@@ -45,7 +44,6 @@ const OcrWorkPage: React.FC = () => {
     setStatus(`Added ${texts.length} page(s)`);
   };
 
-  const handleSingleOcrResult = (text: string) => addPages([text]);
   const handleBulkComplete = (texts: string[]) => addPages(texts);
 
   const openPageForEdit = (index: number) => {
@@ -88,72 +86,76 @@ const OcrWorkPage: React.FC = () => {
   /* --------------------------
         EXPORT: HTML
   -------------------------- */
-const handleDownloadHtml = async () => {
-  setStatus("Building HTML...");
+  const handleDownloadHtml = async () => {
+    setStatus("Building HTML...");
 
-  try {
-    const mod = await import("@/components/bookEngine/HtmlBookBuilder");
+    try {
+      const mod = await import("@/components/bookEngine/HtmlBookBuilder");
 
-    if (typeof mod.buildHtmlBook !== "function") {
-      setStatus("❌ HtmlBookBuilder.buildHtmlBook missing");
-      return;
+      if (typeof mod.buildHtmlBook !== "function") {
+        setStatus("❌ HtmlBookBuilder.buildHtmlBook missing");
+        return;
+      }
+
+      const html: string = mod.buildHtmlBook("AksharaTantra Book", pages);
+
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `AksharaTantra-${new Date()
+        .toISOString()
+        .slice(0, 10)}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      URL.revokeObjectURL(url);
+      setStatus("✅ HTML downloaded successfully");
+    } catch (err) {
+      console.error("HTML export error:", err);
+      setStatus("❌ HTML export failed");
     }
+  };
 
-    // Pass title first, then pages array (match buildHtmlBook signature)
-    const html: string = mod.buildHtmlBook("AksharaTantra Book", pages);
+  /* --------------------------
+        EXPORT: EPUB
+  -------------------------- */
+  const handleDownloadEpub = async () => {
+    setStatus("Building EPUB...");
 
-    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
+    try {
+      const mod = await import("@/components/bookEngine/EpubGenerator");
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `AksharaTantra-${new Date().toISOString().slice(0,10)}.html`;
-    document.body.appendChild(a);  // Ensure element is in DOM
-    a.click();
-    document.body.removeChild(a);  // Clean up
+      if (typeof mod.generateEpub !== "function") {
+        setStatus("❌ EpubGenerator.generateEpub missing");
+        return;
+      }
 
-    URL.revokeObjectURL(url);
-    setStatus("✅ HTML downloaded successfully");
-  } catch (err) {
-    console.error("HTML export error:", err);
-    setStatus("❌ HTML export failed");
-  }
-};
+      const epubBlob: Blob = await mod.generateEpub(
+        "AksharaTantra Book",
+        pages
+      );
 
-/* --------------------------
-   EXPORT: EPUB
- -------------------------- */
-const handleDownloadEpub = async () => {
-  setStatus("Building EPUB...");
+      const url = URL.createObjectURL(epubBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `AksharaTantra-${new Date()
+        .toISOString()
+        .slice(0, 10)}.epub`;
 
-  try {
-    const mod = await import("@/components/bookEngine/EpubGenerator");
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
 
-    if (typeof mod.generateEpub !== "function") {
-      setStatus("❌ EpubGenerator.generateEpub missing");
-      return;
+      URL.revokeObjectURL(url);
+      setStatus("✅ EPUB downloaded successfully");
+    } catch (err) {
+      console.error("EPUB export error:", err);
+      setStatus("❌ EPUB export failed");
     }
-
-    // Pass title first, then pages array (standard signature)
-    const epubBlob: Blob = await mod.generateEpub("AksharaTantra Book", pages);
-
-    const url = URL.createObjectURL(epubBlob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `AksharaTantra-${new Date().toISOString().slice(0,10)}.epub`;
-    
-    // Ensure proper DOM handling for blob downloads
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
-    setStatus("✅ EPUB downloaded successfully");
-  } catch (err) {
-    console.error("EPUB export error:", err);
-    setStatus("❌ EPUB export failed");
-  }
-};
+  };
 
   /* --------------------------
         EXPORT: JSON
@@ -236,25 +238,17 @@ const handleDownloadEpub = async () => {
             onComplete={handleBulkComplete}
           />
 
-          <OcrCore
-            file={files[0] ?? null}
-            language={language}
-            onResult={handleSingleOcrResult}
-          />
-
           <TextCleaner text={editorText} onClean={handleClean} />
 
           {isVedicLanguage && (
             <VedicPitchTools
-              text={editorText}
-              onApply={(t) => setEditorText(t)}
+              onApplyPitch={(mark) => setEditorText(editorText + mark)}
             />
           )}
         </section>
 
         {/* PAGE LIST + EDITOR */}
         <section className="grid md:grid-cols-3 gap-6">
-          {/* LIST */}
           <div className="bg-white p-4 rounded shadow-md h-fit">
             <h2 className="font-semibold mb-2">Pages</h2>
 
@@ -275,9 +269,7 @@ const handleDownloadEpub = async () => {
                     className="text-left block w-full"
                   >
                     <div className="truncate text-sm">{p.slice(0, 120)}</div>
-                    <div className="text-xs text-gray-500">
-                      Page {i + 1}
-                    </div>
+                    <div className="text-xs text-gray-500">Page {i + 1}</div>
                   </button>
 
                   <div className="flex gap-2 mt-1">

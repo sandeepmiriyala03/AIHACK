@@ -81,11 +81,11 @@ export default function Navbar() {
             </Link>
           </li>
 
-              {/* -------  <li className="about" onClick={closeMenu}>
+               <li className="about" onClick={closeMenu}>
             <Link href="/Ocrwork" className="flex items-center gap-2">
               <TerminalIcon className="text-pink-500" /> OCRWORK
             </Link>
-          </li>------- */}
+          </li>
           <li className="install" onClick={closeMenu}>
             <InstallApp />
           </li>

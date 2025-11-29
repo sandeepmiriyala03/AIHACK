@@ -1,4 +1,4 @@
-// modules/aksharatantra/services/ocrWorker.ts
+
 import Tesseract from 'tesseract.js';
 
 export type OCRProgress = { status: string; progress?: number };
