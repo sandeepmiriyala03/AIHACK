@@ -32,7 +32,7 @@ export default function Navbar() {
             <img 
               src="/icon-512.png"
               alt="Logo"
-              className="h-7 w-7" 
+              className="h-4 w-4" 
             />
 
             <span>AksharaTantra</span>
