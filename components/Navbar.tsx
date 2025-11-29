@@ -40,7 +40,7 @@ export default function Navbar() {
           </li>
 
           <li className="about" onClick={closeMenu}>
-            <Link href="/Manuscript"> Manuscript</Link>
+            <Link href="/Vedic"> Vedic</Link>
           </li>
 
           <li className="install" onClick={closeMenu}>
