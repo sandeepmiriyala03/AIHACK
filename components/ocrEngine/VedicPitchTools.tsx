@@ -7,7 +7,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 export default function VedicPitchTools({
   onApplyPitch,
 }: {
-  onApplyPitch?: (mark: string) => void;
+  onApplyPitch: (type: "high" | "low") => void;
 }) {
   return (
     <Box display="flex" gap={2}>
@@ -15,18 +15,18 @@ export default function VedicPitchTools({
         variant="contained"
         color="success"
         startIcon={<ArrowUpwardIcon />}
-        onClick={() => onApplyPitch && onApplyPitch("̍")}
+        onClick={() => onApplyPitch("high")}
       >
-        High Pitch (Udatta)
+        High Pitch
       </Button>
 
       <Button
         variant="contained"
-        color="error"
+        color="primary"
         startIcon={<ArrowDownwardIcon />}
-        onClick={() => onApplyPitch && onApplyPitch("̱")}
+        onClick={() => onApplyPitch("low")}
       >
-        Low Pitch (Anudatta)
+        Low Pitch
       </Button>
     </Box>
   );

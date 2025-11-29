@@ -1,48 +1,85 @@
 "use client";
 
 export default function HtmlBookBuilder() {
-  return null; // UI will be handled in OcrEnginePage
+  return null;
 }
 
-// --- helper to escape basic HTML chars in page text ---
-function escapeHtml(text: string) {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-// -------- BOOK HTML BUILDER ENGINE -------- //
+// -------- BOOK HTML BUILDER ENGINE (WITH VEDIC CSS) -------- //
 export function buildHtmlBook(title: string, pages: string[]) {
-  const safeTitle = escapeHtml(title);
-  const bodyPages = pages
-    .map(
-      (p, i) => `
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>${title}</title>
+
+<style>
+  body {
+    font-family: "Noto Sans Telugu", serif;
+    padding: 40px;
+    line-height: 2;
+    font-size: 22px;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .page {
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px dashed #bbb;
+  }
+
+  /* ---- VEDIC HIGH PITCH ---- */
+  .hp-wrap {
+    position: relative;
+    display: inline-block;
+    padding: 0 1px;
+  }
+  .hp-wrap::before {
+    content: "|";
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 23px;
+  }
+
+  /* ---- VEDIC LOW PITCH ---- */
+  .lp-wrap {
+    position: relative;
+    display: inline-block;
+    padding: 0 1px;
+  }
+  .lp-wrap::after {
+    content: "‾";
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 22px;
+  }
+</style>
+</head>
+
+<body>
+<h1>${title}</h1>
+
+${pages
+  .map(
+    (p, i) => `
       <div class="page">
         <h2>Page ${i + 1}</h2>
-        <p>${escapeHtml(p).replace(/\n/g, "<br/>")}</p>
-      </div>`
-    )
-    .join("");
+        <div>${p.replace(/\n/g, "<br/>")}</div>
+      </div>
+    `
+  )
+  .join("")}
 
-  return `
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>${safeTitle}</title>
-    <style>
-      body { font-family: serif; padding: 40px; line-height: 1.7; }
-      h1 { text-align: center; }
-      .page { margin-bottom: 40px; border-bottom: 1px dashed #aaa; padding-bottom: 30px; }
-    </style>
-  </head>
-  <body>
-    <h1>${safeTitle}</h1>
-    ${bodyPages}
-  </body>
-  </html>
-  `;
+</body>
+</html>
+`;
 }
 
 export function downloadHtmlFile(html: string, filename: string) {
