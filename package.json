@@ -12,6 +12,10 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.5",
+    "@mui/material": "^7.3.5",
     "@tensorflow/tfjs": "^4.22.0",
     "compromise": "^14.14.4",
     "file-type": "^18.7.0",
@@ -32,6 +36,7 @@
     "pptx2json": "^0.0.10",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-icons": "^5.5.0",
     "react-select": "^5.10.2",
     "sharp": "^0.34.3",
     "tesseract.js": "^6.0.1",

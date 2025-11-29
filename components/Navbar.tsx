@@ -42,7 +42,9 @@ export default function Navbar() {
           <li className="about" onClick={closeMenu}>
             <Link href="/Media"> Media</Link>
           </li>
-
+        <li className="about" onClick={closeMenu}>
+            <Link href="/OCREngine"> OCREngine</Link>
+          </li>
           <li className="install" onClick={closeMenu}>
             <InstallApp />
           </li>
