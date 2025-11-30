@@ -181,6 +181,7 @@ export default function OcrWorkPage() {
   const handleDownloadHtml = async () => {
     setStatus("Building HTML...");
     try {
+      
       const mod = await import("@/components/bookEngine/HtmlBookBuilder");
       const html = mod.buildHtmlBook(bookTitle, pages);
       const blob = new Blob([html], { type: "text/html;charset=utf-8" });

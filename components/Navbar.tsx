@@ -11,6 +11,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import TerminalIcon from "@mui/icons-material/Terminal";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,34 +57,26 @@ export default function Navbar() {
               <UploadIcon className="text-blue-600" /> Upload
             </Link>
           </li>
-
-          <li className="upload" onClick={closeMenu}>
+        <li className="upload" onClick={closeMenu}>
             <Link href="/OCR" className="flex items-center gap-2">
               <ImageIcon className="text-green-600" /> OCR
             </Link>
           </li>
-
-          <li className="upload" onClick={closeMenu}>
+         
+         
+          <li className="about" onClick={closeMenu}>
+            <Link href="/Ocrwork" className="flex items-center gap-2">
+              <AutoFixHighIcon className="text-pink-500" /> RajaTantra Engine
+            </Link>
+          </li>
+           <li className="upload" onClick={closeMenu}>
             <Link href="/Sanskrit" className="flex items-center gap-2">
               <MenuBookIcon className="text-purple-600" /> यथाक्षरं पठनम्
             </Link>
           </li>
-
-          <li className="about" onClick={closeMenu}>
+           <li className="about" onClick={closeMenu}>
             <Link href="/Media" className="flex items-center gap-2">
               <CollectionsIcon className="text-yellow-600" /> Media
-            </Link>
-          </li>
-
-          <li className="about" onClick={closeMenu}>
-            <Link href="/OCREngine" className="flex items-center gap-2">
-              <TerminalIcon className="text-pink-500" /> OCREngine
-            </Link>
-          </li>
-
-               <li className="about" onClick={closeMenu}>
-            <Link href="/Ocrwork" className="flex items-center gap-2">
-              <TerminalIcon className="text-pink-500" /> OCRWORK
             </Link>
           </li>
           <li className="install" onClick={closeMenu}>
