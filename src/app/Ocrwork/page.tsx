@@ -20,6 +20,43 @@ import {
   TextField,
 } from "@mui/material";
 
+const ALL_LANGS = [
+  { value: "ara", label: "Arabic" },
+  { value: "asm", label: "Assamese" },
+  { value: "ben", label: "Bengali" },
+  { value: "bod", label: "Bodo" },
+  { value: "chi_sim", label: "Chinese (Simplified)" },
+  { value: "chi_tra", label: "Chinese (Traditional)" },
+  { value: "deu", label: "German" },
+  { value: "eng", label: "English" },
+  { value: "fra", label: "French" },
+  { value: "guj", label: "Gujarati" },
+  { value: "hin", label: "Hindi" },
+  { value: "ita", label: "Italian" },
+  { value: "jpn", label: "Japanese" },
+  { value: "kan", label: "Kannada" },
+  { value: "kor", label: "Korean" },
+  { value: "mal", label: "Malayalam" },
+  { value: "mar", label: "Marathi" },
+  { value: "nep", label: "Nepali" },
+  { value: "nld", label: "Dutch" },
+  { value: "ori", label: "Odia" },
+  { value: "osd", label: "Orientation and Script Detection (OSD)" },
+  { value: "pan", label: "Punjabi" },
+  { value: "por", label: "Portuguese" },
+  { value: "rus", label: "Russian" },
+  { value: "san", label: "Sanskrit" },
+  { value: "snd", label: "Sindhi" },
+  { value: "spa", label: "Spanish" },
+  { value: "swe", label: "Swedish" },
+  { value: "tam", label: "Tamil" },
+  { value: "tel", label: "Telugu" },
+  { value: "tha", label: "Thai" },
+  { value: "tur", label: "Turkish" },
+  { value: "urd", label: "Urdu" },
+  { value: "vie", label: "Vietnamese" },
+];
+
 export default function OcrWorkPage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -158,8 +195,24 @@ export default function OcrWorkPage() {
 
       <Box sx={{ p: 4, background: "#f5f5f5", minHeight: "100vh" }}>
         <Typography variant="h4" fontWeight="bold" textAlign="center" mb={3}>
-          🧠 AksharaTantra — OCR Workbench
+           AksharaTantra OCR engine 
         </Typography>
+
+   <Card sx={{ p: 2, mb: 4 }}>
+                <Typography variant="h6" fontWeight="bold">
+                  About engine 
+                </Typography>
+              <Typography fontSize={15} mt={1} color="gray">
+        1️⃣ Works fully offline — all OCR & processing happen inside your browser <br />
+        2️⃣ Supports 30+ languages including Telugu, Sanskrit, Hindi, English & more <br />
+        3️⃣ Upload multiple scanned images and run Bulk OCR instantly <br />
+        4️⃣ Clean and fix OCR text with smart spacing, noise removal & Unicode repair <br />
+        5️⃣ Edit, reorder and refine pages using the built-in OCR editor <br />
+        6️⃣ Apply Vedic High 🔼 & Low 🔽 pitch marks for Telugu / Sanskrit chanting <br />
+        7️⃣ Export your book as HTML, EPUB, or JSON with one click <br />
+      </Typography>
+
+        </Card>
 
         {/* HOW TO USE */}
         <Card sx={{ p: 2, mb: 4 }}>
@@ -205,16 +258,23 @@ export default function OcrWorkPage() {
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <div style={{ flex: 1, minWidth: 250 }}>
               <Typography fontWeight="bold">OCR Language</Typography>
-              <Select
-                fullWidth
-                value={language}
-                onChange={(e) => setLanguage(e.target.value as string)}
-              >
-                <MenuItem value="tel">Telugu</MenuItem>
-                <MenuItem value="san">Sanskrit</MenuItem>
-                <MenuItem value="hin">Hindi</MenuItem>
-                <MenuItem value="eng">English</MenuItem>
-              </Select>
+
+            <Select
+              fullWidth
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as string)}
+            >
+              {ALL_LANGS
+                .slice() // clone array
+                .sort((a, b) => a.label.localeCompare(b.label)) // A-Z sorting
+                .map((lang) => (
+                  <MenuItem key={lang.value} value={lang.value}>
+                    {lang.label}
+                  </MenuItem>
+                ))}
+            </Select>
+
+             
             </div>
 
             <div style={{ flex: 1, minWidth: 250 }}>
