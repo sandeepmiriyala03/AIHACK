@@ -124,7 +124,7 @@ export default function OcrWorkPage() {
     const timer = setTimeout(() => {
       setOcrRunning(true);
       setStatus("Auto-starting OCR...");
-    }, 10000);
+    }, 30000);
 
     return () => clearTimeout(timer);
   }, [files, language]);
@@ -242,7 +242,7 @@ export default function OcrWorkPage() {
             <Typography color="gray">✔️ 100% in-browser OCR — nothing uploaded to any server</Typography>
             <Typography color="gray">✔️ Supports 32+ Indian & global languages</Typography>
             <Typography color="gray">✔️ Bulk OCR for multiple scanned pages</Typography>
-            <Typography color="gray">✔️ After uploading images, OCR auto-starts in 10 seconds (no manual click needed)</Typography>
+            <Typography color="gray">✔️ After uploading images, OCR auto-starts in 30 seconds (no manual click needed)</Typography>
 
             <Typography color="gray">✔️ Smart cleanup: spacing, noise removal & Unicode fixing</Typography>
             <Typography color="gray">✔️ Built-in editor to refine, correct and reorder pages</Typography>
