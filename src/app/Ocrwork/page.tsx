@@ -224,18 +224,43 @@ export default function OcrWorkPage() {
 
       <Box sx={{ p: 4, background: "#f5f5f5", minHeight: "100vh" }}>
         <Typography variant="h4" fontWeight="bold" textAlign="center" mb={3}>
-          AksharaTantra OCR Engine
+         RajaTantra OCR Engine
         </Typography>
 
-        {/* HOW TO USE */}
-        <Card sx={{ p: 2, mb: 4 }}>
-          <Typography variant="h6" fontWeight="bold">
-            About & How to Use
-          </Typography>
+      <Card sx={{ p: 2, mb: 4 }}>
+  <Typography variant="h6" fontWeight="bold">
+    About & How to Use
+  </Typography>
+
           <Typography fontSize={15} mt={1} color="gray">
-            Upload images → Validate → Start OCR → Edit → Export (HTML / EPUB / JSON)
+            RajaTantra OCR Engine  runs fully inside your browser — fast, private      
+            Supports 32+ languages including Telugu, Sanskrit, Hindi, English, and more.
           </Typography>
+
+          <Box mt={2} sx={{ lineHeight: 1.8 }}>
+            <Typography fontWeight="bold">✨ Key Features</Typography>
+            <Typography color="gray">✔️ 100% in-browser OCR — nothing uploaded to any server</Typography>
+            <Typography color="gray">✔️ Supports 32+ Indian & global languages</Typography>
+            <Typography color="gray">✔️ Bulk OCR for multiple scanned pages</Typography>
+            <Typography color="gray">✔️ After uploading images, OCR auto-starts in 10 seconds (no manual click needed)</Typography>
+
+            <Typography color="gray">✔️ Smart cleanup: spacing, noise removal & Unicode fixing</Typography>
+            <Typography color="gray">✔️ Built-in editor to refine, correct and reorder pages</Typography>
+            <Typography color="gray">✔️ Vedic High 🔼 & Low 🔽 pitch marks for Sanskrit/Telugu</Typography>
+            <Typography color="gray">✔️ Export as HTML, EPUB, or JSON</Typography>
+          </Box>
+
+          <Box mt={2} sx={{ lineHeight: 1.8 }}>
+            <Typography fontWeight="bold">🪄 How to Use</Typography>
+            <Typography color="gray">➤ Select the OCR language</Typography>
+            <Typography color="gray">➤ Upload scanned images (drag & drop supported)</Typography>
+            <Typography color="gray">➤ Click “Start OCR” to extract text</Typography>
+            <Typography color="gray">➤ Edit, clean and refine the extracted text</Typography>
+            <Typography color="gray">➤ (Optional) Apply High/Low Vedic pitch marks</Typography>
+            <Typography color="gray">➤ Export your output as HTML, EPUB or JSON</Typography>
+          </Box>
         </Card>
+
 
         {/* BOOK META */}
         <Card sx={{ p: 2, mb: 4 }}>
