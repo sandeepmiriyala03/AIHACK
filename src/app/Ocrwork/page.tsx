@@ -203,12 +203,12 @@ export default function OcrWorkPage() {
                   About engine 
                 </Typography>
               <Typography fontSize={15} mt={1} color="gray">
-        1️⃣ Works fully offline — all OCR & processing happen inside your browser <br />
-        2️⃣ Supports 30+ languages including Telugu, Sanskrit, Hindi, English & more <br />
+        1️⃣ Works fully  all OCR & processing happen inside your browser <br />
+        2️⃣ Supports 32+ languages including Telugu, Sanskrit, Hindi, English & more <br />
         3️⃣ Upload multiple scanned images and run Bulk OCR instantly <br />
         4️⃣ Clean and fix OCR text with smart spacing, noise removal & Unicode repair <br />
         5️⃣ Edit, reorder and refine pages using the built-in OCR editor <br />
-        6️⃣ Apply Vedic High 🔼 & Low 🔽 pitch marks for Telugu / Sanskrit chanting <br />
+        6️⃣ Apply Vedic High 🔼 & Low 🔽 pitch marks for Telugu / Sanskrit chanting. <br />
         7️⃣ Export your book as HTML, EPUB, or JSON with one click <br />
       </Typography>
 

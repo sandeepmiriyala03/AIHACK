@@ -13,10 +13,22 @@ export default function ShareSection() {
       : "https://aksharatantra.vercel.app";
 
   const shareData = {
-    title: "AksharaTantra – Multilingual OCR & Vedic Engine",
-    text: "Try AksharaTantra — Fast, private OCR for Telugu, Sanskrit & 34+ languages.",
-    url: currentUrl,
-  };
+            title: "AksharaTantra – Multilingual OCR & Vedic Engine",
+            text:
+              "AksharaTantra – A complete offline OCR + Vedic processing engine built for accuracy, privacy & multilingual support.\n\n" +
+              "Extract text instantly from Telugu, Sanskrit, Hindi, English & 34+ languages — 100% offline and private.\n\n" +
+              "🌍 Multilingual OCR (34+ languages)\n" +
+              "🧠 Smart Vedic pitch tools (High/Low)\n" +
+              "⚡ Fast, local OCR — no data uploaded\n" +
+              "🧹 Text cleanup: spacing, noise & Unicode fixes\n" +
+              "📤 Upload single or bulk images\n" +
+              "✏️ Edit, reorder & manage OCR pages\n" +
+              "📚 Export: HTML, EPUB, JSON or full digital book\n" +
+              "📱 Works as an installable PWA on any device\n\n" +
+              "Your data stays on your device — no cloud, no tracking, full privacy.",
+            url: currentUrl,
+          };
+
 
   const handleNativeShare = async () => {
     if (navigator.share) {
