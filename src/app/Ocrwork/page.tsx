@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 
@@ -62,37 +62,90 @@ export default function OcrWorkPage() {
 
   const [files, setFiles] = useState<File[]>([]);
   const [pages, setPages] = useState<string[]>([]);
-  const [currentIdx, setCurrentIdx] = useState<number>(-1);
-  const [editorText, setEditorText] = useState<string>("");
+  const [currentIdx, setCurrentIdx] = useState(-1);
+  const [editorText, setEditorText] = useState("");
 
   const [bookTitle, setBookTitle] = useState("Untitled Book");
-  const [plannedPages, setPlannedPages] = useState<number>(0);
+  const [plannedPages, setPlannedPages] = useState(0);
 
-  const [language, setLanguage] = useState<string>("tel");
-  const [status, setStatus] = useState<string>("Idle");
+  const [language, setLanguage] = useState("");
+  const [status, setStatus] = useState("Idle");
 
   const isVedicLanguage = ["tel", "san", "sa"].includes(language);
 
-  /* FILE UPLOAD */
+  const [ocrDone, setOcrDone] = useState(false);
+  const [ocrRunning, setOcrRunning] = useState(false);
+  const [filesTouched, setFilesTouched] = useState(false);
+
+  /* ---------------- FILE SELECT ---------------- */
   const handleFilesSelected = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const list = ev.target.files;
-    if (!list) return;
-    const arr = Array.from(list);
+    if (!ev.target.files) return;
+    const arr = Array.from(ev.target.files);
+
     setFiles(arr);
-    setStatus(`${arr.length} file(s) ready`);
+    setFilesTouched(true);
+    setStatus(`${arr.length} file(s) selected`);
+
+    resetOcrState();
   };
 
-  /* PAGE MANAGEMENT */
-  const addPages = (texts: string[]) => {
-    setPages((prev) => [...prev, ...texts]);
-    setStatus(`Added ${texts.length} page(s)`);
+  const resetOcrState = () => {
+    setOcrDone(false);
+    setOcrRunning(false);
+    setPages([]);
+    setCurrentIdx(-1);
+    setEditorText("");
   };
 
-  const handleBulkComplete = (texts: string[]) => addPages(texts);
+  /* ---------------- DRAG DROP ---------------- */
+  const handleDrop = useCallback((ev: React.DragEvent) => {
+    ev.preventDefault();
+    const dropped = Array.from(ev.dataTransfer.files).filter((f) =>
+      f.type.startsWith("image/")
+    );
+    if (!dropped.length) return;
 
+    setFiles((prev) => [...prev, ...dropped]);
+    setFilesTouched(true);
+    setStatus(`${dropped.length} image(s) added`);
+
+    resetOcrState();
+  }, []);
+
+  const handleDragOver = (ev: React.DragEvent) => {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "copy";
+  };
+
+  /* ---------------- AUTO START OCR AFTER 10 SEC ---------------- */
+  useEffect(() => {
+    if (!files.length || !language || ocrRunning || ocrDone) return;
+
+    const timer = setTimeout(() => {
+      setOcrRunning(true);
+      setStatus("Auto-starting OCR...");
+    }, 10000);
+
+    return () => clearTimeout(timer);
+  }, [files, language]);
+
+  /* ---------------- OCR COMPLETE ---------------- */
+  const handleBulkComplete = (texts: string[]) => {
+    setPages(texts);
+    if (texts.length) {
+      setCurrentIdx(0);
+      setEditorText(texts[0]);
+      setStatus(`OCR done — ${texts.length} page(s)`);
+    }
+    setOcrRunning(false);
+    setOcrDone(texts.length > 0);
+  };
+
+  /* ---------------- PAGE EDITING ---------------- */
   const openPageForEdit = (index: number) => {
     setCurrentIdx(index);
-    setEditorText(pages[index]);
+    setEditorText(pages[index] ?? "");
+    if (pages.length) setOcrDone(true);
   };
 
   const saveEditedPage = () => {
@@ -105,19 +158,18 @@ export default function OcrWorkPage() {
 
   const deletePage = () => {
     if (currentIdx < 0) return;
+    if (!confirm(`Delete page ${currentIdx + 1}?`)) return;
+
     const updated = pages.filter((_, idx) => idx !== currentIdx);
     setPages(updated);
     setEditorText("");
     setCurrentIdx(-1);
+
     setStatus("Page deleted");
+    if (!updated.length) setOcrDone(false);
   };
 
-  const clearText = () => {
-    setEditorText("");
-    setStatus("Editor cleared");
-  };
-
-  /* EXPORT JSON */
+  /* ---------------- EXPORT ---------------- */
   const handleDownloadJson = () => {
     exportJson(
       { bookTitle, language, pages, createdAt: new Date().toISOString() },
@@ -126,131 +178,82 @@ export default function OcrWorkPage() {
     setStatus("JSON downloaded");
   };
 
-  /* EXPORT HTML */
   const handleDownloadHtml = async () => {
     setStatus("Building HTML...");
     try {
       const mod = await import("@/components/bookEngine/HtmlBookBuilder");
-      if (typeof mod.buildHtmlBook !== "function") {
-        setStatus("❌ HtmlBookBuilder missing");
-        return;
-      }
-
       const html = mod.buildHtmlBook(bookTitle, pages);
       const blob = new Blob([html], { type: "text/html;charset=utf-8" });
       const url = URL.createObjectURL(blob);
 
       const a = document.createElement("a");
       a.href = url;
-      a.download =
-        `${bookTitle.replace(/\s+/g, "_")}-${new Date()
-          .toISOString()
-          .slice(0, 10)}.html`;
-      document.body.appendChild(a);
+      a.download = `${bookTitle.replace(/\s+/g, "_")}.html`;
       a.click();
-      document.body.removeChild(a);
 
       URL.revokeObjectURL(url);
-      setStatus("✅ HTML downloaded");
+      setStatus("HTML downloaded");
     } catch (err) {
-      console.error(err);
-      setStatus("❌ HTML export failed");
+      setStatus("HTML export failed");
     }
   };
 
-  /* EXPORT EPUB */
   const handleDownloadEpub = async () => {
     setStatus("Building EPUB...");
     try {
       const mod = await import("@/components/bookEngine/EpubGenerator");
-      if (typeof mod.generateEpub !== "function") {
-        setStatus("❌ EpubGenerator missing");
-        return;
-      }
-
       const blob = await mod.generateEpub(bookTitle, pages);
-      const url = URL.createObjectURL(blob);
 
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download =
-        `${bookTitle.replace(/\s+/g, "_")}-${new Date()
-          .toISOString()
-          .slice(0, 10)}.epub`;
-      document.body.appendChild(a);
+      a.download = `${bookTitle.replace(/\s+/g, "_")}.epub`;
       a.click();
-      document.body.removeChild(a);
 
       URL.revokeObjectURL(url);
-      setStatus("✅ EPUB downloaded");
+      setStatus("EPUB downloaded");
     } catch (err) {
-      console.error(err);
-      setStatus("❌ EPUB export failed");
+      setStatus("EPUB export failed");
     }
   };
 
+  /* ---------------- RENDER ---------------- */
   return (
     <>
       <Navbar />
 
       <Box sx={{ p: 4, background: "#f5f5f5", minHeight: "100vh" }}>
         <Typography variant="h4" fontWeight="bold" textAlign="center" mb={3}>
-           AksharaTantra OCR engine 
+          AksharaTantra OCR Engine
         </Typography>
-
-   <Card sx={{ p: 2, mb: 4 }}>
-                <Typography variant="h6" fontWeight="bold">
-                  About engine 
-                </Typography>
-              <Typography fontSize={15} mt={1} color="gray">
-        1️⃣ Works fully  all OCR & processing happen inside your browser <br />
-        2️⃣ Supports 32+ languages including Telugu, Sanskrit, Hindi, English & more <br />
-        3️⃣ Upload multiple scanned images and run Bulk OCR instantly <br />
-        4️⃣ Clean and fix OCR text with smart spacing, noise removal & Unicode repair <br />
-        5️⃣ Edit, reorder and refine pages using the built-in OCR editor <br />
-        6️⃣ Apply Vedic High 🔼 & Low 🔽 pitch marks for Telugu / Sanskrit chanting. <br />
-        7️⃣ Export your book as HTML, EPUB, or JSON with one click <br />
-      </Typography>
-
-        </Card>
 
         {/* HOW TO USE */}
         <Card sx={{ p: 2, mb: 4 }}>
           <Typography variant="h6" fontWeight="bold">
-            📘 How to Use
+            About & How to Use
           </Typography>
           <Typography fontSize={15} mt={1} color="gray">
-            1️⃣ Select language <br />
-            2️⃣ Upload scanned images <br />
-            3️⃣ Run Bulk OCR <br />
-            4️⃣ Edit text <br />
-            5️⃣ Apply High/Low pitch <br />
-            6️⃣ Export HTML / EPUB / JSON <br />
+            Upload images → Validate → Start OCR → Edit → Export (HTML / EPUB / JSON)
           </Typography>
         </Card>
 
         {/* BOOK META */}
         <Card sx={{ p: 2, mb: 4 }}>
-          <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 250 }}>
-              <Typography fontWeight="bold">Book Title</Typography>
-              <TextField
-                fullWidth
-                value={bookTitle}
-                onChange={(e) => setBookTitle(e.target.value)}
-              />
-            </div>
-
-            <div style={{ flex: 1, minWidth: 250 }}>
-              <Typography fontWeight="bold">Planned Pages</Typography>
-              <TextField
-                type="number"
-                fullWidth
-                value={plannedPages}
-                onChange={(e) => setPlannedPages(Number(e.target.value))}
-              />
-            </div>
-          </div>
+          <Box display="flex" gap={2} flexWrap="wrap">
+            <TextField
+              label="Book Title"
+              fullWidth
+              value={bookTitle}
+              onChange={(e) => setBookTitle(e.target.value)}
+            />
+            <TextField
+              label="Planned Pages"
+              type="number"
+              fullWidth
+              value={plannedPages}
+              onChange={(e) => setPlannedPages(Number(e.target.value))}
+            />
+          </Box>
         </Card>
 
         {/* LANGUAGE + UPLOAD */}
@@ -259,41 +262,107 @@ export default function OcrWorkPage() {
             <div style={{ flex: 1, minWidth: 250 }}>
               <Typography fontWeight="bold">OCR Language</Typography>
 
-            <Select
-              fullWidth
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as string)}
-            >
-              {ALL_LANGS
-                .slice() // clone array
-                .sort((a, b) => a.label.localeCompare(b.label)) // A-Z sorting
-                .map((lang) => (
-                  <MenuItem key={lang.value} value={lang.value}>
-                    {lang.label}
-                  </MenuItem>
-                ))}
-            </Select>
-
-             
+              <Select
+                fullWidth
+                displayEmpty
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as string)}
+                renderValue={(selected) => {
+                  if (!selected)
+                    return <em style={{ color: "#888" }}>Select OCR Language</em>;
+                  return ALL_LANGS.find((l) => l.value === selected)?.label;
+                }}
+              >
+                <MenuItem value="" disabled>
+                  <em>Select OCR Language</em>
+                </MenuItem>
+                {ALL_LANGS.sort((a, b) => a.label.localeCompare(b.label)).map(
+                  (lang) => (
+                    <MenuItem key={lang.value} value={lang.value}>
+                      {lang.label}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
             </div>
 
+            {/* UPLOAD */}
             <div style={{ flex: 1, minWidth: 250 }}>
               <Typography fontWeight="bold">Upload Images</Typography>
-              <Box display="flex" gap={2}>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleFilesSelected}
-                />
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={handleFilesSelected}
+              />
+
+              <Box
+                sx={{
+                  mt: 1,
+                  p: 2,
+                  border: "2px dashed #bdbdbd",
+                  borderRadius: 2,
+                  textAlign: "center",
+                  background: "#fafafa",
+                  cursor: "pointer",
+                  "&:hover": { borderColor: "#1976d2", background: "#f0f7ff" },
+                }}
+                onClick={() => fileInputRef.current?.click()}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+              >
+                <Typography fontWeight="bold">📂 Click to Select Images</Typography>
+                <Typography color="gray">or drag & drop here</Typography>
+
+                {files.length > 0 && (
+                  <Typography mt={1} color="green">
+                    {files.length} image(s) selected
+                  </Typography>
+                )}
+              </Box>
+
+              <Box mt={2} display="flex" gap={1}>
                 <Button
                   variant="contained"
-                  onClick={() =>
-                    setStatus(files.length ? "Files ready" : "No files")
-                  }
+                  fullWidth
+                  onClick={() => {
+                    if (!files.length) return setStatus("No files selected");
+                    if (!language) return setStatus("Select OCR language");
+                    setFilesTouched(true);
+                    setStatus("Images ready for OCR");
+                  }}
                 >
                   Validate
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setFiles([]);
+                    setFilesTouched(false);
+                    resetOcrState();
+                    setStatus("Files cleared");
+                  }}
+                >
+                  Clear
+                </Button>
+              </Box>
+
+              <Box mt={1}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  fullWidth
+                  disabled={!files.length || !language || ocrRunning || !filesTouched}
+                  onClick={() => {
+                    setOcrRunning(true);
+                    setStatus("Starting OCR...");
+                  }}
+                >
+                  Start OCR
                 </Button>
               </Box>
             </div>
@@ -302,7 +371,7 @@ export default function OcrWorkPage() {
 
         {/* MAIN LAYOUT */}
         <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-          {/* LEFT SIDE */}
+          {/* LEFT: PAGE LIST */}
           <div style={{ flex: 1, minWidth: 250, maxWidth: 320 }}>
             <Card sx={{ p: 2 }}>
               <Typography fontWeight="bold">Pages ({pages.length})</Typography>
@@ -318,9 +387,7 @@ export default function OcrWorkPage() {
                     }}
                     onClick={() => openPageForEdit(i)}
                   >
-                    <Typography variant="body2">
-                      {p.slice(0, 120)}...
-                    </Typography>
+                    <Typography variant="body2">{p.slice(0, 120)}...</Typography>
                     <Typography variant="caption">Page {i + 1}</Typography>
                   </Card>
                 ))}
@@ -328,18 +395,28 @@ export default function OcrWorkPage() {
             </Card>
           </div>
 
-          {/* RIGHT SIDE */}
+          {/* RIGHT: OCR + EDITOR */}
           <div style={{ flex: 3, minWidth: 300 }}>
             <Card sx={{ p: 2, mb: 2 }}>
               <Box display="flex" flexWrap="wrap" gap={2} mb={2}>
+                {/* OCR Processor */}
                 <BulkOcrProcessor
                   files={files}
                   language={language}
+                  autoStart={ocrRunning}
                   onComplete={handleBulkComplete}
                 />
 
-                <TextCleaner text={editorText} onClean={clearText} />
+                {/* Cleaner */}
+                <TextCleaner
+                  text={editorText}
+                  onClean={(cleaned) => {
+                    setEditorText(cleaned);
+                    setStatus("Text cleaned");
+                  }}
+                />
 
+                {/* Vedic Pitch */}
                 {isVedicLanguage && (
                   <VedicPitchTools
                     onApplyPitch={(type) => {
@@ -368,16 +445,26 @@ export default function OcrWorkPage() {
                   />
                 )}
 
-                <Button variant="outlined" onClick={clearText}>
+                {/* Clear */}
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setEditorText("");
+                    setStatus("Editor cleared");
+                  }}
+                  disabled={!ocrDone || ocrRunning}
+                >
                   Clear Text
                 </Button>
 
+                {/* Save/Delete */}
                 {currentIdx >= 0 && (
                   <>
                     <Button
                       variant="contained"
                       color="success"
                       onClick={saveEditedPage}
+                      disabled={!ocrDone || ocrRunning}
                     >
                       Save Page
                     </Button>
@@ -385,6 +472,7 @@ export default function OcrWorkPage() {
                       variant="contained"
                       color="error"
                       onClick={deletePage}
+                      disabled={!ocrDone || ocrRunning}
                     >
                       Delete Page
                     </Button>
@@ -409,41 +497,41 @@ export default function OcrWorkPage() {
                   lineHeight: 1.6,
                   resize: "vertical",
                   fontFamily: "inherit",
-                  background: "white",
+                  background: ocrRunning ? "#f5f5f5" : "white",
                   overflowY: "auto",
-                  boxSizing: "border-box",
                 }}
+                disabled={ocrRunning || !ocrDone}
                 placeholder="Edit OCR text here..."
               />
             </Card>
 
-            <Card sx={{ p: 2 }}>
-              <Typography fontWeight="bold" mb={2}>
-                Export Options
-              </Typography>
-
-              <Box display="flex" gap={2} flexWrap="wrap">
-                <Button variant="contained" onClick={handleDownloadHtml}>
-                  Export HTML
-                </Button>
-
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleDownloadEpub}
-                >
-                  Export EPUB
-                </Button>
-
-                <Button
-                  variant="contained"
-                  color="info"
-                  onClick={handleDownloadJson}
-                >
-                  Export JSON
-                </Button>
-              </Box>
-            </Card>
+            {/* EXPORT SECTION - only after OCR */}
+            {ocrDone && (
+              <Card sx={{ p: 2 }}>
+                <Typography fontWeight="bold" mb={2}>
+                  Export Options
+                </Typography>
+                <Box display="flex" gap={2} flexWrap="wrap">
+                  <Button variant="contained" onClick={handleDownloadHtml}>
+                    Export HTML
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleDownloadEpub}
+                  >
+                    Export EPUB
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="info"
+                    onClick={handleDownloadJson}
+                  >
+                    Export JSON
+                  </Button>
+                </Box>
+              </Card>
+            )}
           </div>
         </div>
 

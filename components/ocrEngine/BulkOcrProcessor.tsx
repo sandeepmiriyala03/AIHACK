@@ -1,30 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, Typography, LinearProgress } from "@mui/material";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-
 import { ocrRecognizeImage } from "@/components/ocrEngine/ocrWorker";
 
 const LANG_LABELS: Record<string, string> = {
-  tel: "Telugu",
-  san: "Sanskrit",
-  sa: "Sanskrit",
-  hin: "Hindi",
+  ara: "Arabic",
+  asm: "Assamese",
+  ben: "Bengali",
+  bod: "Bodo",
+  chi_sim: "Chinese (Simplified)",
+  chi_tra: "Chinese (Traditional)",
+  deu: "German",
   eng: "English",
-  tam: "Tamil",
+  fra: "French",
+  guj: "Gujarati",
+  hin: "Hindi",
+  ita: "Italian",
+  jpn: "Japanese",
   kan: "Kannada",
+  kor: "Korean",
   mal: "Malayalam",
+  mar: "Marathi",
+  nep: "Nepali",
+  nld: "Dutch",
+  ori: "Odia",
+  osd: "Orientation & Script Detection",
+  pan: "Punjabi",
+  por: "Portuguese",
+  rus: "Russian",
+  san: "Sanskrit",
+  snd: "Sindhi",
+  spa: "Spanish",
+  swe: "Swedish",
+  tam: "Tamil",
+  tel: "Telugu",
+  tha: "Thai",
+  tur: "Turkish",
+  urd: "Urdu",
+  vie: "Vietnamese",
+
+  // aliases
+  sa: "Sanskrit",
 };
 
+
 export default function BulkOcrProcessor({
-  files = [],          // 🔥 DEFAULT VALUE (fixes crash)
+  files = [],
   language,
   onComplete,
+  autoStart = false, // NEW PROP
 }: {
-  files?: File[];      // 🔥 optional type (fixes crash)
+  files?: File[];
   language: string;
   onComplete?: (results: string[]) => void;
+  autoStart?: boolean; // NEW PROP
 }) {
   const [processing, setProcessing] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -32,7 +63,7 @@ export default function BulkOcrProcessor({
   const [progressText, setProgressText] = useState("");
 
   const startBulk = async () => {
-    if (!files || files.length === 0) return;   // 🔥 safe guard
+    if (!files || files.length === 0) return;
 
     setProcessing(true);
     setCurrentPage(0);
@@ -47,12 +78,9 @@ export default function BulkOcrProcessor({
 
       const text = await ocrRecognizeImage(files[i], language, (m) => {
         if (m.status === "recognizing text") {
-          const pct = ((m.progress ?? 0) * 100) | 0;
-
-          setProgressText(
-            `Page ${i + 1}/${files.length} — OCR ${langLabel}: ${pct}%`
-          );
+          const pct = Math.floor((m.progress ?? 0) * 100);
           setProgress(pct);
+          setProgressText(`Page ${i + 1}/${files.length} — OCR ${langLabel}: ${pct}%`);
         }
       });
 
@@ -66,23 +94,24 @@ export default function BulkOcrProcessor({
     onComplete?.(results);
   };
 
+  // Auto-start OCR when autoStart becomes true
+  useEffect(() => {
+    if (autoStart && !processing && files.length > 0) {
+      startBulk();
+    }
+  }, [autoStart]);
+
   return (
     <Box>
       <Button
         variant="contained"
         color="secondary"
-        disabled={processing || files.length === 0}   // 🔥 safe: always array
+        disabled={processing || files.length === 0}
         onClick={startBulk}
         startIcon={<AutoFixHighIcon />}
       >
         {processing ? "Processing..." : "Run Bulk OCR"}
       </Button>
-
-      {files.length === 0 && (
-        <Typography color="text.secondary" mt={1}>
-          Upload images first.
-        </Typography>
-      )}
 
       {processing && (
         <Box mt={2}>
