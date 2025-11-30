@@ -91,6 +91,35 @@ export default function About() {
               <li>Simple UI for all age groups</li>
             </ul>
           </div>
+          {/* RAJATANTRA ENGINE SECTION */}
+          <div className={sectionBox}>
+            <h2 className={title}>
+              <BoltIcon className="text-orange-500" /> RajaTantra OCR Engine
+            </h2>
+
+            <p className={content}>
+              RajaTantra is an advanced OCR + Vedic processing engine built inside AksharaTantra.
+              It provides faster bulk OCR, smarter cleanup, automatic OCR start after image upload,
+              and advanced Vedic pitch-mark tools — all running fully offline inside your browser.
+            </p>
+
+            <p className={content + " mt-4"}>
+              Ideal for scanned books, manuscripts, traditional scripts, Vedic recitation texts,
+              and bulk page processing.
+            </p>
+
+            <div className="mt-6">
+              <a
+                href="/Ocrwork"
+                className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg 
+                          rounded-full shadow-md transition-transform hover:scale-105 inline-block"
+              >
+                ⚡ Try RajaTantra Engine
+              </a>
+            </div>
+          </div>
+
+
 
           {/* PRIVACY */}
           <div className={sectionBox}>
