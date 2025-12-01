@@ -1,70 +1,59 @@
 /* ================================
-   OCR Scanner - Enhanced Navbar
-   Modern & Professional Design
+   AksharaTantra Enhanced Navbar
+   Modern OCR-focused Design
 ================================ */
-
-/* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap');
 
 /* ================================
-   Navbar Design Tokens
+   CSS Variables
 ================================ */
 :root {
-  /* Navbar Colors */
+  /* Colors - OCR Professional Theme */
   --nav-bg: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  --nav-bg-scrolled: rgba(255, 255, 255, 0.95);
   --nav-border: rgba(6, 182, 212, 0.15);
   --nav-shadow: 0 4px 24px rgba(6, 182, 212, 0.12);
-  --nav-shadow-hover: 0 8px 32px rgba(6, 182, 212, 0.18);
+  --nav-shadow-scrolled: 0 8px 32px rgba(6, 182, 212, 0.18);
   
   /* Logo Colors */
   --logo-gradient: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
   --logo-text: #0f172a;
-  --logo-hover: #06b6d4;
+  --logo-accent: #06b6d4;
   
   /* Nav Item Colors */
-  --nav-item-bg: transparent;
-  --nav-item-hover: rgba(6, 182, 212, 0.08);
-  --nav-item-active: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
   --nav-item-text: #334155;
-  --nav-item-text-hover: #06b6d4;
-  --nav-item-text-active: #ffffff;
-  
-  /* Special Button Colors */
-  --nav-upload: linear-gradient(135deg, #5674ff 0%, #3b59d1 100%);
-  --nav-upload-shadow: rgba(86, 116, 255, 0.3);
-  
-  /* FAB Colors */
-  --fab-bg: linear-gradient(135deg, #5674ff 0%, #3b59d1 100%);
-  --fab-shadow: rgba(86, 116, 255, 0.35);
-  --fab-hover-shadow: rgba(86, 116, 255, 0.5);
+  --nav-item-hover: rgba(6, 182, 212, 0.08);
+  --nav-item-active: #06b6d4;
+  --nav-special: linear-gradient(135deg, #5674ff 0%, #3b59d1 100%);
   
   /* Mobile Menu */
   --mobile-menu-bg: rgba(255, 255, 255, 0.98);
-  --mobile-backdrop: rgba(6, 182, 212, 0.1);
+  --mobile-overlay: rgba(0, 0, 0, 0.5);
   
   /* Transitions */
-  --nav-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --nav-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 /* ================================
-   Base Navbar
+   Base Navbar Styles
 ================================ */
 .navbar {
   background: var(--nav-bg);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 999;
   padding: 1rem 0;
   border-bottom: 1px solid var(--nav-border);
   box-shadow: var(--nav-shadow);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  transition: var(--nav-transition);
-  animation: slideDown 0.5s ease-out;
+  transition: all var(--transition-base);
+  animation: navSlideDown 0.5s ease-out;
 }
 
-@keyframes slideDown {
+@keyframes navSlideDown {
   from {
     opacity: 0;
     transform: translateY(-20px);
@@ -77,8 +66,8 @@
 
 .navbar.scrolled {
   padding: 0.75rem 0;
-  box-shadow: var(--nav-shadow-hover);
-  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--nav-shadow-scrolled);
+  background: var(--nav-bg-scrolled);
 }
 
 /* ================================
@@ -98,22 +87,25 @@
    Logo Section
 ================================ */
 .logo {
+  position: relative;
+  z-index: 1001;
+}
+
+.logo-link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  cursor: pointer;
   text-decoration: none;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
   font-weight: 700;
   font-size: 1.5rem;
   color: var(--logo-text);
+  transition: var(--transition-base);
   position: relative;
-  transition: var(--nav-transition);
-  z-index: 1;
 }
 
 /* Logo underline animation */
-.logo::after {
+.logo-link::after {
   content: '';
   position: absolute;
   bottom: -4px;
@@ -122,34 +114,20 @@
   height: 3px;
   background: var(--logo-gradient);
   border-radius: 2px;
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width var(--transition-slow);
 }
 
-.logo:hover::after {
+.logo-link:hover::after {
   width: 100%;
 }
 
-.logo:hover {
+.logo-link:hover {
+  color: var(--logo-accent);
   transform: translateY(-2px);
-  color: var(--logo-hover);
 }
 
-/* Logo Icon/Image */
-.logo img {
-  height: 40px;
-  width: 40px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.3));
-  transition: var(--nav-bounce);
-}
-
-.logo:hover img {
-  transform: rotate(-5deg) scale(1.1);
-  filter: drop-shadow(0 4px 12px rgba(6, 182, 212, 0.4));
-}
-
-/* Logo Icon Alternative (if using div instead of img) */
-.logo-icon {
+/* Logo Icon Wrapper */
+.logo-icon-wrapper {
   width: 40px;
   height: 40px;
   display: flex;
@@ -157,15 +135,65 @@
   justify-content: center;
   background: var(--logo-gradient);
   border-radius: 12px;
-  color: white;
-  font-size: 1.5rem;
+  padding: 6px;
   box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
-  transition: var(--nav-bounce);
+  transition: var(--transition-bounce);
 }
 
-.logo:hover .logo-icon {
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.logo-link:hover .logo-icon-wrapper {
   transform: rotate(-5deg) scale(1.1);
   box-shadow: 0 6px 16px rgba(6, 182, 212, 0.35);
+}
+
+/* Logo Text */
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.logo-text-accent {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+/* ================================
+   Mobile Menu Toggle
+================================ */
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--logo-accent);
+  transition: var(--transition-base);
+  z-index: 1001;
+  position: relative;
+}
+
+.menu-toggle:hover {
+  background: var(--nav-item-hover);
+  transform: scale(1.05);
+}
+
+.menu-toggle:active {
+  transform: scale(0.95);
+}
+
+.menu-icon {
+  font-size: 1.75rem !important;
+  transition: transform var(--transition-base);
 }
 
 /* ================================
@@ -180,13 +208,11 @@
   align-items: center;
 }
 
-.nav-menu li {
+.nav-item-wrapper {
   position: relative;
 }
 
-/* ================================
-   Nav Items
-================================ */
+/* Navigation Items */
 .nav-item {
   display: flex;
   align-items: center;
@@ -197,24 +223,21 @@
   font-weight: 600;
   text-decoration: none;
   color: var(--nav-item-text);
-  background: var(--nav-item-bg);
+  background: transparent;
+  transition: var(--transition-base);
   position: relative;
   overflow: hidden;
-  transition: var(--nav-transition);
-  border: 2px solid transparent;
+  white-space: nowrap;
 }
 
 /* Hover background effect */
 .nav-item::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: var(--nav-item-hover);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity var(--transition-base);
   border-radius: 12px;
   z-index: -1;
 }
@@ -224,17 +247,16 @@
 }
 
 .nav-item:hover {
-  color: var(--nav-item-text-hover);
+  color: var(--nav-item-active);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(6, 182, 212, 0.15);
 }
 
-/* Active State */
+/* Active state */
 .nav-item.active {
-  color: var(--nav-item-text-active);
-  background: var(--nav-item-active);
+  color: white;
+  background: var(--logo-gradient);
   box-shadow: 0 4px 16px rgba(6, 182, 212, 0.25);
-  border-color: transparent;
 }
 
 .nav-item.active::before {
@@ -242,167 +264,78 @@
 }
 
 /* Icon styling */
-.nav-item i,
-.nav-item svg {
-  font-size: 1.1rem;
-  transition: transform 0.3s ease;
-}
-
-.nav-item:hover i,
-.nav-item:hover svg {
-  transform: scale(1.15);
-}
-
-/* ================================
-   Special Upload Button
-================================ */
-.nav-menu li.upload .nav-item,
-.nav-item.btn-upload {
-  background: var(--nav-upload);
-  color: white;
-  font-weight: 700;
-  box-shadow: 0 4px 16px var(--nav-upload-shadow);
-  border: none;
-}
-
-.nav-menu li.upload .nav-item:hover,
-.nav-item.btn-upload:hover {
-  box-shadow: 0 6px 24px var(--nav-upload-shadow);
-  transform: translateY(-3px) scale(1.02);
-}
-
-.nav-menu li.upload .nav-item::before,
-.nav-item.btn-upload::before {
-  display: none;
-}
-
-/* ================================
-   Install Button in Nav
-================================ */
-.install-nav-btn {
-  display: none;
-}
-
-.install-nav-btn .nav-item {
-  background: var(--logo-gradient);
-  color: white;
-  font-weight: 700;
-  padding: 0.75rem 2rem;
-  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.25);
-}
-
-.install-nav-btn .nav-item:hover {
-  box-shadow: 0 6px 24px rgba(6, 182, 212, 0.35);
-  transform: translateY(-3px);
-}
-
-.install-nav-btn .nav-item::before {
-  display: none;
-}
-
-@media (min-width: 769px) {
-  .install-nav-btn {
-    display: block;
-  }
-}
-
-/* ================================
-   Mobile Menu Toggle
-================================ */
-.menu-toggle {
-  display: none;
-  font-size: 1.75rem;
-  color: var(--logo-hover);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 8px;
-  transition: var(--nav-transition);
-  position: relative;
-  z-index: 1001;
-}
-
-.menu-toggle:hover {
-  background: var(--nav-item-hover);
-  transform: scale(1.05);
-}
-
-.menu-toggle:active {
-  transform: scale(0.95);
-}
-
-/* Hamburger to X animation */
-.menu-toggle.open {
-  transform: rotate(90deg);
-}
-
-/* ================================
-   Floating Install FAB Button
-================================ */
-.fabInstallBtn {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 64px;
-  height: 64px;
-  background: var(--fab-bg);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
+.nav-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
-  font-weight: 700;
-  z-index: 2000;
-  box-shadow: 0 8px 32px var(--fab-shadow);
-  transition: var(--nav-bounce);
-  animation: fabPulse 3s ease-in-out infinite;
+  font-size: 1.25rem;
+  transition: transform var(--transition-base);
 }
 
-@keyframes fabPulse {
-  0%, 100% {
-    box-shadow: 0 8px 32px var(--fab-shadow);
-  }
-  50% {
-    box-shadow: 0 12px 40px var(--fab-hover-shadow),
-                0 0 0 8px rgba(86, 116, 255, 0.1);
-  }
+.nav-item:hover .nav-icon {
+  transform: scale(1.15);
 }
 
-.fabInstallBtn:hover {
-  transform: scale(1.15) translateY(-4px) rotate(5deg);
-  box-shadow: 0 16px 48px var(--fab-hover-shadow);
-  animation: none;
+/* Label */
+.nav-label {
+  transition: var(--transition-base);
 }
 
-.fabInstallBtn:active {
-  transform: scale(1.05) translateY(-2px);
-}
-
-/* FAB Tooltip */
-.fabInstallBtn::after {
-  content: 'Install App';
-  position: absolute;
-  right: 100%;
-  margin-right: 1rem;
-  padding: 0.5rem 1rem;
-  background: var(--logo-text);
+/* Special Upload/Featured Items */
+.nav-item-wrapper.special .nav-item {
+  background: var(--nav-special);
   color: white;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(86, 116, 255, 0.3);
 }
 
-.fabInstallBtn:hover::after {
-  opacity: 1;
+.nav-item-wrapper.special .nav-item:hover {
+  box-shadow: 0 6px 24px rgba(86, 116, 255, 0.4);
+  transform: translateY(-3px) scale(1.02);
+}
+
+.nav-item-wrapper.special .nav-item::before {
+  display: none;
+}
+
+.nav-item-wrapper.special .nav-icon {
+  color: white !important;
+}
+
+/* Install Button Wrapper */
+.nav-item-wrapper.install {
+  margin-left: 0.5rem;
+}
+
+.nav-item-wrapper.install > div {
+  display: flex;
+  align-items: center;
+}
+
+/* Style the InstallApp button to match nav items */
+.nav-item-wrapper.install button,
+.nav-item-wrapper.install .install-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  background: var(--logo-gradient);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.25);
+  transition: var(--transition-base);
+  font-family: inherit;
+}
+
+.nav-item-wrapper.install button:hover,
+.nav-item-wrapper.install .install-button:hover {
+  box-shadow: 0 6px 24px rgba(6, 182, 212, 0.35);
+  transform: translateY(-3px);
 }
 
 /* ================================
@@ -416,77 +349,64 @@
   }
 
   .menu-toggle {
-    display: block;
+    display: flex;
   }
 
   .nav-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
+    position: fixed;
+    top: 0;
     right: 0;
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
+    height: 100vh;
+    width: 300px;
+    max-width: 85vw;
+    transform: translateX(100%);
     background: var(--mobile-menu-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.2);
-    border-radius: 0 0 20px 20px;
+    box-shadow: -8px 0 32px rgba(6, 182, 212, 0.2);
     flex-direction: column;
     gap: 0;
-    padding: 0;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                padding 0.4s ease;
+    padding: 5rem 1rem 2rem;
+    overflow-y: auto;
+    transition: transform var(--transition-slow);
+    z-index: 1000;
   }
 
   .nav-menu.open {
-    max-height: 500px;
-    padding: 1rem 0;
+    transform: translateX(0);
   }
 
-  .nav-menu li {
+  .nav-item-wrapper {
     width: 100%;
-    text-align: center;
   }
 
   .nav-item {
-    width: 92%;
-    margin: 0.25rem auto;
+    width: 100%;
     padding: 1rem 1.5rem;
-    border-radius: 12px;
+    margin: 0.25rem 0;
     font-size: 1.05rem;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .nav-item:hover {
     transform: translateX(8px);
   }
 
-  .install-nav-btn {
-    display: none;
+  .nav-item-wrapper.install {
+    margin-left: 0;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--nav-border);
   }
 
-  /* Mobile FAB */
-  .fabInstallBtn {
-    width: 56px;
-    height: 56px;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    font-size: 1.5rem;
-  }
-
-  .fabInstallBtn::after {
-    display: none;
-  }
-
-  .logo {
+  /* Logo adjustments */
+  .logo-link {
     font-size: 1.35rem;
   }
 
-  .logo img,
-  .logo-icon {
-    height: 36px;
+  .logo-icon-wrapper {
     width: 36px;
+    height: 36px;
   }
 }
 
@@ -496,15 +416,14 @@
     padding: 0 1rem;
   }
 
-  .logo {
+  .logo-link {
     font-size: 1.25rem;
     gap: 0.5rem;
   }
 
-  .logo img,
-  .logo-icon {
-    height: 32px;
+  .logo-icon-wrapper {
     width: 32px;
+    height: 32px;
   }
 
   .nav-item {
@@ -512,42 +431,32 @@
     padding: 0.9rem 1.25rem;
   }
 
-  .fabInstallBtn {
-    width: 52px;
-    height: 52px;
-    bottom: 1.25rem;
-    right: 1.25rem;
-    font-size: 1.35rem;
-  }
-
-  .menu-toggle {
-    font-size: 1.5rem;
+  .menu-icon {
+    font-size: 1.5rem !important;
   }
 }
 
 /* Extra Small */
 @media (max-width: 360px) {
-  .logo {
+  .logo-link {
     font-size: 1.1rem;
   }
 
-  .logo img,
-  .logo-icon {
-    height: 28px;
+  .logo-icon-wrapper {
     width: 28px;
+    height: 28px;
   }
 
   .nav-item {
     font-size: 0.95rem;
     padding: 0.85rem 1rem;
   }
+}
 
-  .fabInstallBtn {
-    width: 48px;
-    height: 48px;
-    bottom: 1rem;
-    right: 1rem;
-    font-size: 1.25rem;
+/* Large Screens - Show install button in nav */
+@media (min-width: 769px) {
+  .nav-item-wrapper.install {
+    display: flex;
   }
 }
 
@@ -556,13 +465,30 @@
 ================================ */
 
 /* Focus Styles */
+.logo-link:focus-visible,
 .nav-item:focus-visible,
-.menu-toggle:focus-visible,
-.fabInstallBtn:focus-visible,
-.logo:focus-visible {
-  outline: 3px solid var(--logo-hover);
+.menu-toggle:focus-visible {
+  outline: 3px solid var(--logo-accent);
   outline-offset: 4px;
   border-radius: 12px;
+}
+
+/* Skip to main content link */
+.skip-to-main {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  background: var(--logo-accent);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 0 0 8px 0;
+  z-index: 10000;
+  transition: top var(--transition-base);
+}
+
+.skip-to-main:focus {
+  top: 0;
 }
 
 /* Reduced Motion */
@@ -574,37 +500,31 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
-  .fabInstallBtn {
-    animation: none !important;
-  }
 }
 
 /* High Contrast Mode */
 @media (prefers-contrast: high) {
   .navbar {
-    border-bottom: 2px solid var(--logo-hover);
+    border-bottom: 2px solid var(--logo-accent);
   }
   
   .nav-item {
     border: 2px solid transparent;
   }
   
-  .nav-item:hover {
-    border-color: var(--logo-hover);
-  }
-  
-  .nav-item.active {
-    border-color: var(--logo-hover);
+  .nav-item:hover,
+  .nav-item:focus-visible {
+    border-color: var(--logo-accent);
   }
 }
 
 /* ================================
-   Dark Mode Support (Optional)
+   Dark Mode Support
 ================================ */
 @media (prefers-color-scheme: dark) {
   :root {
     --nav-bg: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    --nav-bg-scrolled: rgba(30, 41, 59, 0.95);
     --nav-border: rgba(6, 182, 212, 0.3);
     --logo-text: #f8fafc;
     --nav-item-text: #cbd5e1;
@@ -612,16 +532,8 @@
     --mobile-menu-bg: rgba(30, 41, 59, 0.98);
   }
   
-  .navbar {
-    background: var(--nav-bg);
-  }
-  
-  .navbar.scrolled {
-    background: rgba(30, 41, 59, 0.95);
-  }
-  
-  .nav-menu.open {
-    background: var(--mobile-menu-bg);
+  .logo-image {
+    filter: none;
   }
 }
 
@@ -633,22 +545,57 @@
   opacity: 0.6;
 }
 
+.navbar.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  border: 3px solid var(--logo-accent);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ================================
    Utility Classes
 ================================ */
+
+/* Badge for notifications */
 .nav-badge {
   position: absolute;
   top: -8px;
   right: -8px;
   background: #ef4444;
   color: white;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  padding: 0.25rem 0.5rem;
-  border-radius: 12px;
-  min-width: 20px;
+  padding: 0.2rem 0.4rem;
+  border-radius: 10px;
+  min-width: 18px;
   text-align: center;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  animation: badgePop 0.3s ease-out;
+}
+
+@keyframes badgePop {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Notification dot */
@@ -673,4 +620,39 @@
     transform: scale(1.2);
     opacity: 0.8;
   }
+}
+
+/* Tooltip */
+.nav-tooltip {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--logo-text);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-base), visibility var(--transition-base);
+  pointer-events: none;
+  z-index: 1002;
+}
+
+.nav-tooltip::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid var(--logo-text);
+}
+
+.nav-item-wrapper:hover .nav-tooltip {
+  opacity: 1;
+  visibility: visible;
 }
