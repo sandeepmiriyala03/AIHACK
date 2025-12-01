@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
+
 import styles from "../Styles/Footer.module.css";
 
 export default function Footer() {
