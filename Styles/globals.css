@@ -904,3 +904,40 @@ select:focus {
 .mb-md { margin-bottom: var(--space-md); }
 .mb-lg { margin-bottom: var(--space-lg); }
 .mb-xl { margin-bottom: var(--space-xl); }
+
+.footer {
+  padding: 16px 20px;
+  text-align: center;
+  background: #0d0d0d;
+  color: #e0e0e0;
+  border-top: 1px solid #222;
+  font-size: 0.9rem;
+}
+
+.row {
+  margin: 4px 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  opacity: 0.9;
+}
+
+.icon {
+  font-size: 1.1rem;
+}
+
+.deployRow {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.deployIcon {
+  margin-right: 4px;
+}
+
+.deployDate {
+  font-weight: 600;
+  color: #9ad0ff;
+}
