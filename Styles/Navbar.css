@@ -1,6 +1,7 @@
 /* ================================
    AksharaTantra Enhanced Navbar
    Modern OCR-focused Design
+   Version 2.0 - Fixed Mobile Menu & Install Button
 ================================ */
 
 /* ================================
@@ -28,6 +29,11 @@
   /* Mobile Menu */
   --mobile-menu-bg: rgba(255, 255, 255, 0.98);
   --mobile-overlay: rgba(0, 0, 0, 0.5);
+  
+  /* Install Button */
+  --install-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --install-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+  --install-shadow-hover: 0 6px 24px rgba(16, 185, 129, 0.4);
   
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -162,6 +168,13 @@
 .logo-text-accent {
   font-weight: 400;
   opacity: 0.8;
+}
+
+/* ================================
+   Desktop Install Button
+================================ */
+.desktop-install {
+  display: none;
 }
 
 /* ================================
@@ -302,19 +315,12 @@
   color: white !important;
 }
 
-/* Install Button Wrapper */
-.nav-item-wrapper.install {
-  margin-left: 0.5rem;
-}
+/* ================================
+   Install Button Styles
+================================ */
 
-.nav-item-wrapper.install > div {
-  display: flex;
-  align-items: center;
-}
-
-/* Style the InstallApp button to match nav items */
-.nav-item-wrapper.install button,
-.nav-item-wrapper.install .install-button {
+/* Base Install Button Styling */
+.install-button {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -322,25 +328,95 @@
   border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 600;
-  text-decoration: none;
   color: white;
-  background: var(--logo-gradient);
+  background: var(--install-gradient);
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(6, 182, 212, 0.25);
+  box-shadow: var(--install-shadow);
   transition: var(--transition-base);
   font-family: inherit;
+  white-space: nowrap;
 }
 
-.nav-item-wrapper.install button:hover,
-.nav-item-wrapper.install .install-button:hover {
-  box-shadow: 0 6px 24px rgba(6, 182, 212, 0.35);
+.install-button:hover:not(:disabled) {
+  box-shadow: var(--install-shadow-hover);
   transform: translateY(-3px);
+}
+
+.install-button:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.install-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Install Button Icon */
+.install-button svg {
+  font-size: 1.25rem;
+  transition: transform var(--transition-base);
+}
+
+.install-button:hover:not(:disabled) svg {
+  transform: scale(1.15);
+}
+
+/* Hide install button from mobile menu */
+.nav-item-wrapper.install {
+  display: none;
+}
+
+/* ================================
+   Mobile Install Button
+   Fixed position, always accessible
+================================ */
+.mobile-install-wrapper {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  animation: slideInUp 0.3s ease-out;
+}
+
+.mobile-install-wrapper .install-button {
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+}
+
+.mobile-install-wrapper .install-button:hover:not(:disabled) {
+  box-shadow: 0 8px 28px rgba(16, 185, 129, 0.5);
+  transform: translateY(-4px) scale(1.05);
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ================================
    Responsive Design
 ================================ */
+
+/* Desktop - Show install in navbar */
+@media (min-width: 769px) {
+  .desktop-install {
+    display: block;
+    margin-left: 0.5rem;
+  }
+
+  /* Hide mobile install button on desktop */
+  .mobile-install-wrapper {
+    display: none !important;
+  }
+}
 
 /* Tablets and Mobile */
 @media (max-width: 768px) {
@@ -392,11 +468,9 @@
     transform: translateX(8px);
   }
 
+  /* Keep install button hidden from mobile menu */
   .nav-item-wrapper.install {
-    margin-left: 0;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--nav-border);
+    display: none !important;
   }
 
   /* Logo adjustments */
@@ -407,6 +481,11 @@
   .logo-icon-wrapper {
     width: 36px;
     height: 36px;
+  }
+
+  /* Ensure mobile install button is visible */
+  .mobile-install-wrapper {
+    display: block;
   }
 }
 
@@ -434,6 +513,17 @@
   .menu-icon {
     font-size: 1.5rem !important;
   }
+
+  /* Adjust mobile install button for small screens */
+  .mobile-install-wrapper {
+    bottom: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .mobile-install-wrapper .install-button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+  }
 }
 
 /* Extra Small */
@@ -451,12 +541,10 @@
     font-size: 0.95rem;
     padding: 0.85rem 1rem;
   }
-}
 
-/* Large Screens - Show install button in nav */
-@media (min-width: 769px) {
-  .nav-item-wrapper.install {
-    display: flex;
+  .mobile-install-wrapper .install-button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
   }
 }
 
@@ -467,7 +555,8 @@
 /* Focus Styles */
 .logo-link:focus-visible,
 .nav-item:focus-visible,
-.menu-toggle:focus-visible {
+.menu-toggle:focus-visible,
+.install-button:focus-visible {
   outline: 3px solid var(--logo-accent);
   outline-offset: 4px;
   border-radius: 12px;
@@ -500,6 +589,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  .mobile-install-wrapper {
+    animation: none;
+  }
 }
 
 /* High Contrast Mode */
@@ -508,12 +601,15 @@
     border-bottom: 2px solid var(--logo-accent);
   }
   
-  .nav-item {
+  .nav-item,
+  .install-button {
     border: 2px solid transparent;
   }
   
   .nav-item:hover,
-  .nav-item:focus-visible {
+  .nav-item:focus-visible,
+  .install-button:hover,
+  .install-button:focus-visible {
     border-color: var(--logo-accent);
   }
 }
@@ -655,4 +751,28 @@
 .nav-item-wrapper:hover .nav-tooltip {
   opacity: 1;
   visibility: visible;
+}
+
+/* ================================
+   Print Styles
+================================ */
+@media print {
+  .navbar {
+    position: static;
+    box-shadow: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .menu-toggle,
+  .mobile-install-wrapper {
+    display: none !important;
+  }
+
+  .nav-menu {
+    position: static;
+    transform: none;
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+  }
 }

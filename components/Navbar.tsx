@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 /* ---- MATERIAL UI ICONS ---- */
 import MenuIcon from "@mui/icons-material/Menu";
@@ -14,6 +14,7 @@ import CollectionsIcon from "@mui/icons-material/Collections";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import HomeIcon from "@mui/icons-material/Home";
 import DownloadIcon from "@mui/icons-material/Download";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 /* -------- BEFOREINSTALLPROMPT TYPE -------- */
 interface BeforeInstallPromptEvent extends Event {
@@ -40,28 +41,40 @@ function InstallApp() {
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
-  const handleInstallClick = async () => {
+  const handleInstallClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (!deferredPrompt) {
       alert("App is already installed or not installable on this device");
       return;
     }
 
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
 
-    if (outcome === "accepted") {
-      console.log("User accepted installation");
+      if (outcome === "accepted") {
+        console.log("User accepted installation");
+      } else {
+        console.log("User dismissed installation");
+      }
+    } catch (error) {
+      console.error("Installation error:", error);
+    } finally {
+      setDeferredPrompt(null);
+      setIsInstallable(false);
     }
-
-    setDeferredPrompt(null);
-    setIsInstallable(false);
   };
+
+  if (!isInstallable) return null;
 
   return (
     <button
       onClick={handleInstallClick}
       className="install-button"
-      disabled={!isInstallable}
+      type="button"
+      aria-label="Install application"
     >
       <DownloadIcon />
       <span>Install App</span>
@@ -82,6 +95,8 @@ interface NavItem {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navMenuRef = useRef<HTMLUListElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   const navItems: NavItem[] = [
     {
@@ -97,6 +112,7 @@ export default function Navbar() {
       iconColor: "text-blue-600",
       isSpecial: true,
     },
+    
     {
       href: "/OCR",
       label: "OCR",
@@ -124,14 +140,21 @@ export default function Navbar() {
   ];
 
   const closeMenu = useCallback(() => setIsOpen(false), []);
-  const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
+  
+  const toggleMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
+  }, []);
 
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) closeMenu();
@@ -140,6 +163,7 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, closeMenu]);
 
+  // Handle body overflow
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "unset";
     return () => {
@@ -147,8 +171,48 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  // Handle clicks outside menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!isOpen) return;
+
+      const target = event.target as Node;
+      
+      // Don't close if clicking on toggle button
+      if (toggleButtonRef.current?.contains(target)) return;
+      
+      // Don't close if clicking inside the menu
+      if (navMenuRef.current?.contains(target)) return;
+
+      // Close menu if clicking outside
+      closeMenu();
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen, closeMenu]);
+
+  // Prevent scroll on mobile menu when open
+  useEffect(() => {
+    if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    }
+  }, [isOpen]);
+
   return (
     <>
+      {/* Backdrop for mobile menu */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[998] md:hidden"
@@ -182,11 +246,20 @@ export default function Navbar() {
             </Link>
           </div>
 
+          {/* DESKTOP INSTALL BUTTON - Shows on desktop only */}
+          <div className="hidden md:block desktop-install">
+            <InstallApp />
+          </div>
+
           {/* MOBILE TOGGLE */}
           <button
+            ref={toggleButtonRef}
             className="menu-toggle"
             onClick={toggleMenu}
             aria-expanded={isOpen}
+            aria-controls="nav-menu"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            type="button"
           >
             {isOpen ? (
               <CloseIcon className="menu-icon" />
@@ -196,15 +269,26 @@ export default function Navbar() {
           </button>
 
           {/* MENU */}
-          <ul id="nav-menu" className={`nav-menu ${isOpen ? "open" : ""}`}>
+          <ul
+            id="nav-menu"
+            ref={navMenuRef}
+            className={`nav-menu ${isOpen ? "open" : ""}`}
+            role="menubar"
+          >
             {navItems.map((item) => (
               <li
                 key={item.href}
                 className={`nav-item-wrapper ${
                   item.isSpecial ? "special" : ""
                 }`}
+                role="none"
               >
-                <Link href={item.href} onClick={closeMenu} className="nav-item">
+                <Link
+                  href={item.href}
+                  onClick={closeMenu}
+                  className="nav-item"
+                  role="menuitem"
+                >
                   <span className={`nav-icon ${item.iconColor}`}>
                     {item.icon}
                   </span>
@@ -212,16 +296,14 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
-
-            {/* PWA BUTTON */}
-            <li className="nav-item-wrapper install">
-              <div onClick={closeMenu}>
-                <InstallApp />
-              </div>
-            </li>
           </ul>
         </div>
       </nav>
+
+      {/* MOBILE INSTALL BUTTON - Fixed position, outside menu */}
+      <div className="md:hidden fixed bottom-4 right-4 z-[1000] mobile-install-wrapper">
+        <InstallApp />
+      </div>
     </>
   );
 }
