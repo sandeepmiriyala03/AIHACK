@@ -36,3 +36,4 @@ export default withPWA({
   // 🧠 IMPORTANT: Prevents the PWA from crashing by trying to cache 300MB+ models
   publicExcludes: ['!models/**/*'], 
 })(nextConfig);
+
