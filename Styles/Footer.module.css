@@ -1,0 +1,122 @@
+/* ==========================================
+   AksharaTantra Footer - Production Ready
+   Clean • Responsive • Accessible • Themed
+========================================== */
+
+.footer {
+  padding: clamp(1rem, 2vw, 2rem) clamp(1rem, 4vw, 3rem);
+  background: var(--footer-bg, var(--surface-2, #f8fafc));
+  color: var(--footer-text, #374151);
+  text-align: center;
+  font-size: 0.95rem;
+  border-top: 1px solid var(--border-light, #e5e7eb);
+}
+
+/* Attribution Section */
+.attribution {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  letter-spacing: 0.01em;
+}
+
+/* Symbol (❤️ / 🇮🇳 etc.) */
+.symbol {
+  font-size: 1.4rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Flag Wrapper */
+.flagWrapper {
+  position: relative;
+  width: 24px;
+  height: 16px;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+/* Deployment Info */
+.deployment {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--footer-text-secondary, #6b7280);
+  opacity: 0.9;
+}
+
+/* Deployment Date */
+.deploymentDate {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Deployment Symbol */
+.deploymentSymbol {
+  margin-right: 0.25rem;
+  font-size: 1.1rem;
+  vertical-align: middle;
+}
+
+/* ==========================================
+   Responsive Adjustments
+========================================== */
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .attribution {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .deployment {
+    font-size: 0.8rem;
+  }
+}
+
+/* ==========================================
+   Dark Mode Support
+========================================== */
+
+@media (prefers-color-scheme: dark) {
+  .footer {
+    background: #0f172a;
+    color: #e2e8f0;
+    border-top: 1px solid #334155;
+  }
+
+  .deployment {
+    color: #94a3b8;
+  }
+}
+
+/* ==========================================
+   Accessibility
+========================================== */
+
+.footer a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s ease;
+}
+
+.footer a:hover {
+  opacity: 0.75;
+}
+
+.footer a:focus-visible {
+  outline: 3px solid var(--brand-primary, #06b6d4);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
