@@ -4,24 +4,20 @@ import withPWA from "next-pwa";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // ⚡ This allows the browser to use high-performance memory for AI
+  // 🚀 REQUIRED FOR ONNX RUNTIME WASM
   async headers() {
     return [
       {
         source: '/(.*)',
         headers: [
-          {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
-          },
-          {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp',
-          },
+          // These allow SharedArrayBuffer, which TrOCR needs to run in the browser
+          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
+          { key: 'Cross-Origin-Embedder-Policy', value: 'require-corp' },
+          { key: 'Cross-Origin-Resource-Policy', value: 'cross-origin' },
         ],
       },
       {
-        // 🌐 Specific headers for the model files to prevent 404/CORS issues
+        // 🌐 Fixes CORS and 404 behavior for your large model files
         source: '/models/:path*',
         headers: [
           { key: 'Access-Control-Allow-Origin', value: '*' },
@@ -37,6 +33,6 @@ export default withPWA({
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
-  // 🧠 Prevent PWA from trying to cache the massive 300MB model files
+  // 🧠 IMPORTANT: Prevents the PWA from crashing by trying to cache 300MB+ models
   publicExcludes: ['!models/**/*'], 
 })(nextConfig);
