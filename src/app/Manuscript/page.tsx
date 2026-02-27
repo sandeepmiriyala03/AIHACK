@@ -11,7 +11,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { pipeline, env, type ImageToTextPipeline } from "@xenova/transformers";
 
-// 🛠️ OCR ENGINE CONFIGURATION
+// 🛠️ ENGINE CONFIGURATION
 env.allowLocalModels = true;
 env.localModelPath = "/models/"; 
 env.allowRemoteModels = true; 
@@ -19,7 +19,6 @@ env.useBrowserCache = true;
 env.backends.onnx.wasm.proxy = true; 
 env.backends.onnx.wasm.numThreads = 1;
 
-// Define specific types to satisfy ESLint
 interface ProgressData {
   status: string;
   file: string;
@@ -61,11 +60,11 @@ export default function MicrosoftOCRPage() {
 
     setLoading(true);
     setError("");
-    setStatus("Waking up Microsoft TrOCR...");
+    setStatus("Loading Microsoft TrOCR...");
 
     try {
       if (!worker.current) {
-        // This explicitly loads the Microsoft Transformer-based OCR
+        // We use the Xenova path because that is what Transformers.js expects
         worker.current = await pipeline(
           "image-to-text",
           "Xenova/trocr-base-handwritten", 
@@ -73,7 +72,7 @@ export default function MicrosoftOCRPage() {
             quantized: true,
             progress_callback: (data: ProgressData) => {
               if (data.status === 'downloading') {
-                setStatus(`Loading AI Weights: ${Math.round(data.progress || 0)}%`);
+                setStatus(`Loading Weights: ${Math.round(data.progress || 0)}%`);
                 setProgress(Math.round(data.progress || 0));
               } else if (data.status === 'ready') {
                 setStatus("AI Engine Ready!");
@@ -84,9 +83,7 @@ export default function MicrosoftOCRPage() {
         ) as ImageToTextPipeline;
       }
 
-      setStatus("Analyzing Handwriting...");
-      
-      // TrOCR processing happens here
+      setStatus("Reading Manuscript...");
       const result = await worker.current(preview);
       
       const output = result as unknown as MicrosoftOCRResult[];
@@ -94,14 +91,14 @@ export default function MicrosoftOCRPage() {
 
       if (extractedText) {
         setText(extractedText);
-        setStatus("Conversion Complete!");
+        setStatus("Success!");
       } else {
-        setError("Microsoft TrOCR couldn't resolve the text in this image.");
+        setError("AI could not extract text. Please ensure the folder is 'public/models/Xenova'.");
       }
     } catch (err: unknown) {
-      console.error("Microsoft OCR Error:", err);
+      console.error("OCR Error:", err);
       const errMsg = err instanceof Error ? err.message : String(err);
-      setError(`OCR Engine Error: ${errMsg}`);
+      setError(`System Error: ${errMsg}. Ensure local folder is renamed to 'Xenova'.`);
     } finally {
       setLoading(false);
     }
@@ -117,7 +114,7 @@ export default function MicrosoftOCRPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = "microsoft_ocr_output.txt";
+    a.download = "ocr_output.txt";
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -140,20 +137,20 @@ export default function MicrosoftOCRPage() {
             ✍️ Microsoft TrOCR Integration
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Advanced Handwritten Recognition powered by Transformers.js
+            Secure, browser-side handwriting recognition.
           </Typography>
         </Box>
 
         <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
           <Stack spacing={3}>
-            <Button variant="outlined" component="label" fullWidth size="large" sx={{ borderRadius: 2 }}>
-              {file ? "Change Manuscript" : "Upload Handwriting Sample"}
+            <Button variant="outlined" component="label" fullWidth size="large">
+              {file ? "Change Image" : "Upload Handwriting Sample"}
               <input hidden type="file" accept="image/*" onChange={handleFileChange} />
             </Button>
 
             {preview && (
-              <Box sx={{ textAlign: 'center', bgcolor: 'grey.50', p: 2, borderRadius: 2, border: '1px dashed #ccc' }}>
-                <Box component="img" src={preview} sx={{ maxHeight: 300, maxWidth: '100%', borderRadius: 1, boxShadow: 1 }} />
+              <Box sx={{ textAlign: 'center', bgcolor: 'grey.50', p: 2, borderRadius: 2 }}>
+                <Box component="img" src={preview} sx={{ maxHeight: 300, maxWidth: '100%', borderRadius: 1 }} />
               </Box>
             )}
 
@@ -164,45 +161,44 @@ export default function MicrosoftOCRPage() {
               onClick={runMicrosoftOCR}
               disabled={loading || !file}
               size="large"
-              sx={{ py: 1.5, fontWeight: 'bold' }}
             >
-              {loading ? "AI is Thinking..." : "Start Microsoft OCR"}
+              {loading ? "AI is Processing..." : "Start Microsoft OCR"}
             </Button>
 
             {loading && (
               <Box>
-                <LinearProgress variant="determinate" value={progress} color="primary" sx={{ height: 10, borderRadius: 5 }} />
-                <Typography variant="caption" display="block" textAlign="center" sx={{ mt: 1, fontWeight: 'medium' }}>
-                  {status}
+                <LinearProgress variant="determinate" value={progress} color="primary" sx={{ height: 8, borderRadius: 5 }} />
+                <Typography variant="caption" display="block" textAlign="center" sx={{ mt: 1 }}>
+                  {status} ({progress}%)
                 </Typography>
               </Box>
             )}
 
-            {error && <Alert severity="error" variant="outlined">{error}</Alert>}
+            {error && <Alert severity="error">{error}</Alert>}
 
             {text && (
               <Box>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>
-                  <Typography variant="subtitle2" color="primary">Detected Text:</Typography>
+                <Stack direction="row" justifyContent="space-between" mb={1}>
+                  <Typography variant="overline" fontWeight="bold">Result:</Typography>
                   <Stack direction="row" spacing={1}>
-                    <Tooltip title="Copy Text"><IconButton onClick={copyToClipboard} size="small"><ContentCopyIcon fontSize="small" /></IconButton></Tooltip>
-                    <Tooltip title="Download .txt"><IconButton onClick={downloadText} size="small"><DownloadIcon fontSize="small" /></IconButton></Tooltip>
+                    <Tooltip title="Copy"><IconButton onClick={copyToClipboard} size="small"><ContentCopyIcon /></IconButton></Tooltip>
+                    <Tooltip title="Download"><IconButton onClick={downloadText} size="small"><DownloadIcon /></IconButton></Tooltip>
                   </Stack>
                 </Stack>
                 <TextField
                   multiline
                   fullWidth
-                  minRows={6}
+                  minRows={5}
                   value={text}
                   variant="filled"
                   onChange={(e) => setText(e.target.value)}
-                  sx={{ bgcolor: '#f9f9f9' }}
+                  sx={{ bgcolor: 'white' }}
                 />
               </Box>
             )}
 
-            <Button startIcon={<DeleteSweepIcon />} color="inherit" onClick={resetAll} sx={{ alignSelf: 'center', opacity: 0.7 }}>
-              Clear Canvas
+            <Button startIcon={<DeleteSweepIcon />} color="error" onClick={resetAll} sx={{ alignSelf: 'center' }}>
+              Clear
             </Button>
           </Stack>
         </Paper>
