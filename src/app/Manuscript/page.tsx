@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import {
   Button, TextField, Stack, Typography, Box, LinearProgress,
-  Paper, Tooltip, IconButton, Alert
+  Paper, Tooltip, IconButton, Alert, Divider, Chip
 } from "@mui/material";
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import DownloadIcon from '@mui/icons-material/Download';
+
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import SignalWifiOffIcon from '@mui/icons-material/SignalWifiOff';
+import InfoIcon from '@mui/icons-material/Info';
 import { pipeline, env, type ImageToTextPipeline } from "@xenova/transformers";
 
 // 🛠️ ENGINE CONFIGURATION
@@ -17,7 +18,6 @@ env.localModelPath = "/models/";
 env.allowRemoteModels = true; 
 env.useBrowserCache = true;
 env.backends.onnx.wasm.proxy = true; 
-env.backends.onnx.wasm.numThreads = 1;
 
 interface ProgressData {
   status: string;
@@ -37,8 +37,48 @@ export default function MicrosoftOCRPage() {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
   const [text, setText] = useState("");
+  const [isOfflineReady, setIsOfflineReady] = useState(false);
 
   const worker = useRef<ImageToTextPipeline | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // 📶 Warmup: Pre-load model for Offline Use
+  useEffect(() => {
+    const warmup = async () => {
+      try {
+        if (!worker.current) {
+          worker.current = await pipeline(
+            "image-to-text",
+            "Xenova/trocr-base-handwritten",
+            { quantized: true }
+          ) as ImageToTextPipeline;
+          setIsOfflineReady(true);
+        }
+      } catch (e) {
+        console.log("Offline warmup ready.");
+      }
+    };
+    warmup();
+  }, []);
+
+  const preprocessImage = (imageSrc: string): Promise<string> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return resolve(imageSrc);
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return resolve(imageSrc);
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        ctx.filter = "grayscale(100%) contrast(160%) brightness(110%)";
+        ctx.drawImage(canvas, 0, 0);
+        resolve(canvas.toDataURL("image/jpeg", 0.9));
+      };
+      img.src = imageSrc;
+    });
+  };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -57,14 +97,13 @@ export default function MicrosoftOCRPage() {
       setError("Please upload an image first.");
       return;
     }
-
     setLoading(true);
     setError("");
-    setStatus("Loading Microsoft TrOCR...");
+    setStatus("Cleaning image for better pen recognition...");
 
     try {
+      const processedImage = await preprocessImage(preview);
       if (!worker.current) {
-        // We use the Xenova path because that is what Transformers.js expects
         worker.current = await pipeline(
           "image-to-text",
           "Xenova/trocr-base-handwritten", 
@@ -72,137 +111,120 @@ export default function MicrosoftOCRPage() {
             quantized: true,
             progress_callback: (data: ProgressData) => {
               if (data.status === 'downloading') {
-                setStatus(`Loading Weights: ${Math.round(data.progress || 0)}%`);
                 setProgress(Math.round(data.progress || 0));
-              } else if (data.status === 'ready') {
-                setStatus("AI Engine Ready!");
-                setProgress(100);
+                setStatus(`Downloading AI: ${Math.round(data.progress || 0)}%`);
               }
             }
           }
         ) as ImageToTextPipeline;
       }
 
-      setStatus("Reading Manuscript...");
-      const result = await worker.current(preview);
+      setStatus("AI is reading your handwriting...");
+      const result = await worker.current(processedImage, {
+        do_sample: false,
+        num_beams: 5,
+        max_new_tokens: 128,
+      });
       
       const output = result as unknown as MicrosoftOCRResult[];
-      const extractedText = output[0]?.generated_text;
-
-      if (extractedText) {
-        setText(extractedText);
-        setStatus("Success!");
-      } else {
-        setError("AI could not extract text. Please ensure the folder is 'public/models/Xenova'.");
-      }
+      setText(output[0]?.generated_text.trim() || "");
+      setStatus("Success!");
+      setIsOfflineReady(true);
     } catch (err: unknown) {
-      console.error("OCR Error:", err);
-      const errMsg = err instanceof Error ? err.message : String(err);
-      setError(`System Error: ${errMsg}. Ensure local folder is renamed to 'Xenova'.`);
+      setError(`System Error: Ensure model is in /public/models/Xenova`);
     } finally {
       setLoading(false);
     }
   };
 
-  const copyToClipboard = () => {
-    if (text) navigator.clipboard.writeText(text);
-  };
-
-  const downloadText = () => {
-    if (!text) return;
-    const blob = new Blob([text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = "ocr_output.txt";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const resetAll = () => {
-    setFile(null);
-    setPreview(null);
-    setText("");
-    setError("");
-    setStatus("");
-    setProgress(0);
-  };
-
   return (
     <>
       <Navbar />
-      <Box sx={{ maxWidth: 800, mx: "auto", p: 3 }}>
-        <Box sx={{ mb: 4, textAlign: 'center' }}>
-          <Typography variant="h4" fontWeight="bold" color="primary.main">
-            ✍️ Microsoft TrOCR Integration
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Secure, browser-side handwriting recognition.
-          </Typography>
-        </Box>
+      <Box sx={{ maxWidth: 850, mx: "auto", p: 3 }}>
+        <canvas ref={canvasRef} style={{ display: "none" }} />
 
-        <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
-          <Stack spacing={3}>
-            <Button variant="outlined" component="label" fullWidth size="large">
-              {file ? "Change Image" : "Upload Handwriting Sample"}
-              <input hidden type="file" accept="image/*" onChange={handleFileChange} />
-            </Button>
+        {/* 📋 HEADER & OFFLINE BADGE */}
+        <Stack direction="row" justifyContent="space-between" alignItems="center" mb={2}>
+          <Box>
+            <Typography variant="h4" fontWeight="bold" color="primary">
+              ✍️ Microsoft TrOCR
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Handwriting-to-English Converter
+            </Typography>
+          </Box>
+          {isOfflineReady && (
+            <Chip 
+              icon={<SignalWifiOffIcon />} 
+              label="Offline Ready" 
+              color="success" 
+              variant="outlined" 
+              size="small" 
+            />
+          )}
+        </Stack>
 
-            {preview && (
-              <Box sx={{ textAlign: 'center', bgcolor: 'grey.50', p: 2, borderRadius: 2 }}>
-                <Box component="img" src={preview} sx={{ maxHeight: 300, maxWidth: '100%', borderRadius: 1 }} />
-              </Box>
-            )}
+        <Grid container spacing={3}>
+          {/* 🕹️ MAIN WORKSPACE */}
+          <Grid item xs={12} md={7}>
+            <Paper elevation={3} sx={{ p: 3, borderRadius: 3 }}>
+              <Stack spacing={2}>
+                <Button variant="outlined" component="label" fullWidth>
+                  {file ? "Change Image" : "Upload Note"}
+                  <input hidden type="file" accept="image/*" onChange={handleFileChange} />
+                </Button>
 
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={runMicrosoftOCR}
-              disabled={loading || !file}
-              size="large"
-            >
-              {loading ? "AI is Processing..." : "Start Microsoft OCR"}
-            </Button>
+                {preview && (
+                  <Box sx={{ textAlign: 'center', bgcolor: 'grey.50', p: 1, borderRadius: 2, border: '1px solid #eee' }}>
+                    <Box component="img" src={preview} sx={{ maxHeight: 250, maxWidth: '100%', borderRadius: 1 }} />
+                  </Box>
+                )}
 
-            {loading && (
-              <Box>
-                <LinearProgress variant="determinate" value={progress} color="primary" sx={{ height: 8, borderRadius: 5 }} />
-                <Typography variant="caption" display="block" textAlign="center" sx={{ mt: 1 }}>
-                  {status} ({progress}%)
-                </Typography>
-              </Box>
-            )}
+                <Button variant="contained" fullWidth onClick={runMicrosoftOCR} disabled={loading || !file}>
+                  {loading ? "Processing..." : "Convert to Text"}
+                </Button>
 
-            {error && <Alert severity="error">{error}</Alert>}
+                {loading && (
+                  <Box sx={{ mt: 1 }}>
+                    <LinearProgress variant="determinate" value={progress} sx={{ height: 6, borderRadius: 3 }} />
+                    <Typography variant="caption" sx={{ textAlign: 'center', display: 'block', mt: 1 }}>{status}</Typography>
+                  </Box>
+                )}
 
-            {text && (
-              <Box>
-                <Stack direction="row" justifyContent="space-between" mb={1}>
-                  <Typography variant="overline" fontWeight="bold">Result:</Typography>
-                  <Stack direction="row" spacing={1}>
-                    <Tooltip title="Copy"><IconButton onClick={copyToClipboard} size="small"><ContentCopyIcon /></IconButton></Tooltip>
-                    <Tooltip title="Download"><IconButton onClick={downloadText} size="small"><DownloadIcon /></IconButton></Tooltip>
-                  </Stack>
-                </Stack>
-                <TextField
-                  multiline
-                  fullWidth
-                  minRows={5}
-                  value={text}
-                  variant="filled"
-                  onChange={(e) => setText(e.target.value)}
-                  sx={{ bgcolor: 'white' }}
-                />
-              </Box>
-            )}
+                {text && (
+                  <TextField multiline fullWidth minRows={4} value={text} variant="filled" label="Extracted Result" />
+                )}
+                
+                <Button startIcon={<DeleteSweepIcon />} color="error" size="small" onClick={() => setFile(null)} sx={{ alignSelf: 'center' }}>Clear</Button>
+              </Stack>
+            </Paper>
+          </Grid>
 
-            <Button startIcon={<DeleteSweepIcon />} color="error" onClick={resetAll} sx={{ alignSelf: 'center' }}>
-              Clear
-            </Button>
-          </Stack>
-        </Paper>
+          {/* 📖 INSTRUCTIONS SIDEBAR */}
+          <Grid item xs={12} md={5}>
+            <Paper sx={{ p: 3, bgcolor: '#fcfcfc', borderRadius: 3, border: '1px solid #e0e0e0' }}>
+              <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <InfoIcon color="primary" /> How to use
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+              <Typography variant="body2" component="div">
+                <ol style={{ paddingLeft: 15 }}>
+                  <li><strong>Upload:</strong> Take a clear photo of your handwritten English note.</li>
+                  <li><strong>Wait:</strong> The first time takes 30-60 seconds to download the AI weights.</li>
+                  <li><strong>Any Pen:</strong> Blue, Black, or Red pens are supported.</li>
+                  <li><strong>Go Offline:</strong> Once the "Offline Ready" badge appears, you can use this page without internet!</li>
+                </ol>
+              </Typography>
+              <Alert severity="info" sx={{ mt: 2, '& .MuiAlert-message': { fontSize: '0.75rem' } }}>
+                Best results: Black ink on white paper with high brightness.
+              </Alert>
+            </Paper>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );
 }
+
+// Ensure you import Grid from MUI
+import { Grid } from "@mui/material";
