@@ -130,9 +130,10 @@ export const LANGUAGE_FONTS: Record<string, CuratedFont[]> = {
     { name: "'Cormorant Garamond', serif",    label: "Cormorant Garamond",   sample: "The quick brown fox",  googleFont: "Cormorant+Garamond"   },
   ],
   hin: [
-    { name: "'Noto Serif Devanagari', serif", label: "Noto Serif Devanagari", sample: "हिन्दी अक्षर", googleFont: "Noto+Serif+Devanagari" },
-    { name: "'Hind', sans-serif",             label: "Hind",                  sample: "हिन्दी अक्षर", googleFont: "Hind"                  },
-    { name: "'Tiro Devanagari Hindi', serif", label: "Tiro Devanagari",       sample: "हिन्दी अक्षर", googleFont: "Tiro+Devanagari+Hindi" },
+    
+    
+    { name: "'Tiro Devanagari Hindi', serif", label: "Tiro Devanagari",     
+        sample: "हिन्दी अक्षर", googleFont: "Tiro+Devanagari+Hindi" },
   ],
   san: [
     { name: "'Noto Serif Devanagari', serif",    label: "Noto Serif Devanagari", sample: "संस्कृतम्", googleFont: "Noto+Serif+Devanagari"      },
@@ -589,7 +590,7 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
             {tab === "curated" && (
               <div style={S.listContainer}>
                 {filteredCurated.length === 0 ? (
-                  <p style={S.emptyState}>No fonts match "{search}"</p>
+                  <p style={S.emptyState}>No fonts match {search}</p>
                 ) : isTeluguGrouped ? (
                   // ── Grouped view for Telugu (search not active) ────────────
                   TELUGU_GROUPS.map((group) => {
@@ -665,7 +666,7 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
                 {!localLoading && localFonts.length > 0 && (
                   <div style={S.listContainer}>
                     {filteredLocal.length === 0 ? (
-                      <p style={S.emptyState}>No fonts match "{localSearch}"</p>
+                      <p style={S.emptyState}>No fonts match {localSearch}</p>
                     ) : (
                       filteredLocal.map((f) => {
                         const fontFamily = `'${f.family}', sans-serif`;
