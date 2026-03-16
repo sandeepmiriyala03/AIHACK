@@ -244,7 +244,7 @@ export function FontPicker({ language, selectedFont, onSelect, placeholder = "Ch
             {/* curated list */}
             {tab==="curated" && (
               <div style={{overflowY:"auto",flex:1,padding:"8px 10px",display:"flex",flexDirection:"column",gap:3}}>
-                {filt.length===0 ? <p style={empty}>No match for "{q}"</p>
+                {filt.length===0 ? <p style={empty}>No match for {q}</p>
                   : grouped
                     ? GROUPS.map(g => {
                         const gf = TELUGU_FONTS.filter(f => g.labels.includes(f.label));
