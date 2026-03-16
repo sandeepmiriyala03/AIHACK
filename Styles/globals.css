@@ -1082,93 +1082,98 @@ select:focus-visible {
     max-width: 100%;
     margin: 0;
   }
-}/* ================================================================
-   Telugu Custom Fonts — @font-face declarations
-   Place in: app/globals.css  OR  styles/telugu-fonts.css
+}
+
+/* ================================================================
+   Telugu Custom Fonts — FIXED @font-face
    
-   Font files expected in: /public/fonts/telugu/<FontName>.ttf
-   Adjust paths if your fonts live elsewhere.
+   KEY FIX: Every variant gets its OWN font-family name.
+   Reason: inline styles and html2canvas never set font-weight/
+   font-style reliably. Unique names guarantee the right file loads.
+   
+   Paste this block at the BOTTOM of app/globals.css
+   Font files: /public/fonts/telugu/<name>.ttf
    ================================================================ */
 
-/* ── Classic ─────────────────────────────────────────── */
-@font-face { font-family: 'Gurajada';           src: url('/fonts/telugu/Gurajada.ttf')               format('truetype'); font-display: swap; }
-@font-face { font-family: 'NTR';                src: url('/fonts/telugu/NTR.ttf')                    format('truetype'); font-display: swap; }
-@font-face { font-family: 'Ramaneeya';          src: url('/fonts/telugu/Ramaneeya.ttf')              format('truetype'); font-display: swap; }
-@font-face { font-family: 'Veturi';             src: url('/fonts/telugu/Veturi.ttf')                 format('truetype'); font-display: swap; }
-@font-face { font-family: 'Sirivennela';        src: url('/fonts/telugu/Sirivennela.ttf')            format('truetype'); font-display: swap; }
+/* ── Classic ──────────────────────────────────────────── */
+@font-face { font-family: 'Gurajada';              src: url('/fonts/telugu/Gurajada.ttf')               format('truetype'); font-display: swap; }
+@font-face { font-family: 'NTR';                   src: url('/fonts/telugu/NTR.ttf')                    format('truetype'); font-display: swap; }
+@font-face { font-family: 'Ramaneeya';             src: url('/fonts/telugu/Ramaneeya.ttf')              format('truetype'); font-display: swap; }
+@font-face { font-family: 'Veturi';                src: url('/fonts/telugu/Veturi.ttf')                 format('truetype'); font-display: swap; }
+@font-face { font-family: 'Sirivennela';           src: url('/fonts/telugu/Sirivennela.ttf')            format('truetype'); font-display: swap; }
 
-/* ── Chathura family ──────────────────────────────────── */
-@font-face { font-family: 'Chathura'; font-weight: 100; src: url('/fonts/telugu/Chathura-Thin.ttf')      format('truetype'); font-display: swap; }
-@font-face { font-family: 'Chathura'; font-weight: 300; src: url('/fonts/telugu/Chathura-Light.ttf')     format('truetype'); font-display: swap; }
-@font-face { font-family: 'Chathura'; font-weight: 400; src: url('/fonts/telugu/Chathura-Regular.ttf')   format('truetype'); font-display: swap; }
-@font-face { font-family: 'Chathura'; font-weight: 700; src: url('/fonts/telugu/Chathura-Bold.ttf')      format('truetype'); font-display: swap; }
-@font-face { font-family: 'Chathura'; font-weight: 800; src: url('/fonts/telugu/Chathura-ExtraBold.ttf') format('truetype'); font-display: swap; }
+/* ── Chathura — each weight/style = unique family name ── */
+@font-face { font-family: 'Chathura-Thin';         src: url('/fonts/telugu/Chathura-Thin.ttf')          format('truetype'); font-display: swap; }
+@font-face { font-family: 'Chathura-Light';        src: url('/fonts/telugu/Chathura-Light.ttf')         format('truetype'); font-display: swap; }
+@font-face { font-family: 'Chathura-Regular';      src: url('/fonts/telugu/Chathura-Regular.ttf')       format('truetype'); font-display: swap; }
+@font-face { font-family: 'Chathura-Bold';         src: url('/fonts/telugu/Chathura-Bold.ttf')          format('truetype'); font-display: swap; }
+@font-face { font-family: 'Chathura-ExtraBold';    src: url('/fonts/telugu/Chathura-ExtraBold.ttf')     format('truetype'); font-display: swap; }
 
 /* ── Traditional ──────────────────────────────────────── */
-@font-face { font-family: 'Ramaraja';           src: url('/fonts/telugu/Ramaraja.ttf')               format('truetype'); font-display: swap; }
-@font-face { font-family: 'RaviPrakash';        src: url('/fonts/telugu/RaviPrakash.ttf')            format('truetype'); font-display: swap; }
-@font-face { font-family: 'TenaliRamakrishna';  src: url('/fonts/telugu/TenaliRamakrishna.ttf')      format('truetype'); font-display: swap; }
-@font-face { font-family: 'Timmana';            src: url('/fonts/telugu/Timmana.ttf')                format('truetype'); font-display: swap; }
-@font-face { font-family: 'TANA';               src: url('/fonts/telugu/TANA.ttf')                   format('truetype'); font-display: swap; }
-@font-face { font-family: 'Ponnala';            src: url('/fonts/telugu/Ponnala-Regular.ttf')        format('truetype'); font-display: swap; }
+@font-face { font-family: 'Ramaraja';              src: url('/fonts/telugu/Ramaraja.ttf')               format('truetype'); font-display: swap; }
+@font-face { font-family: 'RaviPrakash';           src: url('/fonts/telugu/RaviPrakash.ttf')            format('truetype'); font-display: swap; }
+@font-face { font-family: 'TenaliRamakrishna';     src: url('/fonts/telugu/TenaliRamakrishna.ttf')      format('truetype'); font-display: swap; }
+@font-face { font-family: 'Timmana';               src: url('/fonts/telugu/Timmana.ttf')                format('truetype'); font-display: swap; }
+@font-face { font-family: 'TANA';                  src: url('/fonts/telugu/TANA.ttf')                   format('truetype'); font-display: swap; }
+@font-face { font-family: 'Ponnala';               src: url('/fonts/telugu/Ponnala-Regular.ttf')        format('truetype'); font-display: swap; }
 
-/* ── Gidugu family ────────────────────────────────────── */
-@font-face { font-family: 'Gidugu'; font-style: normal; src: url('/fonts/telugu/Gidugu.ttf')         format('truetype'); font-display: swap; }
-@font-face { font-family: 'Gidugu'; font-style: italic; src: url('/fonts/telugu/Gidugu-Italic.ttf')  format('truetype'); font-display: swap; }
+/* ── Gidugu ───────────────────────────────────────────── */
+@font-face { font-family: 'Gidugu';                src: url('/fonts/telugu/Gidugu.ttf')                 format('truetype'); font-display: swap; }
+@font-face { font-family: 'Gidugu-Italic';         src: url('/fonts/telugu/Gidugu-Italic.ttf')          format('truetype'); font-display: swap; }
 
 /* ── Single-weight ────────────────────────────────────── */
-@font-face { font-family: 'LakkiReddy';         src: url('/fonts/telugu/LakkiReddy.ttf')             format('truetype'); font-display: swap; }
-@font-face { font-family: 'Peddana';            src: url('/fonts/telugu/Peddana.ttf')                format('truetype'); font-display: swap; }
+@font-face { font-family: 'LakkiReddy';            src: url('/fonts/telugu/LakkiReddy.ttf')             format('truetype'); font-display: swap; }
+@font-face { font-family: 'Peddana';               src: url('/fonts/telugu/Peddana.ttf')                format('truetype'); font-display: swap; }
 
-/* ── Nandakam family ──────────────────────────────────── */
-@font-face { font-family: 'Nandakam'; font-style: normal; src: url('/fonts/telugu/Nandakam.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'Nandakam'; font-style: italic; src: url('/fonts/telugu/Nandakam-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── Nandakam ─────────────────────────────────────────── */
+@font-face { font-family: 'Nandakam';              src: url('/fonts/telugu/Nandakam.ttf')               format('truetype'); font-display: swap; }
+@font-face { font-family: 'Nandakam-Italic';       src: url('/fonts/telugu/Nandakam-Italic.ttf')        format('truetype'); font-display: swap; }
 
-/* ── Purushothamaa family ─────────────────────────────── */
-@font-face { font-family: 'Purushothamaa'; font-style: normal; src: url('/fonts/telugu/Purushothamaa.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'Purushothamaa'; font-style: italic; src: url('/fonts/telugu/Purushothamaa-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── Purushothamaa ────────────────────────────────────── */
+@font-face { font-family: 'Purushothamaa';         src: url('/fonts/telugu/Purushothamaa.ttf')          format('truetype'); font-display: swap; }
+@font-face { font-family: 'Purushothamaa-Italic';  src: url('/fonts/telugu/Purushothamaa-Italic.ttf')   format('truetype'); font-display: swap; }
 
-/* ── Ramabhadra family ────────────────────────────────── */
-@font-face { font-family: 'Ramabhadra'; font-style: normal; src: url('/fonts/telugu/Ramabhadra.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'Ramabhadra'; font-style: italic; src: url('/fonts/telugu/Ramabhadra-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── Ramabhadra ───────────────────────────────────────── */
+@font-face { font-family: 'Ramabhadra';            src: url('/fonts/telugu/Ramabhadra.ttf')             format('truetype'); font-display: swap; }
+@font-face { font-family: 'Ramabhadra-Italic';     src: url('/fonts/telugu/Ramabhadra-Italic.ttf')      format('truetype'); font-display: swap; }
 
-/* ── Sree Krushnadevaraya family ─────────────────────── */
-@font-face { font-family: 'SreeKrushnadevaraya'; font-style: normal; src: url('/fonts/telugu/SreeKrushnadevaraya.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'SreeKrushnadevaraya'; font-style: italic; src: url('/fonts/telugu/SreeKrushnadevaraya-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── Sree Krushnadevaraya ─────────────────────────────── */
+@font-face { font-family: 'SreeKrushnadevaraya';        src: url('/fonts/telugu/SreeKrushnadevaraya.ttf')        format('truetype'); font-display: swap; }
+@font-face { font-family: 'SreeKrushnadevaraya-Italic'; src: url('/fonts/telugu/SreeKrushnadevaraya-Italic.ttf') format('truetype'); font-display: swap; }
 
-/* ── Suranna family ───────────────────────────────────── */
-@font-face { font-family: 'Suranna'; font-weight: 400; font-style: normal; src: url('/fonts/telugu/Suranna-Regular.ttf')    format('truetype'); font-display: swap; }
-@font-face { font-family: 'Suranna'; font-weight: 700; font-style: normal; src: url('/fonts/telugu/Suranna-Bold.ttf')       format('truetype'); font-display: swap; }
-@font-face { font-family: 'Suranna'; font-weight: 400; font-style: italic; src: url('/fonts/telugu/Suranna-Italic.ttf')     format('truetype'); font-display: swap; }
-@font-face { font-family: 'Suranna'; font-weight: 700; font-style: italic; src: url('/fonts/telugu/Suranna-BoldItalic.ttf') format('truetype'); font-display: swap; }
+/* ── Suranna ──────────────────────────────────────────── */
+@font-face { font-family: 'Suranna';               src: url('/fonts/telugu/Suranna-Regular.ttf')        format('truetype'); font-display: swap; }
+@font-face { font-family: 'Suranna-Bold';          src: url('/fonts/telugu/Suranna-Bold.ttf')           format('truetype'); font-display: swap; }
+@font-face { font-family: 'Suranna-Italic';        src: url('/fonts/telugu/Suranna-Italic.ttf')         format('truetype'); font-display: swap; }
+@font-face { font-family: 'Suranna-BoldItalic';    src: url('/fonts/telugu/Suranna-BoldItalic.ttf')     format('truetype'); font-display: swap; }
 
-/* ── Suravaram family ─────────────────────────────────── */
-@font-face { font-family: 'Suravaram'; font-style: normal; src: url('/fonts/telugu/Suravaram.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'Suravaram'; font-style: italic; src: url('/fonts/telugu/Suravaram-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── Suravaram ────────────────────────────────────────── */
+@font-face { font-family: 'Suravaram';             src: url('/fonts/telugu/Suravaram.ttf')              format('truetype'); font-display: swap; }
+@font-face { font-family: 'Suravaram-Italic';      src: url('/fonts/telugu/Suravaram-Italic.ttf')       format('truetype'); font-display: swap; }
 
-/* ── 🆕 Annamayya family ──────────────────────────────── */
-@font-face { font-family: 'Annamayya'; font-weight: 400; font-style: normal; src: url('/fonts/telugu/Annamayya.ttf')            format('truetype'); font-display: swap; }
-@font-face { font-family: 'Annamayya'; font-weight: 700; font-style: normal; src: url('/fonts/telugu/Annamayya-Bold.ttf')       format('truetype'); font-display: swap; }
-@font-face { font-family: 'Annamayya'; font-weight: 400; font-style: italic; src: url('/fonts/telugu/Annamayya-Italic.ttf')     format('truetype'); font-display: swap; }
-@font-face { font-family: 'Annamayya'; font-weight: 700; font-style: italic; src: url('/fonts/telugu/Annamayya-BoldItalic.ttf') format('truetype'); font-display: swap; }
+/* ── Annamayya ────────────────────────────────────────── */
+@font-face { font-family: 'Annamayya';             src: url('/fonts/telugu/Annamayya.ttf')              format('truetype'); font-display: swap; }
+@font-face { font-family: 'Annamayya-Bold';        src: url('/fonts/telugu/Annamayya-Bold.ttf')         format('truetype'); font-display: swap; }
+@font-face { font-family: 'Annamayya-Italic';      src: url('/fonts/telugu/Annamayya-Italic.ttf')       format('truetype'); font-display: swap; }
+@font-face { font-family: 'Annamayya-BoldItalic';  src: url('/fonts/telugu/Annamayya-BoldItalic.ttf')   format('truetype'); font-display: swap; }
 
-/* ── 🆕 Dhurjati family ───────────────────────────────── */
-@font-face { font-family: 'Dhurjati'; font-style: normal; src: url('/fonts/telugu/Dhurjati.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'Dhurjati'; font-style: italic; src: url('/fonts/telugu/Dhurjati-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── Dhurjati ─────────────────────────────────────────── */
+@font-face { font-family: 'Dhurjati';              src: url('/fonts/telugu/Dhurjati.ttf')               format('truetype'); font-display: swap; }
+@font-face { font-family: 'Dhurjati-Italic';       src: url('/fonts/telugu/Dhurjati-Italic.ttf')        format('truetype'); font-display: swap; }
 
-/* ── 🆕 JIMS family ───────────────────────────────────── */
-@font-face { font-family: 'JIMS'; font-style: normal; src: url('/fonts/telugu/JIMS.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'JIMS'; font-style: italic; src: url('/fonts/telugu/JIMS-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── JIMS ─────────────────────────────────────────────── */
+@font-face { font-family: 'JIMS';                  src: url('/fonts/telugu/JIMS.ttf')                   format('truetype'); font-display: swap; }
+@font-face { font-family: 'JIMS-Italic';           src: url('/fonts/telugu/JIMS-Italic.ttf')            format('truetype'); font-display: swap; }
 
-/* ── 🆕 KanakaDurga family ────────────────────────────── */
-@font-face { font-family: 'KanakaDurga'; font-style: normal; src: url('/fonts/telugu/KanakaDurga.ttf')        format('truetype'); font-display: swap; }
-@font-face { font-family: 'KanakaDurga'; font-style: italic; src: url('/fonts/telugu/KanakaDurga-Italic.ttf') format('truetype'); font-display: swap; }
+/* ── KanakaDurga ──────────────────────────────────────── */
+@font-face { font-family: 'KanakaDurga';           src: url('/fonts/telugu/KanakaDurga.ttf')            format('truetype'); font-display: swap; }
+@font-face { font-family: 'KanakaDurga-Italic';    src: url('/fonts/telugu/KanakaDurga-Italic.ttf')     format('truetype'); font-display: swap; }
 
-/* ── 🆕 Mandali family ────────────────────────────────── */
-@font-face { font-family: 'Mandali'; font-weight: 400; font-style: normal; src: url('/fonts/telugu/Mandali-Regular.ttf')    format('truetype'); font-display: swap; }
-@font-face { font-family: 'Mandali'; font-weight: 700; font-style: normal; src: url('/fonts/telugu/Mandali-Bold.ttf')       format('truetype'); font-display: swap; }
-@font-face { font-family: 'Mandali'; font-weight: 400; font-style: italic; src: url('/fonts/telugu/Mandali-Italic.ttf')     format('truetype'); font-display: swap; }
-@font-face { font-family: 'Mandali'; font-weight: 700; font-style: italic; src: url('/fonts/telugu/Mandali-BoldItalic.ttf') format('truetype'); font-display: swap; }
+/* ── Mandali ──────────────────────────────────────────── */
+@font-face { font-family: 'Mandali';               src: url('/fonts/telugu/Mandali-Regular.ttf')        format('truetype'); font-display: swap; }
+@font-face { font-family: 'Mandali-Bold';          src: url('/fonts/telugu/Mandali-Bold.ttf')           format('truetype'); font-display: swap; }
+@font-face { font-family: 'Mandali-Italic';        src: url('/fonts/telugu/Mandali-Italic.ttf')         format('truetype'); font-display: swap; }
+@font-face { font-family: 'Mandali-BoldItalic';    src: url('/fonts/telugu/Mandali-BoldItalic.ttf')     format('truetype'); font-display: swap; }
 
-/* ── 🆕 Potti Sreeramulu ──────────────────────────────── */
-@font-face { font-family: 'PottiSreeramulu'; src: url('/fonts/telugu/PottiSreeramulu.ttf') format('truetype'); font-display: swap; }
+/* ── Potti Sreeramulu ─────────────────────────────────── */
+@font-face { font-family: 'PottiSreeramulu';       src: url('/fonts/telugu/PottiSreeramulu.ttf')        format('truetype'); font-display: swap; }
