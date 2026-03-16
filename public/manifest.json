@@ -1,0 +1,146 @@
+{
+  "id": "aksharatantra-app",
+  "name": "AksharaTantra – Indic Voice & OCR",
+  "short_name": "AksharaTantra",
+  "description": "Read, hear and decode Indian language documents. Offline TTS for Hindi, Telugu, Tamil, Bengali and 20+ languages. No API key needed.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#171347",
+  "theme_color": "#26ffe7",
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["utilities", "productivity", "education", "accessibility"],
+  "iarc_rating_id": "",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icons/icon-48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screen-home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home screen – choose language and enter text"
+    },
+    {
+      "src": "/screenshots/screen-audio.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Audio output – play, download WAV"
+    },
+    {
+      "src": "/screenshots/screen-video.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Video output – download WebM"
+    },
+    {
+      "src": "/screenshots/screen-desktop.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop view of AksharaTantra"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Hindi Voice",
+      "short_name": "Hindi",
+      "description": "Generate Hindi speech instantly",
+      "url": "/voice?lang=hin&source=shortcut",
+      "icons": [{ "src": "/icons/shortcut-hindi.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Telugu Voice",
+      "short_name": "Telugu",
+      "description": "Generate Telugu speech instantly",
+      "url": "/voice?lang=tel&source=shortcut",
+      "icons": [{ "src": "/icons/shortcut-telugu.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Tamil Voice",
+      "short_name": "Tamil",
+      "description": "Generate Tamil speech instantly",
+      "url": "/voice?lang=tam&source=shortcut",
+      "icons": [{ "src": "/icons/shortcut-tamil.png", "sizes": "96x96" }]
+    }
+  ],
+  "share_target": {
+    "action": "/voice",
+    "method": "GET",
+    "params": {
+      "text": "text",
+      "title": "title",
+      "url": "url"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+aksharatantra",
+      "url": "/voice?text=%s"
+    }
+  ],
+  "related_applications": [],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}
