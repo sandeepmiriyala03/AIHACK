@@ -1,9 +1,7 @@
 "use client";
 
 // =====================================================
-// AksharaTantra — FontPicker (FIXED)
-// Fixes: tab UI missing, loadLocalFonts never called,
-//        search input missing, error never displayed
+// AksharaTantra — FontPicker (Telugu Fonts Expanded)
 // =====================================================
 
 import { useEffect, useRef, useState, useMemo } from "react";
@@ -15,14 +13,115 @@ export interface CuratedFont {
   googleFont?: string;
 }
 
+// ─── Telugu font list ─────────────────────────────────────────────────────────
+// These fonts are served from /public/fonts/telugu/ as @font-face declarations
+// (or from your existing font loading pipeline).
+// Group labels are visual only — they don't affect rendering.
+
+const TELUGU_FONTS: CuratedFont[] = [
+  // ── Classic / Calligraphic ────────────────────────────────────────────────
+  { name: "'Gurajada', serif",             label: "Gurajada",               sample: "తెలుగు అక్షరం" },
+  { name: "'NTR', sans-serif",             label: "NTR",                    sample: "తెలుగు అక్షరం" },
+  { name: "'Ramaneeya', serif",            label: "Ramaneeya",              sample: "తెలుగు అక్షరం" },
+  { name: "'Veturi', serif",               label: "Veturi",                 sample: "తెలుగు అక్షరం" },
+  { name: "'Sirivennela', serif",          label: "Sirivennela",            sample: "తెలుగు అక్షరం" },
+
+  // ── Chathura family ───────────────────────────────────────────────────────
+  { name: "'Chathura', sans-serif",                   label: "Chathura Regular",   sample: "తెలుగు అక్షరం" },
+  { name: "'Chathura', sans-serif",                   label: "Chathura Thin",      sample: "తెలుగు అక్షరం" },
+  { name: "'Chathura', sans-serif",                   label: "Chathura Light",     sample: "తెలుగు అక్షరం" },
+  { name: "'Chathura', sans-serif",                   label: "Chathura Bold",      sample: "తెలుగు అక్షరం" },
+  { name: "'Chathura', sans-serif",                   label: "Chathura ExtraBold", sample: "తెలుగు అక్షరం" },
+
+  // ── Traditional / Historical ─────────────────────────────────────────────
+  { name: "'Ramaraja', serif",             label: "Ramaraja",               sample: "తెలుగు అక్షరం" },
+  { name: "'RaviPrakash', sans-serif",     label: "Ravi Prakash",           sample: "తెలుగు అక్షరం" },
+  { name: "'TenaliRamakrishna', serif",    label: "Tenali Ramakrishna",     sample: "తెలుగు అక్షరం" },
+  { name: "'Timmana', serif",              label: "Timmana",                sample: "తెలుగు అక్షరం" },
+  { name: "'TANA', sans-serif",            label: "TANA",                   sample: "తెలుగు అక్షరం" },
+  { name: "'Ponnala', sans-serif",         label: "Ponnala",                sample: "తెలుగు అక్షరం" },
+
+  // ── Gidugu family ────────────────────────────────────────────────────────
+  { name: "'Gidugu', sans-serif",          label: "Gidugu",                 sample: "తెలుగు అక్షరం" },
+  { name: "'Gidugu', sans-serif",          label: "Gidugu Italic",          sample: "తెలుగు అక్షరం" },
+
+  // ── Single-weight ─────────────────────────────────────────────────────────
+  { name: "'LakkiReddy', serif",           label: "Lakki Reddy",            sample: "తెలుగు అక్షరం" },
+  { name: "'Peddana', serif",              label: "Peddana",                sample: "తెలుగు అక్షరం" },
+
+  // ── Nandakam family ──────────────────────────────────────────────────────
+  { name: "'Nandakam', serif",             label: "Nandakam",               sample: "తెలుగు అక్షరం" },
+  { name: "'Nandakam', serif",             label: "Nandakam Italic",        sample: "తెలుగు అక్షరం" },
+
+  // ── Purushothamaa family ─────────────────────────────────────────────────
+  { name: "'Purushothamaa', serif",        label: "Purushothamaa",          sample: "తెలుగు అక్షరం" },
+  { name: "'Purushothamaa', serif",        label: "Purushothamaa Italic",   sample: "తెలుగు అక్షరం" },
+
+  // ── Ramabhadra family ────────────────────────────────────────────────────
+  { name: "'Ramabhadra', serif",           label: "Ramabhadra",             sample: "తెలుగు అక్షరం" },
+  { name: "'Ramabhadra', serif",           label: "Ramabhadra Italic",      sample: "తెలుగు అక్షరం" },
+
+  // ── Sree Krushnadevaraya family ──────────────────────────────────────────
+  { name: "'SreeKrushnadevaraya', serif",  label: "Sree Krushnadevaraya",         sample: "తెలుగు అక్షరం" },
+  { name: "'SreeKrushnadevaraya', serif",  label: "Sree Krushnadevaraya Italic",  sample: "తెలుగు అక్షరం" },
+
+  // ── Suranna family ───────────────────────────────────────────────────────
+  { name: "'Suranna', serif",              label: "Suranna",                sample: "తెలుగు అక్షరం" },
+  { name: "'Suranna', serif",              label: "Suranna Bold",           sample: "తెలుగు అక్షరం" },
+  { name: "'Suranna', serif",              label: "Suranna Italic",         sample: "తెలుగు అక్షరం" },
+  { name: "'Suranna', serif",              label: "Suranna Bold Italic",    sample: "తెలుగు అక్షరం" },
+
+  // ── Suravaram family ─────────────────────────────────────────────────────
+  { name: "'Suravaram', serif",            label: "Suravaram",              sample: "తెలుగు అక్షరం" },
+  { name: "'Suravaram', serif",            label: "Suravaram Italic",       sample: "తెలుగు అక్షరం" },
+
+  // ── 🆕 Newly Added ────────────────────────────────────────────────────────
+
+  // Annamayya family
+  { name: "'Annamayya', serif",            label: "Annamayya",              sample: "తెలుగు అక్షరం" },
+  { name: "'Annamayya', serif",            label: "Annamayya Bold",         sample: "తెలుగు అక్షరం" },
+  { name: "'Annamayya', serif",            label: "Annamayya Italic",       sample: "తెలుగు అక్షరం" },
+  { name: "'Annamayya', serif",            label: "Annamayya Bold Italic",  sample: "తెలుగు అక్షరం" },
+
+  // Dhurjati family
+  { name: "'Dhurjati', sans-serif",        label: "Dhurjati",               sample: "తెలుగు అక్షరం" },
+  { name: "'Dhurjati', sans-serif",        label: "Dhurjati Italic",        sample: "తెలుగు అక్షరం" },
+
+  // JIMS family
+  { name: "'JIMS', sans-serif",            label: "JIMS",                   sample: "తెలుగు అక్షరం" },
+  { name: "'JIMS', sans-serif",            label: "JIMS Italic",            sample: "తెలుగు అక్షరం" },
+
+  // KanakaDurga family
+  { name: "'KanakaDurga', serif",          label: "Kanaka Durga",           sample: "తెలుగు అక్షరం" },
+  { name: "'KanakaDurga', serif",          label: "Kanaka Durga Italic",    sample: "తెలుగు అక్షరం" },
+
+  // Mandali family
+  { name: "'Mandali', sans-serif",         label: "Mandali",                sample: "తెలుగు అక్షరం" },
+  { name: "'Mandali', sans-serif",         label: "Mandali Bold",           sample: "తెలుగు అక్షరం" },
+  { name: "'Mandali', sans-serif",         label: "Mandali Italic",         sample: "తెలుగు అక్షరం" },
+  { name: "'Mandali', sans-serif",         label: "Mandali Bold Italic",    sample: "తెలుగు అక్షరం" },
+
+  // Potti Sreeramulu
+  { name: "'PottiSreeramulu', sans-serif", label: "Potti Sreeramulu",       sample: "తెలుగు అక్షరం" },
+];
+
+// ─── Font weights for variant-aware rendering ─────────────────────────────────
+// Maps label suffix → CSS font-weight + font-style
+export function getFontVariantStyle(label: string): React.CSSProperties {
+  const l = label.toLowerCase();
+  const bold   = l.includes("bold") || l.includes("extrabold");
+  const italic = l.includes("italic");
+  const thin   = l.includes("thin");
+  const light  = l.includes("light");
+
+  return {
+    fontWeight: l.includes("extrabold") ? 800 : bold ? 700 : thin ? 100 : light ? 300 : 400,
+    fontStyle:  italic ? "italic" : "normal",
+  };
+}
+
 export const LANGUAGE_FONTS: Record<string, CuratedFont[]> = {
-  tel: [
-    { name: "'Noto Serif Telugu', serif",    label: "Noto Serif Telugu",    sample: "తెలుగు అక్షరం",  googleFont: "Noto+Serif+Telugu"    },
-    { name: "'Hind Guntur', sans-serif",      label: "Hind Guntur",          sample: "తెలుగు అక్షరం",  googleFont: "Hind+Guntur"          },
-    { name: "'Baloo Tammudu 2', cursive",     label: "Baloo Tammudu 2",      sample: "తెలుగు అక్షరం",  googleFont: "Baloo+Tammudu+2"      },
-    { name: "'Tiro Telugu', serif",           label: "Tiro Telugu",          sample: "తెలుగు అక్షరం",  googleFont: "Tiro+Telugu"          },
-    { name: "'Anek Telugu', sans-serif",      label: "Anek Telugu",          sample: "తెలుగు అక్షరం",  googleFont: "Anek+Telugu"          },
-  ],
+  tel: TELUGU_FONTS,
   eng: [
     { name: "'Playfair Display', serif",      label: "Playfair Display",     sample: "The quick brown fox",  googleFont: "Playfair+Display"     },
     { name: "'Lora', serif",                  label: "Lora",                 sample: "The quick brown fox",  googleFont: "Lora"                 },
@@ -36,12 +135,12 @@ export const LANGUAGE_FONTS: Record<string, CuratedFont[]> = {
     { name: "'Tiro Devanagari Hindi', serif", label: "Tiro Devanagari",       sample: "हिन्दी अक्षर", googleFont: "Tiro+Devanagari+Hindi" },
   ],
   san: [
-    { name: "'Noto Serif Devanagari', serif", label: "Noto Serif Devanagari", sample: "संस्कृतम्", googleFont: "Noto+Serif+Devanagari" },
-    { name: "'Tiro Devanagari Sanskrit', serif", label: "Tiro Sanskrit",      sample: "संस्कृतम्", googleFont: "Tiro+Devanagari+Sanskrit" },
+    { name: "'Noto Serif Devanagari', serif",    label: "Noto Serif Devanagari", sample: "संस्कृतम्", googleFont: "Noto+Serif+Devanagari"      },
+    { name: "'Tiro Devanagari Sanskrit', serif", label: "Tiro Sanskrit",         sample: "संस्कृतम्", googleFont: "Tiro+Devanagari+Sanskrit"   },
   ],
   tam: [
     { name: "'Noto Serif Tamil', serif",      label: "Noto Serif Tamil",     sample: "தமிழ் எழுத்து", googleFont: "Noto+Serif+Tamil"     },
-    { name: "'Latha', sans-serif",            label: "Latha",                sample: "தமிழ் எழுத்து"                                       },
+    { name: "'Latha', sans-serif",            label: "Latha",                sample: "தமிழ் எழுத்து"                                      },
   ],
   kan: [
     { name: "'Noto Serif Kannada', serif",    label: "Noto Serif Kannada",   sample: "ಕನ್ನಡ ಅಕ್ಷರ", googleFont: "Noto+Serif+Kannada"   },
@@ -114,8 +213,8 @@ const S = {
     background: "#fff",
     borderRadius: 14,
     width: "100%",
-    maxWidth: 420,
-    maxHeight: "80vh",
+    maxWidth: 440,
+    maxHeight: "82vh",
     display: "flex",
     flexDirection: "column" as const,
     boxShadow: "0 8px 40px rgba(0,0,0,0.22)",
@@ -165,6 +264,16 @@ const S = {
     flexDirection: "column" as const,
     gap: 4,
   },
+  // ── Group header inside font list ──
+  groupHeader: {
+    padding: "6px 10px 2px",
+    fontSize: 10,
+    fontWeight: 700,
+    letterSpacing: "0.1em",
+    textTransform: "uppercase" as const,
+    color: "#aaa",
+    fontFamily: "Montserrat, sans-serif",
+  },
   fontRow: (selected: boolean): React.CSSProperties => ({
     display: "flex",
     alignItems: "center",
@@ -177,8 +286,9 @@ const S = {
     cursor: "pointer",
     transition: "background 0.12s",
   }),
-  sampleText: (fontFamily: string): React.CSSProperties => ({
+  sampleText: (fontFamily: string, variantStyle: React.CSSProperties): React.CSSProperties => ({
     fontFamily,
+    ...variantStyle,
     fontSize: 17,
     flex: 1,
     color: "#222",
@@ -239,29 +349,111 @@ const S = {
     fontSize: 13,
     fontFamily: "Montserrat, sans-serif",
   },
+  countBadge: {
+    fontSize: 11,
+    background: "#EBF4FF",
+    color: "#4A90E2",
+    borderRadius: 10,
+    padding: "2px 8px",
+    fontFamily: "Montserrat, sans-serif",
+    fontWeight: 700,
+  } as React.CSSProperties,
 };
+
+// ─── Telugu font groups for display ──────────────────────────────────────────
+// Purely cosmetic — helps users scan 50+ fonts without scrolling blindly
+const TELUGU_GROUPS: { heading: string; labels: string[] }[] = [
+  {
+    heading: "Classic",
+    labels: ["Gurajada", "NTR", "Ramaneeya", "Veturi", "Sirivennela"],
+  },
+  {
+    heading: "Chathura",
+    labels: ["Chathura Regular", "Chathura Thin", "Chathura Light", "Chathura Bold", "Chathura ExtraBold"],
+  },
+  {
+    heading: "Traditional",
+    labels: ["Ramaraja", "Ravi Prakash", "Tenali Ramakrishna", "Timmana", "TANA", "Ponnala"],
+  },
+  {
+    heading: "Gidugu",
+    labels: ["Gidugu", "Gidugu Italic"],
+  },
+  {
+    heading: "Single-weight",
+    labels: ["Lakki Reddy", "Peddana"],
+  },
+  {
+    heading: "Nandakam",
+    labels: ["Nandakam", "Nandakam Italic"],
+  },
+  {
+    heading: "Purushothamaa",
+    labels: ["Purushothamaa", "Purushothamaa Italic"],
+  },
+  {
+    heading: "Ramabhadra",
+    labels: ["Ramabhadra", "Ramabhadra Italic"],
+  },
+  {
+    heading: "Sree Krushnadevaraya",
+    labels: ["Sree Krushnadevaraya", "Sree Krushnadevaraya Italic"],
+  },
+  {
+    heading: "Suranna",
+    labels: ["Suranna", "Suranna Bold", "Suranna Italic", "Suranna Bold Italic"],
+  },
+  {
+    heading: "Suravaram",
+    labels: ["Suravaram", "Suravaram Italic"],
+  },
+  {
+    heading: "🆕 Annamayya",
+    labels: ["Annamayya", "Annamayya Bold", "Annamayya Italic", "Annamayya Bold Italic"],
+  },
+  {
+    heading: "🆕 Dhurjati",
+    labels: ["Dhurjati", "Dhurjati Italic"],
+  },
+  {
+    heading: "🆕 JIMS",
+    labels: ["JIMS", "JIMS Italic"],
+  },
+  {
+    heading: "🆕 Kanaka Durga",
+    labels: ["Kanaka Durga", "Kanaka Durga Italic"],
+  },
+  {
+    heading: "🆕 Mandali",
+    labels: ["Mandali", "Mandali Bold", "Mandali Italic", "Mandali Bold Italic"],
+  },
+  {
+    heading: "🆕 Potti Sreeramulu",
+    labels: ["Potti Sreeramulu"],
+  },
+];
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps) {
-  const [open, setOpen]               = useState(false);
-  const [tab, setTab]                 = useState<FontTab>("curated");
-  const [localFonts, setLocalFonts]   = useState<LocalFontEntry[]>([]);
-  const [localLoading, setLocalLoading] = useState(false);
-  const [localError, setLocalError]   = useState<string | null>(null);
-  const [localSearch, setLocalSearch] = useState("");
-  const [localPermission, setLocalPermission] = useState(false); // ✅ FIX: track if user has granted permission
+  const [open, setOpen]                     = useState(false);
+  const [tab, setTab]                       = useState<FontTab>("curated");
+  const [search, setSearch]                 = useState("");
+  const [localFonts, setLocalFonts]         = useState<LocalFontEntry[]>([]);
+  const [localLoading, setLocalLoading]     = useState(false);
+  const [localError, setLocalError]         = useState<string | null>(null);
+  const [localSearch, setLocalSearch]       = useState("");
+  const [localPermission, setLocalPermission] = useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
   const curatedFonts = useMemo(() => getFontsForLanguage(language), [language]);
 
-  // Load Google Fonts when popup opens
+  // Load Google Fonts when popup opens (non-Telugu only)
   useEffect(() => {
     if (!open) return;
     curatedFonts.forEach((f) => { if (f.googleFont) loadGoogleFont(f.googleFont); });
   }, [open, curatedFonts]);
 
-  // ✅ FIX 2: Call loadLocalFonts when switching to local tab
   useEffect(() => {
     if (!open) return;
     if (tab === "local" && localFonts.length === 0 && !localLoading && localPermission) {
@@ -273,9 +465,7 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
   useEffect(() => {
     if (!open) return;
     const handler = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -292,56 +482,41 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
   const loadLocalFonts = async () => {
     setLocalLoading(true);
     setLocalError(null);
-
     try {
-      // ✅ FIX: Check API availability with clear message
       if (!("queryLocalFonts" in window)) {
-        setLocalError(
-          "Local Font Access is not supported in this browser. Please use Chrome 103+ on desktop."
-        );
+        setLocalError("Local Font Access requires Chrome 103+ on desktop.");
         return;
       }
-
       const data: LocalFontEntry[] = await (window as any).queryLocalFonts();
-
       const seen = new Set<string>();
-      const unique = data.filter((f) => {
-        if (seen.has(f.family)) return false;
-        seen.add(f.family);
-        return true;
-      });
-
+      const unique = data.filter((f) => { if (seen.has(f.family)) return false; seen.add(f.family); return true; });
       unique.sort((a, b) => a.family.localeCompare(b.family));
       setLocalFonts(unique);
       setLocalPermission(true);
     } catch (err: any) {
-      // ✅ FIX: Distinguish permission denied from other errors
-      if (err?.name === "NotAllowedError") {
-        setLocalError("Permission denied. Please allow font access when the browser prompts.");
-      } else {
-        setLocalError("Unable to load local fonts. " + (err?.message ?? ""));
-      }
+      setLocalError(
+        err?.name === "NotAllowedError"
+          ? "Permission denied. Please allow font access when the browser prompts."
+          : "Unable to load local fonts. " + (err?.message ?? "")
+      );
     } finally {
       setLocalLoading(false);
     }
   };
 
-  const handleGrantAccess = () => {
-    setLocalPermission(true);
-    loadLocalFonts();
-  };
+  const handleGrantAccess = () => { setLocalPermission(true); loadLocalFonts(); };
+  const handleSelect = (fontFamily: string) => { onSelect(fontFamily); setOpen(false); };
 
-  const handleSelect = (fontFamily: string) => {
-    onSelect(fontFamily);
-    setOpen(false);
-  };
-
-  // ✅ FIX 3: localSearch actually filters the list
   const filteredLocal = localSearch.trim()
-    ? localFonts.filter((f) =>
-        f.family.toLowerCase().includes(localSearch.toLowerCase())
-      )
+    ? localFonts.filter((f) => f.family.toLowerCase().includes(localSearch.toLowerCase()))
     : localFonts;
+
+  // ── Curated list with optional search filter ──────────────────────────────
+  const filteredCurated = search.trim()
+    ? curatedFonts.filter((f) => f.label.toLowerCase().includes(search.toLowerCase()))
+    : curatedFonts;
+
+  const isTeluguGrouped = language === "tel" && !search.trim();
 
   const displayLabel = selectedFont
     ? selectedFont.replace(/['"]/g, "").split(",")[0].trim()
@@ -352,6 +527,11 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
       {/* Trigger button */}
       <button style={S.triggerBtn} onClick={() => setOpen(true)}>
         🔤 <span>{displayLabel}</span>
+        {language === "tel" && (
+          <span style={{ ...S.countBadge, marginLeft: "auto" }}>
+            {TELUGU_FONTS.length} fonts
+          </span>
+        )}
       </button>
 
       {/* Modal overlay */}
@@ -364,27 +544,36 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 700, fontSize: 14, color: "#333" }}>
                   🔤 Choose Font
+                  {language === "tel" && (
+                    <span style={{ ...S.countBadge, marginLeft: 8, fontSize: 10 }}>
+                      {TELUGU_FONTS.length} Telugu fonts
+                    </span>
+                  )}
                 </span>
                 <button style={S.closeBtn} onClick={() => setOpen(false)}>✕</button>
               </div>
 
-              {/* ✅ FIX 1: Tab switcher rendered */}
+              {/* Tab switcher */}
               <div style={S.tabRow}>
-                <button
-                  style={S.tab(tab === "curated")}
-                  onClick={() => setTab("curated")}
-                >
+                <button style={S.tab(tab === "curated")} onClick={() => setTab("curated")}>
                   🌐 Curated
                 </button>
-                <button
-                  style={S.tab(tab === "local")}
-                  onClick={() => setTab("local")}
-                >
+                <button style={S.tab(tab === "local")} onClick={() => setTab("local")}>
                   💻 Local
                 </button>
               </div>
 
-              {/* ✅ FIX 3: Search input rendered for local tab */}
+              {/* Search — always shown on curated tab */}
+              {tab === "curated" && (
+                <input
+                  style={S.searchInput}
+                  placeholder={language === "tel" ? "Search Telugu fonts…" : "Search fonts…"}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              )}
+
+              {/* Search for local tab */}
               {tab === "local" && localFonts.length > 0 && (
                 <input
                   style={S.searchInput}
@@ -399,31 +588,64 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
             {/* ── Curated Tab ── */}
             {tab === "curated" && (
               <div style={S.listContainer}>
-                {curatedFonts.map((f) => (
-                  <div
-                    key={f.name}
-                    style={S.fontRow(selectedFont === f.name)}
-                    onClick={() => handleSelect(f.name)}
-                  >
-                    <span style={S.sampleText(f.name)}>{f.sample}</span>
-                    <span style={S.labelText}>{f.label}</span>
-                    {selectedFont === f.name && (
-                      <span style={{ color: "#4A90E2", fontSize: 16 }}>✓</span>
-                    )}
-                  </div>
-                ))}
+                {filteredCurated.length === 0 ? (
+                  <p style={S.emptyState}>No fonts match "{search}"</p>
+                ) : isTeluguGrouped ? (
+                  // ── Grouped view for Telugu (search not active) ────────────
+                  TELUGU_GROUPS.map((group) => {
+                    const groupFonts = TELUGU_FONTS.filter((f) =>
+                      group.labels.includes(f.label)
+                    );
+                    if (groupFonts.length === 0) return null;
+                    return (
+                      <div key={group.heading}>
+                        <div style={S.groupHeader}>{group.heading}</div>
+                        {groupFonts.map((f) => {
+                          const variant = getFontVariantStyle(f.label);
+                          return (
+                            <div
+                              key={f.label}
+                              style={S.fontRow(selectedFont === f.name && displayLabel === f.label)}
+                              onClick={() => handleSelect(f.name)}
+                            >
+                              <span style={S.sampleText(f.name, variant)}>{f.sample}</span>
+                              <span style={S.labelText}>{f.label}</span>
+                              {selectedFont === f.name && displayLabel === f.label && (
+                                <span style={{ color: "#4A90E2", fontSize: 16 }}>✓</span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })
+                ) : (
+                  // ── Flat list for other languages or active search ─────────
+                  filteredCurated.map((f) => {
+                    const variant = getFontVariantStyle(f.label);
+                    return (
+                      <div
+                        key={f.name + f.label}
+                        style={S.fontRow(selectedFont === f.name)}
+                        onClick={() => handleSelect(f.name)}
+                      >
+                        <span style={S.sampleText(f.name, variant)}>{f.sample}</span>
+                        <span style={S.labelText}>{f.label}</span>
+                        {selectedFont === f.name && (
+                          <span style={{ color: "#4A90E2", fontSize: 16 }}>✓</span>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
               </div>
             )}
 
             {/* ── Local Tab ── */}
             {tab === "local" && (
               <>
-                {/* ✅ FIX 4: Error displayed */}
-                {localError && (
-                  <div style={S.errorBox}>⚠️ {localError}</div>
-                )}
+                {localError && <div style={S.errorBox}>⚠️ {localError}</div>}
 
-                {/* Permission gate — show Grant button before loading */}
                 {!localPermission && !localError && !localLoading && (
                   <div style={{ ...S.emptyState, padding: "24px 16px" }}>
                     <p style={{ marginBottom: 12 }}>
@@ -438,16 +660,12 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
                   </div>
                 )}
 
-                {localLoading && (
-                  <p style={S.loadingText}>⏳ Loading local fonts…</p>
-                )}
+                {localLoading && <p style={S.loadingText}>⏳ Loading local fonts…</p>}
 
                 {!localLoading && localFonts.length > 0 && (
                   <div style={S.listContainer}>
                     {filteredLocal.length === 0 ? (
-                      <p style={S.emptyState}>
-                        No fonts match <b> {localSearch} </b>
-                      </p>
+                      <p style={S.emptyState}>No fonts match "{localSearch}"</p>
                     ) : (
                       filteredLocal.map((f) => {
                         const fontFamily = `'${f.family}', sans-serif`;
@@ -457,7 +675,7 @@ export function FontPicker({ language, selectedFont, onSelect }: FontPickerProps
                             style={S.fontRow(selectedFont === fontFamily)}
                             onClick={() => handleSelect(fontFamily)}
                           >
-                            <span style={S.sampleText(fontFamily)}>{f.family}</span>
+                            <span style={{ ...S.sampleText(fontFamily, {}), fontFamily }}>{f.family}</span>
                             {selectedFont === fontFamily && (
                               <span style={{ color: "#4A90E2", fontSize: 16 }}>✓</span>
                             )}
