@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "@/Styles/globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 import Footer from "@/components/Footer";
 import NetworkStatusIndicator from "@/components/NetworkStatusIndicator";
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
   },
 };
 
-/* ---------- VIEWPORT (IMPORTANT) ---------- */
+/* ---------- VIEWPORT ---------- */
 export const viewport: Viewport = {
   themeColor: "#26ffe7",
   width: "device-width",
@@ -41,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="sa">
+    <html lang="en">
       <body>
         {children}
 
@@ -50,6 +51,9 @@ export default function RootLayout({
 
         <Footer />
       </body>
+
+      {/* Google Analytics */}
+      <GoogleAnalytics gaId="G-5VRRWW655G" />
     </html>
   );
 }
