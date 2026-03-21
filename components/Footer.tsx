@@ -31,8 +31,7 @@ export default function Footer() {
       {/* Branding Row */}
       <div className={styles.row}>
         <span className={styles.icon}>🤖</span> Yuktishaalaa AI Lab &nbsp; | &nbsp;
-        <span className={styles.icon}>👨‍💻</span> Sandeep Miriyala &nbsp; | &nbsp;
-        ⚛️ Mobile + AI Engineering
+       
       </div>
 
       {/* Time + Year */}
