@@ -17,10 +17,12 @@ import MicRoundedIcon                from "@mui/icons-material/MicRounded";
 import AutoStoriesRoundedIcon        from "@mui/icons-material/AutoStoriesRounded";
 import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
 import MilitaryTechRoundedIcon       from "@mui/icons-material/MilitaryTechRounded";
-import AccountBalanceRoundedIcon     from "@mui/icons-material/AccountBalanceRounded";
 import FingerprintRoundedIcon        from "@mui/icons-material/FingerprintRounded";
 import CloseRoundedIcon              from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon               from "@mui/icons-material/MenuRounded";
+import ReceiptLongRoundedIcon      from "@mui/icons-material/ReceiptLongRounded";
+import CurrencyRupeeRoundedIcon    from "@mui/icons-material/CurrencyRupeeRounded";
+import AccountBalanceRoundedIcon   from "@mui/icons-material/AccountBalanceRounded";
 
 /* ─── types ─────────────────────────────────────────────────── */
 interface BeforeInstallPromptEvent extends Event {
@@ -31,6 +33,7 @@ interface BeforeInstallPromptEvent extends Event {
 /* ─── all nav items ──────────────────────────────────────────── */
 const navItems = [
   { href: "/",         label: "Home",       icon: HomeRoundedIcon },
+{ href: "/SMS", label: "ArthaVaakya", icon: CurrencyRupeeRoundedIcon },
   { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon },
   { href: "/upload",   label: "Upload",     icon: UploadFileRoundedIcon },
   { href: "/OCR",      label: "OCR",        icon: DocumentScannerRoundedIcon },
