@@ -31,7 +31,6 @@ interface BeforeInstallPromptEvent extends Event {
 /* ─── all nav items ──────────────────────────────────────────── */
 const navItems = [
   { href: "/",         label: "Home",       icon: HomeRoundedIcon },
-  { href: "/kosha",    label: "Kosha",      icon: AccountBalanceRoundedIcon },
   { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon },
   { href: "/upload",   label: "Upload",     icon: UploadFileRoundedIcon },
   { href: "/OCR",      label: "OCR",        icon: DocumentScannerRoundedIcon },
