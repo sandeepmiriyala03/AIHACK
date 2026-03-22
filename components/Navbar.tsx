@@ -45,7 +45,7 @@ const navItems = [
   { href: "/posters",  label: "Poster",     icon: DashboardCustomizeRoundedIcon },
   { href: "/smsparser", label: "ArthaVaakya", icon: CurrencyRupeeRoundedIcon },
   { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon },
-   { href: "/jobs",      label: "Jobs",        icon: WorkRoundedIcon },
+   { href: "/email",      label: "Jobs",        icon: WorkRoundedIcon },
 ];
 
 /*
