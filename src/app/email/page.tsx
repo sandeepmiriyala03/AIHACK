@@ -7,7 +7,7 @@
 // ✅ Indian market focused
 
 import { useState, useEffect, useCallback, useRef } from "react";
-
+import Navbar from "@/components/Navbar";
 const RUN_HOURS   = [10, 14, 19];
 const SLOT_LABELS = ["10:00 AM", "2:00 PM", "7:00 PM"];
 
@@ -580,7 +580,7 @@ export default function JobsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-
+      <Navbar />
       {/* Header */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
