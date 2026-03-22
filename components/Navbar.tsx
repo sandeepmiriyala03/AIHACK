@@ -33,8 +33,6 @@ interface BeforeInstallPromptEvent extends Event {
 /* ─── all nav items ──────────────────────────────────────────── */
 const navItems = [
   { href: "/",         label: "Home",       icon: HomeRoundedIcon },
-{ href: "/smsparser", label: "ArthaVaakya", icon: CurrencyRupeeRoundedIcon },
-  { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon },
   { href: "/upload",   label: "Upload",     icon: UploadFileRoundedIcon },
   { href: "/OCR",      label: "OCR",        icon: DocumentScannerRoundedIcon },
   { href: "/ocreng",   label: "HTR Indic",  icon: DrawRoundedIcon },
@@ -45,6 +43,8 @@ const navItems = [
   { href: "/vedha",    label: "Vedha",      icon: AutoStoriesRoundedIcon },
   { href: "/badge",    label: "Badge",      icon: MilitaryTechRoundedIcon },
   { href: "/posters",  label: "Poster",     icon: DashboardCustomizeRoundedIcon },
+  { href: "/smsparser", label: "ArthaVaakya", icon: CurrencyRupeeRoundedIcon },
+  { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon }
 ];
 
 /*
