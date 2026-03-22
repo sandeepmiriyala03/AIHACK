@@ -1,15 +1,12 @@
 "use client";
 
-// app/jobs/page.tsx
-// AksharaTantra — .NET Senior Jobs Finder
-// ✅ 10+ sources — LinkedIn · Naukri · Indeed · Glassdoor · Monster · Shine · TimesJobs · Remotive · WeWorkRemotely · Remote.co
-// ✅ No API keys · No email · Auto 10AM · 2PM · 7PM IST
-// ✅ Indian market focused
+
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Navbar from "@/components/Navbar";
+
 const RUN_HOURS   = [10, 14, 19];
-const SLOT_LABELS = ["10:00 AM", "2:00 PM", "7:00 PM"];
+const SLOT_LABELS = ["10 AM", "2 PM", "7 PM"];
 
 // ── Types ─────────────────────────────────────────────────────────────────
 interface Job {
@@ -17,770 +14,638 @@ interface Job {
   type: "Remote" | "Hybrid" | "Onsite"; experience: string; salary: string;
   skills: string[]; posted: string; source: string; url: string; urgent: boolean;
 }
-
-interface Source { name: string; status: "idle" | "fetching" | "done" | "error"; count: number; }
+interface Source { name: string; status: "idle"|"fetching"|"done"|"error"; count: number; }
 
 // ── Keyword filters ───────────────────────────────────────────────────────
-const DOTNET_KW = [".net", ".net core", ".net 6", ".net 7", ".net 8", "dotnet", "c#", "asp.net", "csharp", "blazor", "wpf", "wcf", "xamarin"];
-const SENIOR_KW = ["senior", "lead", "architect", "principal", "staff engineer", "head of", "13+", "14+", "15+", "12+", "10+ years", "expert", "manager"];
-const SKILL_MAP: [RegExp, string][] = [
-  [/\.net\s*(core|6|7|8)?/i, ".NET Core"], [/c#/i, "C#"], [/asp\.net/i, "ASP.NET"],
-  [/azure/i, "Azure"], [/aws/i, "AWS"], [/microservices?/i, "Microservices"],
-  [/sql\s*server/i, "SQL Server"], [/entity\s*framework/i, "Entity Framework"],
-  [/web\s*api/i, "Web API"], [/docker/i, "Docker"], [/kubernetes|k8s/i, "Kubernetes"],
-  [/react/i, "React"], [/angular/i, "Angular"], [/redis/i, "Redis"],
-  [/blazor/i, "Blazor"], [/wpf/i, "WPF"], [/wcf/i, "WCF"],
-  [/devops/i, "DevOps"], [/ci\/cd/i, "CI/CD"], [/rabbitmq|kafka/i, "Messaging"],
+const DOTNET_KW = [".net",".net core",".net 6",".net 7",".net 8","dotnet","c#","asp.net","csharp","blazor","wpf","wcf","xamarin"];
+const SENIOR_KW = ["senior","lead","architect","principal","staff engineer","head of","13+","14+","15+","12+","10+ years","expert","manager"];
+const SKILL_MAP: [RegExp,string][] = [
+  [/\.net\s*(core|6|7|8)?/i,".NET Core"],[/c#/i,"C#"],[/asp\.net/i,"ASP.NET"],
+  [/azure/i,"Azure"],[/aws/i,"AWS"],[/microservices?/i,"Microservices"],
+  [/sql\s*server/i,"SQL Server"],[/entity\s*framework/i,"Entity Framework"],
+  [/web\s*api/i,"Web API"],[/docker/i,"Docker"],[/kubernetes|k8s/i,"Kubernetes"],
+  [/react/i,"React"],[/angular/i,"Angular"],[/redis/i,"Redis"],
+  [/blazor/i,"Blazor"],[/wpf/i,"WPF"],[/wcf/i,"WCF"],
+  [/devops/i,"DevOps"],[/ci\/cd/i,"CI/CD"],[/rabbitmq|kafka/i,"Messaging"],
 ];
-
-function extractSkills(text: string): string[] {
-  return SKILL_MAP.filter(([re]) => re.test(text)).map(([, lbl]) => lbl).slice(0, 6);
+function extractSkills(t:string){return SKILL_MAP.filter(([re])=>re.test(t)).map(([,l])=>l).slice(0,5);}
+function isDotNet(t:string,d:string){const s=(t+" "+d).toLowerCase();return DOTNET_KW.some(k=>s.includes(k));}
+function isSenior(t:string,d:string){const s=(t+" "+d).toLowerCase();return SENIOR_KW.some(k=>s.includes(k));}
+function parsePosted(ds:string):string{
+  if(!ds) return "Recently";
+  const d=new Date(ds); if(isNaN(d.getTime())) return ds;
+  const h=Math.floor((Date.now()-d.getTime())/3_600_000);
+  if(h<1) return "Just now"; if(h<24) return `${h}h ago`;
+  return `${Math.floor(h/24)}d ago`;
 }
-function isDotNet(t: string, d: string) {
-  const s = (t + " " + d).toLowerCase();
-  return DOTNET_KW.some(k => s.includes(k));
-}
-function isSenior(t: string, d: string) {
-  const s = (t + " " + d).toLowerCase();
-  return SENIOR_KW.some(k => s.includes(k));
-}
-function parsePosted(ds: string): string {
-  if (!ds) return "Recently";
-  const d = new Date(ds);
-  if (isNaN(d.getTime())) return ds;
-  const h = Math.floor((Date.now() - d.getTime()) / 3_600_000);
-  if (h < 1) return "Just now";
-  if (h < 24) return `${h}h ago`;
-  const days = Math.floor(h / 24);
-  return `${days}d ago`;
-}
-function stripHtml(s: string) { return s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(); }
-function getIndiaCity(text: string): string {
-  const cities = ["Hyderabad","Bangalore","Bengaluru","Mumbai","Pune","Chennai","Delhi","Noida","Gurgaon","Gurugram","Kolkata","Ahmedabad","Jaipur","Kochi","Chandigarh","Bhubaneswar","Indore","Coimbatore"];
-  for (const c of cities) { if (new RegExp(c, "i").test(text)) return c; }
+function stripHtml(s:string){return s.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();}
+function getCity(text:string):string{
+  const cities=["Hyderabad","Bangalore","Bengaluru","Mumbai","Pune","Chennai","Delhi","Noida","Gurgaon","Gurugram","Kolkata","Ahmedabad","Jaipur","Kochi","Chandigarh","Indore"];
+  for(const c of cities){if(new RegExp(c,"i").test(text)) return c;}
   return "India";
 }
-
-// ── RSS2JSON proxy helper ─────────────────────────────────────────────────
-async function rss2json(rssUrl: string): Promise<{ items: Record<string, string>[] }> {
-  const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=50`;
-  const r   = await fetch(url, { cache: "no-store" });
-  if (!r.ok) throw new Error(`rss2json error: ${r.status}`);
+async function rss2json(url:string):Promise<{items:Record<string,string>[]}>{
+  const r=await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}&count=50`,{cache:"no-store"});
+  if(!r.ok) throw new Error(`${r.status}`);
   return r.json();
 }
-
-// ── All job sources ───────────────────────────────────────────────────────
-
-// 1. LinkedIn (unofficial public RSS — works without auth)
-async function fetchLinkedIn(): Promise<Job[]> {
-  const queries = [
-    "https://www.linkedin.com/jobs/search?keywords=.NET+Senior+Architect&location=India&f_TPR=r86400&trk=public_jobs_jobs-search-bar_search-submit&redirect=false&position=1&pageNum=0",
-    "https://www.linkedin.com/jobs/search?keywords=.NET+Lead+Developer&location=India&f_TPR=r86400",
-    "https://www.linkedin.com/jobs/search?keywords=Senior+.NET+Developer&location=Hyderabad&f_TPR=r86400",
-    "https://www.linkedin.com/jobs/search?keywords=.NET+Architect&location=Bangalore&f_TPR=r86400",
-  ];
-  const all: Job[] = [];
-  let n = 1;
-  for (const q of queries) {
-    try {
-      // LinkedIn public job search API (no auth needed for basic data)
-      const apiUrl = q.replace("/jobs/search?", "/jobs-guest/jobs/api/seeMoreJobPostings/search?start=0&");
-      const r = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(
-        `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(".NET senior architect lead")}&location=India&f_TPR=r86400&f_E=4%2C5%2C6&format=rss`
-      )}&count=25`, { cache: "no-store" });
-      const d = await r.json();
-      for (const item of (d.items ?? [])) {
-        const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? item.content ?? "");
-        if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-        const isRemote = /remote/i.test(title + desc), isHybrid = /hybrid/i.test(title + desc);
-        all.push({
-          id: `li_${n++}`, title, company: item.author ?? extractCompany(desc),
-          location: isRemote ? "Remote" : getIndiaCity(title + " " + desc),
-          type: isRemote ? "Remote" : isHybrid ? "Hybrid" : "Onsite",
-          experience: "12–15 years",
-          salary: desc.match(/₹[\d\s\-–LKlakPApa.,]+/)?.[0]?.trim() ?? "Not disclosed",
-          skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-          source: "LinkedIn", url: item.link ?? "https://linkedin.com/jobs", urgent: /urgent|immediate/i.test(title + desc),
-        });
-      }
-    } catch { /* silent */ }
-  }
-  return all;
+function extractCompany(h:string):string{
+  return h.match(/(?:company|at|@)[:\s]+([A-Za-z0-9 &.,'-]{2,35})/i)?.[1]?.trim()??"Company";
 }
 
-// 2. Naukri RSS (India's largest job portal)
-async function fetchNaukri(): Promise<Job[]> {
-  const queries = [
-    "https://www.naukri.com/jobs-in-india?k=.net+senior+architect&experience=10to15&rss=1",
-    "https://www.naukri.com/jobs-in-india?k=senior+.net+developer&experience=10to15&rss=1",
-    "https://www.naukri.com/jobs-in-hyderabad-2?k=.net+lead+architect&rss=1",
-    "https://www.naukri.com/jobs-in-bangalore-bengaluru-3?k=.net+senior+architect&rss=1",
-  ];
-  const all: Job[] = []; let n = 1;
-  for (const q of queries) {
-    try {
-      const d = await rss2json(q);
-      for (const item of (d.items ?? [])) {
-        const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-        if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-        const isRemote = /remote/i.test(title + desc), isHybrid = /hybrid/i.test(title + desc);
-        const salMatch = desc.match(/(?:salary|ctc|lpa)[:\s]*([\d\s\-–.]+(?:lpa|lac|lakh))/i);
-        all.push({
-          id: `nk_${n++}`, title, company: item.author ?? extractCompany(desc),
-          location: isRemote ? "Remote" : getIndiaCity(title + " " + (item.category ?? "") + " " + desc),
-          type: isRemote ? "Remote" : isHybrid ? "Hybrid" : "Onsite",
-          experience: desc.match(/(\d+)\s*[-–to]+\s*(\d+)\s*(?:years?|yrs?)/i)?.[0] ?? "10–15 years",
-          salary: salMatch?.[1]?.trim() ? `${salMatch[1].trim()} LPA` : "Not disclosed",
-          skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-          source: "Naukri", url: item.link ?? "https://naukri.com", urgent: /urgent|immediate|asap/i.test(title + desc),
-        });
-      }
-    } catch { /* silent */ }
-  }
-  return all;
-}
-
-// 3. Indeed India RSS
-async function fetchIndeed(): Promise<Job[]> {
-  const queries = [
-    "https://www.indeed.com/rss?q=%22.NET%22+senior+architect&l=India&fromage=2&sort=date",
-    "https://www.indeed.com/rss?q=senior+dotnet+lead&l=Hyderabad%2C+India&fromage=3",
-    "https://www.indeed.com/rss?q=.NET+architect+principal&l=Bangalore%2C+India&fromage=3",
-    "https://in.indeed.com/rss?q=senior+.net+developer+architect&l=India&fromage=2",
-  ];
-  const all: Job[] = []; let n = 1;
-  for (const q of queries) {
-    try {
-      const d = await rss2json(q);
-      for (const item of (d.items ?? [])) {
-        const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-        if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-        const isRemote = /remote/i.test(title + desc), isHybrid = /hybrid/i.test(title + desc);
-        all.push({
-          id: `in_${n++}`, title, company: item.author ?? extractCompany(desc),
-          location: isRemote ? "Remote" : getIndiaCity(title + " " + desc),
-          type: isRemote ? "Remote" : isHybrid ? "Hybrid" : "Onsite",
-          experience: "12–15 years",
-          salary: desc.match(/₹[\d\s\-–LKlakPApa.,]+/)?.[0]?.trim() ?? "Not disclosed",
-          skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-          source: "Indeed", url: item.link ?? "https://indeed.com", urgent: /urgent|immediate/i.test(title + desc),
-        });
-      }
-    } catch { /* silent */ }
-  }
-  return all;
-}
-
-// 4. Glassdoor RSS
-async function fetchGlassdoor(): Promise<Job[]> {
-  const queries = [
-    "https://www.glassdoor.co.in/Job/india-.net-senior-jobs-SRCH_IL.0,5_IN115_KO6,21.htm?fromAge=2&rss=1",
-    "https://www.glassdoor.co.in/Job/india-dotnet-architect-jobs-SRCH_IL.0,5_IN115_KO6,23.htm?fromAge=3&rss=1",
-  ];
-  const all: Job[] = []; let n = 1;
-  for (const q of queries) {
-    try {
-      const d = await rss2json(q);
-      for (const item of (d.items ?? [])) {
-        const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-        if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-        const isRemote = /remote/i.test(title + desc), isHybrid = /hybrid/i.test(title + desc);
-        all.push({
-          id: `gd_${n++}`, title, company: item.author ?? extractCompany(desc),
-          location: isRemote ? "Remote" : getIndiaCity(title + " " + desc),
-          type: isRemote ? "Remote" : isHybrid ? "Hybrid" : "Onsite",
-          experience: "10–15 years", salary: "Not disclosed",
-          skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-          source: "Glassdoor", url: item.link ?? "https://glassdoor.co.in", urgent: false,
-        });
-      }
-    } catch { /* silent */ }
-  }
-  return all;
-}
-
-// 5. Monster India RSS
-async function fetchMonster(): Promise<Job[]> {
-  const queries = [
-    "https://www.monsterindia.com/srp/results?query=senior+dotnet+architect&locations=India&rss=1",
-    "https://www.monsterindia.com/srp/results?query=.net+lead+architect&locations=Hyderabad&rss=1",
-    "https://www.monsterindia.com/srp/results?query=senior+.net+developer&locations=Bangalore&rss=1",
-  ];
-  const all: Job[] = []; let n = 1;
-  for (const q of queries) {
-    try {
-      const d = await rss2json(q);
-      for (const item of (d.items ?? [])) {
-        const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-        if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-        const isRemote = /remote/i.test(title + desc), isHybrid = /hybrid/i.test(title + desc);
-        all.push({
-          id: `mn_${n++}`, title, company: item.author ?? extractCompany(desc),
-          location: isRemote ? "Remote" : getIndiaCity(title + " " + desc),
-          type: isRemote ? "Remote" : isHybrid ? "Hybrid" : "Onsite",
-          experience: "12–15 years", salary: "Not disclosed",
-          skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-          source: "Monster", url: item.link ?? "https://monsterindia.com", urgent: /urgent|immediate/i.test(title + desc),
-        });
-      }
-    } catch { /* silent */ }
-  }
-  return all;
-}
-
-// 6. Shine.com RSS (Indian job portal)
-async function fetchShine(): Promise<Job[]> {
-  const queries = [
-    "https://www.shine.com/job-search/senior-dotnet-architect-jobs/?rss=1",
-    "https://www.shine.com/job-search/lead-dotnet-developer-jobs/?rss=1",
-  ];
-  const all: Job[] = []; let n = 1;
-  for (const q of queries) {
-    try {
-      const d = await rss2json(q);
-      for (const item of (d.items ?? [])) {
-        const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-        if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-        all.push({
-          id: `sh_${n++}`, title, company: item.author ?? extractCompany(desc),
-          location: getIndiaCity(title + " " + desc),
-          type: /remote/i.test(title + desc) ? "Remote" : /hybrid/i.test(title + desc) ? "Hybrid" : "Onsite",
-          experience: "12–15 years", salary: "Not disclosed",
-          skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-          source: "Shine", url: item.link ?? "https://shine.com", urgent: /urgent/i.test(title + desc),
-        });
-      }
-    } catch { /* silent */ }
-  }
-  return all;
-}
-
-// 7. TimesJobs RSS
-async function fetchTimesJobs(): Promise<Job[]> {
-  const queries = [
-    "https://www.timesjobs.com/candidate/jobs-search.html?searchType=personalizedSearch&from=submit&txtKeywords=.NET+senior+architect&txtLocation=India&rss=true",
-    "https://www.timesjobs.com/candidate/jobs-search.html?searchType=personalizedSearch&from=submit&txtKeywords=dotnet+lead&txtLocation=Hyderabad&rss=true",
-  ];
-  const all: Job[] = []; let n = 1;
-  for (const q of queries) {
-    try {
-      const d = await rss2json(q);
-      for (const item of (d.items ?? [])) {
-        const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-        if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-        all.push({
-          id: `tj_${n++}`, title, company: item.author ?? extractCompany(desc),
-          location: getIndiaCity(title + " " + desc),
-          type: /remote/i.test(title + desc) ? "Remote" : /hybrid/i.test(title + desc) ? "Hybrid" : "Onsite",
-          experience: "12–15 years", salary: "Not disclosed",
-          skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-          source: "TimesJobs", url: item.link ?? "https://timesjobs.com", urgent: /urgent|immediate/i.test(title + desc),
-        });
-      }
-    } catch { /* silent */ }
-  }
-  return all;
-}
-
-// 8. Remotive — remote global roles
-async function fetchRemotive(): Promise<Job[]> {
-  const all: Job[] = []; let n = 1;
-  try {
-    const r = await fetch("https://remotive.com/api/remote-jobs?category=software-dev&search=.net+senior&limit=40", { cache: "no-store" });
-    const d = await r.json();
-    for (const item of (d.jobs ?? [])) {
-      const title = item.title ?? "", desc = stripHtml(item.description ?? "");
-      if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-      all.push({
-        id: `rm_${n++}`, title, company: item.company_name ?? "?",
-        location: item.candidate_required_location ?? "Remote", type: "Remote",
-        experience: "10+ years", salary: item.salary ?? "Not disclosed",
-        skills: extractSkills(title + " " + desc), posted: parsePosted(item.publication_date),
-        source: "Remotive", url: item.url ?? "#", urgent: false,
-      });
+// ── Fetch functions ───────────────────────────────────────────────────────
+async function fetchLinkedIn():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  try{
+    const d=await rss2json(`https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(".NET senior architect lead")}&location=India&f_TPR=r86400&f_E=4%2C5%2C6&format=rss`);
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`li_${n++}`,title,company:item.author??extractCompany(desc),
+        location:/remote/i.test(title+desc)?"Remote":getCity(title+desc),
+        type:/remote/i.test(title+desc)?"Remote":/hybrid/i.test(title+desc)?"Hybrid":"Onsite",
+        experience:"12–15 yrs",salary:desc.match(/₹[\d\s\-–LKlakPApa.,]+/)?.[0]??"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.pubDate),
+        source:"LinkedIn",url:item.link??"https://linkedin.com/jobs",urgent:/urgent|immediate/i.test(title+desc)});
     }
-  } catch { /* silent */ }
+  }catch{}
   return all;
 }
-
-// 9. We Work Remotely RSS
-async function fetchWeWorkRemotely(): Promise<Job[]> {
-  const all: Job[] = []; let n = 1;
-  try {
-    const d = await rss2json("https://weworkremotely.com/categories/remote-programming-jobs.rss");
-    for (const item of (d.items ?? [])) {
-      const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-      if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-      all.push({
-        id: `wwr_${n++}`, title, company: item.author ?? extractCompany(desc),
-        location: "Remote", type: "Remote", experience: "10+ years", salary: "Not disclosed",
-        skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-        source: "WeWorkRemotely", url: item.link ?? "https://weworkremotely.com", urgent: false,
-      });
+async function fetchNaukri():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  const qs=["https://www.naukri.com/jobs-in-india?k=.net+senior+architect&experience=10to15&rss=1",
+             "https://www.naukri.com/jobs-in-hyderabad-2?k=.net+lead+architect&rss=1",
+             "https://www.naukri.com/jobs-in-bangalore-bengaluru-3?k=.net+senior+architect&rss=1"];
+  for(const q of qs){try{
+    const d=await rss2json(q);
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      const sal=desc.match(/(?:salary|ctc|lpa)[:\s]*([\d\s\-–.]+(?:lpa|lac|lakh))/i);
+      all.push({id:`nk_${n++}`,title,company:item.author??extractCompany(desc),
+        location:/remote/i.test(title+desc)?"Remote":getCity(title+(item.category??"")+" "+desc),
+        type:/remote/i.test(title+desc)?"Remote":/hybrid/i.test(title+desc)?"Hybrid":"Onsite",
+        experience:desc.match(/(\d+)\s*[-–to]+\s*(\d+)\s*(?:years?|yrs?)/i)?.[0]??"10–15 yrs",
+        salary:sal?.[1]?.trim()?`${sal[1].trim()} LPA`:"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.pubDate),
+        source:"Naukri",url:item.link??"https://naukri.com",urgent:/urgent|immediate|asap/i.test(title+desc)});
     }
-  } catch { /* silent */ }
+  }catch{}}
   return all;
 }
-
-// 10. Remote.co RSS
-async function fetchRemoteCo(): Promise<Job[]> {
-  const all: Job[] = []; let n = 1;
-  try {
-    const d = await rss2json("https://remote.co/remote-jobs/developer/feed/");
-    for (const item of (d.items ?? [])) {
-      const title = stripHtml(item.title ?? ""), desc = stripHtml(item.description ?? "");
-      if (!isDotNet(title, desc) || !isSenior(title, desc)) continue;
-      all.push({
-        id: `rc_${n++}`, title, company: item.author ?? extractCompany(desc),
-        location: "Remote", type: "Remote", experience: "10+ years", salary: "Not disclosed",
-        skills: extractSkills(title + " " + desc), posted: parsePosted(item.pubDate),
-        source: "Remote.co", url: item.link ?? "https://remote.co", urgent: false,
-      });
+async function fetchIndeed():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  const qs=["https://www.indeed.com/rss?q=%22.NET%22+senior+architect&l=India&fromage=2&sort=date",
+             "https://www.indeed.com/rss?q=senior+dotnet+lead&l=Hyderabad%2C+India&fromage=3",
+             "https://in.indeed.com/rss?q=senior+.net+developer+architect&l=India&fromage=2"];
+  for(const q of qs){try{
+    const d=await rss2json(q);
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`in_${n++}`,title,company:item.author??extractCompany(desc),
+        location:/remote/i.test(title+desc)?"Remote":getCity(title+desc),
+        type:/remote/i.test(title+desc)?"Remote":/hybrid/i.test(title+desc)?"Hybrid":"Onsite",
+        experience:"12–15 yrs",salary:desc.match(/₹[\d\s\-–LKlakPApa.,]+/)?.[0]??"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.pubDate),
+        source:"Indeed",url:item.link??"https://indeed.com",urgent:/urgent|immediate/i.test(title+desc)});
     }
-  } catch { /* silent */ }
+  }catch{}}
+  return all;
+}
+async function fetchGlassdoor():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  const qs=["https://www.glassdoor.co.in/Job/india-.net-senior-jobs-SRCH_IL.0,5_IN115_KO6,21.htm?fromAge=2&rss=1"];
+  for(const q of qs){try{
+    const d=await rss2json(q);
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`gd_${n++}`,title,company:item.author??extractCompany(desc),
+        location:/remote/i.test(title+desc)?"Remote":getCity(title+desc),
+        type:/remote/i.test(title+desc)?"Remote":/hybrid/i.test(title+desc)?"Hybrid":"Onsite",
+        experience:"10–15 yrs",salary:"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.pubDate),
+        source:"Glassdoor",url:item.link??"https://glassdoor.co.in",urgent:false});
+    }
+  }catch{}}
+  return all;
+}
+async function fetchMonster():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  const qs=["https://www.monsterindia.com/srp/results?query=senior+dotnet+architect&locations=India&rss=1",
+             "https://www.monsterindia.com/srp/results?query=.net+lead+architect&locations=Hyderabad&rss=1"];
+  for(const q of qs){try{
+    const d=await rss2json(q);
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`mn_${n++}`,title,company:item.author??extractCompany(desc),
+        location:/remote/i.test(title+desc)?"Remote":getCity(title+desc),
+        type:/remote/i.test(title+desc)?"Remote":/hybrid/i.test(title+desc)?"Hybrid":"Onsite",
+        experience:"12–15 yrs",salary:"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.pubDate),
+        source:"Monster",url:item.link??"https://monsterindia.com",urgent:/urgent|immediate/i.test(title+desc)});
+    }
+  }catch{}}
+  return all;
+}
+async function fetchShine():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  const qs=["https://www.shine.com/job-search/senior-dotnet-architect-jobs/?rss=1"];
+  for(const q of qs){try{
+    const d=await rss2json(q);
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`sh_${n++}`,title,company:item.author??extractCompany(desc),location:getCity(title+desc),
+        type:/remote/i.test(title+desc)?"Remote":/hybrid/i.test(title+desc)?"Hybrid":"Onsite",
+        experience:"12–15 yrs",salary:"Not disclosed",skills:extractSkills(title+desc),
+        posted:parsePosted(item.pubDate),source:"Shine",url:item.link??"https://shine.com",urgent:/urgent/i.test(title+desc)});
+    }
+  }catch{}}
+  return all;
+}
+async function fetchTimesJobs():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  const qs=["https://www.timesjobs.com/candidate/jobs-search.html?searchType=personalizedSearch&from=submit&txtKeywords=.NET+senior+architect&txtLocation=India&rss=true",
+             "https://www.timesjobs.com/candidate/jobs-search.html?searchType=personalizedSearch&from=submit&txtKeywords=dotnet+lead&txtLocation=Hyderabad&rss=true"];
+  for(const q of qs){try{
+    const d=await rss2json(q);
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`tj_${n++}`,title,company:item.author??extractCompany(desc),location:getCity(title+desc),
+        type:/remote/i.test(title+desc)?"Remote":/hybrid/i.test(title+desc)?"Hybrid":"Onsite",
+        experience:"12–15 yrs",salary:"Not disclosed",skills:extractSkills(title+desc),
+        posted:parsePosted(item.pubDate),source:"TimesJobs",url:item.link??"https://timesjobs.com",
+        urgent:/urgent|immediate/i.test(title+desc)});
+    }
+  }catch{}}
+  return all;
+}
+async function fetchRemotive():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  try{
+    const r=await fetch("https://remotive.com/api/remote-jobs?category=software-dev&search=.net+senior&limit=40",{cache:"no-store"});
+    const d=await r.json();
+    for(const item of(d.jobs??[])){
+      const title=item.title??"",desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`rm_${n++}`,title,company:item.company_name??"?",
+        location:item.candidate_required_location??"Remote",type:"Remote",
+        experience:"10+ yrs",salary:item.salary??"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.publication_date),
+        source:"Remotive",url:item.url??"#",urgent:false});
+    }
+  }catch{}
+  return all;
+}
+async function fetchWeWorkRemotely():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  try{
+    const d=await rss2json("https://weworkremotely.com/categories/remote-programming-jobs.rss");
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`wwr_${n++}`,title,company:item.author??extractCompany(desc),
+        location:"Remote",type:"Remote",experience:"10+ yrs",salary:"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.pubDate),
+        source:"WeWorkRemotely",url:item.link??"https://weworkremotely.com",urgent:false});
+    }
+  }catch{}
+  return all;
+}
+async function fetchRemoteCo():Promise<Job[]>{
+  const all:Job[]=[]; let n=1;
+  try{
+    const d=await rss2json("https://remote.co/remote-jobs/developer/feed/");
+    for(const item of(d.items??[])){
+      const title=stripHtml(item.title??""),desc=stripHtml(item.description??"");
+      if(!isDotNet(title,desc)||!isSenior(title,desc)) continue;
+      all.push({id:`rc_${n++}`,title,company:item.author??extractCompany(desc),
+        location:"Remote",type:"Remote",experience:"10+ yrs",salary:"Not disclosed",
+        skills:extractSkills(title+desc),posted:parsePosted(item.pubDate),
+        source:"Remote.co",url:item.link??"https://remote.co",urgent:false});
+    }
+  }catch{}
   return all;
 }
 
-// ── Helper ────────────────────────────────────────────────────────────────
-function extractCompany(html: string): string {
-  const m = html.match(/(?:company|employer|at|@)[:\s]+([A-Za-z0-9 &.,'-]{2,40})/i);
-  return m?.[1]?.trim() ?? "Company";
-}
-
-// ── Source registry (for status display) ─────────────────────────────────
-const SOURCE_LIST = [
-  { key: "LinkedIn",        fn: fetchLinkedIn,      flag: "🔵", india: true  },
-  { key: "Naukri",          fn: fetchNaukri,         flag: "🟠", india: true  },
-  { key: "Indeed",          fn: fetchIndeed,         flag: "🔷", india: true  },
-  { key: "Glassdoor",       fn: fetchGlassdoor,      flag: "🟢", india: true  },
-  { key: "Monster",         fn: fetchMonster,        flag: "🟣", india: true  },
-  { key: "Shine",           fn: fetchShine,          flag: "🌟", india: true  },
-  { key: "TimesJobs",       fn: fetchTimesJobs,      flag: "🔴", india: true  },
-  { key: "Remotive",        fn: fetchRemotive,       flag: "🌐", india: false },
-  { key: "WeWorkRemotely",  fn: fetchWeWorkRemotely, flag: "🌍", india: false },
-  { key: "Remote.co",       fn: fetchRemoteCo,       flag: "💻", india: false },
+const SOURCE_LIST=[
+  {key:"LinkedIn",       fn:fetchLinkedIn,      flag:"in", color:"#0A66C2", india:true },
+  {key:"Naukri",         fn:fetchNaukri,         flag:"nk", color:"#FF7555", india:true },
+  {key:"Indeed",         fn:fetchIndeed,         flag:"id", color:"#2164F3", india:true },
+  {key:"Glassdoor",      fn:fetchGlassdoor,      flag:"gd", color:"#0CAA41", india:true },
+  {key:"Monster",        fn:fetchMonster,        flag:"mn", color:"#6E00FF", india:true },
+  {key:"Shine",          fn:fetchShine,          flag:"sh", color:"#F59E0B", india:true },
+  {key:"TimesJobs",      fn:fetchTimesJobs,      flag:"tj", color:"#DC2626", india:true },
+  {key:"Remotive",       fn:fetchRemotive,       flag:"rm", color:"#059669", india:false},
+  {key:"WeWorkRemotely", fn:fetchWeWorkRemotely, flag:"wr", color:"#0891B2", india:false},
+  {key:"Remote.co",      fn:fetchRemoteCo,       flag:"rc", color:"#374151", india:false},
 ];
 
 // ── Schedule helpers ──────────────────────────────────────────────────────
-function getTodayKey(h: number) { return `${new Date().toDateString()}_${h}`; }
-function isSlotDone(h: number): boolean {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem(getTodayKey(h)) === "1";
+function getTodayKey(h:number){return`${new Date().toDateString()}_${h}`;}
+function isSlotDone(h:number):boolean{if(typeof window==="undefined")return false;return localStorage.getItem(getTodayKey(h))==="1";}
+function markDone(h:number){if(typeof window==="undefined")return;localStorage.setItem(getTodayKey(h),"1");localStorage.setItem(getTodayKey(h)+"_t",new Date().toLocaleTimeString("en-IN"));}
+function getDoneTime(h:number):string|null{if(typeof window==="undefined")return null;return localStorage.getItem(getTodayKey(h)+"_t");}
+function nextRunInfo():{label:string;mins:number}|null{
+  const now=new Date(),cur=now.getHours()*60+now.getMinutes();
+  for(let i=0;i<RUN_HOURS.length;i++){const sm=RUN_HOURS[i]*60;if(sm>cur)return{label:SLOT_LABELS[i],mins:sm-cur};}
+  return{label:"10 AM tomorrow",mins:(24*60-cur)+10*60};
 }
-function markDone(h: number) {
-  if (typeof window === "undefined") return;
-  localStorage.setItem(getTodayKey(h), "1");
-  localStorage.setItem(getTodayKey(h) + "_t", new Date().toLocaleTimeString("en-IN"));
-}
-function getDoneTime(h: number): string | null {
-  if (typeof window === "undefined") return null;
-  return localStorage.getItem(getTodayKey(h) + "_t");
-}
-function nextRunInfo(): { label: string; mins: number } | null {
-  const now = new Date(), cur = now.getHours() * 60 + now.getMinutes();
-  for (let i = 0; i < RUN_HOURS.length; i++) {
-    const sm = RUN_HOURS[i] * 60;
-    if (sm > cur) return { label: SLOT_LABELS[i], mins: sm - cur };
-  }
-  return { label: "10:00 AM tomorrow", mins: (24 * 60 - cur) + 10 * 60 };
-}
-function fmtMins(m: number) { const h = Math.floor(m / 60), mm = m % 60; return h > 0 ? `${h}h ${mm}m` : `${mm}m`; }
+function fmtMins(m:number){const h=Math.floor(m/60),mm=m%60;return h>0?`${h}h ${mm}m`:`${mm}m`;}
 
-// ── Colors ────────────────────────────────────────────────────────────────
-function skillClr(sk: string) {
-  const s = sk.toLowerCase();
-  if (s.includes(".net") || s.includes("c#") || s.includes("asp") || s.includes("blazor") || s.includes("wpf")) return "bg-violet-50 text-violet-700 border-violet-200";
-  if (s.includes("azure") || s.includes("aws") || s.includes("devops") || s.includes("ci/cd")) return "bg-sky-50 text-sky-700 border-sky-200";
-  if (s.includes("micro") || s.includes("api") || s.includes("docker") || s.includes("kubernetes")) return "bg-emerald-50 text-emerald-700 border-emerald-200";
-  if (s.includes("sql") || s.includes("redis") || s.includes("messaging")) return "bg-amber-50 text-amber-700 border-amber-200";
-  return "bg-gray-100 text-gray-600 border-gray-200";
+// ── Skill chip colors ─────────────────────────────────────────────────────
+function skillStyle(sk:string):{bg:string;text:string}{
+  const s=sk.toLowerCase();
+  if(s.includes(".net")||s.includes("c#")||s.includes("asp")||s.includes("blazor")) return{bg:"#EDE9FE",text:"#5B21B6"};
+  if(s.includes("azure")||s.includes("aws")||s.includes("devops"))                  return{bg:"#DBEAFE",text:"#1D4ED8"};
+  if(s.includes("micro")||s.includes("api")||s.includes("docker"))                  return{bg:"#D1FAE5",text:"#065F46"};
+  if(s.includes("sql")||s.includes("redis")||s.includes("messaging"))               return{bg:"#FEF3C7",text:"#92400E"};
+  return{bg:"#F3F4F6",text:"#374151"};
 }
-function srcBadgeClr(src: string) {
-  const s = src.toLowerCase();
-  if (s.includes("linkedin"))   return "bg-blue-600";
-  if (s.includes("naukri"))     return "bg-orange-500";
-  if (s.includes("indeed"))     return "bg-blue-400";
-  if (s.includes("glassdoor"))  return "bg-green-600";
-  if (s.includes("monster"))    return "bg-purple-600";
-  if (s.includes("shine"))      return "bg-yellow-500";
-  if (s.includes("timesjobs"))  return "bg-red-600";
-  if (s.includes("remotive"))   return "bg-emerald-600";
-  if (s.includes("weworkremotely")) return "bg-teal-600";
-  if (s.includes("remote.co")) return "bg-gray-700";
-  return "bg-gray-500";
+function typeStyle(t:string):{bg:string;text:string;border:string}{
+  if(t==="Remote") return{bg:"#ECFDF5",text:"#065F46",border:"#6EE7B7"};
+  if(t==="Hybrid") return{bg:"#FFFBEB",text:"#92400E",border:"#FCD34D"};
+  return{bg:"#F9FAFB",text:"#374151",border:"#D1D5DB"};
 }
-function typeClr(t: string) {
-  if (t === "Remote") return "bg-emerald-100 text-emerald-700 border-emerald-200";
-  if (t === "Hybrid") return "bg-amber-100 text-amber-700 border-amber-200";
-  return "bg-gray-100 text-gray-600 border-gray-200";
+function srcStyle(src:string):string{
+  return SOURCE_LIST.find(s=>s.key===src)?.color??"#374151";
 }
 
 // ── Job Card ──────────────────────────────────────────────────────────────
-function JobCard({ job, idx }: { job: Job; idx: number }) {
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-5 hover:shadow-lg hover:border-gray-300 transition-all flex flex-col gap-3"
-      style={{ animationDelay: `${idx * 40}ms` }}>
-      <div className="flex items-start justify-between gap-2">
-        <div className="flex-1 min-w-0">
-          <div className="flex gap-1.5 flex-wrap mb-1">
-            {job.urgent && <span className="text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-full px-2 py-0.5">🔥 Urgent</span>}
-            <span className={`text-xs font-semibold rounded-full px-2.5 py-0.5 border ${typeClr(job.type)}`}>{job.type}</span>
+function JobCard({job,idx}:{job:Job;idx:number}){
+  const ts=typeStyle(job.type);
+  return(
+    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5"
+      style={{background:"#FFFFFF",border:"1px solid #E5E7EB",boxShadow:"0 1px 4px rgba(0,0,0,0.06)",animationDelay:`${idx*40}ms`}}>
+      {/* Top color strip */}
+      <div className="h-1 w-full" style={{background:srcStyle(job.source)}}/>
+      <div className="p-4 flex flex-col gap-3 flex-1">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <div className="flex gap-1.5 flex-wrap mb-1.5">
+              {job.urgent&&(
+                <span className="text-xs font-bold rounded-full px-2 py-0.5" style={{background:"#FEF2F2",color:"#B91C1C",border:"1px solid #FECACA"}}>🔥 Urgent</span>
+              )}
+              <span className="text-xs font-semibold rounded-full px-2.5 py-0.5" style={{background:ts.bg,color:ts.text,border:`1px solid ${ts.border}`}}>{job.type}</span>
+            </div>
+            <h3 className="font-bold text-sm leading-snug line-clamp-2" style={{color:"#111827"}}>{job.title}</h3>
+            <p className="text-xs font-medium mt-0.5" style={{color:"#6B7280"}}>{job.company}</p>
           </div>
-          <h3 className="font-bold text-gray-900 text-sm leading-snug line-clamp-2">{job.title}</h3>
-          <p className="text-xs text-gray-500 mt-0.5 font-medium">{job.company}</p>
+          {/* Source badge */}
+          <div className="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center text-white font-black text-xs"
+            style={{background:srcStyle(job.source)}}>
+            {SOURCE_LIST.find(s=>s.key===job.source)?.flag.toUpperCase()??job.source.slice(0,2).toUpperCase()}
+          </div>
         </div>
-        <span className={`text-white text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0 ${srcBadgeClr(job.source)}`}>{job.source}</span>
-      </div>
-      <div className="flex flex-wrap gap-2 text-xs text-gray-500">
-        <span>📍 {job.location}</span>
-        <span>🎯 {job.experience}</span>
-        <span className="font-semibold text-gray-700">💰 {job.salary}</span>
-        <span className="ml-auto text-gray-400">🕐 {job.posted}</span>
-      </div>
-      {job.skills.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {job.skills.map(sk => (
-            <span key={sk} className={`text-xs font-medium px-2 py-0.5 rounded-full border ${skillClr(sk)}`}>{sk}</span>
-          ))}
+
+        {/* Meta */}
+        <div className="grid grid-cols-2 gap-1.5 text-xs" style={{color:"#6B7280"}}>
+          <span className="flex items-center gap-1">📍 <span className="truncate">{job.location}</span></span>
+          <span className="flex items-center gap-1">🕐 {job.posted}</span>
+          <span className="flex items-center gap-1">🎯 {job.experience}</span>
+          <span className="flex items-center gap-1 font-semibold" style={{color:"#111827"}}>💰 {job.salary}</span>
         </div>
-      )}
-      <a href={job.url} target="_blank" rel="noopener noreferrer"
-        className="mt-auto w-full text-center text-sm font-bold py-2.5 rounded-xl bg-gray-900 text-white hover:bg-gray-700 transition">
-        View & Apply →
-      </a>
+
+        {/* Skills */}
+        {job.skills.length>0&&(
+          <div className="flex flex-wrap gap-1.5">
+            {job.skills.map(sk=>{
+              const{bg,text}=skillStyle(sk);
+              return<span key={sk} className="text-xs font-medium px-2 py-0.5 rounded-lg" style={{background:bg,color:text}}>{sk}</span>;
+            })}
+          </div>
+        )}
+
+        {/* CTA */}
+        <a href={job.url} target="_blank" rel="noopener noreferrer"
+          className="mt-auto w-full text-center text-sm font-bold py-3 rounded-xl transition-opacity hover:opacity-90 active:opacity-75"
+          style={{background:srcStyle(job.source),color:"#FFFFFF",display:"block",minHeight:"44px",lineHeight:"18px",paddingTop:"13px"}}>
+          View & Apply →
+        </a>
+      </div>
     </div>
   );
 }
 
-// ── Source Status Bar ─────────────────────────────────────────────────────
-function SourceBar({ sources }: { sources: Source[] }) {
-  return (
-    <div className="bg-white rounded-2xl border border-gray-200 p-4">
-      <p className="text-xs font-black text-gray-500 uppercase tracking-widest mb-3">Live Sources</p>
-      <div className="flex flex-wrap gap-2">
-        {SOURCE_LIST.map(s => {
-          const st = sources.find(x => x.name === s.key);
-          const statusClr = !st ? "bg-gray-100 text-gray-400 border-gray-200"
-            : st.status === "fetching" ? "bg-amber-50 text-amber-700 border-amber-200 animate-pulse"
-            : st.status === "done"     ? "bg-green-50 text-green-700 border-green-200"
-            : st.status === "error"    ? "bg-red-50 text-red-500 border-red-200"
-            :                            "bg-gray-100 text-gray-400 border-gray-200";
-          const icon = !st ? "○" : st.status === "fetching" ? "↻" : st.status === "done" ? "✓" : st.status === "error" ? "✕" : "○";
-          return (
-            <div key={s.key} className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 border text-xs font-semibold ${statusClr}`}>
-              <span>{s.flag}</span>
-              <span>{s.key}</span>
-              <span className="font-mono">{icon}</span>
-              {st?.status === "done" && st.count > 0 && <span className="bg-green-200 text-green-800 rounded-full px-1.5 py-0.5 text-xs">{st.count}</span>}
-              {s.india && <span className="text-gray-400">🇮🇳</span>}
-            </div>
-          );
-        })}
-      </div>
+// ── Source pill ───────────────────────────────────────────────────────────
+function SourcePill({src,st}:{src:typeof SOURCE_LIST[0];st:Source|undefined}){
+  const done=st?.status==="done", fetching=st?.status==="fetching", err=st?.status==="error";
+  return(
+    <div className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold border transition-all"
+      style={{
+        background: fetching?"#FFFBEB":done?"#ECFDF5":err?"#FEF2F2":"#F9FAFB",
+        color:       fetching?"#92400E":done?"#065F46":err?"#B91C1C":"#6B7280",
+        border:`1px solid ${fetching?"#FCD34D":done?"#6EE7B7":err?"#FECACA":"#E5E7EB"}`,
+      }}>
+      <div className="w-2 h-2 rounded-full flex-shrink-0" style={{background:src.color}}/>
+      <span>{src.key}</span>
+      {fetching&&<span className="animate-spin text-xs">↻</span>}
+      {done&&<span>✓</span>}
+      {err&&<span>✕</span>}
+      {done&&st.count>0&&<span className="rounded-full px-1.5 py-0.5 font-bold text-xs" style={{background:"#D1FAE5",color:"#065F46"}}>{st.count}</span>}
+      {src.india&&<span>🇮🇳</span>}
     </div>
   );
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────
-export default function JobsPage() {
-  const [jobs,        setJobs]        = useState<Job[]>([]);
-  const [sources,     setSources]     = useState<Source[]>([]);
-  const [loading,     setLoading]     = useState(false);
-  const [error,       setError]       = useState<string | null>(null);
-  const [lastFetched, setLastFetched] = useState<Date | null>(null);
-  const [filter,      setFilter]      = useState("");
-  const [typeF,       setTypeF]       = useState("All");
-  const [srcF,        setSrcF]        = useState("All");
-  const [locF,        setLocF]        = useState("All");
-  const [nextRun,     setNextRun]     = useState<{ label: string; mins: number } | null>(null);
-  const [slotSt,      setSlotSt]      = useState<{ h: number; done: boolean; time: string | null }[]>([]);
-  const [mounted,     setMounted]     = useState(false);
-  const lastRunRef = useRef<Set<string>>(new Set());
+export default function JobsPage(){
+  const[jobs,setJobs]=useState<Job[]>([]);
+  const[sources,setSources]=useState<Source[]>([]);
+  const[loading,setLoading]=useState(false);
+  const[lastFetched,setLastFetched]=useState<Date|null>(null);
+  const[filter,setFilter]=useState("");
+  const[typeF,setTypeF]=useState("All");
+  const[srcF,setSrcF]=useState("All");
+  const[locF,setLocF]=useState("All");
+  const[nextRun,setNextRun]=useState<{label:string;mins:number}|null>(null);
+  const[slotSt,setSlotSt]=useState<{h:number;done:boolean;time:string|null}[]>([]);
+  const[mounted,setMounted]=useState(false);
+  const[showFilters,setShowFilters]=useState(false);
+  const lastRunRef=useRef<Set<string>>(new Set());
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(()=>{setMounted(true);},[]);
 
-  useEffect(() => {
-    if (!mounted) return;
-    const tick = () => {
-      setNextRun(nextRunInfo());
-      setSlotSt(RUN_HOURS.map(h => ({ h, done: isSlotDone(h), time: getDoneTime(h) })));
-    };
-    tick();
-    const id = setInterval(tick, 60_000);
-    return () => clearInterval(id);
-  }, [mounted]);
+  useEffect(()=>{
+    if(!mounted) return;
+    const tick=()=>{setNextRun(nextRunInfo());setSlotSt(RUN_HOURS.map(h=>({h,done:isSlotDone(h),time:getDoneTime(h)})));};
+    tick(); const id=setInterval(tick,60_000); return()=>clearInterval(id);
+  },[mounted]);
 
-  useEffect(() => {
-    if (!mounted) return;
-    const id = setInterval(() => {
-      const now = new Date(), h = now.getHours(), m = now.getMinutes();
-      if (!RUN_HOURS.includes(h) || m !== 0) return;
-      const key = getTodayKey(h);
-      if (lastRunRef.current.has(key)) return;
-      lastRunRef.current.add(key);
-      run();
-    }, 30_000);
-    return () => clearInterval(id);
-  }, [mounted]);
+  useEffect(()=>{
+    if(!mounted) return;
+    const id=setInterval(()=>{
+      const now=new Date(),h=now.getHours(),m=now.getMinutes();
+      if(!RUN_HOURS.includes(h)||m!==0) return;
+      const key=getTodayKey(h); if(lastRunRef.current.has(key)) return;
+      lastRunRef.current.add(key); run();
+    },30_000); return()=>clearInterval(id);
+  },[mounted]);
 
-  const run = useCallback(async () => {
-    setLoading(true); setError(null);
-    const allJobs: Job[] = [];
-
-    // Init source statuses
-    setSources(SOURCE_LIST.map(s => ({ name: s.key, status: "idle", count: 0 })));
-
-    // Run all sources in parallel with live status updates
-    await Promise.allSettled(
-      SOURCE_LIST.map(async (src) => {
-        setSources(prev => prev.map(s => s.name === src.key ? { ...s, status: "fetching" } : s));
-        try {
-          const jobs = await src.fn();
-          allJobs.push(...jobs);
-          setSources(prev => prev.map(s => s.name === src.key ? { ...s, status: "done", count: jobs.length } : s));
-        } catch {
-          setSources(prev => prev.map(s => s.name === src.key ? { ...s, status: "error" } : s));
-        }
-      })
-    );
-
-    // Deduplicate by URL
-    const seen = new Set<string>();
-    const deduped = allJobs.filter(j => { if (seen.has(j.url)) return false; seen.add(j.url); return true; });
-
-    // Sort: urgent first, then by recency
-    deduped.sort((a, b) => {
-      if (a.urgent && !b.urgent) return -1;
-      if (!a.urgent && b.urgent) return 1;
-      return 0;
-    });
-
-    setJobs(deduped);
-    setLastFetched(new Date());
+  const run=useCallback(async()=>{
+    setLoading(true);
+    const allJobs:Job[]=[];
+    setSources(SOURCE_LIST.map(s=>({name:s.key,status:"idle",count:0})));
+    await Promise.allSettled(SOURCE_LIST.map(async src=>{
+      setSources(prev=>prev.map(s=>s.name===src.key?{...s,status:"fetching"}:s));
+      try{
+        const jobs=await src.fn(); allJobs.push(...jobs);
+        setSources(prev=>prev.map(s=>s.name===src.key?{...s,status:"done",count:jobs.length}:s));
+      }catch{setSources(prev=>prev.map(s=>s.name===src.key?{...s,status:"error"}:s));}
+    }));
+    const seen=new Set<string>();
+    const deduped=allJobs.filter(j=>{if(seen.has(j.url))return false;seen.add(j.url);return true;});
+    deduped.sort((a,b)=>(a.urgent&&!b.urgent)?-1:(!a.urgent&&b.urgent)?1:0);
+    setJobs(deduped); setLastFetched(new Date());
     markDone(new Date().getHours());
-    setSlotSt(RUN_HOURS.map(h => ({ h, done: isSlotDone(h), time: getDoneTime(h) })));
+    setSlotSt(RUN_HOURS.map(h=>({h,done:isSlotDone(h),time:getDoneTime(h)})));
     setLoading(false);
-  }, []);
+  },[]);
 
-  // Filter jobs
-  const allCities = Array.from(new Set(jobs.map(j => j.location))).filter(l => l !== "Remote").slice(0, 8);
-  const allSrcs   = Array.from(new Set(jobs.map(j => j.source)));
-
-  const filtered = jobs.filter(j => {
-    const q = filter.toLowerCase();
-    return (
-      (!q || j.title.toLowerCase().includes(q) || j.company.toLowerCase().includes(q) || j.skills.some(s => s.toLowerCase().includes(q)))
-      && (typeF === "All" || j.type === typeF)
-      && (srcF  === "All" || j.source === srcF)
-      && (locF  === "All" || j.location === locF || (locF === "Remote" && j.type === "Remote"))
-    );
+  const allCities=Array.from(new Set(jobs.map(j=>j.location))).filter(l=>l!=="Remote").slice(0,8);
+  const allSrcs=Array.from(new Set(jobs.map(j=>j.source)));
+  const filtered=jobs.filter(j=>{
+    const q=filter.toLowerCase();
+    return(!q||j.title.toLowerCase().includes(q)||j.company.toLowerCase().includes(q)||j.skills.some(s=>s.toLowerCase().includes(q)))
+      &&(typeF==="All"||j.type===typeF)&&(srcF==="All"||j.source===srcF)
+      &&(locF==="All"||j.location===locF||(locF==="Remote"&&j.type==="Remote"));
   });
 
-  if (!mounted) return null;
+  if(!mounted) return null;
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3 flex-wrap">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gray-900 flex items-center justify-center text-white font-black text-sm">.N</div>
+  return(
+    <div className="min-h-screen pb-24" style={{background:"#F8F9FA",fontFamily:"'DM Sans',system-ui,sans-serif"}}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"/>
+      <Navbar/>
+
+      {/* ── Hero header ── */}
+      <div style={{background:"linear-gradient(135deg,#0F172A 0%,#1E293B 50%,#0F172A 100%)",paddingTop:"env(safe-area-inset-top)"}}>
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <div className="flex items-center justify-between gap-3 flex-wrap">
             <div>
-              <h1 className="font-black text-gray-900 text-base">.NET Senior Jobs — India</h1>
-              <p className="text-xs text-gray-400">13+ yrs · 10 sources · LinkedIn · Naukri · Indeed · Glassdoor · Monster · Shine · more</p>
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs" style={{background:"#3B82F6",color:"#fff"}}>.N</div>
+                <span className="text-xs font-semibold" style={{color:"#94A3B8"}}>AksharaTantra Jobs</span>
+              </div>
+              <h1 className="text-xl font-black" style={{color:"#F1F5F9"}}>Senior .NET Jobs</h1>
+              <p className="text-xs mt-0.5" style={{color:"#64748B"}}>13+ years · India market · 10 sources · Live RSS</p>
+            </div>
+            <div className="flex items-center gap-2">
+              {lastFetched&&<span className="text-xs" style={{color:"#64748B"}}>Updated {lastFetched.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",hour12:true})}</span>}
+              {jobs.length>0&&<span className="text-xs font-bold rounded-full px-2.5 py-1" style={{background:"#1E40AF",color:"#BFDBFE"}}>{jobs.length} jobs</span>}
+              <button onClick={run} disabled={loading}
+                className="flex items-center gap-2 font-bold text-sm px-4 py-2.5 rounded-xl transition-all active:scale-95 disabled:opacity-50"
+                style={{background:"#3B82F6",color:"#fff",minHeight:"44px"}}>
+                {loading?<><span className="animate-spin">↻</span><span>Searching…</span></>:<><span>🔍</span><span>Fetch Now</span></>}
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-2 flex-wrap">
-            {lastFetched && (
-              <span className="text-xs text-gray-400 hidden sm:block">
-                Last: {lastFetched.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", hour12: true })}
+
+          {/* Schedule bar */}
+          <div className="mt-4 flex items-center gap-3 flex-wrap">
+            {RUN_HOURS.map((h,i)=>{
+              const s=slotSt.find(x=>x.h===h);
+              return(
+                <div key={h} className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold"
+                  style={{background:s?.done?"rgba(16,185,129,0.15)":"rgba(255,255,255,0.08)",
+                          color:s?.done?"#6EE7B7":"#94A3B8",border:`1px solid ${s?.done?"rgba(16,185,129,0.3)":"rgba(255,255,255,0.1)"}`}}>
+                  {s?.done?"✅":"⏳"} {SLOT_LABELS[i]}
+                  {s?.done&&s.time&&<span style={{color:"#4ADE80",opacity:0.7}}>{s.time}</span>}
+                </div>
+              );
+            })}
+            {nextRun&&(
+              <span className="text-xs ml-auto" style={{color:"#475569"}}>
+                ⏰ Next: {nextRun.label} · {fmtMins(nextRun.mins)}
               </span>
             )}
-            {jobs.length > 0 && (
-              <span className="text-xs bg-gray-100 text-gray-600 rounded-full px-2.5 py-1 font-semibold">
-                {jobs.length} jobs found
-              </span>
-            )}
-            <button onClick={run} disabled={loading}
-              className="text-sm font-bold px-4 py-2 rounded-xl bg-gray-900 text-white hover:bg-gray-700 disabled:opacity-40 transition flex items-center gap-2">
-              {loading ? <><span className="animate-spin inline-block">⟳</span> Searching…</> : <><span>🔍</span> Fetch Now</>}
-            </button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-5 space-y-4">
+      <div className="max-w-4xl mx-auto px-4 py-5 space-y-4">
 
-        {/* Schedule + source status */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Schedule */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-4">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-black text-gray-500 uppercase tracking-widest">Auto Schedule</span>
-              {nextRun && (
-                <span className="text-xs text-blue-600 bg-blue-50 border border-blue-200 rounded-full px-2 py-0.5">
-                  Next: {fmtMins(nextRun.mins)}
-                </span>
-              )}
-            </div>
-            <div className="grid grid-cols-3 gap-2">
-              {RUN_HOURS.map((h, i) => {
-                const s = slotSt.find(x => x.h === h);
-                return (
-                  <div key={h} className={`rounded-xl p-2.5 text-center border ${s?.done ? "bg-green-50 border-green-200" : "bg-gray-50 border-gray-200"}`}>
-                    <div className="text-base mb-0.5">{s?.done ? "✅" : "⏳"}</div>
-                    <div className="text-xs font-black text-gray-800">{SLOT_LABELS[i]}</div>
-                    <div className="text-xs text-gray-400">{s?.done ? `${s.time ?? "Done"}` : "Pending"}</div>
-                  </div>
-                );
-              })}
+        {/* Source pills */}
+        {sources.length>0&&(
+          <div className="rounded-2xl p-4" style={{background:"#fff",border:"1px solid #E5E7EB"}}>
+            <p className="text-xs font-bold mb-2.5" style={{color:"#9CA3AF",letterSpacing:"0.08em"}}>LIVE SOURCES</p>
+            <div className="flex flex-wrap gap-2">
+              {SOURCE_LIST.map(s=><SourcePill key={s.key} src={s} st={sources.find(x=>x.name===s.key)}/>)}
             </div>
           </div>
+        )}
 
-          {/* Source status */}
-          <div className="lg:col-span-2">
-            <SourceBar sources={sources} />
-          </div>
-        </div>
-
-        {/* Stats */}
-        {jobs.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        {/* Stats strip */}
+        {jobs.length>0&&(
+          <div className="grid grid-cols-4 gap-2 sm:grid-cols-4">
             {[
-              { icon: "💼", label: "Total",    val: jobs.length },
-              { icon: "🌐", label: "Remote",   val: jobs.filter(j => j.type === "Remote").length },
-              { icon: "🏢", label: "Onsite",   val: jobs.filter(j => j.type === "Onsite").length },
-              { icon: "🔥", label: "Urgent",   val: jobs.filter(j => j.urgent).length },
-              { icon: "🎯", label: "Filtered", val: filtered.length },
-            ].map(s => (
-              <div key={s.label} className="bg-white rounded-2xl border border-gray-200 p-4 text-center">
-                <div className="text-xl mb-1">{s.icon}</div>
-                <div className="text-2xl font-black text-gray-900">{s.val}</div>
-                <div className="text-xs text-gray-400 font-medium">{s.label}</div>
+              {emoji:"💼",label:"Total",val:jobs.length,clr:"#3B82F6"},
+              {emoji:"🌐",label:"Remote",val:jobs.filter(j=>j.type==="Remote").length,clr:"#10B981"},
+              {emoji:"🔥",label:"Urgent",val:jobs.filter(j=>j.urgent).length,clr:"#EF4444"},
+              {emoji:"🎯",label:"Showing",val:filtered.length,clr:"#8B5CF6"},
+            ].map(s=>(
+              <div key={s.label} className="rounded-2xl p-3 text-center" style={{background:"#fff",border:"1px solid #E5E7EB"}}>
+                <div className="text-lg">{s.emoji}</div>
+                <div className="text-xl font-black mt-0.5" style={{color:s.clr}}>{s.val}</div>
+                <div className="text-xs font-medium mt-0.5" style={{color:"#9CA3AF"}}>{s.label}</div>
               </div>
             ))}
           </div>
         )}
 
-        {/* Filters */}
-        {jobs.length > 0 && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-4 space-y-3">
-            <input value={filter} onChange={e => setFilter(e.target.value)}
-              placeholder="Search title, company, skill…"
-              className="w-full rounded-xl px-4 py-2.5 text-sm border border-gray-200 bg-gray-50 text-gray-900 placeholder-gray-400 outline-none focus:border-gray-400"
-            />
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-xs text-gray-400 font-semibold">Type:</span>
-              {["All", "Remote", "Hybrid", "Onsite"].map(t => (
-                <button key={t} onClick={() => setTypeF(t)}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition
-                    ${typeF === t ? "bg-gray-900 text-white border-gray-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"}`}>
-                  {t}
-                </button>
-              ))}
+        {/* Search + filter toggle */}
+        {jobs.length>0&&(
+          <div className="rounded-2xl p-4 space-y-3" style={{background:"#fff",border:"1px solid #E5E7EB"}}>
+            <div className="flex gap-2">
+              <div className="flex-1 relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{color:"#9CA3AF"}}>🔍</span>
+                <input value={filter} onChange={e=>setFilter(e.target.value)}
+                  placeholder="Title, company, skill…"
+                  className="w-full rounded-xl pl-9 pr-4 text-sm outline-none"
+                  style={{background:"#F9FAFB",border:"1px solid #E5E7EB",color:"#111827",height:"44px",
+                    fontFamily:"'DM Sans',sans-serif"}}
+                />
+              </div>
+              <button onClick={()=>setShowFilters(v=>!v)}
+                className="rounded-xl px-4 text-sm font-bold flex items-center gap-1.5 transition-all"
+                style={{background:showFilters?"#EFF6FF":"#F9FAFB",color:showFilters?"#1D4ED8":"#374151",
+                  border:`1px solid ${showFilters?"#BFDBFE":"#E5E7EB"}`,height:"44px"}}>
+                ⚙️ Filters {(typeF!=="All"||srcF!=="All"||locF!=="All")&&<span className="w-2 h-2 rounded-full bg-blue-500"/>}
+              </button>
             </div>
-            <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-xs text-gray-400 font-semibold">Source:</span>
-              {["All", ...allSrcs].map(s => (
-                <button key={s} onClick={() => setSrcF(s)}
-                  className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition
-                    ${srcF === s ? "bg-gray-900 text-white border-gray-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"}`}>
-                  {s}
-                </button>
-              ))}
-            </div>
-            {allCities.length > 0 && (
-              <div className="flex flex-wrap gap-2 items-center">
-                <span className="text-xs text-gray-400 font-semibold">City:</span>
-                {["All", "Remote", ...allCities].map(c => (
-                  <button key={c} onClick={() => setLocF(c)}
-                    className={`text-xs font-semibold px-3 py-1.5 rounded-full border transition
-                      ${locF === c ? "bg-gray-900 text-white border-gray-900" : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"}`}>
-                    {c}
+            {showFilters&&(
+              <div className="space-y-2.5 pt-1">
+                <div>
+                  <p className="text-xs font-semibold mb-1.5" style={{color:"#6B7280"}}>Work Type</p>
+                  <div className="flex gap-1.5 flex-wrap">
+                    {["All","Remote","Hybrid","Onsite"].map(t=>(
+                      <button key={t} onClick={()=>setTypeF(t)}
+                        className="text-xs font-semibold px-3 rounded-full transition-all"
+                        style={{background:typeF===t?"#1E40AF":"#F3F4F6",color:typeF===t?"#fff":"#374151",
+                          border:`1px solid ${typeF===t?"#1E40AF":"#E5E7EB"}`,height:"32px"}}>
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold mb-1.5" style={{color:"#6B7280"}}>Source</p>
+                  <div className="flex gap-1.5 flex-wrap">
+                    {["All",...allSrcs].map(s=>(
+                      <button key={s} onClick={()=>setSrcF(s)}
+                        className="text-xs font-semibold px-3 rounded-full transition-all"
+                        style={{background:srcF===s?"#1E40AF":"#F3F4F6",color:srcF===s?"#fff":"#374151",
+                          border:`1px solid ${srcF===s?"#1E40AF":"#E5E7EB"}`,height:"32px"}}>
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {allCities.length>0&&(
+                  <div>
+                    <p className="text-xs font-semibold mb-1.5" style={{color:"#6B7280"}}>City</p>
+                    <div className="flex gap-1.5 flex-wrap">
+                      {["All","Remote",...allCities].map(c=>(
+                        <button key={c} onClick={()=>setLocF(c)}
+                          className="text-xs font-semibold px-3 rounded-full transition-all"
+                          style={{background:locF===c?"#1E40AF":"#F3F4F6",color:locF===c?"#fff":"#374151",
+                            border:`1px solid ${locF===c?"#1E40AF":"#E5E7EB"}`,height:"32px"}}>
+                          {c}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {(typeF!=="All"||srcF!=="All"||locF!=="All")&&(
+                  <button onClick={()=>{setFilter("");setTypeF("All");setSrcF("All");setLocF("All");}}
+                    className="text-xs font-semibold underline" style={{color:"#6B7280"}}>
+                    Clear all filters
                   </button>
-                ))}
+                )}
               </div>
             )}
           </div>
         )}
 
         {/* Loading */}
-        {loading && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center space-y-4">
-            <div className="text-5xl animate-pulse">🔍</div>
-            <p className="font-bold text-gray-900 text-lg">Scanning 10 job boards…</p>
-            <p className="text-sm text-gray-400">LinkedIn · Naukri · Indeed · Glassdoor · Monster · Shine · TimesJobs · Remotive · WeWorkRemotely · Remote.co</p>
+        {loading&&(
+          <div className="rounded-2xl p-10 text-center space-y-4" style={{background:"#fff",border:"1px solid #E5E7EB"}}>
+            <div className="text-4xl animate-pulse">🔍</div>
+            <p className="font-bold text-base" style={{color:"#111827"}}>Scanning 10 job boards…</p>
+            <p className="text-sm" style={{color:"#9CA3AF"}}>Filtering .NET Senior / Lead / Architect · 13+ years</p>
             <div className="flex flex-wrap justify-center gap-2 pt-1">
-              {SOURCE_LIST.map((s, i) => (
-                <span key={s.key} className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 animate-pulse"
-                  style={{ animationDelay: `${i * 100}ms` }}>{s.flag} {s.key}</span>
+              {SOURCE_LIST.map((s,i)=>(
+                <span key={s.key} className="text-xs px-2.5 py-1 rounded-full animate-pulse font-medium"
+                  style={{background:"#F3F4F6",color:"#6B7280",animationDelay:`${i*80}ms`}}>
+                  {s.key}
+                </span>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* Error */}
-        {error && !loading && (
-          <div className="bg-red-50 border border-red-200 rounded-2xl p-8 text-center space-y-3">
-            <div className="text-3xl">⚠️</div>
-            <p className="font-bold text-red-800">Fetch failed</p>
-            <p className="text-sm text-red-600">{error}</p>
-            <button onClick={run} className="px-6 py-2.5 rounded-xl bg-red-600 text-white font-bold text-sm hover:bg-red-700 transition">Retry</button>
           </div>
         )}
 
         {/* Empty state */}
-        {!loading && !error && jobs.length === 0 && (
-          <div className="bg-white rounded-2xl border border-dashed border-gray-300 p-14 text-center space-y-5">
-            <div className="text-6xl">💼</div>
+        {!loading&&jobs.length===0&&(
+          <div className="rounded-2xl p-10 text-center space-y-5" style={{background:"#fff",border:"1px dashed #D1D5DB"}}>
+            <div className="text-5xl">💼</div>
             <div>
-              <p className="font-black text-gray-900 text-xl">.NET Senior Jobs — Indian Market</p>
-              <p className="text-gray-400 text-sm mt-2 max-w-lg mx-auto">
-                Searches <strong>10 job portals</strong> including LinkedIn, Naukri, Indeed, Glassdoor, Monster, Shine & more
-                for .NET Senior / Lead / Architect roles with 13+ years experience.
+              <p className="font-black text-lg" style={{color:"#111827"}}>Senior .NET Jobs — India</p>
+              <p className="text-sm mt-1.5 max-w-sm mx-auto leading-relaxed" style={{color:"#6B7280"}}>
+                10 job portals · LinkedIn · Naukri · Indeed · Glassdoor · Monster · Shine & more.<br/>
+                Auto-runs at 10 AM · 2 PM · 7 PM IST.
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-2">
-              {SOURCE_LIST.map(s => (
-                <span key={s.key} className="text-xs font-semibold px-3 py-1.5 rounded-full bg-gray-100 text-gray-600">
-                  {s.flag} {s.key} {s.india ? "🇮🇳" : ""}
+              {SOURCE_LIST.map(s=>(
+                <span key={s.key} className="text-xs font-semibold px-3 py-1.5 rounded-full"
+                  style={{background:"#F3F4F6",color:"#374151",border:"1px solid #E5E7EB"}}>
+                  <span className="inline-block w-2 h-2 rounded-full mr-1.5" style={{background:s.color,verticalAlign:"middle"}}/>
+                  {s.key}{s.india?" 🇮🇳":""}
                 </span>
               ))}
             </div>
-            <div className="flex flex-wrap justify-center gap-2 pt-1">
-              {[".NET Core", "C#", "Azure", "Microservices", "SQL Server", "Web API", "Docker"].map(sk => (
-                <span key={sk} className={`text-xs font-medium px-3 py-1.5 rounded-full border ${skillClr(sk)}`}>{sk}</span>
-              ))}
+            <div className="flex flex-wrap justify-center gap-1.5">
+              {[".NET Core","C#","Azure","Microservices","SQL Server","Web API","Docker"].map(sk=>{
+                const{bg,text}=skillStyle(sk);
+                return<span key={sk} className="text-xs font-medium px-2.5 py-1 rounded-lg" style={{background:bg,color:text}}>{sk}</span>;
+              })}
             </div>
             <button onClick={run}
-              className="px-8 py-3 rounded-xl bg-gray-900 text-white font-black text-base hover:bg-gray-700 transition">
-              🔍 Search All 10 Sources Now
+              className="font-black text-base px-8 py-3.5 rounded-2xl transition-all active:scale-95 hover:opacity-90"
+              style={{background:"#1D4ED8",color:"#fff",minHeight:"52px"}}>
+              🔍 Search All 10 Sources
             </button>
-            {nextRun && <p className="text-xs text-gray-300">Next auto-run: {nextRun.label} (in {fmtMins(nextRun.mins)})</p>}
+            {nextRun&&<p className="text-xs" style={{color:"#9CA3AF"}}>Next auto-run: {nextRun.label} · in {fmtMins(nextRun.mins)}</p>}
           </div>
         )}
 
         {/* Job grid */}
-        {!loading && filtered.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-            {filtered.map((job, i) => <JobCard key={job.id} job={job} idx={i} />)}
+        {!loading&&filtered.length>0&&(
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {filtered.map((job,i)=><JobCard key={job.id} job={job} idx={i}/>)}
           </div>
         )}
 
         {/* No filter match */}
-        {!loading && jobs.length > 0 && filtered.length === 0 && (
-          <div className="bg-white rounded-2xl border border-gray-200 p-10 text-center">
+        {!loading&&jobs.length>0&&filtered.length===0&&(
+          <div className="rounded-2xl p-10 text-center" style={{background:"#fff",border:"1px solid #E5E7EB"}}>
             <p className="text-3xl mb-2">🔎</p>
-            <p className="font-bold text-gray-700">No matches for current filters</p>
-            <button onClick={() => { setFilter(""); setTypeF("All"); setSrcF("All"); setLocF("All"); }}
-              className="mt-3 text-sm text-gray-400 hover:text-gray-800 underline">Clear all filters</button>
+            <p className="font-bold" style={{color:"#374151"}}>No matches for current filters</p>
+            <button onClick={()=>{setFilter("");setTypeF("All");setSrcF("All");setLocF("All");}}
+              className="mt-3 text-sm font-semibold underline" style={{color:"#6B7280"}}>
+              Clear filters
+            </button>
           </div>
         )}
 
-        <div className="text-center text-xs text-gray-300 pb-4 space-y-1">
-          <p>10 sources: LinkedIn · Naukri · Indeed · Glassdoor · Monster · Shine · TimesJobs · Remotive · WeWorkRemotely · Remote.co</p>
-          <p>Filtered for .NET Senior / Lead / Architect · 13+ years · Indian market</p>
+        <div className="text-center text-xs pb-4 space-y-1" style={{color:"#D1D5DB"}}>
+          <p>10 sources · LinkedIn · Naukri · Indeed · Glassdoor · Monster · Shine · TimesJobs · Remotive · WeWorkRemotely · Remote.co</p>
+          <p>.NET Senior / Lead / Architect · 13+ years · Indian market</p>
         </div>
       </div>
     </div>
