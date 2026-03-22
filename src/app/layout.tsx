@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "@/Styles/globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Suspense } from "react";
 
 import Footer from "@/components/Footer";
 import NetworkStatusIndicator from "@/components/NetworkStatusIndicator";
-import { GAListener } from "@/components/GAListener";
+import { GAListenerInner } from "@/components/GAListenerInner";
 
 /* ---------- METADATA ---------- */
 export const metadata: Metadata = {
@@ -50,8 +51,10 @@ export default function RootLayout({
         {/* ✅ Google Analytics */}
         <GoogleAnalytics gaId="G-5VRRWW655G" />
 
-  
-        <GAListener />
+        {/* ✅ GA Page View Tracker */}
+        <Suspense fallback={null}>
+          <GAListenerInner gaId="G-5VRRWW655G" />
+        </Suspense>
       </body>
     </html>
   );
