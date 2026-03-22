@@ -50,10 +50,10 @@ export default function RootLayout({
         <NetworkStatusIndicator />
 
         <Footer />
-      </body>
 
-      {/* Google Analytics */}
-      <GoogleAnalytics gaId="G-5VRRWW655G" />
+        {/* ✅ Google Analytics (FIXED POSITION) */}
+        <GoogleAnalytics gaId="G-5VRRWW655G" />
+      </body>
     </html>
   );
 }
