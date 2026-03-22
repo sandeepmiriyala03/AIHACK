@@ -23,7 +23,7 @@ import MenuRoundedIcon               from "@mui/icons-material/MenuRounded";
 import ReceiptLongRoundedIcon      from "@mui/icons-material/ReceiptLongRounded";
 import CurrencyRupeeRoundedIcon    from "@mui/icons-material/CurrencyRupeeRounded";
 import AccountBalanceRoundedIcon   from "@mui/icons-material/AccountBalanceRounded";
-
+import WorkRoundedIcon           from "@mui/icons-material/WorkRounded";
 /* ─── types ─────────────────────────────────────────────────── */
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -44,7 +44,8 @@ const navItems = [
   { href: "/badge",    label: "Badge",      icon: MilitaryTechRoundedIcon },
   { href: "/posters",  label: "Poster",     icon: DashboardCustomizeRoundedIcon },
   { href: "/smsparser", label: "ArthaVaakya", icon: CurrencyRupeeRoundedIcon },
-  { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon }
+  { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon },
+   { href: "/jobs",      label: "Jobs",        icon: WorkRoundedIcon },
 ];
 
 /*
