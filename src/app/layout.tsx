@@ -48,7 +48,7 @@ export default function RootLayout({
         <NetworkStatusIndicator />
         <Footer />
 
-        {/* ✅ Google Analytics */}
+     
         <GoogleAnalytics gaId="G-5VRRWW655G" />
 
         {/* ✅ GA Page View Tracker */}
