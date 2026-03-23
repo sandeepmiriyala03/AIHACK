@@ -7,7 +7,7 @@ import { useEffect, useState, useRef } from "react";
 
 import HomeRoundedIcon               from "@mui/icons-material/HomeRounded";
 import UploadFileRoundedIcon         from "@mui/icons-material/UploadFileRounded";
-import DocumentScannerRoundedIcon    from "@mui/icons-material/DocumentScannerRounded";
+import DocumentScannerRoundedIcon    from "@mui/icons-material/DocumentScannerRoundedIcon";
 import DrawRoundedIcon               from "@mui/icons-material/DrawRounded";
 import HistoryEduRoundedIcon         from "@mui/icons-material/HistoryEduRounded";
 import MenuBookRoundedIcon           from "@mui/icons-material/MenuBookRounded";
@@ -20,10 +20,10 @@ import MilitaryTechRoundedIcon       from "@mui/icons-material/MilitaryTechRound
 import FingerprintRoundedIcon        from "@mui/icons-material/FingerprintRounded";
 import CloseRoundedIcon              from "@mui/icons-material/CloseRounded";
 import MenuRoundedIcon               from "@mui/icons-material/MenuRounded";
-import ReceiptLongRoundedIcon      from "@mui/icons-material/ReceiptLongRounded";
-import CurrencyRupeeRoundedIcon    from "@mui/icons-material/CurrencyRupeeRounded";
-import AccountBalanceRoundedIcon   from "@mui/icons-material/AccountBalanceRounded";
-import WorkRoundedIcon           from "@mui/icons-material/WorkRounded";
+import CurrencyRupeeRoundedIcon      from "@mui/icons-material/CurrencyRupeeRounded";
+import CheckCircleRoundedIcon        from "@mui/icons-material/CheckCircleRounded";
+import IosShareRoundedIcon           from "@mui/icons-material/IosShareRounded";
+
 /* ─── types ─────────────────────────────────────────────────── */
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -32,35 +32,31 @@ interface BeforeInstallPromptEvent extends Event {
 
 /* ─── all nav items ──────────────────────────────────────────── */
 const navItems = [
-  { href: "/",         label: "Home",       icon: HomeRoundedIcon },
-  { href: "/upload",   label: "Upload",     icon: UploadFileRoundedIcon },
-  { href: "/OCR",      label: "OCR",        icon: DocumentScannerRoundedIcon },
-  { href: "/ocreng",   label: "HTR Indic",  icon: DrawRoundedIcon },
-  { href: "/Ocrwork",  label: "RajaTantra", icon: HistoryEduRoundedIcon },
-  { href: "/Sanskrit", label: "यथाक्षरं",  icon: MenuBookRoundedIcon },
-  { href: "/Media",    label: "Media",      icon: CollectionsRoundedIcon },
-  { href: "/voice",    label: "Voice",      icon: MicRoundedIcon },
-  { href: "/vedha",    label: "Vedha",      icon: AutoStoriesRoundedIcon },
-  { href: "/badge",    label: "Badge",      icon: MilitaryTechRoundedIcon },
-  { href: "/posters",  label: "Poster",     icon: DashboardCustomizeRoundedIcon },
+  { href: "/",          label: "Home",        icon: HomeRoundedIcon },
+  { href: "/upload",    label: "Upload",      icon: UploadFileRoundedIcon },
+  { href: "/OCR",       label: "OCR",         icon: DocumentScannerRoundedIcon },
+  { href: "/ocreng",    label: "HTR Indic",   icon: DrawRoundedIcon },
+  { href: "/Ocrwork",   label: "RajaTantra",  icon: HistoryEduRoundedIcon },
+  { href: "/Sanskrit",  label: "यथाक्षरं",   icon: MenuBookRoundedIcon },
+  { href: "/Media",     label: "Media",       icon: CollectionsRoundedIcon },
+  { href: "/voice",     label: "Voice",       icon: MicRoundedIcon },
+  { href: "/vedha",     label: "Vedha",       icon: AutoStoriesRoundedIcon },
+  { href: "/badge",     label: "Badge",       icon: MilitaryTechRoundedIcon },
+  { href: "/posters",   label: "Poster",      icon: DashboardCustomizeRoundedIcon },
   { href: "/smsparser", label: "ArthaVaakya", icon: CurrencyRupeeRoundedIcon },
-  { href: "/kyc",      label: "KYC",        icon: FingerprintRoundedIcon }
+  { href: "/kyc",       label: "KYC",         icon: FingerprintRoundedIcon },
 ];
 
-/*
-  3 icon-only shortcuts in the mobile top-bar right side.
-  One tap = instant navigation. No label needed — icon alone is clear.
-*/
 const TOP_SHORTCUTS = [
   { href: "/",      icon: HomeRoundedIcon,        label: "Home"  },
   { href: "/voice", icon: MicRoundedIcon,         label: "Voice" },
   { href: "/Media", icon: CollectionsRoundedIcon, label: "Media" },
 ];
 
-const G  = "#10b981";  // emerald
-const BG = "#0a0e17";  // nav background
+const G  = "#10b981";
+const BG = "#0a0e17";
 
-/* ─── scroll hook ────────────────────────────────────────────── */
+/* ─── helpers ────────────────────────────────────────────────── */
 function useScrolled(threshold = 10) {
   const [s, set] = useState(false);
   useEffect(() => {
@@ -71,40 +67,223 @@ function useScrolled(threshold = 10) {
   return s;
 }
 
-/* ─── install FAB ────────────────────────────────────────────── */
-function InstallFab() {
-  const [deferredPrompt, setDP] = useState<BeforeInstallPromptEvent | null>(null);
-  const [mounted, setMounted] = useState(false);
+/**
+ * Detect the install / PWA state of the current device.
+ *
+ * Returns one of:
+ *   "installed"   – already running as a PWA (standalone/fullscreen)
+ *   "promptable"  – Chrome/Edge on Android or Desktop; can call prompt()
+ *   "ios"         – Safari iOS; must show "Add to Home Screen" instructions
+ *   "unsupported" – everything else (old browsers, already-installed check failed, etc.)
+ */
+type InstallState = "checking" | "installed" | "promptable" | "ios" | "unsupported";
+
+function useInstallState() {
+  const [state, setState]  = useState<InstallState>("checking");
+  const promptRef          = useRef<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-    const h = (e: Event) => { e.preventDefault(); setDP(e as BeforeInstallPromptEvent); };
-    window.addEventListener("beforeinstallprompt", h);
-    return () => window.removeEventListener("beforeinstallprompt", h);
+    // 1. Already running as installed PWA?
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      // @ts-ignore – iOS Safari
+      (window.navigator as any).standalone === true;
+
+    if (isStandalone) {
+      setState("installed");
+      return;
+    }
+
+    // 2. Safari iOS — no beforeinstallprompt, manual flow needed
+    const ua = navigator.userAgent;
+    const isIOS = /iphone|ipad|ipod/i.test(ua);
+    const isSafari = /safari/i.test(ua) && !/chrome|crios|fxios/i.test(ua);
+    if (isIOS && isSafari) {
+      setState("ios");
+      return;
+    }
+
+    // 3. Chrome/Edge/Samsung — wait for the browser prompt event
+    const handler = (e: Event) => {
+      e.preventDefault();
+      promptRef.current = e as BeforeInstallPromptEvent;
+      setState("promptable");
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+
+    // 4. Fallback: if the event never fires within 3 s, mark unsupported
+    //    (covers Firefox, already-installed without standalone flag, etc.)
+    const timer = setTimeout(() => {
+      if (!promptRef.current) setState("unsupported");
+    }, 3000);
+
+    // Also listen for successful install
+    window.addEventListener("appinstalled", () => setState("installed"));
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handler);
+      clearTimeout(timer);
+    };
   }, []);
 
-  if (!mounted || !deferredPrompt) return null;
+  const triggerPrompt = async () => {
+    if (!promptRef.current) return;
+    await promptRef.current.prompt();
+    const { outcome } = await promptRef.current.userChoice;
+    if (outcome === "accepted") setState("installed");
+    promptRef.current = null;
+  };
+
+  return { state, triggerPrompt };
+}
+
+/* ─── iOS instructions sheet ────────────────────────────────── */
+function IosSheet({ onClose }: { onClose: () => void }) {
+  return (
+    <>
+      <style>{`
+        @keyframes at-sheet-up{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+        .at-ios-sheet{
+          position:fixed;bottom:0;left:0;right:0;z-index:4000;
+          background:#111827;
+          border-top:1px solid rgba(16,185,129,.25);
+          border-radius:18px 18px 0 0;
+          padding:20px 22px 36px;
+          animation:at-sheet-up .3s cubic-bezier(.4,0,.2,1);
+          font-family:Outfit,sans-serif;
+        }
+        .at-ios-sheet h3{
+          margin:0 0 6px;font-size:16px;font-weight:700;color:white;
+        }
+        .at-ios-sheet p{
+          margin:0 0 18px;font-size:13.5px;color:rgba(255,255,255,.6);line-height:1.55;
+        }
+        .at-ios-step{
+          display:flex;align-items:center;gap:12px;
+          padding:10px 0;
+          border-bottom:1px solid rgba(255,255,255,.06);
+          font-size:13.5px;color:rgba(255,255,255,.8);
+        }
+        .at-ios-step:last-of-type{border-bottom:none;}
+        .at-ios-num{
+          width:26px;height:26px;border-radius:50%;
+          background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);
+          color:${G};font-size:12px;font-weight:700;
+          display:flex;align-items:center;justify-content:center;flex-shrink:0;
+        }
+        .at-ios-close{
+          margin-top:18px;width:100%;padding:11px;border-radius:10px;
+          background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);
+          color:rgba(255,255,255,.7);font-family:Outfit,sans-serif;
+          font-size:14px;cursor:pointer;transition:background .15s;
+        }
+        .at-ios-close:hover{background:rgba(255,255,255,.13);}
+      `}</style>
+
+      {/* backdrop */}
+      <div onClick={onClose} style={{
+        position:"fixed",inset:0,zIndex:3999,
+        background:"rgba(0,0,0,.55)",backdropFilter:"blur(3px)",
+      }} />
+
+      <div className="at-ios-sheet" role="dialog" aria-modal="true"
+        aria-label="Install instructions">
+        <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:4 }}>
+          <h3>Add to Home Screen</h3>
+          <button onClick={onClose} style={{
+            background:"none",border:"none",color:"rgba(255,255,255,.5)",
+            cursor:"pointer",padding:4,
+          }}>
+            <CloseRoundedIcon style={{ fontSize:20 }} />
+          </button>
+        </div>
+        <p>Install AksharaTantra for offline access and a native app feel.</p>
+
+        <div className="at-ios-step">
+          <span className="at-ios-num">1</span>
+          <span>Tap the <IosShareRoundedIcon style={{ fontSize:16,verticalAlign:"middle",color:G }} /> Share button at the bottom of Safari</span>
+        </div>
+        <div className="at-ios-step">
+          <span className="at-ios-num">2</span>
+          <span>Scroll down and tap <b style={{ color:"white" }}>"Add to Home Screen"</b></span>
+        </div>
+        <div className="at-ios-step">
+          <span className="at-ios-num">3</span>
+          <span>Tap <b style={{ color:"white" }}>"Add"</b> in the top-right corner</span>
+        </div>
+
+        <button className="at-ios-close" onClick={onClose}>Got it</button>
+      </div>
+    </>
+  );
+}
+
+/* ─── Install FAB ────────────────────────────────────────────── */
+function InstallFab() {
+  const { state, triggerPrompt } = useInstallState();
+  const [showIos, setShowIos]    = useState(false);
+  const [mounted, setMounted]    = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  if (!mounted || state === "checking" || state === "unsupported") return null;
+
+  /* Already installed — show a subtle "installed" badge briefly, then hide */
+  if (state === "installed") return null; // clean — no point showing once installed
+
+  const handleClick = () => {
+    if (state === "ios")       setShowIos(true);
+    else if (state === "promptable") triggerPrompt();
+  };
+
+  const label =
+    state === "ios"       ? "Install on iOS"  :
+    state === "promptable"? "Install App"     : "";
 
   return (
-    <button
-      onClick={async () => {
-        await deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        setDP(null);
-      }}
-      aria-label="Install AksharaTantra app"
-      style={{
-        position: "fixed", bottom: 24, right: 18, zIndex: 3000,
-        width: 50, height: 50, borderRadius: "50%", border: "none",
-        background: `linear-gradient(135deg,#0f766e,${G})`,
-        color: "white", cursor: "pointer",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        boxShadow: "0 4px 20px rgba(5,150,105,.5)",
-        WebkitTapHighlightColor: "transparent",
-      }}
-    >
-      <InstallMobileRoundedIcon style={{ fontSize: 22 }} />
-    </button>
+    <>
+      {showIos && <IosSheet onClose={() => setShowIos(false)} />}
+
+      <button
+        onClick={handleClick}
+        aria-label={label}
+        title={label}
+        style={{
+          position:"fixed", bottom:24, right:18, zIndex:3000,
+          height:46,
+          padding:"0 16px 0 12px",
+          borderRadius:23,
+          border:"1px solid rgba(16,185,129,.35)",
+          background:`linear-gradient(135deg,#0f766e,${G})`,
+          color:"white",
+          cursor:"pointer",
+          display:"flex", alignItems:"center", justifyContent:"center", gap:7,
+          boxShadow:"0 4px 24px rgba(5,150,105,.45)",
+          WebkitTapHighlightColor:"transparent",
+          fontFamily:"Outfit,sans-serif",
+          fontSize:13,
+          fontWeight:600,
+          letterSpacing:".03em",
+          whiteSpace:"nowrap",
+          transition:"transform .15s,box-shadow .15s",
+        }}
+        onMouseEnter={e => {
+          (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)";
+          (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 8px 28px rgba(5,150,105,.6)";
+        }}
+        onMouseLeave={e => {
+          (e.currentTarget as HTMLButtonElement).style.transform = "";
+          (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 4px 24px rgba(5,150,105,.45)";
+        }}
+      >
+        {state === "ios"
+          ? <IosShareRoundedIcon style={{ fontSize:19 }} />
+          : <InstallMobileRoundedIcon style={{ fontSize:19 }} />
+        }
+        <span style={{ display:"inline" }}>
+          {state === "ios" ? "Add to Home" : "Install App"}
+        </span>
+      </button>
+    </>
   );
 }
 
@@ -141,11 +320,9 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ══════════════ GLOBAL CSS ══════════════ */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
 
-        /* skip link */
         .at-skip {
           position:absolute;top:-100px;left:14px;
           padding:7px 14px;background:${G};color:#000;
@@ -154,7 +331,6 @@ export default function Navbar() {
         }
         .at-skip:focus{top:14px;}
 
-        /* logo */
         .at-logo {
           display:flex;align-items:center;gap:9px;
           text-decoration:none;color:white;
@@ -171,7 +347,6 @@ export default function Navbar() {
         }
         .at-logo:hover .at-logo-ring{background:rgba(16,185,129,.22);}
 
-        /* desktop nav link */
         .at-link {
           position:relative;
           display:inline-flex;align-items:center;gap:5px;
@@ -189,7 +364,6 @@ export default function Navbar() {
           width:16px;height:2px;background:${G};border-radius:2px;
         }
 
-        /* mobile top bar */
         .at-topbar {
           position:fixed;top:0;left:0;right:0;z-index:2000;
           height:56px;
@@ -198,7 +372,6 @@ export default function Navbar() {
           transition:background .3s;
         }
 
-        /* hamburger */
         .at-menu-btn {
           width:40px;height:40px;border-radius:10px;flex-shrink:0;
           background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
@@ -208,7 +381,6 @@ export default function Navbar() {
         }
         .at-menu-btn:active{background:rgba(255,255,255,.14);}
 
-        /* top-bar shortcut icon buttons */
         .at-shortcut {
           width:40px;height:40px;border-radius:10px;flex-shrink:0;
           display:flex;align-items:center;justify-content:center;
@@ -225,14 +397,12 @@ export default function Navbar() {
           background:rgba(16,185,129,.12);
           border-color:rgba(16,185,129,.25);
         }
-        /* active dot indicator */
         .at-shortcut.active::after{
           content:'';position:absolute;bottom:5px;left:50%;
           transform:translateX(-50%);
           width:4px;height:4px;border-radius:50%;background:${G};
         }
 
-        /* overlay */
         .at-overlay {
           position:fixed;inset:0;z-index:2100;
           background:rgba(0,0,0,.58);
@@ -241,7 +411,6 @@ export default function Navbar() {
         }
         @keyframes at-fade{from{opacity:0}to{opacity:1}}
 
-        /* drawer */
         .at-drawer {
           position:fixed;top:0;left:0;bottom:0;
           width:78vw;max-width:290px;
@@ -270,7 +439,6 @@ export default function Navbar() {
         }
         .at-drawer-body::-webkit-scrollbar{display:none;}
 
-        /* drawer link */
         .at-dlink {
           display:flex;align-items:center;gap:12px;
           padding:10px 11px;border-radius:10px;
@@ -297,7 +465,6 @@ export default function Navbar() {
         }
         .at-dlink.active .at-dlink-icon{background:rgba(16,185,129,.14);}
 
-        /* drawer close btn */
         .at-close{
           width:33px;height:33px;border-radius:8px;
           background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
@@ -308,7 +475,6 @@ export default function Navbar() {
         .at-close:hover{background:rgba(255,255,255,.12);color:white;}
         .at-close:active{background:rgba(255,255,255,.16);}
 
-        /* drawer footer */
         .at-drawer-foot{
           padding:11px 13px;border-top:1px solid rgba(255,255,255,.05);
           font-family:Outfit,sans-serif;font-size:10px;font-weight:500;
@@ -316,7 +482,6 @@ export default function Navbar() {
           flex-shrink:0;
         }
 
-        /* thin divider between Home and rest */
         .at-divider{height:1px;background:rgba(255,255,255,.05);margin:5px 3px;}
       `}</style>
 
@@ -335,7 +500,7 @@ export default function Navbar() {
           transition:"all .35s ease",
         }}>
           <Link href="/" className="at-logo">
-            <span className="at-logo-ring" style={{ width:36, height:36 }}>
+            <span className="at-logo-ring" style={{ width:36,height:36 }}>
               <Image src="/icon-512.png" alt="AksharaTantra" width={22} height={22} />
             </span>
             Akshara<span style={{ color:G }}>Tantra</span>
@@ -360,15 +525,12 @@ export default function Navbar() {
       {/* ════════ MOBILE ════════ */}
       {isMobile && (
         <>
-          {/* Top bar */}
           <div className="at-topbar" style={{
             background: scrolled ? "rgba(10,14,23,.94)" : BG,
             backdropFilter: scrolled ? "blur(16px)" : "none",
             WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
             borderBottom:"1px solid rgba(255,255,255,.06)",
           }}>
-
-            {/* left: hamburger */}
             <button className="at-menu-btn"
               aria-label="Open menu"
               aria-expanded={drawerOpen}
@@ -377,16 +539,14 @@ export default function Navbar() {
               <MenuRoundedIcon style={{ fontSize:21 }} />
             </button>
 
-            {/* centre: logo */}
             <Link href="/" className="at-logo"
-              style={{ flex:1, justifyContent:"center", fontSize:15 }}>
+              style={{ flex:1,justifyContent:"center",fontSize:15 }}>
               <span className="at-logo-ring" style={{ width:30,height:30,borderRadius:8 }}>
                 <Image src="/icon-512.png" alt="AksharaTantra" width={18} height={18} />
               </span>
               Akshara<span style={{ color:G }}>Tantra</span>
             </Link>
 
-            {/* right: 3 icon shortcuts */}
             <div style={{ display:"flex",alignItems:"center",gap:2 }}>
               {TOP_SHORTCUTS.map(({ href, icon: Icon, label }) => {
                 const active = pathname === href;
@@ -402,14 +562,12 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Overlay */}
           {drawerOpen && (
             <div className="at-overlay"
               onClick={() => setDrawerOpen(false)}
               aria-hidden="true" />
           )}
 
-          {/* Drawer */}
           <div
             id="at-mobile-menu"
             ref={drawerRef}
@@ -418,7 +576,6 @@ export default function Navbar() {
             aria-label="Navigation menu"
             className={`at-drawer${drawerOpen ? " open" : ""}`}
           >
-            {/* header */}
             <div className="at-drawer-head">
               <Link href="/" className="at-logo" style={{ fontSize:14 }}
                 onClick={() => setDrawerOpen(false)}>
@@ -433,13 +590,11 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* links */}
             <nav className="at-drawer-body" aria-label="All pages">
               {navItems.map(({ href, label, icon: Icon }, i) => {
                 const active = pathname === href;
                 return (
                   <React.Fragment key={href}>
-                    {/* visual separator after Home */}
                     {i === 1 && <div className="at-divider" />}
                     <Link
                       href={href}
@@ -464,6 +619,7 @@ export default function Navbar() {
         </>
       )}
 
+      {/* ════════ INSTALL FAB — always rendered, internally gated ════════ */}
       <InstallFab />
     </>
   );
