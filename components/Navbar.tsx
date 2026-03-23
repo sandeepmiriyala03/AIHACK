@@ -7,7 +7,7 @@ import { useEffect, useState, useRef } from "react";
 
 import HomeRoundedIcon               from "@mui/icons-material/HomeRounded";
 import UploadFileRoundedIcon         from "@mui/icons-material/UploadFileRounded";
-import DocumentScannerRoundedIcon    from "@mui/icons-material/DocumentScannerRoundedIcon";
+import DocumentScannerRoundedIcon    from "@mui/icons-material/DocumentScannerRounded";
 import DrawRoundedIcon               from "@mui/icons-material/DrawRounded";
 import HistoryEduRoundedIcon         from "@mui/icons-material/HistoryEduRounded";
 import MenuBookRoundedIcon           from "@mui/icons-material/MenuBookRounded";
