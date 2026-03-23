@@ -205,11 +205,11 @@ function IosSheet({ onClose }: { onClose: () => void }) {
         </div>
         <div className="at-ios-step">
           <span className="at-ios-num">2</span>
-          <span>Scroll down and tap <b style={{ color:"white" }}>"Add to Home Screen"</b></span>
+          <span>Scroll down and tap <b style={{ color:"white" }}>"Add to Home Screen</b></span>
         </div>
         <div className="at-ios-step">
           <span className="at-ios-num">3</span>
-          <span>Tap <b style={{ color:"white" }}>"Add"</b> in the top-right corner</span>
+          <span>Tap <b style={{ color:"white" }}>Add</b> in the top-right corner</span>
         </div>
 
         <button className="at-ios-close" onClick={onClose}>Got it</button>
