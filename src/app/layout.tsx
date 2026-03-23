@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import NetworkStatusIndicator from "@/components/NetworkStatusIndicator";
 import { GAListenerInner } from "@/components/GAListenerInner";
-import InstallApp from "@/components/InstallApp"; // 👈 add this
+import InstallApp from "@/components/installapp"; // 👈 add this
 
 /* ---------- METADATA ---------- */
 export const metadata: Metadata = {
