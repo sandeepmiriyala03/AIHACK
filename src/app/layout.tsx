@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import NetworkStatusIndicator from "@/components/NetworkStatusIndicator";
 import { GAListenerInner } from "@/components/GAListenerInner";
-import InstallApp from "@/components/installapp"; // 👈 add this
+
 
 /* ---------- METADATA ---------- */
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({
         {children}
 
         <NetworkStatusIndicator />
-        <InstallApp />           
+         
         <Footer />
         <GoogleAnalytics gaId="G-5VRRWW655G" />
         <Suspense fallback={null}>
