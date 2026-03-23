@@ -86,7 +86,8 @@ async function translateText(text: string, targetLang: string): Promise<string> 
 }
 
 const BASE_STRINGS = {
-  badge: "Submitted to Bhashini — AksharDrishti Hackathon 2026",
+ badge: "Submitted to Bhashini — AksharDrishti Hackathon 2026",
+unBadge: " Submitted to UN Open Source Week 2026 · Decision April 17", // ← ADD
   // ── UPDATED: mentions Posters + Vedha ──
   heroSub: "Offline AI Platform for OCR, Handwriting Recognition, Sanskrit Digitization, Multilingual Poster Maker, Vedha Digitization and Speech Technology.",
   heroTagline: "AI for Indic Language Preservation",
@@ -440,59 +441,68 @@ export default function Home() {
           <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",zIndex:0,width:"100%",textAlign:"center",overflow:"hidden"}}>
             <div className="script-ticker">{SCRIPT_SAMPLES[scriptIdx]}</div>
           </div>
+<div className={heroVisible?"hero-done":"hero-in"} style={{position:"relative",zIndex:1,width:"100%",maxWidth:760}}>
 
-          <div className={heroVisible?"hero-done":"hero-in"} style={{position:"relative",zIndex:1,width:"100%",maxWidth:760}}>
+  <div style={{display:"flex",justifyContent:"center",gap:"8px",marginBottom:"20px",flexWrap:"wrap",alignItems:"center"}}>
+    <button className="lang-pill" onClick={()=>setLangModalOpen(true)}>
+      <LanguageIcon style={{fontSize:16,color:"var(--green)"}}/>
+      <span style={{fontFamily:"'Noto Serif',serif",fontSize:"15px"}}>{activeLang.nativeLabel}</span>
+      <span style={{color:"var(--text-muted)",fontSize:"11px"}}>▾</span>
+    </button>
+    <span className="badge"><LanguageIcon style={{fontSize:12}}/> {strings.selectLang}</span>
+    {deviceInfo.isMobile&&<span className="badge"><PhoneAndroidIcon style={{fontSize:12}}/> Mobile Optimized</span>}
+  </div>
 
-            <div style={{display:"flex",justifyContent:"center",gap:"8px",marginBottom:"20px",flexWrap:"wrap",alignItems:"center"}}>
-              <button className="lang-pill" onClick={()=>setLangModalOpen(true)}>
-                <LanguageIcon style={{fontSize:16,color:"var(--green)"}}/>
-                <span style={{fontFamily:"'Noto Serif',serif",fontSize:"15px"}}>{activeLang.nativeLabel}</span>
-                <span style={{color:"var(--text-muted)",fontSize:"11px"}}>▾</span>
-              </button>
-              <span className="badge"><LanguageIcon style={{fontSize:12}}/> {strings.selectLang}</span>
-              {deviceInfo.isMobile&&<span className="badge"><PhoneAndroidIcon style={{fontSize:12}}/> Mobile Optimized</span>}
-            </div>
+  {/* ── Badges row ── */}
+  <div style={{display:"flex",justifyContent:"center",gap:"8px",marginBottom:"14px",flexWrap:"wrap"}}>
+    <span className="badge">
+      <EmojiEventsIcon style={{fontSize:12}}/> {strings.badge}
+    </span>
+    {/* UN OSW badge — blue to differentiate */}
+    <span className="badge" style={{
+      background:"rgba(37,99,235,.08)",
+      border:"1px solid rgba(37,99,235,.22)",
+      color:"#1d4ed8",
+    }}>
+      🌍 Submitted · UN Open Source Week 2026 · Apr 17
+    </span>
+  </div>
 
-            <div style={{marginBottom:"14px"}}>
-              <span className="badge"><EmojiEventsIcon style={{fontSize:12}}/> {strings.badge}</span>
-            </div>
+  <h1 style={{fontSize:"clamp(40px,10vw,110px)",fontWeight:900,letterSpacing:"-.03em",lineHeight:.93,color:"#000",fontFamily:"'Outfit',sans-serif",marginBottom:"4px"}}>
+    Akshara
+  </h1>
+  <h1 style={{fontSize:"clamp(40px,10vw,110px)",fontWeight:900,letterSpacing:"-.03em",lineHeight:.93,background:"linear-gradient(135deg,#10b981,#34d399)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",fontFamily:"'Outfit',sans-serif",marginBottom:"24px"}}>
+    Tantra
+  </h1>
 
-            <h1 style={{fontSize:"clamp(40px,10vw,110px)",fontWeight:900,letterSpacing:"-.03em",lineHeight:.93,color:"#000",fontFamily:"'Outfit',sans-serif",marginBottom:"4px"}}>
-              Akshara
-            </h1>
-            <h1 style={{fontSize:"clamp(40px,10vw,110px)",fontWeight:900,letterSpacing:"-.03em",lineHeight:.93,background:"linear-gradient(135deg,#10b981,#34d399)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",fontFamily:"'Outfit',sans-serif",marginBottom:"24px"}}>
-              Tantra
-            </h1>
+  <p style={{fontSize:"clamp(14px,2.2vw,21px)",color:"#374151",maxWidth:"640px",margin:"0 auto 12px",lineHeight:1.65,fontFamily:"'Crimson Pro',serif",fontWeight:300}}>
+    {strings.heroSub}
+  </p>
+  <p style={{fontSize:"clamp(10px,1.4vw,13px)",color:"var(--green)",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Outfit',sans-serif",fontWeight:600,marginBottom:"28px"}}>
+    {strings.heroTagline}
+  </p>
 
-            <p style={{fontSize:"clamp(14px,2.2vw,21px)",color:"#374151",maxWidth:"640px",margin:"0 auto 12px",lineHeight:1.65,fontFamily:"'Crimson Pro',serif",fontWeight:300}}>
-              {strings.heroSub}
-            </p>
-            <p style={{fontSize:"clamp(10px,1.4vw,13px)",color:"var(--green)",letterSpacing:".1em",textTransform:"uppercase",fontFamily:"'Outfit',sans-serif",fontWeight:600,marginBottom:"28px"}}>
-              {strings.heroTagline}
-            </p>
+  <div className="hero-btns">
+    <Link href="/upload" className="btn-primary">
+      <span className="btn-arrow"><RocketLaunchIcon style={{fontSize:16}}/></span>
+      <span>{strings.cta}</span>
+      <span className="btn-arrow"><ArrowForwardIcon style={{fontSize:15}}/></span>
+    </Link>
+    <button onClick={readPage} className="btn-secondary">
+      <VolumeUpIcon style={{fontSize:18}}/>
+      <span>{strings.readPage}</span>
+    </button>
+    <button onClick={stopReading} className="btn-icon" title="Stop reading" aria-label="Stop reading">
+      <StopCircleIcon style={{fontSize:22,color:"#6b7280"}}/>
+    </button>
+  </div>
 
-            <div className="hero-btns">
-              <Link href="/upload" className="btn-primary">
-                <span className="btn-arrow"><RocketLaunchIcon style={{fontSize:16}}/></span>
-                <span>{strings.cta}</span>
-                <span className="btn-arrow"><ArrowForwardIcon style={{fontSize:15}}/></span>
-              </Link>
-              <button onClick={readPage} className="btn-secondary">
-                <VolumeUpIcon style={{fontSize:18}}/>
-                <span>{strings.readPage}</span>
-              </button>
-              <button onClick={stopReading} className="btn-icon" title="Stop reading" aria-label="Stop reading">
-                <StopCircleIcon style={{fontSize:22,color:"#6b7280"}}/>
-              </button>
-            </div>
-
-            {/* ── UPDATED tags: added Poster Maker + Vedha OCR ── */}
-            <div className="tags-row">
-              {["34+ Languages","100% Offline","Open Source","No API Keys","Poster Maker","Vedha OCR"].map(t=>(
-                <span key={t} className="tag">{t}</span>
-              ))}
-            </div>
-          </div>
+  <div className="tags-row">
+    {["34+ Languages","100% Offline","Open Source","No API Keys","Poster Maker","Vedha OCR","UN OSW 2026"].map(t=>(
+      <span key={t} className="tag" style={t==="UN OSW 2026"?{background:"#eff6ff",border:"1px solid #bfdbfe",color:"#1d4ed8"}:{}}>{t}</span>
+    ))}
+  </div>
+</div>
         </section>
 
         {/* ── Offline strip — 2 new items added ── */}
