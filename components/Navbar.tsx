@@ -23,7 +23,7 @@ import MenuRoundedIcon               from "@mui/icons-material/MenuRounded";
 import CurrencyRupeeRoundedIcon      from "@mui/icons-material/CurrencyRupeeRounded";
 import CheckCircleRoundedIcon        from "@mui/icons-material/CheckCircleRounded";
 import IosShareRoundedIcon           from "@mui/icons-material/IosShareRounded";
-
+import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
 /* ─── types ─────────────────────────────────────────────────── */
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -33,6 +33,7 @@ interface BeforeInstallPromptEvent extends Event {
 /* ─── all nav items ──────────────────────────────────────────── */
 const navItems = [
   { href: "/",          label: "Home",        icon: HomeRoundedIcon },
+   { href: "/aksharadrishti",    label: "AksharaDrishti",   icon: ImageSearchRoundedIcon },
   { href: "/upload",    label: "Upload",      icon: UploadFileRoundedIcon },
   { href: "/OCR",       label: "OCR",         icon: DocumentScannerRoundedIcon },
   { href: "/ocreng",    label: "HTR Indic",   icon: DrawRoundedIcon },
