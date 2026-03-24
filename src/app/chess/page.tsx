@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
-
+import Navbar from "@/components/Navbar";
 // ── Types ──────────────────────────────────────────────────────────────────
 type Color = "white" | "black";
 type PieceType = "king" | "queen" | "rook" | "bishop" | "knight" | "pawn";
@@ -438,6 +438,7 @@ export default function ChessGame() {
 
   return (
     <>
+    <Navbar />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
