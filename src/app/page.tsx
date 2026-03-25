@@ -303,7 +303,7 @@ const MODULES = [
     badge: null,
   },
   {
-    href: "/calendar",
+    href: "/calendarpage",
     icon: <CalendarMonthIcon style={{ fontSize: 28 }} />,
     color: "#64748b",
     bg: "#f8fafc",
