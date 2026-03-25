@@ -37,7 +37,7 @@ const navItems = [
   { href: "/calendarpage", label: "Calendar", icon: CalendarMonthRoundedIcon },
  
     { href: "/chess", label: "Chess", icon: SportsEsportsRoundedIcon },
-     { href: "/onecrdb", label: "1 Crore DB", icon: SportsEsportsRoundedIcon },
+    
     { href: "/aksharadrishti",    label: "AksharaDrishti",   icon: ImageSearchRoundedIcon },
   { href: "/upload",    label: "Upload",      icon: UploadFileRoundedIcon },
   { href: "/OCR",       label: "OCR",         icon: DocumentScannerRoundedIcon },
