@@ -35,6 +35,7 @@ interface BeforeInstallPromptEvent extends Event {
 /* ─── all nav items ──────────────────────────────────────────── */
 const navItems = [
   { href: "/calendarpage", label: "Calendar", icon: CalendarMonthRoundedIcon },
+  { href: "/onecrdb", label: "1 Crore DB", icon: SportsEsportsRoundedIcon },
     { href: "/chess", label: "Chess", icon: SportsEsportsRoundedIcon },
     { href: "/aksharadrishti",    label: "AksharaDrishti",   icon: ImageSearchRoundedIcon },
   { href: "/upload",    label: "Upload",      icon: UploadFileRoundedIcon },
