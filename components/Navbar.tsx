@@ -48,7 +48,7 @@ const navItems = [
   { href: "/vedha",     label: "Vedha",       icon: AutoStoriesRoundedIcon },
   { href: "/badge",     label: "Badge",       icon: MilitaryTechRoundedIcon },
   { href: "/posters",   label: "Poster",      icon: DashboardCustomizeRoundedIcon },
-  { href: "/smsparser", label: "ArthaVaakya", icon: CurrencyRupeeRoundedIcon },
+  
   { href: "/kyc",       label: "KYC",         icon: FingerprintRoundedIcon },
 ];
 
