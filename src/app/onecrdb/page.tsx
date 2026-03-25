@@ -145,9 +145,84 @@ export default function Page() {
       <Navbar />
 
       <Box p={3}>
-        <Typography variant="h4" fontWeight="bold" mb={3}>
-          🚀 Data Generator Dashboard
+        <Typography variant="h3" fontWeight="bold" mb={4}>
+          Data Generator Dashboard
         </Typography>
+
+<Card sx={{ mb: 3 }}>
+  <CardContent>
+    {/* Header */}
+    <Stack direction="row" spacing={1} alignItems="center" mb={2}>
+    
+      <Typography variant="h6" fontWeight="bold">
+        About This Tool
+      </Typography>
+    </Stack>
+
+    {/* About */}
+    <Typography variant="body2" mb={2}>
+      This tool allows you to generate a large dataset (up to{" "}
+      <b>1 Crore records</b>) dynamically in your browser using IndexedDB.
+      You can define your own column names like <b>empname</b>,{" "}
+      <b>surname</b>, <b>age</b> and the system will automatically generate
+      and store data locally.
+    </Typography>
+
+    {/* Privacy Highlight */}
+    <Typography variant="body2" color="success.main" mb={2}>
+      🔒 We do NOT store or send any data to any server. Everything stays
+      securely in your browser.
+    </Typography>
+
+    <Divider sx={{ my: 2 }} />
+
+    {/* Grid Layout */}
+    <Grid container spacing={2}>
+      {/* How it works */}
+      <Grid item xs={12} md={4}>
+        <Typography fontWeight="bold" mb={1}>
+          ⚙️ How It Works
+        </Typography>
+        <ul style={{ paddingLeft: 18, margin: 0 }}>
+          <li>Define custom columns</li>
+          <li>Click Start to generate data</li>
+          <li>Worker inserts data in batches</li>
+          <li>Track progress & ETA</li>
+          <li>View data using pagination</li>
+        </ul>
+      </Grid>
+
+      {/* How to use */}
+      <Grid item xs={12} md={4}>
+        <Typography fontWeight="bold" mb={1}>
+          🧭 How To Use
+        </Typography>
+        <ol style={{ paddingLeft: 18, margin: 0 }}>
+          <li>Add column names</li>
+          <li>Click Start</li>
+          <li>Monitor progress</li>
+          <li>View data after completion</li>
+          <li>Use pagination</li>
+          <li>Cancel anytime if needed</li>
+        </ol>
+      </Grid>
+
+      {/* Notes */}
+      <Grid item xs={12} md={4}>
+        <Typography fontWeight="bold" mb={1}>
+          ⚠️ Important Notes
+        </Typography>
+        <ul style={{ paddingLeft: 18, margin: 0 }}>
+          <li>Runs fully in browser</li>
+          <li>No backend required</li>
+          <li>Large data may take time</li>
+          <li>Do not close during insert</li>
+          <li>Cancel clears all data</li>
+        </ul>
+      </Grid>
+    </Grid>
+  </CardContent>
+</Card>
 
         {/* KPI CARDS */}
         <Grid container spacing={2} mb={3}>
