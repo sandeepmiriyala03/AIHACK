@@ -64,8 +64,8 @@ function LiveClock({ timezone }: { timezone?: string }) {
         weekday: "short", day: "numeric", month: "short",
         ...(timezone ? { timeZone: timezone } : {}),
       };
-      setTime(new Intl.DateTimeFormat("en-IN", opts).format(now));
-      setDate(new Intl.DateTimeFormat("en-IN", dateOpts).format(now));
+     // setTime(new Intl.DateTimeFormat("en-IN", opts).format(now));
+      //setDate(new Intl.DateTimeFormat("en-IN", dateOpts).format(now));
     };
     tick();
     const id = setInterval(tick, 1000);

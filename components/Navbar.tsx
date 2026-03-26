@@ -38,7 +38,7 @@ const navItems = [
  
     { href: "/chess", label: "Chess", icon: SportsEsportsRoundedIcon },
     
-    { href: "/aksharadrishti",    label: "AksharaDrishti",   icon: ImageSearchRoundedIcon },
+  { href: "/aksharadrishti",    label: "AksharaDrishti",   icon: ImageSearchRoundedIcon },
   { href: "/upload",    label: "Upload",      icon: UploadFileRoundedIcon },
   { href: "/OCR",       label: "OCR",         icon: DocumentScannerRoundedIcon },
   { href: "/ocreng",    label: "HTR Indic",   icon: DrawRoundedIcon },
@@ -49,7 +49,7 @@ const navItems = [
   { href: "/vedha",     label: "Vedha",       icon: AutoStoriesRoundedIcon },
   { href: "/badge",     label: "Badge",       icon: MilitaryTechRoundedIcon },
   { href: "/posters",   label: "Poster",      icon: DashboardCustomizeRoundedIcon },
-  
+    { href: "/onecrdb",    label: "OnceCRDB",   icon: ImageSearchRoundedIcon },
   { href: "/kyc",       label: "KYC",         icon: FingerprintRoundedIcon },
 ];
 
