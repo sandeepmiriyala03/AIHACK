@@ -870,16 +870,14 @@ useEffect(() => {
 
   // ✅ SAFE END CONDITION
   if (isOver(aiInn) || (isSecondInnings && aiInn.runs >= target)) {
-    if (gamePhase !== "result") {
-      if (isSecondInnings) {
-        setGamePhase("result");
-      } else {
-        setIsSecondInnings(true);
-        setGamePhase("innings-break");
-      }
-    }
-    return;
+  if (isSecondInnings) {
+    setGamePhase("result");
+  } else {
+    setIsSecondInnings(true);
+    setGamePhase("innings-break");
   }
+  return; // ✅ IMPORTANT
+}
 
   if (aiTurnRef.current) return;
   aiTurnRef.current = true;
