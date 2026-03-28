@@ -586,7 +586,7 @@ export default function IPLCricketGame(){
   const rafRef=useRef<number>(0);
   const standsDrawn=useRef(false);
   const standsCanvas=useRef<HTMLCanvasElement|null>(null);
-
+const [isSecondInnings, setIsSecondInnings] = useState(false);
   // ── Animation state (ref = no re-render) ──────────────────────────────────
   const anim=useRef({
     phase:"idle" as AnimPhase,
@@ -830,9 +830,16 @@ export default function IPLCricketGame(){
     setLastOut(outcome);
     triggerBall(shot,outcome,del,getComm(outcome),()=>{
       setPlayerInn(newInn);
-      if(isOver(newInn)){
-        setGamePhase("innings-break");
-      } else {
+      if (isOver(newInn)) {
+  if (!isSecondInnings) {
+    // First innings complete
+    setIsSecondInnings(true);
+    setGamePhase("innings-break");
+  } else {
+    // Second innings complete
+    setGamePhase("result");
+  }
+} else {
         setCanShoot(true);
         anim.current.phase="idle";
       }
@@ -845,18 +852,23 @@ const aiTurnRef = useRef(false);
 useEffect(() => {
   if (gamePhase !== "match") return;
 
-  const isAiBatting = !playerBatsFirst;
+
+const isAiBatting =
+  (playerBatsFirst && isSecondInnings) ||   // AI chasing
+  (!playerBatsFirst && !isSecondInnings);   // AI batting first
   if (!isAiBatting) return;
 
   if (anim.current.phase !== "idle") return;
 
-  if (isOver(aiInn)) {
+  const target = isSecondInnings ? playerInn.runs + 1 : 0;
+ if (isOver(aiInn) || (isSecondInnings && aiInn.runs >= target)) {
+  if (isSecondInnings) {
     setGamePhase("result");
-    return;
+  } else {
+    setIsSecondInnings(true);
+    setGamePhase("innings-break");
   }
-
-  const target = playerInn.runs + 1;
-
+}
   if (aiTurnRef.current) return;
   aiTurnRef.current = true;
 
