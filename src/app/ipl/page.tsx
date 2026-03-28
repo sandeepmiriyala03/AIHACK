@@ -868,6 +868,7 @@ const isAiBatting =
     setIsSecondInnings(true);
     setGamePhase("innings-break");
   }
+  return
 }
   if (aiTurnRef.current) return;
   aiTurnRef.current = true;
