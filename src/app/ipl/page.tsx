@@ -840,51 +840,120 @@ export default function IPLCricketGame(){
   },[canShoot,playerInn,triggerBall]);
 
   // ── AI innings auto-play ────────────────────────────────────────────────────
-  const aiTurnRef=useRef(false);
-  useEffect(()=>{
-    if(gamePhase!=="match") return;
-    const isAiBatting=!playerBatsFirst;
-    if(!isAiBatting) return;
-    if(anim.current.phase!=="idle"&&anim.current.phase!=="done") return;
-    if(isOver(aiInn)){setGamePhase("result");return;}
-    const target=playerInn.runs+1;
-    if(aiTurnRef.current) return;
-    aiTurnRef.current=true;
-    const timer=setTimeout(()=>{
-      aiTurnRef.current=false;
-      const del=pickDelivery(aiInn.legalBalls);
-      const extra=checkExtra();
-      let outcome:BallOutcome;
-      let newInn:InningsData;
-      if(extra){
-        outcome=extra;
-        newInn={...aiInn,runs:aiInn.runs+1,extras:aiInn.extras+1,
-          events:[...aiInn.events,{outcome,commentary:getComm(outcome),overNum:Math.floor(aiInn.legalBalls/6),ballInOver:aiInn.legalBalls%6}]};
-      } else {
-        const shot=pickAIShot(aiInn.runs,aiInn.wickets,aiInn.legalBalls,target);
-        outcome=rollOutcome(shot,del);
-        const isW=outcome==="W";const runs=isW?0:(outcome as number);
-        newInn={...aiInn,runs:aiInn.runs+runs,wickets:aiInn.wickets+(isW?1:0),
-          legalBalls:aiInn.legalBalls+1,
-          events:[...aiInn.events,{outcome,commentary:getComm(outcome),overNum:Math.floor(aiInn.legalBalls/6),ballInOver:aiInn.legalBalls%6}]};
-        const shot2=shot;
-        triggerBall(shot2,outcome,del,getComm(outcome),()=>{
-          setAiInn(newInn);
-          const won=newInn.runs>=target;
-          if(isOver(newInn)||won){setGamePhase("result");}
-          else{anim.current.phase="idle";}
-        });
-        return;
-      }
-      // extra ball handling
-      const shot=pickAIShot(aiInn.runs,aiInn.wickets,aiInn.legalBalls,target);
-      triggerBall(shot,outcome,del,getComm(outcome),()=>{
+const aiTurnRef = useRef(false);
+
+useEffect(() => {
+  if (gamePhase !== "match") return;
+
+  const isAiBatting = !playerBatsFirst;
+  if (!isAiBatting) return;
+
+  if (anim.current.phase !== "idle") return;
+
+  if (isOver(aiInn)) {
+    setGamePhase("result");
+    return;
+  }
+
+  const target = playerInn.runs + 1;
+
+  if (aiTurnRef.current) return;
+  aiTurnRef.current = true;
+
+  const timer = setTimeout(() => {
+    const del = pickDelivery(aiInn.legalBalls);
+    const extra = checkExtra();
+
+    let outcome: BallOutcome;
+    let newInn: InningsData;
+
+    if (extra) {
+      outcome = extra;
+
+      newInn = {
+        ...aiInn,
+        runs: aiInn.runs + 1,
+        extras: aiInn.extras + 1,
+        events: [
+          ...aiInn.events,
+          {
+            outcome,
+            commentary: getComm(outcome),
+            overNum: Math.floor(aiInn.legalBalls / 6),
+            ballInOver: aiInn.legalBalls % 6
+          }
+        ]
+      };
+
+      const shot = pickAIShot(
+        aiInn.runs,
+        aiInn.wickets,
+        aiInn.legalBalls,
+        target
+      );
+
+      triggerBall(shot, outcome, del, getComm(outcome), () => {
         setAiInn(newInn);
-        anim.current.phase="idle";
+
+        // ✅ RESET HERE (correct place)
+        aiTurnRef.current = false;
+
+        anim.current.phase = "idle";
       });
-    },900);
-    return()=>{clearTimeout(timer);aiTurnRef.current=false;};
-  },[gamePhase,playerBatsFirst,aiInn,playerInn.runs,triggerBall]);
+
+    } else {
+      const shot = pickAIShot(
+        aiInn.runs,
+        aiInn.wickets,
+        aiInn.legalBalls,
+        target
+      );
+
+      outcome = rollOutcome(shot, del);
+
+      const isW = outcome === "W";
+      const runs = isW ? 0 : (outcome as number);
+
+      newInn = {
+        ...aiInn,
+        runs: aiInn.runs + runs,
+        wickets: aiInn.wickets + (isW ? 1 : 0),
+        legalBalls: aiInn.legalBalls + 1,
+        events: [
+          ...aiInn.events,
+          {
+            outcome,
+            commentary: getComm(outcome),
+            overNum: Math.floor(aiInn.legalBalls / 6),
+            ballInOver: aiInn.legalBalls % 6
+          }
+        ]
+      };
+
+      triggerBall(shot, outcome, del, getComm(outcome), () => {
+        setAiInn(newInn);
+
+        const won = newInn.runs >= target;
+
+        // ✅ RESET HERE (correct place)
+        aiTurnRef.current = false;
+
+        if (isOver(newInn) || won) {
+          setGamePhase("result");
+        } else {
+          anim.current.phase = "idle";
+        }
+      });
+    }
+
+  }, 900);
+
+  return () => {
+    clearTimeout(timer);
+   aiTurnRef.current = false; 
+  };
+
+}, [gamePhase, playerBatsFirst, aiInn, playerInn.runs, triggerBall]);
 
   // ── When player innings done, start AI (if player batted first) ─────────────
   useEffect(()=>{
