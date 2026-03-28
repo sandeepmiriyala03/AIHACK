@@ -614,9 +614,13 @@ const [isSecondInnings, setIsSecondInnings] = useState(false);
     const ctx=canvas.getContext("2d");
     if(!ctx) return;
     const a=anim.current;
-    const batting=playerBatsFirst?playerTeam!:aiTeam!;
-    const fielding=playerBatsFirst?aiTeam!:playerTeam!;
-    const inn=playerBatsFirst?playerInn:aiInn;
+  const isPlayerBatting =
+  (playerBatsFirst && !isSecondInnings) ||
+  (!playerBatsFirst && isSecondInnings);
+
+const batting = isPlayerBatting ? playerTeam! : aiTeam!;
+const fielding = isPlayerBatting ? aiTeam! : playerTeam!;
+const inn = isPlayerBatting ? playerInn : aiInn;
 
     ctx.clearRect(0,0,CW,CH);
 
@@ -847,29 +851,36 @@ const [isSecondInnings, setIsSecondInnings] = useState(false);
   },[canShoot,playerInn,triggerBall]);
 
   // ── AI innings auto-play ────────────────────────────────────────────────────
+
+
 const aiTurnRef = useRef(false);
 
 useEffect(() => {
   if (gamePhase !== "match") return;
 
+  const isAiBatting =
+    (playerBatsFirst && isSecondInnings) ||   // AI chasing
+    (!playerBatsFirst && !isSecondInnings);  // AI batting first
 
-const isAiBatting =
-  (playerBatsFirst && isSecondInnings) ||   // AI chasing
-  (!playerBatsFirst && !isSecondInnings);   // AI batting first
   if (!isAiBatting) return;
 
   if (anim.current.phase !== "idle") return;
 
   const target = isSecondInnings ? playerInn.runs + 1 : 0;
- if (isOver(aiInn) || (isSecondInnings && aiInn.runs >= target)) {
-  if (isSecondInnings) {
-    setGamePhase("result");
-  } else {
-    setIsSecondInnings(true);
-    setGamePhase("innings-break");
+
+  // ✅ SAFE END CONDITION
+  if (isOver(aiInn) || (isSecondInnings && aiInn.runs >= target)) {
+    if (gamePhase !== "result") {
+      if (isSecondInnings) {
+        setGamePhase("result");
+      } else {
+        setIsSecondInnings(true);
+        setGamePhase("innings-break");
+      }
+    }
+    return;
   }
-  return
-}
+
   if (aiTurnRef.current) return;
   aiTurnRef.current = true;
 
@@ -907,10 +918,7 @@ const isAiBatting =
 
       triggerBall(shot, outcome, del, getComm(outcome), () => {
         setAiInn(newInn);
-
-        // ✅ RESET HERE (correct place)
         aiTurnRef.current = false;
-
         anim.current.phase = "idle";
       });
 
@@ -946,15 +954,19 @@ const isAiBatting =
       triggerBall(shot, outcome, del, getComm(outcome), () => {
         setAiInn(newInn);
 
-        const won = newInn.runs >= target;
+        const won = isSecondInnings && newInn.runs >= target;
 
-        // ✅ RESET HERE (correct place)
         aiTurnRef.current = false;
 
         if (isOver(newInn) || won) {
-          setGamePhase("result");
+          if (isSecondInnings) {
+            setGamePhase("result");
+          } else {
+            setIsSecondInnings(true);
+            setGamePhase("innings-break");
+          }
         } else {
-          anim.current.phase = "idle";
+          anim.current.phase = "idle"; // ✅ ensure next ball
         }
       });
     }
@@ -963,10 +975,10 @@ const isAiBatting =
 
   return () => {
     clearTimeout(timer);
-   aiTurnRef.current = false; 
+    aiTurnRef.current = false;
   };
 
-}, [gamePhase, playerBatsFirst, aiInn, playerInn.runs, triggerBall]);
+}, [gamePhase, playerBatsFirst, isSecondInnings, aiInn.legalBalls, playerInn.runs]);
 
   // ── When player innings done, start AI (if player batted first) ─────────────
   useEffect(()=>{
