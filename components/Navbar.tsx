@@ -51,7 +51,8 @@ const navGroups = [
   {
     group: "Games", 
     items: [
-      { href: "/chess", label: "Mind Game", icon: SportsEsportsRoundedIcon }
+      { href: "/chess", label: "Mind Game", icon: SportsEsportsRoundedIcon },
+      { href: "/ipl", label: "IPL", icon: SportsEsportsRoundedIcon }
     ],
   },
   {
