@@ -2,7 +2,7 @@
 export const dynamic = "force-dynamic";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-
+import Navbar from "@/components/Navbar";
 // ─── Types ────────────────────────────────────────────────────────────────────
 type VoiceType = "female" | "male" | "story" | "news";
 type Step = "upload" | "voice" | "generating" | "done";
@@ -298,6 +298,7 @@ export default function AudioBookConverter() {
 
   return (
     <>
+        <Navbar />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
