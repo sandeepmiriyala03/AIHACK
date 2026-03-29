@@ -55,6 +55,7 @@ import {
   Tune as TuneIcon,
 } from "@mui/icons-material";
 
+import Navbar from "@/components/Navbar";
 // ─── Constants ────────────────────────────────────────────────────────────────
 const DB_NAME = "CroreExperimentDB";
 const STORE_NAME = "experimentStore";
@@ -62,7 +63,7 @@ const DB_VERSION = 1;
 const TOTAL_ENTRIES = 10_000_000;
 const BATCH_SIZE = 50_000;
 const PAGE_SIZE = 100;
-import Navbar from "@/components/Navbar";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface ColumnDef {
   key: string;
@@ -606,7 +607,8 @@ export default function CroreExperimentPage() {
 
   // ─── Render ────────────────────────────────────────────────────────────────
   return (
-    
+    <>
+      <Navbar />
     <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh", pb: 8 }}>
       {/* ── Header ── */}
       <Box
@@ -1458,6 +1460,6 @@ export default function CroreExperimentPage() {
         </Alert>
       </Snackbar>
     </Box>
-   
+   </>
   );
 }
