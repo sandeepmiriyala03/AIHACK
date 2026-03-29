@@ -80,7 +80,8 @@ const navGroups = [
   {
     group: "Voice AI", 
     items: [
-      { href: "/voice", label: "Talking AI", icon: MicRoundedIcon }
+      { href: "/voice", label: "Talking AI", icon: MicRoundedIcon },
+      { href: "/ebook", label: "Pdf to Voice", icon: MicRoundedIcon }
     ],
   },
 ];
