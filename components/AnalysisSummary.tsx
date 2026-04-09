@@ -1,5 +1,11 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import AccordionChunk from "./AccordionChunk";
+import SendIcon from "@mui/icons-material/Send";
+import ClearIcon from "@mui/icons-material/Clear";
+
+import { Document, VectorStoreIndex } from "llamaindex";
 
 interface Analysis {
   chunk_number: number;
@@ -20,33 +26,109 @@ interface Props {
   elapsedTime: number | null;
 }
 
-export default function AnalysisSummary({ result, loading, elapsedTime }: Props) {
+export default function AnalysisSummary({
+  result,
+  loading,
+  elapsedTime,
+}: Props) {
+  const [queryEngine, setQueryEngine] = useState<any>(null);
   const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
+  const [chatHistory, setChatHistory] = useState<
+    { question: string; answer: string }[]
+  >([]);
 
-  // 🔥 SIMPLE ANSWER FROM DOCUMENT
-  const askQuestion = () => {
-    if (!question.trim()) {
-      setAnswer("Please enter a question.");
-      return;
+  // 🔥 Build RAG index once
+  useEffect(() => {
+    const buildRAG = async () => {
+      if (!result?.analysis?.length) return;
+
+      const fullText = result.analysis
+        .map((c) => c.summary.join(" "))
+        .join(" ");
+
+      const docs = [new Document({ text: fullText })];
+
+      const index = await VectorStoreIndex.fromDocuments(docs);
+      setQueryEngine(index.asQueryEngine());
+    };
+
+    buildRAG();
+  }, [result]);
+
+  // 🔥 Streaming answer
+  const askQuestion = async () => {
+    if (!queryEngine) return;
+
+    const q = question.trim();
+    if (!q) return;
+
+    let answerText = "";
+
+    setChatHistory((prev) => [
+      ...prev,
+      { question: q, answer: "Thinking..." },
+    ]);
+
+    setQuestion("");
+
+    try {
+      const res = await queryEngine.query(q);
+      const text = res.toString();
+
+      // streaming effect
+      for (let i = 0; i < text.length; i++) {
+        answerText += text[i];
+
+        setChatHistory((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1].answer = answerText;
+          return updated;
+        });
+
+        await new Promise((r) => setTimeout(r, 10));
+      }
+    } catch {
+      setChatHistory((prev) => {
+        const updated = [...prev];
+        updated[updated.length - 1].answer = "❌ Error generating answer";
+        return updated;
+      });
     }
+  };
 
-    // 👉 Combine all summaries
-    const fullText = result.analysis
-      .map((chunk) => chunk.summary.join(" "))
-      .join(" ");
+  // 🔥 Highlight logic
+  const highlightText = (text: string, answer: string) => {
+    if (!answer) return text;
 
-    // 👉 Simple search logic
-    if (fullText.toLowerCase().includes(question.toLowerCase())) {
-      setAnswer("✅ Found in document:\n" + fullText.slice(0, 200) + "...");
-    } else {
-      setAnswer("❌ Answer not found in document");
-    }
+    const words = answer.split(" ").slice(0, 5);
+
+    let highlighted = text;
+
+    words.forEach((word) => {
+      const regex = new RegExp(`(${word})`, "gi");
+      highlighted = highlighted.replace(
+        regex,
+        `<mark style="background:yellow">$1</mark>`
+      );
+    });
+
+    return highlighted;
+  };
+
+  const fullText = result?.analysis
+    ?.map((c) => c.summary.join(" "))
+    .join(" ");
+
+  const lastAnswer = chatHistory.at(-1)?.answer || "";
+
+  const clearChat = () => {
+    setChatHistory([]);
+    setQuestion("");
   };
 
   return (
     <section className="analysisSection">
-      <h2 className="analysisTitle">Analysis Summary</h2>
+      <h2 className="analysisTitle">📊 Analysis Summary</h2>
 
       {/* File Info */}
       {result?.file_type && (
@@ -57,7 +139,7 @@ export default function AnalysisSummary({ result, loading, elapsedTime }: Props)
       )}
 
       {/* Analysis */}
-      {!result?.analysis || result.analysis.length === 0 ? (
+      {!result?.analysis?.length ? (
         <p className="noResults">No analysis results returned.</p>
       ) : (
         result.analysis.map((chunk) => (
@@ -65,38 +147,53 @@ export default function AnalysisSummary({ result, loading, elapsedTime }: Props)
         ))
       )}
 
-      {/* 🔥 ASK QUESTION */}
-      <div style={{ marginTop: 30 }}>
-        <h3>🤖 Ask About This Document</h3>
-
-        <input
-          type="text"
-          placeholder="Ask something..."
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
+      {/* 🔥 Highlighted Text */}
+      {fullText && (
+        <div
           style={{
-            width: "100%",
-            padding: "10px",
-            marginTop: "10px",
+            marginTop: 20,
+            padding: 10,
+            background: "#f9f9f9",
+          }}
+          dangerouslySetInnerHTML={{
+            __html: highlightText(fullText, lastAnswer),
           }}
         />
+      )}
 
-        <button
-          onClick={askQuestion}
-          style={{
-            marginTop: "10px",
-            padding: "10px 20px",
-          }}
-        >
-          Ask
-        </button>
+      {/* 🤖 CHAT */}
+      <div style={{ marginTop: 30 }}>
+        <h3>🤖 AI Document Chat</h3>
 
-        {answer && (
-          <div style={{ marginTop: "15px" }}>
-            <strong>Answer:</strong>
-            <p>{answer}</p>
+        {/* Chat history */}
+        {chatHistory.map((chat, i) => (
+          <div key={i} style={{ marginBottom: 15 }}>
+            <div><b>Q:</b> {chat.question}</div>
+            <div><b>A:</b> {chat.answer}</div>
           </div>
-        )}
+        ))}
+
+        {/* Input */}
+        <div style={{ display: "flex", gap: 10 }}>
+          <input
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && askQuestion()}
+            placeholder="Ask about document..."
+            style={{
+              flex: 1,
+              padding: 10,
+            }}
+          />
+
+          <button onClick={askQuestion}>
+            <SendIcon />
+          </button>
+
+          <button onClick={clearChat}>
+            <ClearIcon />
+          </button>
+        </div>
       </div>
 
       {/* Time */}
