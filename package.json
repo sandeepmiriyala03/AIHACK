@@ -31,6 +31,7 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.4",
     "jszip": "^3.10.1",
+    "llamaindex": "^0.12.1",
     "mammoth": "^1.10.0",
     "mp4-muxer": "^5.2.2",
     "multer": "^2.0.2",

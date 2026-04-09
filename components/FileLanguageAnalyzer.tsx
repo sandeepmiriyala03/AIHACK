@@ -162,6 +162,11 @@ export default function SearchableLangOcr() {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const progressRef = useRef("");
 
+const [queryEngine, setQueryEngine] = useState<any>(null);
+const [question, setQuestion] = useState("");
+const [answer, setAnswer] = useState("");
+
+
   /** Update OCR progress text */
 
   
@@ -170,15 +175,18 @@ export default function SearchableLangOcr() {
     setProgress(msg);
   };
 
-  /** Reset component state */
-  const resetState = useCallback(() => {
-    setFullText("");
-    setProgress("");
-    setImageError("");
-    setTimer(0);
-    cancelFlag.current = false;
-    stopTimer();
-  }, []);
+ const resetState = useCallback(() => {
+  setFullText("");
+  setProgress("");
+  setImageError("");
+  setTimer(0);
+  setQuestion("");
+  setAnswer("");
+  setQueryEngine(null);
+
+  cancelFlag.current = false;
+  stopTimer();
+}, []);
 
   /** Start OCR timer and abort after timeout */
   function startTimer() {
@@ -354,35 +362,35 @@ useEffect(() => {
         updateProgress("Error: auto-detect failed");
         setImageError("Script detection failed.");
       }
-
-    } finally {
-
+    } 
+    finally {
       setLoading(false);
-
     }
 
   })();
-
   return () => {
     active = false;
     cancelFlag.current = true;
   };
-
 }, [file, mode]);
 
   /** Handle user file selection */
-  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    resetState();
-    const selected = e.target.files?.[0];
-    if (!selected) {
-      setFile(null);
-      setFileUrl(null);
-      return;
-    }
-    setFile(selected);
-    const url = URL.createObjectURL(selected);
-    setFileUrl(url);
-  };
+
+const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  resetState();
+  if (fileUrl) {
+    URL.revokeObjectURL(fileUrl); // ✅ fix leak
+  }
+  const selected = e.target.files?.[0];
+  if (!selected) {
+    setFile(null);
+    setFileUrl(null);
+    return;
+  }
+  setFile(selected);
+  const url = URL.createObjectURL(selected);
+  setFileUrl(url);
+};
 
   /** Perform OCR analysis on the selected file and language(s) */
 const onAnalyze = async () => {
@@ -469,6 +477,29 @@ setOcrEngine(`PaddleOCR Fallback (${langOpt.label})`);
     }
 
     setFullText(combinedText.trim());
+    // 🔥 RAG BUILD START
+if (combinedText.trim()) {
+  try {
+    const { Document, VectorStoreIndex } = await import("llamaindex");
+
+    const docs = [
+      new Document({
+        text: combinedText,
+      }),
+    ];
+
+    const index = await VectorStoreIndex.fromDocuments(docs);
+
+    const engine = index.asQueryEngine();
+
+    setQueryEngine(engine);
+
+    console.log("✅ RAG Ready");
+  } catch (err) {
+    console.error("RAG Error:", err);
+  }
+}
+// 
 
     updateProgress("OCR Complete");
 
@@ -589,6 +620,27 @@ async function runPaddleOCR(imageUrl: string): Promise<string> {
 
   }
 }
+
+const askQuestion = async () => {
+  if (!queryEngine) {
+    setAnswer("RAG not ready yet. Please wait.");
+    return;
+  }
+
+  if (!question) {
+    setAnswer("Please enter a question.");
+    return;
+  }
+
+  setAnswer("Thinking...");
+
+  try {
+    const res = await queryEngine.query(question);
+    setAnswer(res.toString());
+  } catch {
+    setAnswer("Error generating answer");
+  }
+};
 return (
   <div className="container" aria-live="polite">
     <h1 className="title">Searchable Language OCR</h1>
@@ -639,11 +691,15 @@ return (
       />
     )}
 
-    <ExtractedTextSectionComponent
-      progress={progress}
-      fullText={fullText}
-      loading={loading}
-    />
+  <ExtractedTextSectionComponent
+  progress={progress}
+  fullText={fullText}
+  loading={loading}
+  question={question}
+  setQuestion={setQuestion}
+  askQuestion={askQuestion}
+  answer={answer}
+/>
 
     {ocrEngine && (
       <div style={{ marginTop: 10 }}>
