@@ -35,42 +35,38 @@ export default function AnalysisSummary({
     { question: string; answer: string }[]
   >([]);
 
-  // ✅ BUILD LOCAL RAG (NO API)
+  // 🔥 BUILD LOCAL AI (NO API)
   useEffect(() => {
-    const buildRAG = async () => {
+    const buildAI = async () => {
       if (!result?.analysis?.length) return;
 
       try {
-        const { Document, VectorStoreIndex, Settings } = await import("llamaindex");
-        const { HuggingFaceEmbedding } = await import(
-          "llamaindex/embeddings/HuggingFaceEmbedding"
-        );
+        const { pipeline } = await import("@xenova/transformers");
 
-        // 🔥 LOCAL embedding
-        Settings.embedModel = new HuggingFaceEmbedding({
-          modelType: "Xenova/all-MiniLM-L6-v2",
-        });
+        const embedder = await pipeline(
+          "feature-extraction",
+          "Xenova/all-MiniLM-L6-v2"
+        );
 
         const fullText = result.analysis
           .map((c) => c.summary.join(" "))
           .join(" ");
 
-        const docs = [new Document({ text: fullText })];
+        setQueryEngine({
+          embedder,
+          text: fullText,
+        });
 
-        const index = await VectorStoreIndex.fromDocuments(docs);
-
-        setQueryEngine(index.asQueryEngine());
-
-        console.log("✅ RAG Ready (Local)");
+        console.log("✅ Local AI Ready");
       } catch (err) {
-        console.error("RAG Error:", err);
+        console.error(err);
       }
     };
 
-    buildRAG();
+    buildAI();
   }, [result]);
 
-  // ✅ ASK QUESTION (STREAMING)
+  // 🔥 ASK QUESTION (SEMANTIC SEARCH)
   const askQuestion = async () => {
     if (!queryEngine) {
       setChatHistory((prev) => [
@@ -83,8 +79,6 @@ export default function AnalysisSummary({
     const q = question.trim();
     if (!q) return;
 
-    let answerText = "";
-
     setChatHistory((prev) => [
       ...prev,
       { question: q, answer: "Thinking..." },
@@ -93,16 +87,46 @@ export default function AnalysisSummary({
     setQuestion("");
 
     try {
-      const res = await queryEngine.query(q);
-      const text = res.toString();
+      const { embedder, text } = queryEngine;
+
+      const sentences = text.split(". ");
+
+      let bestMatch = "";
+      let bestScore = -Infinity;
+
+      const qEmbedding = await embedder(q, {
+        pooling: "mean",
+        normalize: true,
+      });
+
+      for (const sentence of sentences) {
+        const sEmbedding = await embedder(sentence, {
+          pooling: "mean",
+          normalize: true,
+        });
+
+        const score = qEmbedding.data.reduce(
+          (sum: number, val: number, i: number) =>
+            sum + val * sEmbedding.data[i],
+          0
+        );
+
+        if (score > bestScore) {
+          bestScore = score;
+          bestMatch = sentence;
+        }
+      }
+
+      const answer = bestMatch || "❌ No relevant answer found";
 
       // 🔥 Streaming effect
-      for (let i = 0; i < text.length; i++) {
-        answerText += text[i];
+      let output = "";
+      for (let i = 0; i < answer.length; i++) {
+        output += answer[i];
 
         setChatHistory((prev) => {
           const updated = [...prev];
-          updated[updated.length - 1].answer = answerText;
+          updated[updated.length - 1].answer = output;
           return updated;
         });
 
@@ -113,7 +137,12 @@ export default function AnalysisSummary({
     }
   };
 
-  // ✅ HIGHLIGHT ANSWER
+  const fullText = result?.analysis
+    ?.map((c) => c.summary.join(" "))
+    .join(" ");
+
+  const lastAnswer = chatHistory.at(-1)?.answer || "";
+
   const highlightText = (text: string, answer: string) => {
     if (!answer) return text;
 
@@ -132,12 +161,6 @@ export default function AnalysisSummary({
     return highlighted;
   };
 
-  const fullText = result?.analysis
-    ?.map((c) => c.summary.join(" "))
-    .join(" ");
-
-  const lastAnswer = chatHistory.at(-1)?.answer || "";
-
   const clearChat = () => {
     setChatHistory([]);
     setQuestion("");
@@ -147,7 +170,6 @@ export default function AnalysisSummary({
     <section className="analysisSection">
       <h2 className="analysisTitle">📊 Analysis Summary</h2>
 
-      {/* File Info */}
       {result?.file_type && (
         <p className="fileDetails">
           <b>File Type:</b> {result.file_type.toUpperCase()} &nbsp;|&nbsp;
@@ -155,37 +177,32 @@ export default function AnalysisSummary({
         </p>
       )}
 
-      {/* Analysis */}
       {!result?.analysis?.length ? (
-        <p className="noResults">No analysis results returned.</p>
+        <p>No analysis results</p>
       ) : (
         result.analysis.map((chunk) => (
           <AccordionChunk key={chunk.chunk_number} chunk={chunk} />
         ))
       )}
 
-      {/* 🔥 Highlighted Document */}
+      {/* Highlight */}
       {fullText && (
         <div
-          style={{
-            marginTop: 20,
-            padding: 10,
-            background: "#f9f9f9",
-          }}
           dangerouslySetInnerHTML={{
             __html: highlightText(fullText, lastAnswer),
           }}
         />
       )}
 
-      {/* 🤖 CHAT */}
+      {/* Chat */}
       <div style={{ marginTop: 30 }}>
         <h3>🤖 AI Document Chat</h3>
 
         {chatHistory.map((chat, i) => (
-          <div key={i} style={{ marginBottom: 15 }}>
-            <div><b>Q:</b> {chat.question}</div>
-            <div><b>A:</b> {chat.answer}</div>
+          <div key={i}>
+            <b>Q:</b> {chat.question}
+            <br />
+            <b>A:</b> {chat.answer}
           </div>
         ))}
 
@@ -194,11 +211,6 @@ export default function AnalysisSummary({
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && askQuestion()}
-            placeholder="Ask about document..."
-            style={{
-              flex: 1,
-              padding: 10,
-            }}
           />
 
           <button onClick={askQuestion}>
@@ -210,13 +222,6 @@ export default function AnalysisSummary({
           </button>
         </div>
       </div>
-
-      {/* Time */}
-      {loading && elapsedTime !== null && (
-        <p className="processingTime">
-          Processing time: {elapsedTime.toFixed(2)} seconds
-        </p>
-      )}
     </section>
   );
 }
