@@ -24,16 +24,31 @@ export default function AnalysisSummary({ result, loading, elapsedTime }: Props)
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
+  // 🔥 SIMPLE ANSWER FROM DOCUMENT
   const askQuestion = () => {
-    // 🔥 Replace this with your RAG logic later
-    setAnswer("Answer will come from AI (connect RAG here)");
+    if (!question.trim()) {
+      setAnswer("Please enter a question.");
+      return;
+    }
+
+    // 👉 Combine all summaries
+    const fullText = result.analysis
+      .map((chunk) => chunk.summary.join(" "))
+      .join(" ");
+
+    // 👉 Simple search logic
+    if (fullText.toLowerCase().includes(question.toLowerCase())) {
+      setAnswer("✅ Found in document:\n" + fullText.slice(0, 200) + "...");
+    } else {
+      setAnswer("❌ Answer not found in document");
+    }
   };
 
   return (
     <section className="analysisSection">
       <h2 className="analysisTitle">Analysis Summary</h2>
 
-      {/* File Details */}
+      {/* File Info */}
       {result?.file_type && (
         <p className="fileDetails">
           <b>File Type:</b> {result.file_type.toUpperCase()} &nbsp;|&nbsp;
@@ -50,7 +65,7 @@ export default function AnalysisSummary({ result, loading, elapsedTime }: Props)
         ))
       )}
 
-      {/* 🔥 ASK QUESTION UI (NEW) */}
+      {/* 🔥 ASK QUESTION */}
       <div style={{ marginTop: 30 }}>
         <h3>🤖 Ask About This Document</h3>
 
@@ -68,7 +83,6 @@ export default function AnalysisSummary({ result, loading, elapsedTime }: Props)
 
         <button
           onClick={askQuestion}
-          disabled={!question}
           style={{
             marginTop: "10px",
             padding: "10px 20px",
@@ -85,7 +99,7 @@ export default function AnalysisSummary({ result, loading, elapsedTime }: Props)
         )}
       </div>
 
-      {/* Processing Time */}
+      {/* Time */}
       {loading && elapsedTime !== null && (
         <p className="processingTime">
           Processing time: {elapsedTime.toFixed(2)} seconds
