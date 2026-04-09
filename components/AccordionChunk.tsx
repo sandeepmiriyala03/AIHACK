@@ -41,13 +41,6 @@ export default function AccordionChunk({ chunk }: { chunk: Analysis }) {
             )}
           </ul>
 
-          <h4>Keywords</h4>
-          {chunk.keywords.length > 0 ? (
-            <KeywordBadges keywords={chunk.keywords} />
-          ) : (
-            <p>No keywords available</p>
-          )}
-
           <h4 style={{ marginTop: 16 }}>Highlights</h4>
           <ul className="list">
             {chunk.highlights.length > 0 ? (
