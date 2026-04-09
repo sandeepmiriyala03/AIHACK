@@ -34,8 +34,8 @@ export function ExtractedTextSectionComponent({
         </>
       )}
 
-      {/* 🔥 RAG UI (THIS WAS MISSING IN YOUR FILE) */}
-      {(fullText || loading || answer) && (
+      {/* 🔥 ALWAYS SHOW AFTER OCR */}
+      {fullText && (
         <div style={{ marginTop: 30 }}>
           <h3>🤖 Ask About This Document</h3>
 
