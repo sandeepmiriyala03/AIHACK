@@ -5,8 +5,6 @@ import AccordionChunk from "./AccordionChunk";
 import SendIcon from "@mui/icons-material/Send";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import { Document, VectorStoreIndex } from "llamaindex";
-
 interface Analysis {
   chunk_number: number;
   keywords: string[];
@@ -37,27 +35,50 @@ export default function AnalysisSummary({
     { question: string; answer: string }[]
   >([]);
 
-  // 🔥 Build RAG index once
+  // ✅ BUILD LOCAL RAG (NO API)
   useEffect(() => {
     const buildRAG = async () => {
       if (!result?.analysis?.length) return;
 
-      const fullText = result.analysis
-        .map((c) => c.summary.join(" "))
-        .join(" ");
+      try {
+        const { Document, VectorStoreIndex, Settings } = await import("llamaindex");
+        const { HuggingFaceEmbedding } = await import(
+          "llamaindex/embeddings/HuggingFaceEmbedding"
+        );
 
-      const docs = [new Document({ text: fullText })];
+        // 🔥 LOCAL embedding
+        Settings.embedModel = new HuggingFaceEmbedding({
+          modelType: "Xenova/all-MiniLM-L6-v2",
+        });
 
-      const index = await VectorStoreIndex.fromDocuments(docs);
-      setQueryEngine(index.asQueryEngine());
+        const fullText = result.analysis
+          .map((c) => c.summary.join(" "))
+          .join(" ");
+
+        const docs = [new Document({ text: fullText })];
+
+        const index = await VectorStoreIndex.fromDocuments(docs);
+
+        setQueryEngine(index.asQueryEngine());
+
+        console.log("✅ RAG Ready (Local)");
+      } catch (err) {
+        console.error("RAG Error:", err);
+      }
     };
 
     buildRAG();
   }, [result]);
 
-  // 🔥 Streaming answer
+  // ✅ ASK QUESTION (STREAMING)
   const askQuestion = async () => {
-    if (!queryEngine) return;
+    if (!queryEngine) {
+      setChatHistory((prev) => [
+        ...prev,
+        { question, answer: "⚠️ AI not ready yet" },
+      ]);
+      return;
+    }
 
     const q = question.trim();
     if (!q) return;
@@ -75,7 +96,7 @@ export default function AnalysisSummary({
       const res = await queryEngine.query(q);
       const text = res.toString();
 
-      // streaming effect
+      // 🔥 Streaming effect
       for (let i = 0; i < text.length; i++) {
         answerText += text[i];
 
@@ -85,18 +106,14 @@ export default function AnalysisSummary({
           return updated;
         });
 
-        await new Promise((r) => setTimeout(r, 10));
+        await new Promise((r) => setTimeout(r, 5));
       }
-    } catch {
-      setChatHistory((prev) => {
-        const updated = [...prev];
-        updated[updated.length - 1].answer = "❌ Error generating answer";
-        return updated;
-      });
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  // 🔥 Highlight logic
+  // ✅ HIGHLIGHT ANSWER
   const highlightText = (text: string, answer: string) => {
     if (!answer) return text;
 
@@ -147,7 +164,7 @@ export default function AnalysisSummary({
         ))
       )}
 
-      {/* 🔥 Highlighted Text */}
+      {/* 🔥 Highlighted Document */}
       {fullText && (
         <div
           style={{
@@ -165,7 +182,6 @@ export default function AnalysisSummary({
       <div style={{ marginTop: 30 }}>
         <h3>🤖 AI Document Chat</h3>
 
-        {/* Chat history */}
         {chatHistory.map((chat, i) => (
           <div key={i} style={{ marginBottom: 15 }}>
             <div><b>Q:</b> {chat.question}</div>
@@ -173,7 +189,6 @@ export default function AnalysisSummary({
           </div>
         ))}
 
-        {/* Input */}
         <div style={{ display: "flex", gap: 10 }}>
           <input
             value={question}
