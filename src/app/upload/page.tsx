@@ -6,7 +6,7 @@ import Instructions from "@/components/Instructions";
 import FileUploadManager from "@/components/FileUploadManager";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
-
+import WorkflowViewer from "@/components/WorkflowViewer";
 
 type SectionKey = "instructions" | "fileUpload";
 
@@ -31,7 +31,7 @@ export default function Upload() {
       <Navbar />
       <main className="container px-6 md:px-12 lg:px-24 py-12">
         <h1 className="title mb-8">Document Upload &amp; Analysis</h1>
-
+  <WorkflowViewer />
         {/* Instructions Section */}
         <section className="instructions mb-8">
           <h2
