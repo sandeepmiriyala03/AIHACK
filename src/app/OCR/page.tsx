@@ -152,18 +152,7 @@ export default function UploadPage() {
     <p>✅ 100% client-side execution</p>
   </div>
 
-  <div className="mt-6 p-5 rounded-xl bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700">
-    <h3 className="font-semibold text-lg mb-2 text-blue-600">
-      ⚡ Powered by Local AI
-    </h3>
-
-    <p className="text-gray-800 dark:text-gray-300">
-      This application uses <b>local AI models</b> powered by 
-      <span className="font-semibold"> Xenova Transformers</span>, 
-      enabling intelligent document understanding, semantic search, and question answering 
-      directly in your browser — without sending any data to external servers.
-    </p>
-  </div>
+ 
 
   <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
     This ensures complete privacy, faster response times, and a secure offline-friendly experience.
