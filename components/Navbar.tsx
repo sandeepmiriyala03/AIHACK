@@ -37,17 +37,11 @@ const navGroups = [
         {
         group: "YuktAI",
         items: [
-          { href: "/yuktai", label: "AI Playground", icon: SmartToyIcon }
+          { href: "/yuktai", label: "AI", icon: SmartToyIcon }
         
         ],
       },
-  {
-    group: "Banking", 
-    items: [
-      { href: "/kyc", label: "Identity Check", icon: FingerprintRoundedIcon },
-      { href: "/calendarpage", label: "Day Planner", icon: CalendarMonthRoundedIcon },
-    ],
-  },
+
   {
     group: "Digitize", 
     items: [
@@ -55,13 +49,6 @@ const navGroups = [
       { href: "/OCR", label: "Text Reader", icon: DocumentScannerRoundedIcon },
       { href: "/ocreng", label: "Handwriting Reader", icon: DrawRoundedIcon },
       { href: "/upload", label: "Add Files", icon: UploadFileRoundedIcon },
-    ],
-  },
-  {
-    group: "Games", 
-    items: [
-      { href: "/chess", label: "Mind Game", icon: SportsEsportsRoundedIcon },
-      { href: "/ipl", label: "IPL", icon: SportsEsportsRoundedIcon }
     ],
   },
   {

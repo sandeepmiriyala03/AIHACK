@@ -22,21 +22,18 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Page() {
   const [tab, setTab] = useState(0);
-
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // 🔹 OCR
+  // OCR
   const handleOCR = async () => {
     if (!file) return alert("Upload image");
 
     try {
       setLoading(true);
-
       const res = await YuktAI.run("image.ocr.smart", { file });
-
       setOutput(typeof res === "string" ? res : res?.text || "");
     } catch (e: any) {
       setOutput("❌ OCR Error: " + e.message);
@@ -45,7 +42,7 @@ export default function Page() {
     }
   };
 
-  // 🔹 AI
+  // AI
   const handleAI = async () => {
     if (!input) return;
 
@@ -60,12 +57,8 @@ export default function Page() {
     }
   };
 
-  // 🔹 Copy
-  const handleCopy = () => {
-    navigator.clipboard.writeText(output);
-  };
+  const handleCopy = () => navigator.clipboard.writeText(output);
 
-  // 🔹 Clear
   const handleClear = () => {
     setOutput("");
     setFile(null);
@@ -73,24 +66,38 @@ export default function Page() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ py: 4 }}>
-      {/* Header */}
-      <Typography variant="h4" gutterBottom>
-        YuktAI
-      </Typography>
+    <Container maxWidth="md" sx={{ py: 5 }}>
+      
+      {/* 🔥 HEADER (FIXED + VISIBLE) */}
+      <Box textAlign="center" mb={4}>
+        <Typography variant="h3" fontWeight={700}>
+          YuktAI
+        </Typography>
 
-      <Typography color="text.secondary" mb={2}>
-        Simple AI + OCR Tool
-      </Typography>
+        <Typography variant="h6" color="text.secondary">
+          Open Source AI Engine — Do more with less
+        </Typography>
 
-      {/* 🔥 Tabs */}
-      <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ mb: 2 }}>
-        <Tab label="📷 OCR" />
-        <Tab label="🤖 AI" />
-      </Tabs>
+        <Typography variant="body2" mt={1} color="text.secondary">
+          by Sandeep Miriyala
+        </Typography>
+      </Box>
 
-      <Paper sx={{ p: 3 }}>
-        {/* 📷 OCR TAB */}
+      {/* 🔥 MAIN CARD */}
+      <Paper sx={{ p: 3, borderRadius: 3 }}>
+        
+        {/* Tabs */}
+        <Tabs
+          value={tab}
+          onChange={(e, v) => setTab(v)}
+          centered
+          sx={{ mb: 3 }}
+        >
+          <Tab icon={<ImageIcon />} label="OCR" />
+          <Tab icon={<SmartToyIcon />} label="AI" />
+        </Tabs>
+
+        {/* OCR TAB */}
         {tab === 0 && (
           <>
             <Button
@@ -115,7 +122,10 @@ export default function Page() {
                 <img
                   src={URL.createObjectURL(file)}
                   alt="preview"
-                  style={{ width: "100%", borderRadius: 8 }}
+                  style={{
+                    width: "100%",
+                    borderRadius: 10,
+                  }}
                 />
               </Box>
             )}
@@ -132,12 +142,12 @@ export default function Page() {
           </>
         )}
 
-        {/* 🤖 AI TAB */}
+        {/* AI TAB */}
         {tab === 1 && (
           <>
             <TextField
               fullWidth
-              placeholder="Type something..."
+              placeholder="Ask anything..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               sx={{ mb: 2 }}
@@ -156,26 +166,29 @@ export default function Page() {
         )}
       </Paper>
 
-      {/* 🔹 OUTPUT */}
-      <Paper sx={{ p: 3, mt: 3 }}>
+      {/* 🔥 OUTPUT */}
+      <Paper sx={{ p: 3, mt: 3, borderRadius: 3 }}>
         <Typography variant="h6">Output</Typography>
 
         <Box
           sx={{
             mt: 2,
             whiteSpace: "pre-wrap",
-            minHeight: 100,
+            minHeight: 120,
+            bgcolor: "#f5f5f5",
+            p: 2,
+            borderRadius: 2,
           }}
         >
           {output || "Result will appear here..."}
         </Box>
 
-        {/* Actions */}
         {output && (
-          <Box mt={2} display="flex" gap={1}>
+          <Box mt={2} display="flex" gap={1} justifyContent="center">
             <Button
               startIcon={<ContentCopyIcon />}
               onClick={handleCopy}
+              variant="outlined"
             >
               Copy
             </Button>
@@ -184,6 +197,7 @@ export default function Page() {
               startIcon={<DeleteIcon />}
               onClick={handleClear}
               color="error"
+              variant="outlined"
             >
               Clear
             </Button>
