@@ -68,25 +68,7 @@ export default function Home() {
           <YuktAIBox />
         </div>
 
-        {/* Direct Usage */}
-        <div style={{ marginTop: 40 }}>
-          <h3>Quick Test (Direct Call)</h3>
-
-          <button
-            onClick={runDirect}
-            style={{
-              padding: "10px 16px",
-              cursor: "pointer",
-              marginTop: 10,
-            }}
-          >
-            Run YuktAI Directly
-          </button>
-
-          <p style={{ marginTop: 15 }}>
-            <b>Output:</b> {output}
-          </p>
-        </div>
+      
       </main>
     </>
   );
