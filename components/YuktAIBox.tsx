@@ -75,7 +75,7 @@ export default function Page() {
       >
         <Box
           component="img"
-          src="/logo.png"
+          src="/Log one.png"
           alt="YuktAI Logo"
           sx={{
             width: { xs: 120, md: 160 },
