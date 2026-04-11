@@ -14,7 +14,6 @@ export default function Page() {
     setOutput(res);
   };
 
- 
   return (
     <div style={{ padding: 20, maxWidth: 500 }}>
       
@@ -24,10 +23,9 @@ export default function Page() {
         AI Engine — Do more with less
       </p>
 
-      <h2>🤖 AI + Voice</h2>
+      <h2>🤖 AI</h2>
 
-      {/* ✅ ESLint-safe string */}
-      <p>{'Use "ai.text" or "voice.ai" plugins easily'}</p>
+      <p>{'Use "ai.text" plugin easily'}</p>
 
       <input
         type="text"
@@ -37,7 +35,10 @@ export default function Page() {
         style={{ padding: 10, width: "100%", marginBottom: 10 }}
       />
 
-
+      {/* ✅ FIXED BUTTON */}
+      <button onClick={handleRun} style={btnStyle}>
+        🤖 Run AI
+      </button>
 
       <p style={{ marginTop: 20 }}>
         <b>Output:</b> {output}
