@@ -3,7 +3,7 @@
 import { useState } from "react";
 import YuktAI from "yuktai-js";
 
-export default function YuktAIBox() {
+export default function Page() {
   const [input, setInput] = useState<string>("");
   const [output, setOutput] = useState<string>("");
 
@@ -14,38 +14,32 @@ export default function YuktAIBox() {
     setOutput(res);
   };
 
-  const handleVoice = () => {
-    const SpeechRecognition =
-      (window as any).SpeechRecognition ||
-      (window as any).webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      alert("Speech Recognition not supported");
-      return;
+  const handleVoice = async () => {
+    try {
+      const res = await YuktAI.run("voice.ai", "");
+      setOutput(res);
+    } catch (e: any) {
+      alert(e);
     }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = "en-IN";
-    recognition.start();
-
-    recognition.onresult = async (event: any) => {
-      const text = event.results[0][0].transcript;
-
-      const voiceText = await YuktAI.run("voice.text", text);
-      const aiResult = await YuktAI.run("ai.text", voiceText);
-
-      setInput(text);
-      setOutput(aiResult);
-    };
   };
 
   return (
     <div style={{ padding: 20, maxWidth: 500 }}>
-      <h2>🤖 YuktAI (AI + Voice)</h2>
+      
+      {/* 🔥 Branding */}
+      <h1 style={{ marginBottom: 5 }}>YuktAI</h1>
+      <p style={{ color: "#666", marginBottom: 20 }}>
+        AI Engine — Do more with less
+      </p>
+
+      <h2>🤖 AI + Voice</h2>
+
+      {/* ✅ ESLint-safe string */}
+      <p>{'Use "ai.text" or "voice.ai" plugins easily'}</p>
 
       <input
         type="text"
-       
+        placeholder="Type something..."
         value={input}
         onChange={(e) => setInput(e.target.value)}
         style={{ padding: 10, width: "100%", marginBottom: 10 }}
@@ -53,13 +47,11 @@ export default function YuktAIBox() {
 
       <div style={{ display: "flex", gap: 10 }}>
         <button onClick={handleRun} style={btnStyle}>
-          <span className="material-icons">smart_toy</span>
-          Run AI
+          🤖 Run AI
         </button>
 
         <button onClick={handleVoice} style={btnStyle}>
-          <span className="material-icons">mic</span>
-          Speak
+          🎤 Speak
         </button>
       </div>
 
