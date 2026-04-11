@@ -25,6 +25,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState<number | null>(null);
 
+  // 🔥 AI
   const runAI = async () => {
     try {
       setLoading(true);
@@ -44,6 +45,7 @@ export default function Page() {
     }
   };
 
+  // 🔥 OCR (FIXED)
   const runOCR = async () => {
     if (!file) return setOutput("⚠️ Upload image first");
 
@@ -53,13 +55,27 @@ export default function Page() {
       setTime(null);
 
       const start = performance.now();
-      const res = await YuktAI.run("image.ocr.smart", { file });
+
+      // ✅ FIX: convert file → buffer
+      const buffer = await file.arrayBuffer();
+
+      const res = await YuktAI.run("image.ocr.smart", {
+        file: buffer,
+        name: file.name,
+        type: file.type,
+      });
+
       const end = performance.now();
 
       setTime(end - start);
-      setOutput(typeof res === "string" ? res : res?.text || "");
-    } catch {
-      setOutput("❌ OCR failed");
+      setOutput(
+        typeof res === "string"
+          ? res
+          : res?.text || JSON.stringify(res, null, 2)
+      );
+    } catch (err) {
+      console.error(err);
+      setOutput("❌ OCR failed. Try another image.");
     } finally {
       setLoading(false);
     }
@@ -70,7 +86,7 @@ export default function Page() {
 
       {/* 🔥 HERO */}
       <Box textAlign="center" mb={5}>
-        <Box component="img" src="/Log one.png" sx={{ width: 120, mb: 2 }} />
+        <Box component="img" src="/logo.png" sx={{ width: 120, mb: 2 }} />
 
         <Typography variant="h4" fontWeight={800}>
           YuktAI
@@ -81,7 +97,7 @@ export default function Page() {
         </Typography>
 
         <Typography variant="caption" display="block" mt={1}>
-          🚀 Open Source -50% Human - 50% AI 
+          🚀 Open Source • 50% Human • 50% AI • Built with a Dream
         </Typography>
       </Box>
 
@@ -106,7 +122,7 @@ export default function Page() {
 
       {/* 📦 USAGE */}
       <Paper sx={{ p: 2, mb: 4 }}>
-        <Typography variant="h6">Usage</Typography>
+        <Typography variant="h6">How to Use</Typography>
         <Divider sx={{ my: 1 }} />
 
         <Box
@@ -120,24 +136,28 @@ export default function Page() {
             borderRadius: 1,
           }}
         >
-{`npm install git+https://github.com/sandeepmiriyala03/yuktai.git
+{`// Install
+npm install git+https://github.com/sandeepmiriyala03/yuktai.git
 
+// Import
 import YuktAI from "yuktai-js";
 
+// AI Text
 await YuktAI.run("ai.text", "Hello");
-await YuktAI.run("image.ocr.smart", { file });`}
+
+// OCR (IMPORTANT)
+const buffer = await file.arrayBuffer();
+
+await YuktAI.run("image.ocr.smart", {
+  file: buffer,
+  name: file.name,
+  type: file.type,
+});`}
         </Box>
 
-        <Button
-          size="small"
-          onClick={() =>
-            navigator.clipboard.writeText(
-              "npm install git+https://github.com/sandeepmiriyala03/yuktai.git"
-            )
-          }
-        >
-          Copy Install
-        </Button>
+        <Typography variant="caption" display="block" mt={1}>
+          ⚠️ OCR requires ArrayBuffer (not File) for browser compatibility
+        </Typography>
       </Paper>
 
       {/* 🚀 DEMO */}
@@ -195,6 +215,11 @@ await YuktAI.run("image.ocr.smart", { file });`}
                     src={preview}
                     style={{ width: "100%", borderRadius: 6 }}
                   />
+
+                  {/* 📄 FILE INFO */}
+                  <Typography variant="caption" display="block" mt={1}>
+                    📄 {file?.name} • {(file?.size! / 1024).toFixed(1)} KB
+                  </Typography>
                 </Box>
               )}
 
