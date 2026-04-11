@@ -25,7 +25,26 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState<number | null>(null);
 
-  // 🔥 AI
+  // 🧹 CLEAR
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
+    setFile(null);
+    setTime(null);
+
+    if (preview) {
+      URL.revokeObjectURL(preview);
+      setPreview(null);
+    }
+  };
+
+  // 🔴 CANCEL
+  const handleCancel = () => {
+    setLoading(false);
+    setOutput("⛔ Cancelled by user");
+  };
+
+  // 🤖 AI
   const runAI = async () => {
     try {
       setLoading(true);
@@ -33,7 +52,9 @@ export default function Page() {
       setTime(null);
 
       const start = performance.now();
+
       const res = await YuktAI.run("ai.text", input || "Hello");
+
       const end = performance.now();
 
       setTime(end - start);
@@ -45,7 +66,7 @@ export default function Page() {
     }
   };
 
-  // 🔥 OCR (FIXED)
+  // 🧾 OCR (FIXED)
   const runOCR = async () => {
     if (!file) return setOutput("⚠️ Upload image first");
 
@@ -56,7 +77,7 @@ export default function Page() {
 
       const start = performance.now();
 
-      // ✅ FIX: convert file → buffer
+      // ✅ FIX: File → ArrayBuffer
       const buffer = await file.arrayBuffer();
 
       const res = await YuktAI.run("image.ocr.smart", {
@@ -73,9 +94,8 @@ export default function Page() {
           ? res
           : res?.text || JSON.stringify(res, null, 2)
       );
-    } catch (err) {
-      console.error(err);
-      setOutput("❌ OCR failed. Try another image.");
+    } catch {
+      setOutput("❌ OCR failed");
     } finally {
       setLoading(false);
     }
@@ -120,46 +140,6 @@ export default function Page() {
         </Grid>
       </Paper>
 
-      {/* 📦 USAGE */}
-      <Paper sx={{ p: 2, mb: 4 }}>
-        <Typography variant="h6">How to Use</Typography>
-        <Divider sx={{ my: 1 }} />
-
-        <Box
-          component="pre"
-          sx={{
-            overflowX: "auto",
-            fontSize: 12,
-            bgcolor: "#111",
-            color: "#fff",
-            p: 2,
-            borderRadius: 1,
-          }}
-        >
-{`// Install
-npm install git+https://github.com/sandeepmiriyala03/yuktai.git
-
-// Import
-import YuktAI from "yuktai-js";
-
-// AI Text
-await YuktAI.run("ai.text", "Hello");
-
-// OCR (IMPORTANT)
-const buffer = await file.arrayBuffer();
-
-await YuktAI.run("image.ocr.smart", {
-  file: buffer,
-  name: file.name,
-  type: file.type,
-});`}
-        </Box>
-
-        <Typography variant="caption" display="block" mt={1}>
-          ⚠️ OCR requires ArrayBuffer (not File) for browser compatibility
-        </Typography>
-      </Paper>
-
       {/* 🚀 DEMO */}
       <Paper sx={{ p: 2 }}>
         <Tabs value={tab} onChange={(e, v) => setTab(v)} centered>
@@ -168,6 +148,7 @@ await YuktAI.run("image.ocr.smart", {
         </Tabs>
 
         <Box mt={2}>
+          {/* 🤖 AI */}
           {tab === 0 && (
             <>
               <TextField
@@ -186,9 +167,24 @@ await YuktAI.run("image.ocr.smart", {
               >
                 {loading ? "Running..." : "Run AI"}
               </Button>
+
+              <Box display="flex" gap={1} mt={1}>
+                <Button fullWidth onClick={handleClear}>
+                  Clear
+                </Button>
+                <Button
+                  fullWidth
+                  color="error"
+                  onClick={handleCancel}
+                  disabled={!loading}
+                >
+                  Cancel
+                </Button>
+              </Box>
             </>
           )}
 
+          {/* 🧾 OCR */}
           {tab === 1 && (
             <>
               <Button variant="outlined" component="label" fullWidth>
@@ -200,6 +196,8 @@ await YuktAI.run("image.ocr.smart", {
                   onChange={(e) => {
                     const f = e.target.files?.[0] || null;
                     setFile(f);
+
+                    if (preview) URL.revokeObjectURL(preview);
 
                     if (f) {
                       const url = URL.createObjectURL(f);
@@ -216,7 +214,6 @@ await YuktAI.run("image.ocr.smart", {
                     style={{ width: "100%", borderRadius: 6 }}
                   />
 
-                  {/* 📄 FILE INFO */}
                   <Typography variant="caption" display="block" mt={1}>
                     📄 {file?.name} • {(file?.size! / 1024).toFixed(1)} KB
                   </Typography>
@@ -232,11 +229,25 @@ await YuktAI.run("image.ocr.smart", {
               >
                 {loading ? "Running..." : "Run OCR"}
               </Button>
+
+              <Box display="flex" gap={1} mt={1}>
+                <Button fullWidth onClick={handleClear}>
+                  Clear
+                </Button>
+                <Button
+                  fullWidth
+                  color="error"
+                  onClick={handleCancel}
+                  disabled={!loading}
+                >
+                  Cancel
+                </Button>
+              </Box>
             </>
           )}
         </Box>
 
-        {/* OUTPUT */}
+        {/* 📤 OUTPUT */}
         <Box mt={3}>
           <Typography variant="subtitle2">Output</Typography>
 
@@ -268,23 +279,6 @@ await YuktAI.run("image.ocr.smart", {
             <Typography variant="caption" mt={1} display="block">
               ⏱ {(time / 1000).toFixed(2)}s
             </Typography>
-          )}
-
-          {/* 🧠 META */}
-          {output && (
-            <Box mt={1}>
-              <Typography variant="caption">
-                🌐 Language: Auto-detected
-              </Typography>
-              <br />
-              <Typography variant="caption">
-                ⚙️ Engine: YuktAI Runtime
-              </Typography>
-              <br />
-              <Typography variant="caption">
-                💻 Device: Browser
-              </Typography>
-            </Box>
           )}
         </Box>
       </Paper>
