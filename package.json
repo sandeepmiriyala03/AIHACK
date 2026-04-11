@@ -58,7 +58,7 @@
     "tesseract.js": "^6.0.1",
     "uuid": "^11.1.0",
     "xlsx": "^0.18.5",
-    "yuktai-js": "npm install https://github.com/sandeepmiriyala03/yuktai/archive/e0fb189d412773cd6b80147c311b3697a907e267.tar.gz"
+    "yuktai-js": "npm install https://github.com/sandeepmiriyala03/yuktai/archive/refs/heads/main.tar.gz"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
