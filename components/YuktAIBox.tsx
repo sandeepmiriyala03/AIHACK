@@ -45,7 +45,7 @@ export default function YuktAIBox() {
 
       <input
         type="text"
-        placeholder="Enter text..."
+       
         value={input}
         onChange={(e) => setInput(e.target.value)}
         style={{ padding: 10, width: "100%", marginBottom: 10 }}
