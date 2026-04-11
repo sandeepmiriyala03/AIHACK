@@ -3,21 +3,8 @@
 import { useState } from "react";
 import YuktAI from "yuktai-js";
 
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Box,
-  Paper,
-  Tabs,
-  Tab,
-  Divider,
-  Grid,
-} from "@mui/material";
-
 export default function Page() {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"ai" | "ocr">("ai");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -25,36 +12,30 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState<number | null>(null);
 
-  // CLEAR
   const handleClear = () => {
     setInput("");
     setOutput("");
     setFile(null);
     setTime(null);
-
     if (preview) {
       URL.revokeObjectURL(preview);
       setPreview(null);
     }
   };
 
-  // CANCEL
   const handleCancel = () => {
     setLoading(false);
     setOutput("⛔ Cancelled");
   };
 
-  // AI
   const runAI = async () => {
     try {
       setLoading(true);
       setOutput("");
       setTime(null);
-
       const start = performance.now();
       const res = await YuktAI.run("ai.text", input || "Hello");
       const end = performance.now();
-
       setTime(end - start);
       setOutput(typeof res === "string" ? res : JSON.stringify(res));
     } catch {
@@ -64,38 +45,25 @@ export default function Page() {
     }
   };
 
-  // 🔥 OCR FIXED (MAIN FIX)
   const runOCR = async () => {
     if (!file) return setOutput("⚠️ Upload image first");
-
     try {
       setLoading(true);
       setOutput("");
       setTime(null);
-
       const start = performance.now();
-
-      // ✅ Convert to ArrayBuffer
       const buffer = await file.arrayBuffer();
-
-      // ✅ Send to YuktAI
       const res = await YuktAI.run("image.ocr.smart", {
         file: buffer,
         name: file.name,
         type: file.type,
       });
-
       const end = performance.now();
-
       setTime(end - start);
-
-      // ✅ Better output formatting
       if (typeof res === "string") {
         setOutput(res);
       } else if (res?.text) {
-        setOutput(
-          `🧠 Text:\n${res.text}\n\n🎯 Confidence: ${res.confidence || 0}%`
-        );
+        setOutput(`Text:\n${res.text}\n\nConfidence: ${res.confidence || 0}%`);
       } else {
         setOutput(JSON.stringify(res, null, 2));
       }
@@ -108,139 +76,557 @@ export default function Page() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 5 }}>
-      {/* HERO */}
-      <Box textAlign="center" mb={5}>
-        <Box component="img" src="/logo.png" sx={{ width: 120, mb: 2 }} />
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap');
 
-        <Typography variant="h4" fontWeight={800}>
-          YuktAI
-        </Typography>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        <Typography color="text.secondary">
-          AI Engine • Do More with Less
-        </Typography>
+        .yukt-root {
+          min-height: 100vh;
+          background: #ffffff;
+          color: #111110;
+          font-family: 'DM Mono', monospace;
+          padding: 0 1rem 4rem;
+        }
 
-        <Typography variant="caption" display="block" mt={1}>
-          🚀 Open Source • 50% Human • 50% AI
-        </Typography>
-      </Box>
+        /* ── HERO ── */
+        .hero {
+          max-width: 680px;
+          margin: 0 auto;
+          padding: 4rem 0 3rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
 
-      {/* FRAMEWORKS */}
-      <Paper sx={{ p: 2, mb: 4 }}>
-        <Typography variant="h6">Works with</Typography>
-        <Divider sx={{ my: 1 }} />
+        .hero-eyebrow {
+          font-size: 11px;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #aaa9a6;
+          margin-bottom: 1rem;
+        }
 
-        <Grid container spacing={2} textAlign="center">
-          {[
-            { name: "Angular", icon: "🅰️" },
-            { name: "Next.js", icon: "▲" },
-            { name: "React", icon: "⚛️" },
-          ].map((f) => (
-            <Grid item xs={4} key={f.name}>
-              <Typography fontSize={24}>{f.icon}</Typography>
-              <Typography>{f.name}</Typography>
-            </Grid>
-          ))}
-        </Grid>
-      </Paper>
+        .hero-logo {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          margin-bottom: 0.5rem;
+        }
 
-      {/* DEMO */}
-      <Paper sx={{ p: 2 }}>
-        <Tabs value={tab} onChange={(e, v) => setTab(v)} centered>
-          <Tab label="AI" />
-          <Tab label="OCR" />
-        </Tabs>
+        .hero-logo img {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+        }
 
-        <Box mt={2}>
-          {/* AI */}
-          {tab === 0 && (
-            <>
-              <TextField
-                fullWidth
-                placeholder="Enter prompt"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                sx={{ mb: 2 }}
-              />
+        .hero-wordmark {
+          font-family: 'Syne', sans-serif;
+          font-size: 2.6rem;
+          font-weight: 800;
+          letter-spacing: -0.03em;
+          color: #111110;
+          line-height: 1;
+        }
 
-              <Button
-                fullWidth
-                variant="contained"
-                onClick={runAI}
-                disabled={loading || !input}
-              >
-                {loading ? "Running..." : "Run AI"}
-              </Button>
-            </>
-          )}
+        .hero-sub {
+          font-size: 13px;
+          color: #999895;
+          margin-top: 0.6rem;
+          letter-spacing: 0.02em;
+        }
 
-          {/* OCR */}
-          {tab === 1 && (
-            <>
-              <Button variant="outlined" component="label" fullWidth>
-                Upload Image
-                <input
-                  hidden
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const f = e.target.files?.[0] || null;
-                    setFile(f);
+        .hero-chips {
+          display: flex;
+          gap: 8px;
+          margin-top: 1.6rem;
+          flex-wrap: wrap;
+        }
 
-                    if (preview) URL.revokeObjectURL(preview);
-                    if (f) setPreview(URL.createObjectURL(f));
+        .chip {
+          font-size: 11px;
+          padding: 4px 10px;
+          border: 0.5px solid #e0dedd;
+          border-radius: 100px;
+          color: #999895;
+          letter-spacing: 0.06em;
+          background: #f8f7f6;
+        }
+
+        .chip.active {
+          border-color: #b07d2e;
+          color: #b07d2e;
+          background: rgba(176, 125, 46, 0.06);
+        }
+
+        /* ── FRAMEWORK STRIP ── */
+        .fw-strip {
+          max-width: 680px;
+          margin: 0 auto 2.5rem;
+          display: flex;
+          align-items: center;
+          border: 0.5px solid #e8e7e5;
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .fw-label {
+          font-size: 11px;
+          color: #c0bebb;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 0 18px;
+          white-space: nowrap;
+          border-right: 0.5px solid #e8e7e5;
+          height: 44px;
+          display: flex;
+          align-items: center;
+        }
+
+        .fw-items {
+          display: flex;
+          flex: 1;
+        }
+
+        .fw-item {
+          flex: 1;
+          height: 44px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 7px;
+          font-size: 12px;
+          color: #b0afac;
+          border-right: 0.5px solid #e8e7e5;
+          letter-spacing: 0.04em;
+          transition: color 0.15s, background 0.15s;
+        }
+
+        .fw-item:last-child { border-right: none; }
+        .fw-item:hover { color: #555450; background: #f8f7f6; }
+
+        .fw-icon { font-size: 14px; line-height: 1; }
+
+        /* ── CARD ── */
+        .card {
+          max-width: 680px;
+          margin: 0 auto;
+          background: #ffffff;
+          border: 0.5px solid #e8e7e5;
+          border-radius: 14px;
+          overflow: hidden;
+        }
+
+        /* ── TABS ── */
+        .tabs {
+          display: flex;
+          border-bottom: 0.5px solid #e8e7e5;
+          background: #f8f7f6;
+        }
+
+        .tab-btn {
+          flex: 1;
+          height: 46px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-family: 'DM Mono', monospace;
+          font-size: 12px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: #b0afac;
+          transition: color 0.15s, background 0.15s;
+          position: relative;
+        }
+
+        .tab-btn:not(:last-child) { border-right: 0.5px solid #e8e7e5; }
+        .tab-btn:hover { color: #555450; }
+
+        .tab-btn.tab-active {
+          color: #b07d2e;
+          background: #ffffff;
+        }
+
+        .tab-btn.tab-active::after {
+          content: '';
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 1.5px;
+          background: #b07d2e;
+        }
+
+        /* ── BODY ── */
+        .card-body {
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        /* ── TEXTAREA ── */
+        .prompt-input {
+          width: 100%;
+          background: #f8f7f6;
+          border: 0.5px solid #e0dedd;
+          border-radius: 8px;
+          padding: 12px 14px;
+          font-family: 'DM Mono', monospace;
+          font-size: 13px;
+          color: #111110;
+          resize: none;
+          outline: none;
+          transition: border-color 0.15s;
+          line-height: 1.6;
+          min-height: 88px;
+        }
+
+        .prompt-input::placeholder { color: #cccbc8; }
+        .prompt-input:focus { border-color: #b0afac; }
+
+        /* ── BUTTONS ── */
+        .actions { display: flex; gap: 8px; }
+
+        .btn {
+          height: 40px;
+          padding: 0 18px;
+          border-radius: 8px;
+          font-family: 'DM Mono', monospace;
+          font-size: 12px;
+          letter-spacing: 0.06em;
+          cursor: pointer;
+          border: 0.5px solid transparent;
+          transition: all 0.15s;
+          display: flex;
+          align-items: center;
+          gap: 7px;
+        }
+
+        .btn-primary {
+          background: #111110;
+          color: #ffffff;
+          border-color: #111110;
+          flex: 1;
+          justify-content: center;
+          font-weight: 500;
+        }
+
+        .btn-primary:hover:not(:disabled) { background: #2a2928; }
+
+        .btn-primary:disabled {
+          opacity: 0.25;
+          cursor: not-allowed;
+        }
+
+        .btn-ghost {
+          background: none;
+          border-color: #e0dedd;
+          color: #999895;
+        }
+
+        .btn-ghost:hover { border-color: #b0afac; color: #555450; }
+
+        /* ── UPLOAD ── */
+        .upload-zone {
+          border: 0.5px dashed #d8d7d4;
+          border-radius: 8px;
+          padding: 2rem;
+          text-align: center;
+          cursor: pointer;
+          transition: border-color 0.15s, background 0.15s;
+          position: relative;
+        }
+
+        .upload-zone:hover {
+          border-color: #b0afac;
+          background: #f8f7f6;
+        }
+
+        .upload-zone input[type="file"] {
+          position: absolute;
+          inset: 0;
+          opacity: 0;
+          cursor: pointer;
+          width: 100%;
+          height: 100%;
+        }
+
+        .upload-icon {
+          width: 32px;
+          height: 32px;
+          margin: 0 auto 10px;
+          color: #c8c7c4;
+        }
+
+        .upload-text {
+          font-size: 12px;
+          color: #b0afac;
+          letter-spacing: 0.04em;
+        }
+
+        .upload-hint {
+          font-size: 11px;
+          color: #d0cfcc;
+          margin-top: 4px;
+        }
+
+        .preview-img {
+          width: 100%;
+          border-radius: 8px;
+          border: 0.5px solid #e8e7e5;
+          display: block;
+        }
+
+        /* ── OUTPUT ── */
+        .output-section {
+          border-top: 0.5px solid #f0efed;
+          padding: 1.25rem 1.5rem;
+        }
+
+        .output-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        }
+
+        .output-label {
+          font-size: 10px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #c0bebb;
+        }
+
+        .output-meta {
+          font-size: 10px;
+          color: #b0afac;
+          letter-spacing: 0.05em;
+        }
+
+        .output-box {
+          background: #f8f7f6;
+          border: 0.5px solid #e8e7e5;
+          border-radius: 8px;
+          padding: 14px;
+          min-height: 90px;
+          font-size: 12.5px;
+          line-height: 1.7;
+          color: #b0afac;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+
+        .output-box.has-output { color: #111110; }
+
+        .cursor-blink {
+          display: inline-block;
+          width: 7px;
+          height: 13px;
+          background: #b07d2e;
+          animation: blink 1s step-end infinite;
+          vertical-align: middle;
+          margin-left: 2px;
+          border-radius: 1px;
+        }
+
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+
+        /* ── STATUS BAR ── */
+        .status-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 1.5rem;
+          border-top: 0.5px solid #f0efed;
+          background: #f8f7f6;
+        }
+
+        .status-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #dddcd9;
+          display: inline-block;
+          margin-right: 8px;
+        }
+
+        .status-dot.active {
+          background: #4a9e6a;
+          box-shadow: 0 0 6px rgba(74, 158, 106, 0.4);
+          animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+
+        .status-text {
+          font-size: 11px;
+          color: #b0afac;
+          letter-spacing: 0.06em;
+        }
+      `}</style>
+
+      <div className="yukt-root">
+        {/* HERO */}
+        <div className="hero">
+          <div className="hero-eyebrow">AI Engine — v0.1</div>
+          <div className="hero-logo">
+            <img
+              src="/logo.png"
+              alt="YuktAI"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            />
+            <span className="hero-wordmark">YuktAI</span>
+          </div>
+          <div className="hero-sub">Do more with less</div>
+          <div className="hero-chips">
+            <span className="chip active">Open Source</span>
+            <span className="chip">50% Human</span>
+            <span className="chip">50% AI</span>
+          </div>
+        </div>
+
+        {/* FRAMEWORK STRIP */}
+        <div className="fw-strip">
+          <div className="fw-label">Works with</div>
+          <div className="fw-items">
+            {[
+              { name: "Angular", icon: "🅰️" },
+              { name: "Next.js", icon: "▲" },
+              { name: "React", icon: "⚛️" },
+            ].map((f) => (
+              <div className="fw-item" key={f.name}>
+                <span className="fw-icon">{f.icon}</span>
+                {f.name}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* MAIN CARD */}
+        <div className="card">
+          {/* TABS */}
+          <div className="tabs">
+            <button
+              className={`tab-btn ${tab === "ai" ? "tab-active" : ""}`}
+              onClick={() => { setTab("ai"); handleClear(); }}
+            >
+              AI Text
+            </button>
+            <button
+              className={`tab-btn ${tab === "ocr" ? "tab-active" : ""}`}
+              onClick={() => { setTab("ocr"); handleClear(); }}
+            >
+              OCR
+            </button>
+          </div>
+
+          {/* BODY */}
+          <div className="card-body">
+            {tab === "ai" && (
+              <>
+                <textarea
+                  className="prompt-input"
+                  placeholder="Enter your prompt..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && input && !loading) runAI();
                   }}
                 />
-              </Button>
+                <div className="actions">
+                  <button className="btn btn-ghost" onClick={handleClear}>Clear</button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={runAI}
+                    disabled={loading || !input}
+                  >
+                    {loading ? "Running..." : "Run  ↵"}
+                  </button>
+                </div>
+              </>
+            )}
 
-              {preview && (
-                <Box mt={2}>
-                  <img
-                    src={preview}
-                    style={{ width: "100%", borderRadius: 6 }}
-                  />
-                </Box>
+            {tab === "ocr" && (
+              <>
+                {!preview ? (
+                  <div className="upload-zone">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const f = e.target.files?.[0] || null;
+                        setFile(f);
+                        if (preview) URL.revokeObjectURL(preview);
+                        if (f) setPreview(URL.createObjectURL(f));
+                      }}
+                    />
+                    <svg className="upload-icon" viewBox="0 0 32 32" fill="none">
+                      <rect x="4" y="4" width="24" height="24" rx="4" stroke="currentColor" strokeWidth="1"/>
+                      <circle cx="11" cy="12" r="2.5" stroke="currentColor" strokeWidth="1"/>
+                      <path d="M4 22l7-7 5 5 4-4 8 8" stroke="currentColor" strokeWidth="1" strokeLinejoin="round"/>
+                    </svg>
+                    <div className="upload-text">Drop image or click to upload</div>
+                    <div className="upload-hint">PNG, JPG, WEBP</div>
+                  </div>
+                ) : (
+                  <img className="preview-img" src={preview} alt="Preview" />
+                )}
+
+                <div className="actions">
+                  {preview && (
+                    <button className="btn btn-ghost" onClick={handleClear}>Remove</button>
+                  )}
+                  <button
+                    className="btn btn-primary"
+                    onClick={runOCR}
+                    disabled={loading || !file}
+                  >
+                    {loading ? "Extracting..." : "Extract Text"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+
+          {/* OUTPUT */}
+          <div className="output-section">
+            <div className="output-header">
+              <span className="output-label">Output</span>
+              {time && (
+                <span className="output-meta">{(time / 1000).toFixed(2)}s</span>
               )}
+            </div>
+            <div className={`output-box ${output ? "has-output" : ""}`}>
+              {loading
+                ? <>Processing<span className="cursor-blink" /></>
+                : output || "—"}
+            </div>
+          </div>
 
-              <Button
-                fullWidth
-                variant="contained"
-                sx={{ mt: 2 }}
-                onClick={runOCR}
-                disabled={loading || !file}
+          {/* STATUS BAR */}
+          <div className="status-bar">
+            <span>
+              <span className={`status-dot ${loading ? "active" : ""}`} />
+              <span className="status-text">{loading ? "running" : "ready"}</span>
+            </span>
+            {loading && (
+              <button
+                className="btn btn-ghost"
+                style={{ height: 28, padding: "0 12px", fontSize: 11 }}
+                onClick={handleCancel}
               >
-                {loading ? "Running..." : "Run OCR"}
-              </Button>
-            </>
-          )}
-        </Box>
-
-        {/* OUTPUT */}
-        <Box mt={3}>
-          <Typography variant="subtitle2">Output</Typography>
-
-          <Box
-            sx={{
-              bgcolor: "#111",
-              color: "#fff",
-              p: 2,
-              borderRadius: 1,
-              minHeight: 100,
-              mt: 1,
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            {loading ? "Processing..." : output || "No output"}
-          </Box>
-
-          {time && (
-            <Typography variant="caption" mt={1} display="block">
-              ⏱ {(time / 1000).toFixed(2)}s
-            </Typography>
-          )}
-        </Box>
-      </Paper>
-    </Container>
+                cancel
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
