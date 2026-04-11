@@ -80,27 +80,14 @@ export default function Page() {
           </Typography>
 
           <Typography variant="h6" color="text.secondary" mt={1}>
-           AI Engine ,Do more with less
+           AI Engine ,Do more with less.
           </Typography>
 
           <Typography variant="body2" mt={1}>
             Built by Sandeep Miriyala
           </Typography>
 
-          <Box mt={2}>
-            <Typography
-              variant="caption"
-              sx={{
-                px: 2,
-                py: 0.5,
-                bgcolor: "#ede9fe",
-                borderRadius: 2,
-                fontWeight: 600,
-              }}
-            >
-              🚧 Early Stage • Open Source • Actively Building
-            </Typography>
-          </Box>
+          
         </Box>
       </Box>
 
