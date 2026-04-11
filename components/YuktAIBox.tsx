@@ -26,24 +26,45 @@ export default function Page() {
   const [output, setOutput] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
+  const [loading, setLoading] = useState(false);
+  const [time, setTime] = useState<number | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const runAI = async () => {
+    setLoading(true);
+    const start = performance.now();
+
     const res = await YuktAI.run("ai.text", input || "Hello");
+
+    const end = performance.now();
+    setTime(end - start);
+
     setOutput(res);
+    setLoading(false);
   };
 
   const runOCR = async () => {
     if (!file) return alert("Upload image");
+
+    setLoading(true);
+    const start = performance.now();
+
     const res = await YuktAI.run("image.ocr.smart", { file });
+
+    const end = performance.now();
+    setTime(end - start);
+
     setOutput(typeof res === "string" ? res : res?.text || "");
+    setLoading(false);
   };
 
   return (
     <Container maxWidth="lg" sx={{ py: 6, mt: { xs: 6, md: 8 } }}>
 
-      {/* 🔥 HERO WITH LOGO */}
+      {/* 🔥 HERO */}
       <Box
         display="flex"
         alignItems="center"
@@ -52,10 +73,9 @@ export default function Page() {
         gap={4}
         mb={8}
       >
-        {/* LOGO */}
         <Box
           component="img"
-          src="/Log one.png"
+          src="/logo.png"
           alt="YuktAI Logo"
           sx={{
             width: { xs: 120, md: 160 },
@@ -65,7 +85,6 @@ export default function Page() {
           }}
         />
 
-        {/* TEXT */}
         <Box textAlign={{ xs: "center", md: "left" }}>
           <Typography
             variant={isMobile ? "h4" : "h2"}
@@ -80,18 +99,20 @@ export default function Page() {
           </Typography>
 
           <Typography variant="h6" color="text.secondary" mt={1}>
-           AI Engine ,Do more with less.
+            AI Engine • Do More with Less
           </Typography>
 
           <Typography variant="body2" mt={1}>
             Built by Sandeep Miriyala
           </Typography>
 
-          
+          <Typography variant="caption" mt={2} display="block">
+            🚧 Early Stage • Open Source • 50% Human • 50% AI • 100% Dream
+          </Typography>
         </Box>
       </Box>
 
-      {/* ⚡ FRAMEWORK SUPPORT */}
+      {/* ⚡ FRAMEWORKS */}
       <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
         <Typography variant="h6">⚡ Works with your stack</Typography>
         <Divider sx={{ my: 2 }} />
@@ -110,40 +131,22 @@ export default function Page() {
         </Grid>
       </Paper>
 
-      {/* 🧠 DESCRIPTION */}
-      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
-        <Typography>
-          YuktAI is built using a vibe coding approach — 50% human thinking and
-          50% AI assistance. It is a lightweight, open-source AI runtime that
-          works directly inside your apps without heavy dependencies.
-        </Typography>
-      </Paper>
-
-      {/* 🌍 VISION */}
-      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
-        <Typography>
-          This project is just getting started 🚀. We are building a complete AI
-          ecosystem with text, OCR (Tesseract-based), voice, and plugin systems.
-          Many more features are coming soon.
-        </Typography>
-      </Paper>
-
-      {/* ⚙️ HOW IT WORKS */}
-      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
-        <Typography variant="h6">⚙️ How It Works</Typography>
-        <Divider sx={{ my: 2 }} />
-
-        <Typography align="center">
-          UI → YuktAI Runtime → Plugin → Output
-        </Typography>
-      </Paper>
-
       {/* 📦 USAGE */}
       <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
         <Typography variant="h6">📦 Usage</Typography>
         <Divider sx={{ my: 2 }} />
 
-        <Box component="pre" sx={{ fontSize: 13 }}>
+        <Box
+          component="pre"
+          sx={{
+            fontSize: 13,
+            overflowX: "auto",
+            bgcolor: "#0f172a",
+            color: "#fff",
+            p: 2,
+            borderRadius: 2,
+          }}
+        >
 {`npm install git+https://github.com/sandeepmiriyala03/yuktai.git
 
 import YuktAI from "yuktai-js";
@@ -151,9 +154,21 @@ import YuktAI from "yuktai-js";
 await YuktAI.run("ai.text", "Hello");
 await YuktAI.run("image.ocr.smart", { file });`}
         </Box>
+
+        <Button
+          size="small"
+          sx={{ mt: 1 }}
+          onClick={() =>
+            navigator.clipboard.writeText(
+              "npm install git+https://github.com/sandeepmiriyala03/yuktai.git"
+            )
+          }
+        >
+          Copy Install Command
+        </Button>
       </Paper>
 
-      {/* 📘 DOCUMENTATION */}
+      {/* 📘 DOCS */}
       <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
         <Typography variant="h6">📘 Documentation</Typography>
         <Divider sx={{ my: 2 }} />
@@ -196,8 +211,14 @@ await YuktAI.run("ai.text", "Hello");`}
                 onChange={(e) => setInput(e.target.value)}
                 sx={{ mb: 2 }}
               />
-              <Button variant="contained" fullWidth onClick={runAI}>
-                Run AI
+
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={runAI}
+                disabled={loading}
+              >
+                {loading ? "Processing..." : "Run AI"}
               </Button>
             </>
           )}
@@ -210,19 +231,32 @@ await YuktAI.run("ai.text", "Hello");`}
                   hidden
                   type="file"
                   accept="image/*"
-                  onChange={(e) =>
-                    setFile(e.target.files?.[0] || null)
-                  }
+                  onChange={(e) => {
+                    const f = e.target.files?.[0] || null;
+                    setFile(f);
+                    if (f) setPreview(URL.createObjectURL(f));
+                  }}
                 />
               </Button>
+
+              {preview && (
+                <Box mt={2} textAlign="center">
+                  <img
+                    src={preview}
+                    alt="preview"
+                    style={{ maxWidth: "100%", borderRadius: 8 }}
+                  />
+                </Box>
+              )}
 
               <Button
                 variant="contained"
                 fullWidth
                 sx={{ mt: 2 }}
                 onClick={runOCR}
+                disabled={loading}
               >
-                Run OCR
+                {loading ? "Processing..." : "Run OCR"}
               </Button>
             </>
           )}
@@ -240,11 +274,44 @@ await YuktAI.run("ai.text", "Hello");`}
               color: "#fff",
               borderRadius: 2,
               minHeight: 120,
+              position: "relative",
               whiteSpace: "pre-wrap",
             }}
           >
-            {output || "Result will appear here..."}
+            <Button
+              size="small"
+              sx={{ position: "absolute", top: 8, right: 8 }}
+              onClick={() => navigator.clipboard.writeText(output)}
+            >
+              Copy
+            </Button>
+
+            {loading ? "Processing..." : output || "Result will appear here..."}
           </Box>
+
+          {/* ⏱ TIME */}
+          {time && (
+            <Typography variant="caption" display="block" mt={1}>
+              ⏱️ {(time / 1000).toFixed(2)}s
+            </Typography>
+          )}
+
+          {/* 🧠 META */}
+          {output && (
+            <Box mt={2}>
+              <Typography variant="caption">
+                🌐 Language: Auto-detected
+              </Typography>
+              <br />
+              <Typography variant="caption">
+                ⚙️ Engine: YuktAI Runtime
+              </Typography>
+              <br />
+              <Typography variant="caption">
+                💻 Device: Browser
+              </Typography>
+            </Box>
+          )}
         </Box>
       </Paper>
     </Container>
