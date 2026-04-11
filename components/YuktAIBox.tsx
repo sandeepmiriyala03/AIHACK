@@ -57,7 +57,7 @@ export default function Page() {
         </Typography>
 
         <Typography variant="h6" color="text.secondary" mt={1}>
-          Open Source AI Engine for Text • OCR • Multilingual AI
+          AI Engine ,Do more with less
         </Typography>
 
         <Typography variant="body2" mt={1}>
