@@ -25,7 +25,7 @@ export default function Page() {
   const [loading, setLoading] = useState(false);
   const [time, setTime] = useState<number | null>(null);
 
-  // 🧹 CLEAR
+  // CLEAR
   const handleClear = () => {
     setInput("");
     setOutput("");
@@ -38,13 +38,13 @@ export default function Page() {
     }
   };
 
-  // 🔴 CANCEL
+  // CANCEL
   const handleCancel = () => {
     setLoading(false);
     setOutput("⛔ Cancelled");
   };
 
-  // 🤖 AI
+  // AI
   const runAI = async () => {
     try {
       setLoading(true);
@@ -64,7 +64,7 @@ export default function Page() {
     }
   };
 
-  // 🧾 OCR (FIXED)
+  // 🔥 OCR FIXED (MAIN FIX)
   const runOCR = async () => {
     if (!file) return setOutput("⚠️ Upload image first");
 
@@ -75,8 +75,10 @@ export default function Page() {
 
       const start = performance.now();
 
+      // ✅ Convert to ArrayBuffer
       const buffer = await file.arrayBuffer();
 
+      // ✅ Send to YuktAI
       const res = await YuktAI.run("image.ocr.smart", {
         file: buffer,
         name: file.name,
@@ -86,12 +88,19 @@ export default function Page() {
       const end = performance.now();
 
       setTime(end - start);
-      setOutput(
-        typeof res === "string"
-          ? res
-          : res?.text || JSON.stringify(res, null, 2)
-      );
-    } catch {
+
+      // ✅ Better output formatting
+      if (typeof res === "string") {
+        setOutput(res);
+      } else if (res?.text) {
+        setOutput(
+          `🧠 Text:\n${res.text}\n\n🎯 Confidence: ${res.confidence || 0}%`
+        );
+      } else {
+        setOutput(JSON.stringify(res, null, 2));
+      }
+    } catch (e) {
+      console.error(e);
       setOutput("❌ OCR Error");
     } finally {
       setLoading(false);
@@ -100,8 +109,7 @@ export default function Page() {
 
   return (
     <Container maxWidth="md" sx={{ py: 5 }}>
-
-      {/* 🔥 HERO */}
+      {/* HERO */}
       <Box textAlign="center" mb={5}>
         <Box component="img" src="/logo.png" sx={{ width: 120, mb: 2 }} />
 
@@ -114,11 +122,11 @@ export default function Page() {
         </Typography>
 
         <Typography variant="caption" display="block" mt={1}>
-          🚀 Open Source • 50% Human • 50% AI • Built with a Dream
+          🚀 Open Source • 50% Human • 50% AI
         </Typography>
       </Box>
 
-      {/* ⚡ FRAMEWORKS */}
+      {/* FRAMEWORKS */}
       <Paper sx={{ p: 2, mb: 4 }}>
         <Typography variant="h6">Works with</Typography>
         <Divider sx={{ my: 1 }} />
@@ -137,47 +145,7 @@ export default function Page() {
         </Grid>
       </Paper>
 
-      {/* 📦 HOW TO USE */}
-      <Paper sx={{ p: 2, mb: 4 }}>
-        <Typography variant="h6">How to Use</Typography>
-        <Divider sx={{ my: 1 }} />
-
-        <Box
-          component="pre"
-          sx={{
-            overflowX: "auto",
-            fontSize: 12,
-            bgcolor: "#111",
-            color: "#fff",
-            p: 2,
-            borderRadius: 1,
-          }}
-        >
-{`// 📦 Install
-npm install git+https://github.com/sandeepmiriyala03/yuktai.git
-
-// 📥 Import
-import YuktAI from "yuktai-js";
-
-// 🤖 AI Text
-const result = await YuktAI.run("ai.text", "Hello");
-
-// 🧾 OCR
-const buffer = await file.arrayBuffer();
-
-const ocrResult = await YuktAI.run("image.ocr.smart", {
-  file: buffer,
-  name: file.name,
-  type: file.type,
-});`}
-        </Box>
-
-        <Typography variant="caption" display="block" mt={1}>
-          ⚠️ OCR requires <b>ArrayBuffer</b> (not File) for browser compatibility.
-        </Typography>
-      </Paper>
-
-      {/* 🚀 DEMO */}
+      {/* DEMO */}
       <Paper sx={{ p: 2 }}>
         <Tabs value={tab} onChange={(e, v) => setTab(v)} centered>
           <Tab label="AI" />
@@ -204,20 +172,6 @@ const ocrResult = await YuktAI.run("image.ocr.smart", {
               >
                 {loading ? "Running..." : "Run AI"}
               </Button>
-
-              <Box display="flex" gap={1} mt={1}>
-                <Button fullWidth onClick={handleClear}>
-                  Clear
-                </Button>
-                <Button
-                  fullWidth
-                  color="error"
-                  onClick={handleCancel}
-                  disabled={!loading}
-                >
-                  Cancel
-                </Button>
-              </Box>
             </>
           )}
 
@@ -235,10 +189,7 @@ const ocrResult = await YuktAI.run("image.ocr.smart", {
                     setFile(f);
 
                     if (preview) URL.revokeObjectURL(preview);
-
-                    if (f) {
-                      setPreview(URL.createObjectURL(f));
-                    }
+                    if (f) setPreview(URL.createObjectURL(f));
                   }}
                 />
               </Button>
@@ -249,10 +200,6 @@ const ocrResult = await YuktAI.run("image.ocr.smart", {
                     src={preview}
                     style={{ width: "100%", borderRadius: 6 }}
                   />
-
-                  <Typography variant="caption" display="block" mt={1}>
-                    📄 {file?.name} • {(file?.size! / 1024).toFixed(1)} KB
-                  </Typography>
                 </Box>
               )}
 
@@ -265,20 +212,6 @@ const ocrResult = await YuktAI.run("image.ocr.smart", {
               >
                 {loading ? "Running..." : "Run OCR"}
               </Button>
-
-              <Box display="flex" gap={1} mt={1}>
-                <Button fullWidth onClick={handleClear}>
-                  Clear
-                </Button>
-                <Button
-                  fullWidth
-                  color="error"
-                  onClick={handleCancel}
-                  disabled={!loading}
-                >
-                  Cancel
-                </Button>
-              </Box>
             </>
           )}
         </Box>
@@ -295,19 +228,9 @@ const ocrResult = await YuktAI.run("image.ocr.smart", {
               borderRadius: 1,
               minHeight: 100,
               mt: 1,
-              position: "relative",
               whiteSpace: "pre-wrap",
             }}
           >
-            <Button
-              size="small"
-              sx={{ position: "absolute", top: 5, right: 5 }}
-              onClick={() => navigator.clipboard.writeText(output)}
-              disabled={!output}
-            >
-              Copy
-            </Button>
-
             {loading ? "Processing..." : output || "No output"}
           </Box>
 
