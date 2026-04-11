@@ -26,12 +26,21 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded';
 import InstallMobileRoundedIcon from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon from "@mui/icons-material/IosShareRounded";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
 
 const G = "#10b981"; 
 const TEXT_MAIN = "#1e293b";
 const TEXT_SUB = "#64748b";
 
 const navGroups = [
+
+  {
+  group: "YuktAI",
+  items: [
+    { href: "/yuktai", label: "AI Playground", icon: SmartToyIcon }
+  
+  ],
+},
   {
     group: "Banking", 
     items: [
