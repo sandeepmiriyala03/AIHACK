@@ -15,6 +15,7 @@ import {
   Divider,
   useTheme,
   useMediaQuery,
+  Grid,
 } from "@mui/material";
 
 export default function Page() {
@@ -40,53 +41,118 @@ export default function Page() {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 6, mt: { xs: 8, md: 10 } }}>
+    <Container maxWidth="lg" sx={{ py: 6, mt: { xs: 6, md: 8 } }}>
 
-      {/* 🔥 HERO */}
-      <Box textAlign="center" mb={6}>
-        <Typography
-          variant={isMobile ? "h4" : "h2"}
-          fontWeight={900}
+      {/* 🔥 HERO WITH LOGO */}
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection={{ xs: "column", md: "row" }}
+        gap={4}
+        mb={8}
+      >
+        {/* LOGO */}
+        <Box
+          component="img"
+          src="/Log one.png"
+          alt="YuktAI Logo"
           sx={{
-            background: "linear-gradient(90deg, #7b61ff, #00c6ff)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+            width: { xs: 120, md: 160 },
+            borderRadius: 3,
+            bgcolor: "#020617",
+            p: 1,
           }}
-        >
-          YuktAI
-        </Typography>
+        />
 
-        <Typography variant="h6" color="text.secondary" mt={1}>
-          AI Engine ,Do more with less
-        </Typography>
+        {/* TEXT */}
+        <Box textAlign={{ xs: "center", md: "left" }}>
+          <Typography
+            variant={isMobile ? "h4" : "h2"}
+            fontWeight={900}
+            sx={{
+              background: "linear-gradient(90deg, #7b61ff, #00c6ff)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            YuktAI
+          </Typography>
 
-        <Typography variant="body2" mt={1}>
-          Built by Sandeep Miriyala
-        </Typography>
+          <Typography variant="h6" color="text.secondary" mt={1}>
+            AI Engine • Plugins • Multilingual • Runs Anywhere
+          </Typography>
+
+          <Typography variant="body2" mt={1}>
+            Built by Sandeep Miriyala
+          </Typography>
+
+          <Box mt={2}>
+            <Typography
+              variant="caption"
+              sx={{
+                px: 2,
+                py: 0.5,
+                bgcolor: "#ede9fe",
+                borderRadius: 2,
+                fontWeight: 600,
+              }}
+            >
+              🚧 Early Stage • Open Source • Actively Building
+            </Typography>
+          </Box>
+        </Box>
       </Box>
 
+      {/* ⚡ FRAMEWORK SUPPORT */}
+      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
+        <Typography variant="h6">⚡ Works with your stack</Typography>
+        <Divider sx={{ my: 2 }} />
+
+        <Grid container spacing={2} textAlign="center">
+          {[
+            { name: "Angular", icon: "🅰️" },
+            { name: "Next.js", icon: "▲" },
+            { name: "React", icon: "⚛️" },
+          ].map((fw) => (
+            <Grid item xs={4} key={fw.name}>
+              <Typography fontSize={28}>{fw.icon}</Typography>
+              <Typography fontWeight={600}>{fw.name}</Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
+
       {/* 🧠 DESCRIPTION */}
-      <Paper sx={{ p: 3, mb: 4, borderRadius: 3 }}>
-        <Typography variant="body1">
-          YuktAI is a lightweight AI engine that you built and hosted on GitHub.
-          Instead of publishing to npm, you can directly install and use it
-          inside your Next.js project. It works like any other library and can
-          process text, voice, and plugins through a simple runtime system.
+      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
+        <Typography>
+          YuktAI is built using a vibe coding approach — 50% human thinking and
+          50% AI assistance. It is a lightweight, open-source AI runtime that
+          works directly inside your apps without heavy dependencies.
+        </Typography>
+      </Paper>
+
+      {/* 🌍 VISION */}
+      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
+        <Typography>
+          This project is just getting started 🚀. We are building a complete AI
+          ecosystem with text, OCR (Tesseract-based), voice, and plugin systems.
+          Many more features are coming soon.
         </Typography>
       </Paper>
 
       {/* ⚙️ HOW IT WORKS */}
-      <Paper sx={{ p: 3, mb: 4, borderRadius: 3 }}>
+      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
         <Typography variant="h6">⚙️ How It Works</Typography>
         <Divider sx={{ my: 2 }} />
 
-        <Typography variant="body2">
-          UI Input → YuktAI Runtime → Plugin Execution → Result Output
+        <Typography align="center">
+          UI → YuktAI Runtime → Plugin → Output
         </Typography>
       </Paper>
 
       {/* 📦 USAGE */}
-      <Paper sx={{ p: 3, mb: 4, borderRadius: 3 }}>
+      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
         <Typography variant="h6">📦 Usage</Typography>
         <Divider sx={{ my: 2 }} />
 
@@ -100,53 +166,26 @@ await YuktAI.run("image.ocr.smart", { file });`}
         </Box>
       </Paper>
 
-      {/* 📘 DOCUMENTATION (TABS) */}
-      <Paper sx={{ p: 3, mb: 4, borderRadius: 3 }}>
+      {/* 📘 DOCUMENTATION */}
+      <Paper sx={{ p: 3, mb: 5, borderRadius: 3 }}>
         <Typography variant="h6">📘 Documentation</Typography>
         <Divider sx={{ my: 2 }} />
 
-        <Tabs
-          value={docTab}
-          onChange={(e, v) => setDocTab(v)}
-          variant={isMobile ? "scrollable" : "standard"}
-        >
+        <Tabs value={docTab} onChange={(e, v) => setDocTab(v)}>
           <Tab label="Angular" />
           <Tab label="Next.js" />
           <Tab label="React" />
         </Tabs>
 
         <Box mt={2}>
-          {docTab === 0 && (
-            <Box component="pre">
-{`// Angular
-import YuktAI from "yuktai-js";
-
-await YuktAI.run("ai.text", "Hello Angular");`}
-            </Box>
-          )}
-
-          {docTab === 1 && (
-            <Box component="pre">
-{`// Next.js
-"use client";
-import YuktAI from "yuktai-js";
-
-await YuktAI.run("ai.text", "Hello Next.js");`}
-            </Box>
-          )}
-
-          {docTab === 2 && (
-            <Box component="pre">
-{`// React
-import YuktAI from "yuktai-js";
-
-await YuktAI.run("ai.text", "Hello React");`}
-            </Box>
-          )}
+          <Box component="pre">
+{`import YuktAI from "yuktai-js";
+await YuktAI.run("ai.text", "Hello");`}
+          </Box>
         </Box>
       </Paper>
 
-      {/* 🚀 DEMO (TABS) */}
+      {/* 🚀 DEMO */}
       <Paper sx={{ p: 3, borderRadius: 3 }}>
         <Typography variant="h6">🚀 Demo</Typography>
         <Divider sx={{ my: 2 }} />
@@ -170,8 +209,7 @@ await YuktAI.run("ai.text", "Hello React");`}
                 onChange={(e) => setInput(e.target.value)}
                 sx={{ mb: 2 }}
               />
-
-              <Button variant="contained" onClick={runAI} fullWidth>
+              <Button variant="contained" fullWidth onClick={runAI}>
                 Run AI
               </Button>
             </>
@@ -179,12 +217,7 @@ await YuktAI.run("ai.text", "Hello React");`}
 
           {demoTab === 1 && (
             <>
-              <Button
-                variant="outlined"
-                component="label"
-                fullWidth
-                sx={{ mb: 2 }}
-              >
+              <Button variant="outlined" component="label" fullWidth>
                 Upload Image
                 <input
                   hidden
@@ -196,7 +229,12 @@ await YuktAI.run("ai.text", "Hello React");`}
                 />
               </Button>
 
-              <Button variant="contained" onClick={runOCR} fullWidth>
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ mt: 2 }}
+                onClick={runOCR}
+              >
                 Run OCR
               </Button>
             </>
