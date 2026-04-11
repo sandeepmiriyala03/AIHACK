@@ -3,6 +3,8 @@
 import { useState } from "react";
 import YuktAIBox from "@/components/YuktAIBox";
 import YuktAI from "yuktai-js";
+
+
 import Navbar from "@/components/Navbar";
 
 import SmartToyIcon from "@mui/icons-material/SmartToy";

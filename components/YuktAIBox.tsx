@@ -14,15 +14,7 @@ export default function Page() {
     setOutput(res);
   };
 
-  const handleVoice = async () => {
-    try {
-      const res = await YuktAI.run("voice.ai", "");
-      setOutput(res);
-    } catch (e: any) {
-      alert(e);
-    }
-  };
-
+ 
   return (
     <div style={{ padding: 20, maxWidth: 500 }}>
       
@@ -45,15 +37,7 @@ export default function Page() {
         style={{ padding: 10, width: "100%", marginBottom: 10 }}
       />
 
-      <div style={{ display: "flex", gap: 10 }}>
-        <button onClick={handleRun} style={btnStyle}>
-          🤖 Run AI
-        </button>
 
-        <button onClick={handleVoice} style={btnStyle}>
-          🎤 Speak
-        </button>
-      </div>
 
       <p style={{ marginTop: 20 }}>
         <b>Output:</b> {output}

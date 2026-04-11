@@ -34,13 +34,13 @@ const TEXT_SUB = "#64748b";
 
 const navGroups = [
 
-  {
-  group: "YuktAI",
-  items: [
-    { href: "/yuktai", label: "AI Playground", icon: SmartToyIcon }
-  
-  ],
-},
+        {
+        group: "YuktAI",
+        items: [
+          { href: "/yuktai", label: "AI Playground", icon: SmartToyIcon }
+        
+        ],
+      },
   {
     group: "Banking", 
     items: [
