@@ -11,19 +11,42 @@ import {
   Box,
   Paper,
   CircularProgress,
+  Tabs,
+  Tab,
 } from "@mui/material";
 
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import ImageIcon from "@mui/icons-material/Image";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function Page() {
+  const [tab, setTab] = useState(0);
+
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
-  // 🔹 Text AI
-  const handleRun = async () => {
+  // 🔹 OCR
+  const handleOCR = async () => {
+    if (!file) return alert("Upload image");
+
+    try {
+      setLoading(true);
+
+      const res = await YuktAI.run("image.ocr.smart", { file });
+
+      setOutput(typeof res === "string" ? res : res?.text || "");
+    } catch (e: any) {
+      setOutput("❌ OCR Error: " + e.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔹 AI
+  const handleAI = async () => {
     if (!input) return;
 
     try {
@@ -37,146 +60,135 @@ export default function Page() {
     }
   };
 
-  // 🔹 OCR
-  const handleOCR = async () => {
-    if (!file) {
-      alert("Please upload an image");
-      return;
-    }
+  // 🔹 Copy
+  const handleCopy = () => {
+    navigator.clipboard.writeText(output);
+  };
 
-    // ✅ Validate file
-    if (!file.type.startsWith("image/")) {
-      alert("Only image files allowed");
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const res = await YuktAI.run("image.ocr.smart", { file });
-
-      setOutput(
-        typeof res === "string"
-          ? res
-          : JSON.stringify(res, null, 2)
-      );
-    } catch (e: any) {
-      console.error(e);
-      setOutput("❌ OCR Error: " + e.message);
-    } finally {
-      setLoading(false);
-    }
+  // 🔹 Clear
+  const handleClear = () => {
+    setOutput("");
+    setFile(null);
+    setInput("");
   };
 
   return (
     <Container maxWidth="sm" sx={{ py: 4 }}>
-      
-      {/* 🔥 Branding */}
+      {/* Header */}
       <Typography variant="h4" gutterBottom>
         YuktAI
       </Typography>
 
-      <Typography color="text.secondary" mb={3}>
-        AI Engine — Do more with less
+      <Typography color="text.secondary" mb={2}>
+        Simple AI + OCR Tool
       </Typography>
 
-      {/* 🤖 AI SECTION */}
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          🤖 AI
-        </Typography>
+      {/* 🔥 Tabs */}
+      <Tabs value={tab} onChange={(e, v) => setTab(v)} sx={{ mb: 2 }}>
+        <Tab label="📷 OCR" />
+        <Tab label="🤖 AI" />
+      </Tabs>
 
-        <Typography variant="body2" mb={2}>
-          {'Use "ai.text" plugin easily'}
-        </Typography>
+      <Paper sx={{ p: 3 }}>
+        {/* 📷 OCR TAB */}
+        {tab === 0 && (
+          <>
+            <Button
+              variant="outlined"
+              component="label"
+              fullWidth
+              sx={{ mb: 2 }}
+            >
+              Upload Image
+              <input
+                hidden
+                type="file"
+                accept="image/*"
+                onChange={(e) =>
+                  setFile(e.target.files?.[0] || null)
+                }
+              />
+            </Button>
 
-        <TextField
-          fullWidth
-          placeholder="Type something..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          sx={{ mb: 2 }}
-        />
+            {file && (
+              <Box mb={2}>
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="preview"
+                  style={{ width: "100%", borderRadius: 8 }}
+                />
+              </Box>
+            )}
 
-        <Button
-          variant="contained"
-          startIcon={<SmartToyIcon />}
-          onClick={handleRun}
-          fullWidth
-          disabled={loading}
-        >
-          {loading ? <CircularProgress size={20} /> : "Run AI"}
-        </Button>
-      </Paper>
-
-      {/* 📷 OCR SECTION */}
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          📷 OCR (Image → Text)
-        </Typography>
-
-        {/* Upload */}
-        <Button
-          variant="outlined"
-          component="label"
-          fullWidth
-          sx={{ mb: 2 }}
-        >
-          Upload Image
-          <input
-            type="file"
-            hidden
-            accept="image/*"
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
-          />
-        </Button>
-
-        {/* ✅ File name */}
-        {file && (
-          <Typography variant="body2" mb={1}>
-            Selected: {file.name}
-          </Typography>
+            <Button
+              variant="contained"
+              startIcon={<ImageIcon />}
+              onClick={handleOCR}
+              fullWidth
+              disabled={loading}
+            >
+              {loading ? <CircularProgress size={20} /> : "Run OCR"}
+            </Button>
+          </>
         )}
 
-        {/* ✅ Image preview */}
-        {file && (
-          <Box mb={2}>
-            <img
-              src={URL.createObjectURL(file)}
-              alt="preview"
-              style={{
-                width: "100%",
-                borderRadius: 8,
-              }}
+        {/* 🤖 AI TAB */}
+        {tab === 1 && (
+          <>
+            <TextField
+              fullWidth
+              placeholder="Type something..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              sx={{ mb: 2 }}
             />
-          </Box>
-        )}
 
-        <Button
-          variant="contained"
-          startIcon={<ImageIcon />}
-          onClick={handleOCR}
-          fullWidth
-          disabled={loading}
-        >
-          {loading ? <CircularProgress size={20} /> : "Run OCR"}
-        </Button>
+            <Button
+              variant="contained"
+              startIcon={<SmartToyIcon />}
+              onClick={handleAI}
+              fullWidth
+              disabled={loading}
+            >
+              {loading ? <CircularProgress size={20} /> : "Run AI"}
+            </Button>
+          </>
+        )}
       </Paper>
 
       {/* 🔹 OUTPUT */}
-      <Paper sx={{ p: 3 }}>
+      <Paper sx={{ p: 3, mt: 3 }}>
         <Typography variant="h6">Output</Typography>
 
         <Box
           sx={{
             mt: 2,
             whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-            fontSize: 14,
+            minHeight: 100,
           }}
         >
-          {output}
+          {output || "Result will appear here..."}
         </Box>
+
+        {/* Actions */}
+        {output && (
+          <Box mt={2} display="flex" gap={1}>
+            <Button
+              startIcon={<ContentCopyIcon />}
+              onClick={handleCopy}
+            >
+              Copy
+            </Button>
+
+            <Button
+              startIcon={<DeleteIcon />}
+              onClick={handleClear}
+              color="error"
+            >
+              Clear
+            </Button>
+          </Box>
+        )}
       </Paper>
     </Container>
   );
