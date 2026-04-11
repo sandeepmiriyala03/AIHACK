@@ -10,6 +10,7 @@ import {
   Button,
   Box,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 
 import SmartToyIcon from "@mui/icons-material/SmartToy";
@@ -19,13 +20,21 @@ export default function Page() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // 🔹 Text AI
   const handleRun = async () => {
     if (!input) return;
 
-    const res = await YuktAI.run("ai.text", input);
-    setOutput(res);
+    try {
+      setLoading(true);
+      const res = await YuktAI.run("ai.text", input);
+      setOutput(res);
+    } catch (e: any) {
+      setOutput("❌ AI Error: " + e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // 🔹 OCR
@@ -35,9 +44,28 @@ export default function Page() {
       return;
     }
 
-    const res = await YuktAI.run("image.ocr", { file });
+    // ✅ Validate file
+    if (!file.type.startsWith("image/")) {
+      alert("Only image files allowed");
+      return;
+    }
 
-    setOutput(typeof res === "string" ? res : JSON.stringify(res, null, 2));
+    try {
+      setLoading(true);
+
+      const res = await YuktAI.run("image.ocr.smart", { file });
+
+      setOutput(
+        typeof res === "string"
+          ? res
+          : JSON.stringify(res, null, 2)
+      );
+    } catch (e: any) {
+      console.error(e);
+      setOutput("❌ OCR Error: " + e.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,8 +103,9 @@ export default function Page() {
           startIcon={<SmartToyIcon />}
           onClick={handleRun}
           fullWidth
+          disabled={loading}
         >
-          Run AI
+          {loading ? <CircularProgress size={20} /> : "Run AI"}
         </Button>
       </Paper>
 
@@ -86,6 +115,7 @@ export default function Page() {
           📷 OCR (Image → Text)
         </Typography>
 
+        {/* Upload */}
         <Button
           variant="outlined"
           component="label"
@@ -101,13 +131,35 @@ export default function Page() {
           />
         </Button>
 
+        {/* ✅ File name */}
+        {file && (
+          <Typography variant="body2" mb={1}>
+            Selected: {file.name}
+          </Typography>
+        )}
+
+        {/* ✅ Image preview */}
+        {file && (
+          <Box mb={2}>
+            <img
+              src={URL.createObjectURL(file)}
+              alt="preview"
+              style={{
+                width: "100%",
+                borderRadius: 8,
+              }}
+            />
+          </Box>
+        )}
+
         <Button
           variant="contained"
           startIcon={<ImageIcon />}
           onClick={handleOCR}
           fullWidth
+          disabled={loading}
         >
-          Run OCR
+          {loading ? <CircularProgress size={20} /> : "Run OCR"}
         </Button>
       </Paper>
 
