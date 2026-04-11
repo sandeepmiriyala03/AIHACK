@@ -41,7 +41,7 @@ export default function Page() {
   // 🔴 CANCEL
   const handleCancel = () => {
     setLoading(false);
-    setOutput("⛔ Cancelled by user");
+    setOutput("⛔ Cancelled");
   };
 
   // 🤖 AI
@@ -52,15 +52,13 @@ export default function Page() {
       setTime(null);
 
       const start = performance.now();
-
       const res = await YuktAI.run("ai.text", input || "Hello");
-
       const end = performance.now();
 
       setTime(end - start);
       setOutput(typeof res === "string" ? res : JSON.stringify(res));
     } catch {
-      setOutput("❌ Error running AI");
+      setOutput("❌ AI Error");
     } finally {
       setLoading(false);
     }
@@ -77,7 +75,6 @@ export default function Page() {
 
       const start = performance.now();
 
-      // ✅ FIX: File → ArrayBuffer
       const buffer = await file.arrayBuffer();
 
       const res = await YuktAI.run("image.ocr.smart", {
@@ -95,7 +92,7 @@ export default function Page() {
           : res?.text || JSON.stringify(res, null, 2)
       );
     } catch {
-      setOutput("❌ OCR failed");
+      setOutput("❌ OCR Error");
     } finally {
       setLoading(false);
     }
@@ -140,6 +137,46 @@ export default function Page() {
         </Grid>
       </Paper>
 
+      {/* 📦 HOW TO USE */}
+      <Paper sx={{ p: 2, mb: 4 }}>
+        <Typography variant="h6">How to Use</Typography>
+        <Divider sx={{ my: 1 }} />
+
+        <Box
+          component="pre"
+          sx={{
+            overflowX: "auto",
+            fontSize: 12,
+            bgcolor: "#111",
+            color: "#fff",
+            p: 2,
+            borderRadius: 1,
+          }}
+        >
+{`// 📦 Install
+npm install git+https://github.com/sandeepmiriyala03/yuktai.git
+
+// 📥 Import
+import YuktAI from "yuktai-js";
+
+// 🤖 AI Text
+const result = await YuktAI.run("ai.text", "Hello");
+
+// 🧾 OCR
+const buffer = await file.arrayBuffer();
+
+const ocrResult = await YuktAI.run("image.ocr.smart", {
+  file: buffer,
+  name: file.name,
+  type: file.type,
+});`}
+        </Box>
+
+        <Typography variant="caption" display="block" mt={1}>
+          ⚠️ OCR requires <b>ArrayBuffer</b> (not File) for browser compatibility.
+        </Typography>
+      </Paper>
+
       {/* 🚀 DEMO */}
       <Paper sx={{ p: 2 }}>
         <Tabs value={tab} onChange={(e, v) => setTab(v)} centered>
@@ -148,7 +185,7 @@ export default function Page() {
         </Tabs>
 
         <Box mt={2}>
-          {/* 🤖 AI */}
+          {/* AI */}
           {tab === 0 && (
             <>
               <TextField
@@ -184,7 +221,7 @@ export default function Page() {
             </>
           )}
 
-          {/* 🧾 OCR */}
+          {/* OCR */}
           {tab === 1 && (
             <>
               <Button variant="outlined" component="label" fullWidth>
@@ -200,8 +237,7 @@ export default function Page() {
                     if (preview) URL.revokeObjectURL(preview);
 
                     if (f) {
-                      const url = URL.createObjectURL(f);
-                      setPreview(url);
+                      setPreview(URL.createObjectURL(f));
                     }
                   }}
                 />
@@ -247,7 +283,7 @@ export default function Page() {
           )}
         </Box>
 
-        {/* 📤 OUTPUT */}
+        {/* OUTPUT */}
         <Box mt={3}>
           <Typography variant="subtitle2">Output</Typography>
 
