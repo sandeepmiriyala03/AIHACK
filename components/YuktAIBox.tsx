@@ -65,22 +65,23 @@ export default function Page() {
   const [isA11yActive, setIsA11yActive] = useState(false);
 
   // 🔹 DEEP ENGINE RESOLVER: Fixes the "run() not found" issue
-  const getActiveEngine = () => {
-    const mod = YuktAIModule as any;
-    
-    // Priority 1: Check standard export
-    if (typeof mod.run === "function") return mod;
-    
-    // Priority 2: Check for Next.js/ESM default wrapping
-    if (mod.default && typeof mod.default.run === "function") return mod.default;
-    
-    // Priority 3: Check for nested default (common in some build tools)
-    if (mod.default?.default && typeof mod.default.default.run === "function") {
-      return mod.default.default;
+const getActiveEngine = () => {
+    // 1. Get the raw module
+    let engine = YuktAIModule as any;
+
+    // 2. Recursively drill into 'default' if the current level doesn't have 'run'
+    // This handles nested wrappers common in Next.js/Vercel production builds
+    while (engine && !engine.run && engine.default) {
+      engine = engine.default;
     }
-    
-    // Priority 4: Return module for debug fallback
-    return mod;
+
+    // 3. Last resort: If still no run, check if it's a named export instead of default
+    if (!engine || typeof engine.run !== "function") {
+       // This will help us debug if the loop above fails
+       console.error("Engine Resolution Failed. Structure:", engine);
+    }
+
+    return engine;
   };
 
   const runWCAG = async () => {
