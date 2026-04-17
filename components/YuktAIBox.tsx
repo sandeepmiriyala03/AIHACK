@@ -3,6 +3,13 @@
 import React, { useState } from "react";
 import { DM_Mono, Syne } from "next/font/google";
 import YuktAI from "yuktai-js";
+import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
+import SendRoundedIcon from "@mui/icons-material/SendRounded";
+import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
+import ImageRoundedIcon from "@mui/icons-material/ImageRounded";
+import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
+import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
+import RocketLaunchRoundedIcon from "@mui/icons-material/RocketLaunchRounded";
 
 // ── 1. FONT DEFINITIONS ──────────────────────────────────────
 const dmMono = DM_Mono({
@@ -30,7 +37,7 @@ export function applyAccessibility(element: React.ReactNode): React.ReactNode {
   }
 
   const props: any = { ...element.props };
-  const type = element.type;
+  const type = typeof element.type === "string" ? element.type : null;
 
   if (type === "input") {
     if (!props["aria-label"] && !props["id"]) {
@@ -45,6 +52,12 @@ export function applyAccessibility(element: React.ReactNode): React.ReactNode {
   if (type === "textarea") {
     if (!props["aria-label"] && !props["id"]) {
       props["aria-label"] = props.placeholder || "Textarea field";
+    }
+  }
+
+  if (type === "select") {
+    if (!props["aria-label"] && !props["id"]) {
+      props["aria-label"] = props.placeholder || "Choose an option";
     }
   }
 
@@ -73,7 +86,12 @@ export function applyAccessibility(element: React.ReactNode): React.ReactNode {
     }
   }
 
-  if (props.onClick && type !== "button" && type !== "a") {
+  if (
+    (type === "div" || type === "span" || type === "li") &&
+    props.onClick &&
+    type !== "button" &&
+    type !== "a"
+  ) {
     props.role = props.role || "button";
     props.tabIndex = props.tabIndex ?? 0;
     const originalKeyDown = props.onKeyDown;
@@ -90,7 +108,10 @@ export function applyAccessibility(element: React.ReactNode): React.ReactNode {
     props.summary = "Data table with example rows";
   }
 
-  const children = React.Children.map(props.children, (child) => applyAccessibility(child));
+  const children = React.Children.map(props.children, (child) =>
+    applyAccessibility(child)
+  );
+
   return React.cloneElement(element, props, children);
 }
 
@@ -152,30 +173,66 @@ export default function Page() {
   };
 
   const demoBefore = (
-    <div style={{ border: "1px solid #ddd", padding: "1rem", borderRadius: "10px", marginBottom: "1rem" }}>
-      <h3 style={{ margin: 0, marginBottom: "0.75rem" }}>Before WCAG improvements</h3>
+    <div className="yuktai-card">
+      <h3 className="yuktai-card-title"><AccessibilityNewIcon style={{ fontSize: 20, marginRight: 8, color: "#0f766e" }} />Before WCAG improvements</h3>
       <div
         onClick={() => setOutput("Card clicked")}
-        style={{ padding: "1rem", background: "#eef", cursor: "pointer", marginBottom: "1rem" }}
+        className="yuktai-clickable-card"
       >
+        <AccessibilityNewIcon style={{ fontSize: 18, marginRight: 8, verticalAlign: "middle" }} />
         Clickable card without role or keyboard support
       </div>
-      <img src="/favicon.ico" style={{ width: "96px", height: "96px", display: "block", marginBottom: "1rem" }} />
-      <input placeholder="Name" style={{ width: "100%", padding: "10px", marginBottom: "0.75rem", border: "1px solid #ccc", borderRadius: "6px" }} />
-      <textarea placeholder="Message" style={{ width: "100%", padding: "10px", height: "80px", border: "1px solid #ccc", borderRadius: "6px" }} />
-      <button style={{ marginTop: "1rem", padding: "0.75rem 1.25rem" }}>Send</button>
-      <a style={{ display: "inline-block", marginTop: "1rem", color: "#0070f3" }}>
-        Learn more
+      <div className="yuktai-inline-row">
+        <ImageRoundedIcon style={{ marginRight: 8, color: "#0f766e" }} />
+        <img src="/favicon.ico" alt="Favicon example" className="yuktai-image" />
+      </div>
+      <input placeholder="Name" className="yuktai-field" />
+      <textarea placeholder="Message" className="yuktai-field" />
+      <button className="yuktai-button" type="button">
+        <SendRoundedIcon style={{ fontSize: 18, marginRight: 8 }} />Send
+      </button>
+      <a className="yuktai-link">
+        <LinkRoundedIcon style={{ fontSize: 18, marginRight: 6 }} />Learn more
       </a>
     </div>
   );
 
   const demoAfter = applyAccessibility(demoBefore);
 
+  const sampleMarkup = `<!-- Accessible output example -->
+<div role="button" tabindex="0" aria-label="Clickable card">Clickable card</div>
+<img src="/favicon.ico" alt="Decorative image" aria-hidden="true" />
+<input type="text" aria-label="Name" placeholder="Name" />
+<textarea aria-label="Message" placeholder="Message"></textarea>
+<button aria-label="Send">Send</button>
+<a role="button" tabindex="0" aria-label="Learn more">Learn more</a>`;
+
   return (
     <div className={`${dmMono.variable} ${syne.variable}`} style={{ minHeight: "100vh", background: "#ffffff", padding: "2rem" }}>
       <div style={{ maxWidth: "960px", margin: "0 auto", fontFamily: "var(--font-dm-mono)" }}>
-        <h1 style={{ fontFamily: "var(--font-syne)", fontSize: "2.5rem", marginBottom: "0.5rem" }}>WCAG Accessibility Demo</h1>
+        <style>{`
+          .yuktai-card { border: 1px solid #ddd; padding: 1rem; border-radius: 10px; margin-bottom: 1rem; background: #fff; }
+          .yuktai-card-title { margin: 0 0 0.75rem; display: flex; align-items: center; color: #0f766e; font-size: 1rem; }
+          .yuktai-clickable-card { padding: 1rem; background: #eef; cursor: pointer; border-radius: 10px; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+          .yuktai-image { width: 96px; height: 96px; display: block; margin-bottom: 1rem; border-radius: 12px; }
+          .yuktai-field { width: 100%; padding: 10px; margin-bottom: 0.75rem; border: 1px solid #ccc; border-radius: 6px; font-family: inherit; }
+          .yuktai-button { margin-top: 1rem; padding: 0.75rem 1.25rem; border: none; border-radius: 8px; background: #0f766e; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+          .yuktai-button:hover { background: #115e59; }
+          .yuktai-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 1rem; color: #0070f3; text-decoration: none; }
+          .yuktai-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem; margin-top: 1rem; }
+          .yuktai-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+          .yuktai-top p { flex: 1 1 320px; }
+          .yuktai-output { padding: 1rem; background: #f9f9f9; border-radius: 12px; border: 1px solid #eee; white-space: pre-wrap; font-family: var(--font-dm-mono); color: #1a1a1a; }
+          .yuktai-snippet { margin-top: 1rem; padding: 1rem; background: #111; color: #f8f8f8; border-radius: 10px; overflow-x: auto; font-size: 0.9rem; }
+          @media (max-width: 720px) { .yuktai-top { flex-direction: column; } .yuktai-button { width: 100%; justify-content: center; } }
+          @media (max-width: 520px) { .yuktai-card, .yuktai-output, .yuktai-snippet { padding: 0.85rem; } }
+        `}</style>
+        <h1 style={{ fontFamily: "var(--font-syne)", fontSize: "2.5rem", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          <RocketLaunchRoundedIcon style={{ fontSize: 32, color: "#0f766e" }} /> YuktAI AI Engine
+        </h1>
+        <p style={{ margin: "0.25rem 0 1rem", color: "#222", fontSize: "1.1rem", fontWeight: 600 }}>
+          Do more with less
+        </p>
         <p style={{ marginTop: 0, color: "#444", lineHeight: 1.7 }}>
           This demo shows a deeper WCAG example with common accessibility issues and an accessible version generated by the helper. The code covers:
         </p>
@@ -236,6 +293,9 @@ export default function Page() {
             <p style={{ margin: "0.75rem 0 0", color: "#555" }}>
               The helper adds ARIA labels, keyboard support for clickable regions, alt text for images, and role fixes for anchors and buttons.
             </p>
+            <pre style={{ marginTop: "1rem", padding: "1rem", background: "#111", color: "#f8f8f8", borderRadius: "10px", overflowX: "auto", fontSize: "0.9rem" }}>
+              <code>{sampleMarkup}</code>
+            </pre>
           </div>
         </div>
       </div>
