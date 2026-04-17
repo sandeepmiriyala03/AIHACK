@@ -58,8 +58,8 @@
     "tesseract.js": "^6.0.1",
     "uuid": "^11.1.0",
     "xlsx": "^0.18.5",
-    "yuktai-js": "https://github.com/sandeepmiriyala03/yuktai/archive/refs/heads/main.tar.gz"
-  },
+   "yuktai-js": "git+https://github.com/sandeepmiriyala03/yuktai.git#main"
+    },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
     "@babel/preset-react": "^7.27.1",
