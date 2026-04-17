@@ -1,19 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { DM_Mono, Syne } from "next/font/google";
-// Import the library
 import * as YuktAIModule from "yuktai-js";
 
-const YuktAI = (YuktAIModule as any).default || YuktAIModule;
-
-// 3. Define the Types for TypeScript
-interface YuktAIEngine {
-  run: (plugin: string, data: any) => Promise<any>;
-  list: () => string[];
-}
-
-const engine = YuktAI as YuktAIEngine;
+// ── 1. FONT DEFINITIONS ──────────────────────────────────────
 const dmMono = DM_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
@@ -26,7 +17,45 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
+// ── 2. INLINE ACCESSIBILITY ENGINE ───────────────────────────
+function applyAccessibility(element: React.ReactNode): React.ReactNode {
+  if (!React.isValidElement(element)) return element;
 
+  if (element.type === React.Fragment) {
+    return React.cloneElement(
+      element,
+      {},
+      React.Children.map(element.props.children, (child) => applyAccessibility(child))
+    );
+  }
+
+  const props: any = { ...element.props };
+  const type = element.type;
+
+  if (type === "input" || type === "textarea") {
+    if (!props["aria-label"] && !props["id"]) {
+      props["aria-label"] = props.placeholder || `${type} field`;
+    }
+  }
+
+  if (props.onClick && type !== "button" && type !== "a") {
+    props.role = props.role || "button";
+    props.tabIndex = props.tabIndex ?? 0;
+    const originalKeyDown = props.onKeyDown;
+    props.onKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        props.onClick(e);
+      }
+      if (originalKeyDown) originalKeyDown(e);
+    };
+  }
+
+  const children = React.Children.map(props.children, (child) => applyAccessibility(child));
+  return React.cloneElement(element, props, children);
+}
+
+// ── 3. MAIN COMPONENT ────────────────────────────────────────
 export default function Page() {
   const [tab, setTab] = useState<"ai" | "wcag">("ai");
   const [input, setInput] = useState("");
@@ -35,184 +64,90 @@ export default function Page() {
   const [time, setTime] = useState<number | null>(null);
   const [isA11yActive, setIsA11yActive] = useState(false);
 
-  const handleClear = () => {
-    setInput("");
-    setOutput("");
-    setTime(null);
+  // Helper to resolve engine at the moment of execution
+  const getActiveEngine = () => {
+    const mod = YuktAIModule as any;
+    return mod.default?.run ? mod.default : mod;
   };
 
-  const handleCancel = () => {
-    setLoading(false);
-    setOutput("⛔ Operation Cancelled");
-  };
-
-  const runAI = async () => {
-    try {
-      setLoading(true);
-      setOutput("");
-      setTime(null);
-      const start = performance.now();
-     const res = await engine.run("ai.text", input || "Hello");
-      const end = performance.now();
-      setTime(end - start);
-      setOutput(typeof res === "string" ? res : JSON.stringify(res));
-    } catch {
-      setOutput("❌ AI Error");
-    } finally {
-      setLoading(false);
+  const runWCAG = async () => {
+    const engine = getActiveEngine();
+    if (typeof engine.run !== "function") {
+      setOutput("❌ Engine Error: run() not found. Try refreshing.");
+      return;
     }
-  };
 
- const runWCAG = async () => {
     try {
       setLoading(true);
-      setOutput("");
-      setTime(null);
       const start = performance.now();
-      
-      // 3. Updated logic for ui.a11y.pro
       const res = await engine.run("ui.a11y.pro", {
         enabled: true,
         autoFix: true,
         highContrast: false,
         reduceMotion: true
       });
-
-      const end = performance.now();
-      setTime(end - start);
+      setTime(performance.now() - start);
       setIsA11yActive(true);
-      
-      // Set the status message
-      setOutput(typeof res === "string" ? res : "♿ Accessibility Guard is now active and monitoring the DOM.");
-      
-    } catch (e) {
-      console.error("WCAG Initialization Error:", e);
-      setOutput("❌ WCAG Engine Error: Plugin 'ui.a11y.pro' failed to start.");
+      setOutput("♿ Accessibility Guard is now active.");
+    } catch (e: any) {
+      setOutput(`❌ Error: ${e.message}`);
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div
-      className={`${dmMono.variable} ${syne.variable}`}
-      style={{
-        minHeight: "100vh",
-        background: "#ffffff",
-        color: "#111110",
-        fontFamily: "var(--font-dm-mono), monospace",
-        padding: "0 1rem 4rem",
-      }}
-    >
-      <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        .hero { max-width: 680px; margin: 0 auto; padding: 4rem 0 3rem; display: flex; flex-direction: column; align-items: flex-start; }
-        .hero-eyebrow { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #aaa9a6; margin-bottom: 1rem; }
-        .hero-logo { display: flex; align-items: center; gap: 14px; margin-bottom: 0.5rem; }
-        .hero-logo img { width: 36px; height: 36px; border-radius: 8px; }
-        .hero-wordmark { font-family: var(--font-syne), sans-serif; font-size: 2.6rem; font-weight: 800; letter-spacing: -0.03em; color: #111110; line-height: 1; }
-        .hero-sub { font-size: 13px; color: #999895; margin-top: 0.6rem; letter-spacing: 0.02em; }
-        .hero-chips { display: flex; gap: 8px; margin-top: 1.6rem; flex-wrap: wrap; }
-        .chip { font-size: 11px; padding: 4px 10px; border: 0.5px solid #e0dedd; border-radius: 100px; color: #999895; letter-spacing: 0.06em; background: #f8f7f6; }
-        .chip.active { border-color: #b07d2e; color: #b07d2e; background: rgba(176, 125, 46, 0.06); }
-        .chip.secure { border-color: #4a9e6a; color: #4a9e6a; background: rgba(74, 158, 106, 0.06); }
+  const runAI = async () => {
+    const engine = getActiveEngine();
+    if (typeof engine.run !== "function") {
+      setOutput("❌ Engine Error: run() not found.");
+      return;
+    }
 
-        .card { max-width: 680px; margin: 0 auto; background: #ffffff; border: 0.5px solid #e8e7e5; border-radius: 14px; overflow: hidden; }
-        .tabs { display: flex; border-bottom: 0.5px solid #e8e7e5; background: #f8f7f6; }
-        .tab-btn { flex: 1; height: 46px; background: none; border: none; cursor: pointer; font-family: var(--font-dm-mono), monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #b0afac; transition: color 0.15s, background 0.15s; position: relative; }
-        .tab-btn:not(:last-child) { border-right: 0.5px solid #e8e7e5; }
-        .tab-btn:hover { color: #555450; }
-        .tab-btn.tab-active { color: #b07d2e; background: #ffffff; }
-        .tab-btn.tab-active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1.5px; background: #b07d2e; }
+    try {
+      setLoading(true);
+      const start = performance.now();
+      const res = await engine.run("ai.text", input || "Hello");
+      setTime(performance.now() - start);
+      setOutput(typeof res === "string" ? res : JSON.stringify(res));
+    } catch (e: any) {
+      setOutput(`❌ AI Error: ${e.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        .card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 12px; }
-        .prompt-input { width: 100%; background: #f8f7f6; border: 0.5px solid #e0dedd; border-radius: 8px; padding: 12px 14px; font-family: var(--font-dm-mono), monospace; font-size: 13px; color: #111110; resize: none; outline: none; transition: border-color 0.15s; line-height: 1.6; min-height: 88px; }
-        .actions { display: flex; gap: 8px; }
-        .btn { height: 40px; padding: 0 18px; border-radius: 8px; font-family: var(--font-dm-mono), monospace; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; border: 0.5px solid transparent; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 7px; }
-        .btn-primary { background: #111110; color: #ffffff; border-color: #111110; flex: 1; font-weight: 500; }
-        .btn-ghost { background: none; border-color: #e0dedd; color: #999895; }
+  return applyAccessibility(
+    <div className={`${dmMono.variable} ${syne.variable}`} style={{ minHeight: "100vh", background: "#ffffff", padding: "2rem" }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto", fontFamily: "var(--font-dm-mono)" }}>
+        <h1 style={{ fontFamily: "var(--font-syne)", fontSize: "2.5rem" }}>YuktAI Lab</h1>
         
-        .output-section { border-top: 0.5px solid #f0efed; padding: 1.25rem 1.5rem; }
-        .output-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .output-label { font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #c0bebb; }
-        .output-box { background: #f8f7f6; border: 0.5px solid #e8e7e5; border-radius: 8px; padding: 14px; min-height: 60px; font-size: 12.5px; line-height: 1.7; color: #b0afac; white-space: pre-wrap; }
-        .output-box.has-output { color: #111110; }
-        
-        .status-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 1.5rem; border-top: 0.5px solid #f0efed; background: #f8f7f6; }
-        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #dddcd9; display: inline-block; margin-right: 8px; }
-        .status-dot.active { background: #4a9e6a; box-shadow: 0 0 6px rgba(74, 158, 106, 0.4); }
-      `}</style>
-
-      <div className="hero">
-        <div className="hero-eyebrow">Yuktishala Labs — v1.0</div>
-        <div className="hero-logo">
-          <span className="hero-wordmark">YuktAI</span>
-        </div>
-        <div className="hero-sub">Intelligent Accessibility & Text</div>
-        <div className="hero-chips">
-          <span className="chip active">OSS</span>
-          {isA11yActive && <span className="chip secure">♿ A11y Active</span>}
-          <span className="chip">Offline-First</span>
-        </div>
-      </div>
-
-      <div className="card">
-        <div className="tabs">
-          <button className={`tab-btn ${tab === "ai" ? "tab-active" : ""}`} onClick={() => { setTab("ai"); handleClear(); }}>AI Prompt</button>
-          <button className={`tab-btn ${tab === "wcag" ? "tab-active" : ""}`} onClick={() => { setTab("wcag"); handleClear(); }}>WCAG Engine</button>
+        <div style={{ display: "flex", gap: "20px", margin: "20px 0" }}>
+          <div onClick={() => setTab("ai")} style={{ cursor: "pointer", borderBottom: tab === "ai" ? "2px solid black" : "none" }}>AI Prompt</div>
+          <div onClick={() => setTab("wcag")} style={{ cursor: "pointer", borderBottom: tab === "wcag" ? "2px solid black" : "none" }}>WCAG Guard</div>
         </div>
 
-        <div className="card-body">
-          {tab === "ai" ? (
-            <>
-              <textarea
-                className="prompt-input"
-                placeholder="Ask YuktAI something..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <div className="actions">
-                <button className="btn btn-ghost" onClick={handleClear}>Clear</button>
-                <button className="btn btn-primary" onClick={runAI} disabled={loading || !input}>
-                  {loading ? "Thinking..." : "Generate"}
-                </button>
-              </div>
-            </>
-          ) : (
-            <div style={{ padding: "1rem 0", textAlign: "center" }}>
-              <p style={{ fontSize: "12px", color: "#999895", marginBottom: "1.5rem" }}>
-                Activate the WCAG Engine to automatically fix ARIA, contrast, and layout issues.
-              </p>
-              <button 
-                className="btn btn-primary" 
-                onClick={runWCAG} 
-                disabled={loading || isA11yActive}
-                style={{ width: "100%" }}
-              >
-                {isA11yActive ? "Engine is Monitoring" : "Initialize WCAG Guard"}
-              </button>
-            </div>
-          )}
-        </div>
-
-        <div className="output-section">
-          <div className="output-header">
-            <span className="output-label">Status Report</span>
-            {time && <span style={{ fontSize: "10px", color: "#aaa" }}>{(time / 1000).toFixed(2)}s</span>}
+        {tab === "ai" ? (
+          <div>
+            <textarea 
+              value={input} 
+              onChange={(e) => setInput(e.target.value)} 
+              placeholder="Enter your prompt..."
+              style={{ width: "100%", height: "100px", padding: "10px", marginBottom: "10px" }}
+            />
+            {/* 🔹 FIX: Call runAI wrapper instead of engine.run directly */}
+            <button onClick={runAI} style={{ padding: "10px 20px" }} disabled={loading}>
+              {loading ? "Processing..." : "Run AI"}
+            </button>
           </div>
-          <div className={`output-box ${output ? "has-output" : ""}`}>
-            {output || "Waiting for command..."}
-          </div>
-        </div>
+        ) : (
+          <button onClick={runWCAG} style={{ padding: "10px 20px" }} disabled={loading || isA11yActive}>
+            {isA11yActive ? "Monitoring Active" : "Initialize Guard"}
+          </button>
+        )}
 
-        <div className="status-bar">
-          <span>
-            <span className={`status-dot ${isA11yActive ? "active" : ""}`} />
-            <span style={{ fontSize: "11px", color: "#b0afac" }}>
-              {isA11yActive ? "a11y-live" : "standby"}
-            </span>
-          </span>
-          {loading && <button className="btn btn-ghost" style={{ height: 24, fontSize: 10 }} onClick={handleCancel}>stop</button>}
+        <div style={{ marginTop: "30px", padding: "15px", background: "#f9f9f9", borderRadius: "8px" }}>
+          <strong>Status:</strong> {output || "Ready"}
+          {time && <span style={{ float: "right", opacity: 0.6 }}>{(time/1000).toFixed(2)}s</span>}
         </div>
       </div>
     </div>
