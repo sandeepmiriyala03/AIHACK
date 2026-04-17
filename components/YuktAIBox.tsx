@@ -17,7 +17,7 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
-// ── 2. INLINE ACCESSIBILITY ENGINE (Vibe Coding Support) ─────
+// ── 2. INLINE ACCESSIBILITY ENGINE ───────────────────────────
 function applyAccessibility(element: React.ReactNode): React.ReactNode {
   if (!React.isValidElement(element)) return element;
 
@@ -64,21 +64,18 @@ export default function Page() {
   const [time, setTime] = useState<number | null>(null);
   const [isA11yActive, setIsA11yActive] = useState(false);
 
-  // 🔹 DEEP ENGINE RESOLVER: Fixes the "run() not found" issue
-const getActiveEngine = () => {
-    // 1. Get the raw module
+  // 🔹 FIX: Handles module when exported as a list/array
+  const getActiveEngine = () => {
     let engine = YuktAIModule as any;
 
-    // 2. Recursively drill into 'default' if the current level doesn't have 'run'
-    // This handles nested wrappers common in Next.js/Vercel production builds
-    while (engine && !engine.run && engine.default) {
-      engine = engine.default;
+    // If the module itself is an array/list, take the first item
+    if (Array.isArray(engine)) {
+      engine = engine[0];
     }
 
-    // 3. Last resort: If still no run, check if it's a named export instead of default
-    if (!engine || typeof engine.run !== "function") {
-       // This will help us debug if the loop above fails
-       console.error("Engine Resolution Failed. Structure:", engine);
+    // Standard recursive drill for .default wrappers
+    while (engine && !engine.run && engine.default) {
+      engine = engine.default;
     }
 
     return engine;
@@ -86,8 +83,9 @@ const getActiveEngine = () => {
 
   const runWCAG = async () => {
     const engine = getActiveEngine();
-    if (typeof engine.run !== "function") {
-      setOutput(`❌ Engine Error: run() not found. Available keys: ${Object.keys(engine).join(", ")}`);
+    if (!engine || typeof engine.run !== "function") {
+      const keys = engine ? Object.keys(engine).join(", ") : "null";
+      setOutput(`❌ Engine Error: run() not found. Found: ${keys}`);
       return;
     }
 
@@ -112,7 +110,7 @@ const getActiveEngine = () => {
 
   const runAI = async () => {
     const engine = getActiveEngine();
-    if (typeof engine.run !== "function") {
+    if (!engine || typeof engine.run !== "function") {
       setOutput("❌ Engine Error: run() not found.");
       return;
     }
