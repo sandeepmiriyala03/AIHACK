@@ -2,8 +2,18 @@
 
 import { useState } from "react";
 import { DM_Mono, Syne } from "next/font/google";
-import YuktAI from "yuktai-js";
+// Import the library
+import * as YuktAIModule from "yuktai-js";
 
+const YuktAI = (YuktAIModule as any).default || YuktAIModule;
+
+// 3. Define the Types for TypeScript
+interface YuktAIEngine {
+  run: (plugin: string, data: any) => Promise<any>;
+  list: () => string[];
+}
+
+const engine = YuktAI as YuktAIEngine;
 const dmMono = DM_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
@@ -15,6 +25,7 @@ const syne = Syne({
   weight: ["700", "800"],
   variable: "--font-syne",
 });
+
 
 export default function Page() {
   const [tab, setTab] = useState<"ai" | "wcag">("ai");
@@ -41,7 +52,7 @@ export default function Page() {
       setOutput("");
       setTime(null);
       const start = performance.now();
-      const res = await YuktAI.run("ai.text", input || "Hello");
+     const res = await engine.run("ai.text", input || "Hello");
       const end = performance.now();
       setTime(end - start);
       setOutput(typeof res === "string" ? res : JSON.stringify(res));
@@ -52,15 +63,15 @@ export default function Page() {
     }
   };
 
-  const runWCAG = async () => {
+ const runWCAG = async () => {
     try {
       setLoading(true);
       setOutput("");
       setTime(null);
       const start = performance.now();
       
-      // Initializing your wcag.ts plugin logic
-      const res = await YuktAI.run("ui.a11y.pro", {
+      // 3. Updated logic for ui.a11y.pro
+      const res = await engine.run("ui.a11y.pro", {
         enabled: true,
         autoFix: true,
         highContrast: false,
@@ -70,10 +81,13 @@ export default function Page() {
       const end = performance.now();
       setTime(end - start);
       setIsA11yActive(true);
+      
+      // Set the status message
       setOutput(typeof res === "string" ? res : "♿ Accessibility Guard is now active and monitoring the DOM.");
+      
     } catch (e) {
-      console.error(e);
-      setOutput("❌ WCAG Engine Error");
+      console.error("WCAG Initialization Error:", e);
+      setOutput("❌ WCAG Engine Error: Plugin 'ui.a11y.pro' failed to start.");
     } finally {
       setLoading(false);
     }
