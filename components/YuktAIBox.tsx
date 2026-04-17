@@ -17,7 +17,7 @@ const syne = Syne({
   variable: "--font-syne",
 });
 
-// ── 2. INLINE ACCESSIBILITY ENGINE ───────────────────────────
+// ── 2. INLINE ACCESSIBILITY ENGINE (Vibe Coding Support) ─────
 function applyAccessibility(element: React.ReactNode): React.ReactNode {
   if (!React.isValidElement(element)) return element;
 
@@ -64,16 +64,29 @@ export default function Page() {
   const [time, setTime] = useState<number | null>(null);
   const [isA11yActive, setIsA11yActive] = useState(false);
 
-  // Helper to resolve engine at the moment of execution
+  // 🔹 DEEP ENGINE RESOLVER: Fixes the "run() not found" issue
   const getActiveEngine = () => {
     const mod = YuktAIModule as any;
-    return mod.default?.run ? mod.default : mod;
+    
+    // Priority 1: Check standard export
+    if (typeof mod.run === "function") return mod;
+    
+    // Priority 2: Check for Next.js/ESM default wrapping
+    if (mod.default && typeof mod.default.run === "function") return mod.default;
+    
+    // Priority 3: Check for nested default (common in some build tools)
+    if (mod.default?.default && typeof mod.default.default.run === "function") {
+      return mod.default.default;
+    }
+    
+    // Priority 4: Return module for debug fallback
+    return mod;
   };
 
   const runWCAG = async () => {
     const engine = getActiveEngine();
     if (typeof engine.run !== "function") {
-      setOutput("❌ Engine Error: run() not found. Try refreshing.");
+      setOutput(`❌ Engine Error: run() not found. Available keys: ${Object.keys(engine).join(", ")}`);
       return;
     }
 
@@ -132,20 +145,19 @@ export default function Page() {
               value={input} 
               onChange={(e) => setInput(e.target.value)} 
               placeholder="Enter your prompt..."
-              style={{ width: "100%", height: "100px", padding: "10px", marginBottom: "10px" }}
+              style={{ width: "100%", height: "100px", padding: "10px", marginBottom: "10px", border: "1px solid #ddd", borderRadius: "4px" }}
             />
-            {/* 🔹 FIX: Call runAI wrapper instead of engine.run directly */}
-            <button onClick={runAI} style={{ padding: "10px 20px" }} disabled={loading}>
+            <button onClick={runAI} style={{ padding: "10px 20px", cursor: "pointer" }} disabled={loading}>
               {loading ? "Processing..." : "Run AI"}
             </button>
           </div>
         ) : (
-          <button onClick={runWCAG} style={{ padding: "10px 20px" }} disabled={loading || isA11yActive}>
+          <button onClick={runWCAG} style={{ padding: "10px 20px", cursor: "pointer" }} disabled={loading || isA11yActive}>
             {isA11yActive ? "Monitoring Active" : "Initialize Guard"}
           </button>
         )}
 
-        <div style={{ marginTop: "30px", padding: "15px", background: "#f9f9f9", borderRadius: "8px" }}>
+        <div style={{ marginTop: "30px", padding: "15px", background: "#f9f9f9", borderRadius: "8px", border: "1px solid #eee" }}>
           <strong>Status:</strong> {output || "Ready"}
           {time && <span style={{ float: "right", opacity: 0.6 }}>{(time/1000).toFixed(2)}s</span>}
         </div>
