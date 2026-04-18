@@ -1,50 +1,32 @@
-// next.config.js
+/** @type {import('next').NextConfig} */
 
 // @ts-expect-error next-pwa has no official types
 const withPWA = require("next-pwa")({
   dest: "public",
+
+  // ✅ Disable in dev
   disable: process.env.NODE_ENV === "development",
+
   register: true,
   skipWaiting: true,
   clientsClaim: true,
-  cacheOnFrontEndNav: true,
-  reloadOnOnline: true,
 
-  fallbacks: {
-    document: "/offline.html",
-  },
-
+  // ⚠️ IMPORTANT: avoid aggressive stale caching
   runtimeCaching: [
-
-    // 1️⃣ App Pages
+    // Pages (always fresh first)
     {
-      urlPattern: /^https:\/\/.*\/$/i,
-      handler: "StaleWhileRevalidate",
+      urlPattern: ({ request }) => request.destination === "document",
+      handler: "NetworkFirst",
       options: {
         cacheName: "pages",
         expiration: {
-          maxEntries: 100,
-          maxAgeSeconds: 60 * 60 * 24 * 30,
+          maxEntries: 50,
+          maxAgeSeconds: 60 * 60 * 24,
         },
-        cacheableResponse: { statuses: [0, 200] },
       },
     },
 
-    // 2️⃣ Next Data (IMPORTANT FIX)
-    {
-      urlPattern: /\/_next\/data\/.*/i,
-      handler: "StaleWhileRevalidate",
-      options: {
-        cacheName: "next-data",
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 60 * 60 * 24 * 30,
-        },
-        cacheableResponse: { statuses: [0, 200] },
-      },
-    },
-
-    // 3️⃣ Static Files
+    // Next static files (safe to cache)
     {
       urlPattern: /\/_next\/static\/.*/i,
       handler: "CacheFirst",
@@ -54,136 +36,37 @@ const withPWA = require("next-pwa")({
           maxEntries: 300,
           maxAgeSeconds: 60 * 60 * 24 * 365,
         },
-        cacheableResponse: { statuses: [0, 200] },
       },
     },
 
-    // 4️⃣ Images
+    // Next data
+    {
+      urlPattern: /\/_next\/data\/.*/i,
+      handler: "NetworkFirst",
+      options: {
+        cacheName: "next-data",
+      },
+    },
+
+    // Images
     {
       urlPattern: /\/_next\/image\?.*/i,
       handler: "CacheFirst",
       options: {
         cacheName: "images",
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 60 * 60 * 24 * 30,
-        },
-        cacheableResponse: { statuses: [0, 200] },
-      },
-    },
-
-    // 5️⃣ HuggingFace Models
-    {
-      urlPattern: /^https:\/\/huggingface\.co\/.*\/resolve\/.*/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "hf-models",
-        expiration: {
-          maxEntries: 300,
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-        },
-        cacheableResponse: { statuses: [0, 200] },
-      },
-    },
-
-    {
-      urlPattern: /^https:\/\/cdn\.huggingface\.co\/.*/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "hf-cdn",
-        expiration: {
-          maxEntries: 300,
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-        },
-        cacheableResponse: { statuses: [0, 200] },
-      },
-    },
-
-    // 6️⃣ Transformers
-    {
-      urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/npm\/@xenova\/.*/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "transformers",
-        expiration: {
-          maxEntries: 300,
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-        },
-      },
-    },
-
-    // 7️⃣ ONNX WASM
-    {
-      urlPattern: /onnxruntime-web.*\.wasm$/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "onnx-wasm",
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-        },
-      },
-    },
-
-    // 8️⃣ ONNX Models
-    {
-      urlPattern: /\/models\/.*\.onnx$/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "onnx-models",
-        expiration: {
-          maxEntries: 50,
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-        },
-      },
-    },
-
-    // 9️⃣ Tesseract Data
-    {
-      urlPattern: /^https:\/\/tessdata\.projectnaptha\.com\/.*/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "tesseract",
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 60 * 60 * 24 * 365,
-        },
-      },
-    },
-
-    // 🔟 Fonts
-    {
-      urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-      handler: "CacheFirst",
-      options: { cacheName: "fonts" },
-    },
-
-    {
-      urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-      handler: "CacheFirst",
-      options: { cacheName: "fonts-static" },
-    },
-
-    // 🔥 FINAL FIX (Catch All)
-    {
-      urlPattern: /.*/i,
-      handler: "StaleWhileRevalidate",
-      options: {
-        cacheName: "others",
-        expiration: {
-          maxEntries: 200,
-          maxAgeSeconds: 60 * 60 * 24 * 7,
-        },
       },
     },
   ],
+
+  fallbacks: {
+    document: "/offline.html",
+  },
 });
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
 
-  // ✅ ADD THIS LINE
+  // 🔥 VERY IMPORTANT (fixes your plugin issue)
   transpilePackages: ["yuktai-js"],
 
   async headers() {
