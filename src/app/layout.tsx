@@ -57,14 +57,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        {/* 🔥 Global AI initializer */}
+        {/* ✅ Global WCAG engine (runs on every navigation via wrapper logic) */}
         <YuktAIWrapper />
 
+        {/* ✅ Page content */}
         {children}
 
+        {/* ✅ Global UI */}
         <NetworkStatusIndicator />
         <Footer />
 
+        {/* ✅ Analytics */}
         <GoogleAnalytics gaId="G-5VRRWW655G" />
 
         <Suspense fallback={null}>
