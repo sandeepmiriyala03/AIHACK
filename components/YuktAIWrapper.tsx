@@ -14,24 +14,42 @@ export default function YuktAIWrapper({
       .then((mod: any) => {
         if (!mounted) return;
 
-        const api = mod.default;
+        const api = mod?.default;
         const features: string[] = api?.list?.() || [];
+
         console.log("YuktAI features:", features);
+
+        // 🔥 Accessibility Mode
         if (features.includes("ui.a11y.pro")) {
           console.log("✅ Accessibility enabled");
-          document.body.classList.add("a11y-enabled");
-          const announcer = document.createElement("div");
-          announcer.setAttribute("aria-live", "polite");
-          announcer.style.position = "absolute";
-          announcer.style.left = "-9999px";
-          announcer.innerText = "Accessibility mode enabled";
-          document.body.appendChild(announcer);
+
+          document.documentElement.classList.add("a11y-enabled");
+
+          // ✅ DOM-only detection (no id)
+          const existing = document.querySelector(
+            '[data-yukt="announcer"]'
+          );
+
+          if (!existing) {
+            const announcer = document.createElement("div");
+
+            announcer.setAttribute("data-yukt", "announcer");
+            announcer.setAttribute("aria-live", "polite");
+
+            announcer.style.cssText =
+              "position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;";
+
+            announcer.textContent = "Accessibility mode enabled";
+
+            document.body.appendChild(announcer);
+          }
         }
 
+        // 🔥 OCR Enhancement Mode
         if (features.includes("image.ocr.smart")) {
           console.log("✅ OCR enhancement enabled");
 
-          document.body.classList.add("ocr-enhanced");
+          document.documentElement.classList.add("ocr-enhanced");
         }
       })
       .catch((err) => {
