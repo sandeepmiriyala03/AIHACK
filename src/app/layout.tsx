@@ -55,24 +55,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      {/*
-        suppressHydrationWarning: prevents React hydration mismatch
-        when YuktAIWrapper adds classes like "a11y-enabled" to <html>
-      */}
-      <body suppressHydrationWarning>
-        <YuktAIWrapper>
-          {children}
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        {/* 🔥 Global AI initializer */}
+        <YuktAIWrapper />
 
-          <NetworkStatusIndicator />
-          <Footer />
+        {children}
 
-          <GoogleAnalytics gaId="G-5VRRWW655G" />
+        <NetworkStatusIndicator />
+        <Footer />
 
-          <Suspense fallback={null}>
-            <GAListenerInner gaId="G-5VRRWW655G" />
-          </Suspense>
-        </YuktAIWrapper>
+        <GoogleAnalytics gaId="G-5VRRWW655G" />
+
+        <Suspense fallback={null}>
+          <GAListenerInner gaId="G-5VRRWW655G" />
+        </Suspense>
       </body>
     </html>
   );

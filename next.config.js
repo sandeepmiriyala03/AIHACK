@@ -66,7 +66,6 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
 
-  // 🔥 VERY IMPORTANT (fixes your plugin issue)
   transpilePackages: ["yuktai-js"],
 
   async headers() {
