@@ -1204,3 +1204,15 @@ body.ocr-enhanced {
   word-spacing: 2px;
   letter-spacing: 0.02em;
 }
+
+html.a11y-enabled {
+  font-size: 18px !important;
+}
+
+html.a11y-enabled * {
+  line-height: 1.6 !important;
+}
+
+html.a11y-enabled :focus {
+  outline: 3px solid #10b981 !important;
+}
