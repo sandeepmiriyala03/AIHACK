@@ -598,6 +598,26 @@ export default function HomePage() {
                 An offline AI platform that reads, digitizes, and speaks Indic languages — from ancient Sanskrit manuscripts to modern bilingual documents. Everything runs in your browser. No cloud, no account, no cost.
               </p>
 
+              <div style={{
+                background: "rgba(16,185,129,0.08)",
+                border: "1px solid rgba(16,185,129,0.2)",
+                borderRadius: 12,
+                padding: 16,
+                marginBottom: 28,
+                fontSize: 14,
+                color: "#065f46",
+                fontFamily: "'DM Sans',sans-serif",
+                lineHeight: 1.6,
+              }}>
+                <strong>♿ Accessibility Workflow:</strong><br />
+                1. <strong>Access:</strong> Click the green accessibility button (bottom-left) to open the ADA control panel.<br />
+                2. <strong>Enable:</strong> Tap "Enable ADA" to activate WCAG fixes and visual enhancements across the site.<br />
+                3. <strong>Customize:</strong> Adjust settings like high contrast, motion reduction, font size scaling, color blindness simulation, or keyboard navigation highlights.<br />
+                4. <strong>Apply:</strong> Changes apply instantly to all page elements.<br />
+                5. <strong>Disable:</strong> Tap "Disable ADA" to revert all changes. Panel auto-hides after actions.<br />
+                <em>All features run offline in your browser for privacy and speed.</em>
+              </div>
+
               {/* Speech welcome */}
               <div style={{ marginBottom: 28 }}>
                 <SpeechWelcome />
