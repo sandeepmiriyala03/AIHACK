@@ -19,6 +19,7 @@ export default function Home() {
         {/* Demo */}
         <div style={{ marginTop: 30 }}>
           <YuktAIBox />
+          <p>npm update yuktai-js check always  vsc terminal. </p>
         </div>
 
 
