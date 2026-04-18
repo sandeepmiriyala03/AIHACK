@@ -1,2 +1,21 @@
-public/models/**/*.onnx filter=lfs diff=lfs merge=lfs -text
-*.onnx filter=lfs diff=lfs merge=lfs -text
+# Text normalization
+* text=auto
+
+# Keep common text files normalized
+*.js text
+*.ts text
+*.tsx text
+*.json text
+*.css text
+*.html text
+*.md text
+
+# Binary files (no LFS)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+
+# IMPORTANT: DO NOT track ONNX in LFS
+*.onnx binary
