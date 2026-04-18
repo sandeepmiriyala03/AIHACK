@@ -18,8 +18,6 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "AksharaTantra",
   },
-
-  // ✅ Fix deprecated warning
   other: {
     "mobile-web-app-capable": "yes",
   },
@@ -58,8 +56,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-     
+      {/* suppressHydrationWarning avoids mismatch when wrapper adds classes */}
+      <body suppressHydrationWarning>
         <YuktAIWrapper>
           {children}
 
