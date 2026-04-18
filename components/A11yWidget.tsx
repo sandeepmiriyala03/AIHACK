@@ -12,6 +12,9 @@ export interface A11yConfig {
   highContrast?: boolean;
   reduceMotion?: boolean;
   autoFix?: boolean;
+  fontSizeMultiplier?: number;
+  colorBlindMode?: 'none' | 'deuteranopia' | 'protanopia' | 'tritanopia' | 'achromatopsia';
+  keyboardHints?: boolean;
 }
 
 export interface A11yReport {
@@ -109,7 +112,41 @@ export const wcagPlugin = {
       // 6. Visual preferences — applied inline by wcagPlugin
       if (config.highContrast) h.style.filter = "contrast(1.15) brightness(1.05)";
       if (config.reduceMotion) { h.style.transition = "none"; h.style.animation = "none"; }
+      if (config.fontSizeMultiplier && config.fontSizeMultiplier !== 1) {
+        const currentSize = parseFloat(window.getComputedStyle(h).fontSize);
+        h.style.fontSize = `${currentSize * config.fontSizeMultiplier}px`;
+      }
+      if (config.colorBlindMode && config.colorBlindMode !== 'none') {
+        const filters = {
+          deuteranopia: 'url(#deuteranopia-filter)',
+          protanopia: 'url(#protanopia-filter)',
+          tritanopia: 'url(#tritanopia-filter)',
+          achromatopsia: 'grayscale(100%)'
+        };
+        h.style.filter = (h.style.filter || '') + ' ' + filters[config.colorBlindMode];
+      }
+      if (config.keyboardHints) {
+        if (h.tabIndex >= 0 || ['button', 'a', 'input', 'select', 'textarea'].includes(tag)) {
+          h.style.outline = '2px solid #007acc';
+          h.style.outlineOffset = '2px';
+        }
+      }
     });
+
+    // Apply global styles for color blindness filters
+    if (config.colorBlindMode && config.colorBlindMode !== 'none' && !document.getElementById('color-blind-filters')) {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.id = 'color-blind-filters';
+      svg.style.display = 'none';
+      svg.innerHTML = `
+        <defs>
+          <filter id="deuteranopia-filter"><feColorMatrix type="matrix" values="0.625 0.375 0 0 0 0.7 0.3 0 0 0 0 0.3 0.7 0 0 0 0 0 1 0"/></filter>
+          <filter id="protanopia-filter"><feColorMatrix type="matrix" values="0.567 0.433 0 0 0 0.558 0.442 0 0 0 0 0.242 0.758 0 0 0 0 0 1 0"/></filter>
+          <filter id="tritanopia-filter"><feColorMatrix type="matrix" values="0.95 0.05 0 0 0 0 0.433 0.567 0 0 0 0.475 0.525 0 0 0 0 0 1 0"/></filter>
+        </defs>
+      `;
+      document.body.appendChild(svg);
+    }
 
     this.ensureLiveRegion();
     return report;

@@ -14,6 +14,9 @@ export default function YuktAIWrapper() {
   const [enabled, setEnabled] = useState(false);
   const [highContrast, setHighContrast] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [fontSizeMultiplier, setFontSizeMultiplier] = useState(1.0);
+  const [colorBlindMode, setColorBlindMode] = useState<'none' | 'deuteranopia' | 'protanopia' | 'tritanopia' | 'achromatopsia'>('none');
+  const [keyboardHints, setKeyboardHints] = useState(false);
   const [message, setMessage] = useState("ADA controls are ready.");
   const [isMobile, setIsMobile] = useState(false);
   const [panelVisible, setPanelVisible] = useState(false);
@@ -41,13 +44,16 @@ export default function YuktAIWrapper() {
           autoFix: true,
           highContrast,
           reduceMotion,
+          fontSizeMultiplier,
+          colorBlindMode,
+          keyboardHints,
         });
 
         setMessage(typeof result === "string" ? result : "ADA enabled.");
         console.log("♿ WCAG executed", result);
 
         (window as any).runWCAG = () =>
-          plugin.execute({ enabled: true, autoFix: true, highContrast, reduceMotion });
+          plugin.execute({ enabled: true, autoFix: true, highContrast, reduceMotion, fontSizeMultiplier, colorBlindMode, keyboardHints });
       } catch (e) {
         console.error("WCAG load failed:", e);
         setMessage("WCAG load failed. See console.");
@@ -160,7 +166,7 @@ export default function YuktAIWrapper() {
                 High contrast
               </label>
 
-              <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, fontSize: 13, cursor: "pointer", minHeight: 44 }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8, fontSize: 13, cursor: "pointer", minHeight: 44 }}>
                 <input
                   type="checkbox"
                   checked={reduceMotion}
@@ -169,6 +175,44 @@ export default function YuktAIWrapper() {
                 />
                 <PauseRoundedIcon style={{ fontSize: 18, color: "#64748b" }} />
                 Reduce motion
+              </label>
+
+              <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8, fontSize: 13 }}>
+                Font size: {fontSizeMultiplier.toFixed(1)}x
+                <input
+                  type="range"
+                  min="0.8"
+                  max="1.5"
+                  step="0.1"
+                  value={fontSizeMultiplier}
+                  onChange={e => setFontSizeMultiplier(parseFloat(e.target.value))}
+                  style={{ flex: 1, accentColor: "#0f766e" }}
+                />
+              </label>
+
+              <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8, fontSize: 13 }}>
+                Color blindness:
+                <select
+                  value={colorBlindMode}
+                  onChange={e => setColorBlindMode(e.target.value as any)}
+                  style={{ flex: 1, padding: "4px 8px", borderRadius: 4, border: "1px solid #ccc" }}
+                >
+                  <option value="none">None</option>
+                  <option value="deuteranopia">Deuteranopia</option>
+                  <option value="protanopia">Protanopia</option>
+                  <option value="tritanopia">Tritanopia</option>
+                  <option value="achromatopsia">Achromatopsia</option>
+                </select>
+              </label>
+
+              <label style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12, fontSize: 13, cursor: "pointer", minHeight: 44 }}>
+                <input
+                  type="checkbox"
+                  checked={keyboardHints}
+                  onChange={e => setKeyboardHints(e.target.checked)}
+                  style={{ accentColor: "#0f766e", width: 18, height: 18 }}
+                />
+                Keyboard navigation hints
               </label>
             </>
           )}
