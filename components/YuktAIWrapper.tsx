@@ -23,26 +23,20 @@ export default function YuktAIWrapper({
         if (features.includes("ui.a11y.pro")) {
           console.log("✅ Accessibility enabled");
 
+          api.wcagPlugin
+            .execute({
+              enabled: true,
+              autoFix: true,
+              highContrast: false,
+              reduceMotion: false,
+            })
+            .then((report: { fixed: number; scanned: number }) => {
+              console.log(
+                `♿ yuktai-a11y: ${report.fixed} fixes across ${report.scanned} nodes`
+              );
+            });
+
           document.documentElement.classList.add("a11y-enabled");
-
-          // ✅ DOM-only detection (no id)
-          const existing = document.querySelector(
-            '[data-yukt="announcer"]'
-          );
-
-          if (!existing) {
-            const announcer = document.createElement("div");
-
-            announcer.setAttribute("data-yukt", "announcer");
-            announcer.setAttribute("aria-live", "polite");
-
-            announcer.style.cssText =
-              "position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;";
-
-            announcer.textContent = "Accessibility mode enabled";
-
-            document.body.appendChild(announcer);
-          }
         }
 
         // 🔥 OCR Enhancement Mode
@@ -58,6 +52,13 @@ export default function YuktAIWrapper({
 
     return () => {
       mounted = false;
+
+      // clean up MutationObserver when component unmounts
+      import("yuktai-js")
+        .then((mod: any) => {
+          mod?.default?.wcagPlugin?.stopObserver?.();
+        })
+        .catch(() => {});
     };
   }, []);
 

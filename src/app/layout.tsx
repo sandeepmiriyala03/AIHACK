@@ -56,7 +56,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* suppressHydrationWarning avoids mismatch when wrapper adds classes */}
+      {/*
+        suppressHydrationWarning: prevents React hydration mismatch
+        when YuktAIWrapper adds classes like "a11y-enabled" to <html>
+      */}
       <body suppressHydrationWarning>
         <YuktAIWrapper>
           {children}
