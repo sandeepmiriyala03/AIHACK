@@ -53,10 +53,11 @@ export default function YuktAIWrapper({
     return () => {
       mounted = false;
 
-      // clean up MutationObserver when component unmounts
+      // clean up all observers when component unmounts
       import("yuktai-js")
         .then((mod: any) => {
           mod?.default?.wcagPlugin?.stopObserver?.();
+          mod?.default?.wcagPlugin?.stopDrawerObserver?.();
         })
         .catch(() => {});
     };
