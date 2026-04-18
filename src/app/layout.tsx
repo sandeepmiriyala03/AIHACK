@@ -6,20 +6,24 @@ import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import NetworkStatusIndicator from "@/components/NetworkStatusIndicator";
 import { GAListenerInner } from "@/components/GAListenerInner";
+import YuktAIWrapper from "@/components/YuktAIWrapper";
 
-
-/* ---------- METADATA ---------- */
-/* ---------- METADATA ---------- */
 export const metadata: Metadata = {
   title: "AksharaTantra",
   description: "OCR for 34 languages – Sanskrit, Telugu, Indic scripts",
   manifest: "/manifest.json",
+
   appleWebApp: {
     capable: true,
-    statusBarStyle: "black-translucent", // Changed to black-translucent for a more native feel
+    statusBarStyle: "black-translucent",
     title: "AksharaTantra",
-    // startupImage: [] <-- You can add splash screens here later
   },
+
+  // ✅ Fix deprecated warning
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
+
   icons: {
     icon: [
       { url: "/favicon.png", sizes: "32x32" },
@@ -27,30 +31,26 @@ export const metadata: Metadata = {
       { url: "/icon-512.png", sizes: "512x512" },
     ],
     apple: [
-      { url: "/icon-192.png" }, // Standard apple touch icon
+      { url: "/icon-192.png" },
       { url: "/icon-512.png", sizes: "512x512" },
     ],
-    // Add other icons if needed
     other: [
       {
-        rel: 'mask-icon',
-        url: '/icon-512.png', // Ensure this matches your manifest's maskable icon
+        rel: "mask-icon",
+        url: "/icon-512.png",
       },
     ],
   },
 };
 
-/* ---------- VIEWPORT ---------- */
-// The themeColor here should ideally match your manifest.json for a seamless transition
 export const viewport: Viewport = {
-  themeColor: "#10b981", // Matching your brand green
+  themeColor: "#10b981",
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1, // Prevents accidental zooming on input focus in mobile
+  maximumScale: 1,
   userScalable: false,
 };
 
-/* ---------- ROOT LAYOUT ---------- */
 export default function RootLayout({
   children,
 }: {
@@ -59,15 +59,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {children}
+     
+        <YuktAIWrapper>
+          {children}
 
-        <NetworkStatusIndicator />
-         
-        <Footer />
-        <GoogleAnalytics gaId="G-5VRRWW655G" />
-        <Suspense fallback={null}>
-          <GAListenerInner gaId="G-5VRRWW655G" />
-        </Suspense>
+          <NetworkStatusIndicator />
+          <Footer />
+
+          <GoogleAnalytics gaId="G-5VRRWW655G" />
+
+          <Suspense fallback={null}>
+            <GAListenerInner gaId="G-5VRRWW655G" />
+          </Suspense>
+        </YuktAIWrapper>
       </body>
     </html>
   );

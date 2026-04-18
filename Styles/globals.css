@@ -1177,3 +1177,30 @@ select:focus-visible {
 
 /* ── Potti Sreeramulu ─────────────────────────────────── */
 @font-face { font-family: 'PottiSreeramulu';       src: url('/fonts/telugu/PottiSreeramulu.ttf')        format('truetype'); font-display: swap; }
+
+
+
+/* 🔥 Accessibility Mode */
+body.a11y-enabled {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Better focus visibility */
+body.a11y-enabled :focus {
+  outline: 3px solid #10b981 !important;
+  outline-offset: 2px;
+}
+
+/* Better touch targets */
+body.a11y-enabled button,
+body.a11y-enabled a {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* OCR readability */
+body.ocr-enhanced {
+  word-spacing: 2px;
+  letter-spacing: 0.02em;
+}

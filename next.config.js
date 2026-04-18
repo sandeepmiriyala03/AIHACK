@@ -183,6 +183,9 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
 
+  // ✅ ADD THIS LINE
+  transpilePackages: ["yuktai-js"],
+
   async headers() {
     return [
       {
@@ -198,7 +201,6 @@ const nextConfig = {
   },
 
   webpack: (config) => {
-
     config.resolve.alias = {
       ...config.resolve.alias,
       "onnxruntime-node": false,
