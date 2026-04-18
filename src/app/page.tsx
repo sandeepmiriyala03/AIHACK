@@ -610,12 +610,7 @@ export default function HomePage() {
                 lineHeight: 1.6,
               }}>
                 <strong>♿ Accessibility Workflow:</strong><br />
-                1. <strong>Access:</strong> Click the green accessibility button (bottom-left) to open the ADA control panel.<br />
-                2. <strong>Enable:</strong> Tap "Enable ADA" to activate WCAG fixes and visual enhancements across the site.<br />
-                3. <strong>Customize:</strong> Adjust settings like high contrast, motion reduction, font size scaling, color blindness simulation, or keyboard navigation highlights.<br />
-                4. <strong>Apply:</strong> Changes apply instantly to all page elements.<br />
-                5. <strong>Disable:</strong> Tap "Disable ADA" to revert all changes. Panel auto-hides after actions.<br />
-                <em>All features run offline in your browser for privacy and speed.</em>
+                This YuktAI feature also works from another repo by installing it as a node module. You can use the <code>package.json</code> and <code>package-lock.json</code> in your local repo to install and manage dependencies. It supports React, Angular, Next.js, and other modern frameworks, so you do not need to change core code — just import and call the module. For more details, see <a href="https://github.com/sandeepmiriyala03/yuktai" target="_blank" rel="noreferrer" style={{ color: "#0f766e", textDecoration: "underline" }}>https://github.com/sandeepmiriyala03/yuktai</a>.
               </div>
 
               {/* Speech welcome */}
