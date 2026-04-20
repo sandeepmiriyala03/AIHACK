@@ -1,25 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 1. Core React Settings
   reactStrictMode: true,
-
-  // 2. Package Transpilation
-  // Added to ensure the worker handles the custom package properly
+  
+  // 1. Core Transpilation
   transpilePackages: ["@yuktishaalaa/yuktai"],
 
-  // 3. Image Optimization
-  images: {
-    unoptimized: true,
-  },
-
-  // 4. Build Optimizations (CRITICAL FOR FIXING THE HANG)
+  // 2. Build Speed-ups (Must be at top level)
   typescript: {
-    // Prevents the "Running TypeScript" phase from timing out
     ignoreBuildErrors: true,
   },
   eslint: {
-    // Speeds up the build process significantly
     ignoreDuringBuilds: true,
+  },
+
+  // 3. Image & Headers
+  images: {
+    unoptimized: true,
   },
 
   async headers() {
@@ -29,7 +25,7 @@ const nextConfig = {
         headers: [
           {
             key: "Cross-Origin-Embedder-Policy",
-            // Changed to 'credentialless' to allow internal build requests to pass
+            // 'credentialless' is safer for internal build workers
             value: "credentialless", 
           },
           {
@@ -38,21 +34,11 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: "/wasm/:path*",
-        headers: [
-          {
-            key: "Content-Type",
-            value: "application/wasm",
-          },
-        ],
-      },
     ];
   },
 
-  experimental: {
-    allowedRevisions: ["*"], 
-  },
+  // 4. Clean Experimental (Removed invalid 'allowedRevisions')
+  experimental: {}, 
 };
 
 module.exports = nextConfig;
