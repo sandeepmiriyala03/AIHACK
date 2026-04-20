@@ -6,7 +6,8 @@ export const dynamic = 'force-dynamic';
  * Output: Copy text + Download as PNG image with Noto font per language
  */
 
-import { useState, useRef, useCallback, useEffect, ChangeEvent } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
+import type { ChangeEvent } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 import Image from "next/image";
