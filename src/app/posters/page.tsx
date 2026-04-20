@@ -1,8 +1,7 @@
 "use client";
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 import dynamicImport from "next/dynamic";
-import Head from "next/head";
 import Script from "next/script";
 import { useCallback, useReducer, useRef, useState } from "react";
 import Navbar from "@/components/Navbar";
@@ -28,7 +27,6 @@ import { getOptimalImageSize, resizeImageBeforeCrop, validateImageFile, sharePos
 import { DEFAULT_POSTER_STATE, TEMPLATE_PACK, type PosterState, type Language } from "@/types/index";
 import { POSTER_FORMATS, type FormatKey } from "@/components/PosterPreview";
 
-// ── Reducer ───────────────────────────────────────────────────────────────────
 type Action = { type:"SET"; key:string; value:unknown } | { type:"BULK"; patch:Partial<PosterState> } | { type:"RESET" };
 function reducer(s: PosterState, a: Action): PosterState {
   switch (a.type) {
@@ -41,7 +39,6 @@ function reducer(s: PosterState, a: Action): PosterState {
 type Tab = "create" | "gallery";
 const fireRefresh = () => { if (typeof window !== "undefined") window.dispatchEvent(new Event("gallery-refresh")); };
 
-// ── Font size limits ──────────────────────────────────────────────────────────
 const TITLE_MIN=10, TITLE_MAX=72, SUB_MIN=8, SUB_MAX=56, MSG_MIN=6, MSG_MAX=44;
 
 export default function AksharaChitraPage() {
@@ -60,11 +57,12 @@ export default function AksharaChitraPage() {
     (fields) => dispatch({ type:"BULK", patch: fields })
   );
 
- const { generatePoster, isGenerating } = usePosterGenerator({ 
-  previewRef: previewRef as React.RefObject<HTMLDivElement>, 
-  title: state.title, 
-  format: posterFormat 
-});
+  const { generatePoster, isGenerating } = usePosterGenerator({
+    previewRef: previewRef as React.RefObject<HTMLDivElement>,
+    title: state.title,
+    format: posterFormat
+  });
+
   const { isListening, isSupported: voiceSupported, startListening, stopListening } = useVoice({
     language: state.language,
     onTranscript: (text) => dispatch({ type:"SET", key:"message", value: state.message ? state.message + " " + text : text }),
@@ -144,12 +142,10 @@ export default function AksharaChitraPage() {
   }
   const P = ph(state.language);
 
-  // ── Section font helpers (typed for clarity) ──────────────────────────────
   const titleFont    = ((state as any).titleFont    as string) ?? "";
   const subtitleFont = ((state as any).subtitleFont as string) ?? "";
   const messageFont  = ((state as any).messageFont  as string) ?? "";
 
-  // ── Preview panel ─────────────────────────────────────────────────────────
   const PreviewPanel = (
     <div>
       <div style={{ marginBottom:10, display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
@@ -187,7 +183,6 @@ export default function AksharaChitraPage() {
     <>
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" strategy="lazyOnload" onLoad={() => setQrReady(true)} />
       <Navbar />
-      <Head><title>AksharaChitra — Multilingual Poster Maker</title></Head>
 
       <style>{`
         @media (max-width: 767px) {
@@ -204,7 +199,6 @@ export default function AksharaChitraPage() {
       `}</style>
 
       <div style={{ fontFamily:"Montserrat,sans-serif", minHeight:"100vh", background:"#f5f7fa", marginTop:70 }} suppressHydrationWarning>
-        {/* tab bar */}
         <div style={{ background:"#fff", borderBottom:"1.5px solid #eee", padding:"12px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:10 }}>
           <div style={{ display:"flex", alignItems:"center", gap:8 }}>
             <span style={{ fontSize:18, fontWeight:800, color:"#4A90E2", fontFamily:"Montserrat,sans-serif" }}>🌸 AksharaChitra</span>
@@ -225,7 +219,6 @@ export default function AksharaChitraPage() {
             <div className="pg">
               <div className="pl" style={{ display:"flex", flexDirection:"column", gap:14 }}>
 
-                {/* ── STEP 1: Format & Settings ── */}
                 <Card title="1 — Format & Settings">
                   <span style={SL}>📐 Poster Format</span>
                   <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:6 }}>
@@ -261,7 +254,6 @@ export default function AksharaChitraPage() {
                       <option value="newYearWishes">🎆 New Year Wishes</option>
                     </select>
                   </Row>
-                  {/* Global / default font */}
                   <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
                     <span style={SL}>🔤 Default Font (all sections)</span>
                     <FontPicker language={state.language} selectedFont={state.posterFont??""} placeholder="Default font for all sections…"
@@ -274,14 +266,12 @@ export default function AksharaChitraPage() {
                   </div>
                 </Card>
 
-                {/* ── STEP 2: Title ── */}
                 <Card title="2 — Title">
                   <Row label="🔖 Small Logo">
                     <input type="file" accept="image/*" onChange={e=>{ const f=e.target.files?.[0]; if(f) handleImageUpload(f,"logo"); }} style={{ fontSize:12 }} />
                   </Row>
                   <input placeholder={P.title} value={state.title} onChange={e=>set("title",e.target.value)}
                     style={{ ...IS, fontWeight:700, fontFamily:titleFont||state.posterFont||"Montserrat,sans-serif" }} />
-                  {/* ── Title font picker ── */}
                   <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
                     <span style={{ fontSize:11, color:"#888", fontWeight:600 }}>🔤 Title Font</span>
                     <FontPicker language={state.language} selectedFont={titleFont} placeholder="Same as default font…"
@@ -295,11 +285,9 @@ export default function AksharaChitraPage() {
                   </div>
                 </Card>
 
-                {/* ── STEP 3: Subtitle ── */}
                 <Card title="3 — Subtitle">
                   <input placeholder={P.subtitle} value={state.subtitle} onChange={e=>set("subtitle",e.target.value)}
                     style={{ ...IS, fontFamily:subtitleFont||state.posterFont||"Montserrat,sans-serif" }} />
-                  {/* ── Subtitle font picker ── */}
                   <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
                     <span style={{ fontSize:11, color:"#888", fontWeight:600 }}>🔤 Subtitle Font</span>
                     <FontPicker language={state.language} selectedFont={subtitleFont} placeholder="Same as default font…"
@@ -313,11 +301,9 @@ export default function AksharaChitraPage() {
                   </div>
                 </Card>
 
-                {/* ── STEP 4: Message ── */}
                 <Card title="4 — Message">
                   <textarea placeholder={P.message} value={state.message} rows={3} onChange={e=>set("message",e.target.value)}
                     style={{ ...IS, resize:"vertical", fontFamily:messageFont||state.posterFont||"Montserrat,sans-serif" }} />
-                  {/* ── Message font picker ── */}
                   <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
                     <span style={{ fontSize:11, color:"#888", fontWeight:600 }}>🔤 Message Font</span>
                     <FontPicker language={state.language} selectedFont={messageFont} placeholder="Same as default font…"
@@ -336,7 +322,6 @@ export default function AksharaChitraPage() {
                   </div>
                 </Card>
 
-                {/* ── STEP 5: Main Image ── */}
                 <Card title="5 — Main Image">
                   <p style={{ margin:0, fontSize:11, color:"#888" }}>Auto-resized to fit {fmt.w}×{fmt.h} before crop</p>
                   <input type="file" accept="image/*" onChange={e=>{ const f=e.target.files?.[0]; if(f) handleImageUpload(f,"main"); }} style={{ fontSize:12 }} />
@@ -351,7 +336,6 @@ export default function AksharaChitraPage() {
                   </label>
                 </Card>
 
-                {/* ── STEP 6: QR ── */}
                 <Card title="6 — QR Code">
                   {!qrReady && <p style={{ margin:0, fontSize:11, color:"#F59E0B" }}>⏳ Loading QR library…</p>}
                   <input placeholder="Enter URL or text for QR" value={state.qrText} onChange={e=>set("qrText",e.target.value)} style={IS} />
@@ -367,7 +351,6 @@ export default function AksharaChitraPage() {
                   </label>
                 </Card>
 
-                {/* ── STEP 7: Generate ── */}
                 <Card title="7 — Generate & Export">
                   <div style={{ display:"flex", alignItems:"center", gap:6, background:"#F0F7FF", borderRadius:8, padding:"8px 12px", fontSize:12, color:"#4A90E2", fontWeight:600 }}>
                     <span>{POSTER_FORMATS[posterFormat]?.icon}</span>
@@ -401,7 +384,6 @@ export default function AksharaChitraPage() {
   );
 }
 
-// ── Sub-components ────────────────────────────────────────────────────────────
 function Card({ title, children }: { title:string; children:React.ReactNode }) {
   return (
     <div style={{ background:"#fff", borderRadius:12, padding:"14px 16px", boxShadow:"0 2px 10px rgba(0,0,0,.06)", display:"flex", flexDirection:"column", gap:8 }}>
@@ -425,7 +407,6 @@ function Slider({ label, value, min, max, onChange }: { label:string; value:numb
   );
 }
 
-// ── Shared styles ──────────────────────────────────────────────────────────────
 const IS: React.CSSProperties = { padding:"7px 10px", borderRadius:7, border:"1.5px solid #e0e0e0", fontFamily:"Montserrat,sans-serif", fontSize:13, width:"100%", boxSizing:"border-box", background:"#fafafa" };
 const LS: React.CSSProperties = { display:"flex", flexDirection:"column", gap:4, fontFamily:"Montserrat,sans-serif", fontSize:12, color:"#555", fontWeight:600 };
 const SL: React.CSSProperties = { fontSize:12, fontWeight:600, color:"#555", fontFamily:"Montserrat,sans-serif" };

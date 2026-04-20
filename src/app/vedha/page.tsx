@@ -1,5 +1,5 @@
-export const dynamic = 'force-dynamic';
 "use client";
+export const dynamic = 'force-dynamic';
 // ============================================================
 // వేద సంకలనం — Veda Digitization Page
 // Telugu-only OCR + pitch marking + book/section/mantra mgmt

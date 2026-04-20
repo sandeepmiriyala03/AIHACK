@@ -1,5 +1,5 @@
-export const dynamic = 'force-dynamic';
 "use client";
+export const dynamic = 'force-dynamic';
 // ============================================================
 // AksharaKYC — Fixed OCR Pipeline (No Hang, PWA-Ready)
 //

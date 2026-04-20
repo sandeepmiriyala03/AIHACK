@@ -1,5 +1,5 @@
-export const dynamic = 'force-dynamic';
 "use client";
+export const dynamic = 'force-dynamic';
 
 // ============================================================
 // AksharaKosha v3 — AI-Powered Finance Tracker
