@@ -1,22 +1,24 @@
-// src/app/layout.tsx
-import type { Metadata } from "next";
-import YuktaiClient from "@/components/YuktaiClient"; // ✅ Import your new client component
-// ... other imports
+"use client";
 
-export const metadata: Metadata = {
-  title: "AksharaTantra",
-  // ... rest of your metadata
-};
+import { useState, useEffect } from "react";
+import { YuktAIWrapper } from "@yuktishaalaa/yuktai";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function YuktaiClient({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // During SSR and first render — return children plain, no wrapper
+  // This prevents React hydration mismatch error #418
+  if (!mounted) {
+    return <>{children}</>;
+  }
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>
-        <YuktaiClient>
-          {children}
-          {/* Include other global UI components inside or outside the client wrapper as needed */}
-        </YuktaiClient>
-      </body>
-    </html>
+    <YuktAIWrapper position="left">
+      {children}
+    </YuktAIWrapper>
   );
 }
