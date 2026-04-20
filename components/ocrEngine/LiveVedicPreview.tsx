@@ -8,6 +8,7 @@ export default function LiveVedicPreview({ text }: LiveVedicPreviewProps) {
   return (
     <>
       {/* Component-scoped Vedic styles */}
+      {/* @ts-ignore - 'jsx' attribute is not recognized by React 19 types but is handled by styled-jsx */}
       <style jsx>{`
         .vedic-high {
           text-decoration: overline;

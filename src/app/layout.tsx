@@ -6,13 +6,12 @@ import { Suspense } from "react";
 import Footer from "@/components/Footer";
 import NetworkStatusIndicator from "@/components/NetworkStatusIndicator";
 import { GAListenerInner } from "@/components/GAListenerInner";
-import YuktAIWrapper from "@/components/YuktAIWrapper";
+import YuktaiClient from "@/components/YuktaiClient"; 
 
 export const metadata: Metadata = {
   title: "AksharaTantra",
   description: "OCR for 34 languages – Sanskrit, Telugu, Indic scripts",
   manifest: "/manifest.json",
-
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -21,7 +20,6 @@ export const metadata: Metadata = {
   other: {
     "mobile-web-app-capable": "yes",
   },
-
   icons: {
     icon: [
       { url: "/favicon.png", sizes: "32x32" },
@@ -33,10 +31,7 @@ export const metadata: Metadata = {
       { url: "/icon-512.png", sizes: "512x512" },
     ],
     other: [
-      {
-        rel: "mask-icon",
-        url: "/icon-512.png",
-      },
+      { rel: "mask-icon", url: "/icon-512.png" },
     ],
   },
 };
@@ -57,19 +52,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        {/* ✅ Global WCAG engine (runs on every navigation via wrapper logic) */}
-        <YuktAIWrapper />
-
-        {/* ✅ Page content */}
-        {children}
-
-        {/* ✅ Global UI */}
-        <NetworkStatusIndicator />
-        <Footer />
-
-        {/* ✅ Analytics */}
+     
+        <YuktaiClient>
+          {children}
+          <NetworkStatusIndicator />
+          <Footer />
+        </YuktaiClient>
         <GoogleAnalytics gaId="G-5VRRWW655G" />
-
         <Suspense fallback={null}>
           <GAListenerInner gaId="G-5VRRWW655G" />
         </Suspense>

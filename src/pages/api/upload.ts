@@ -3,7 +3,7 @@ import multer from "multer";
 import fs from "fs/promises";
 import path from "path";
 import os from "os";
-import { processFile } from "../../lib/processFile";
+import { processFile } from "../../../lib/processFile";
 
 interface MulterFile {
   fieldname: string;

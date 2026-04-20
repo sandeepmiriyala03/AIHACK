@@ -3,17 +3,18 @@
 // @ts-expect-error next-pwa has no official types
 const withPWA = require("next-pwa")({
   dest: "public",
-
-  // ✅ Disable in dev
+  
+  // ✅ Disable in dev for faster refresh
   disable: process.env.NODE_ENV === "development",
 
   register: true,
   skipWaiting: true,
   clientsClaim: true,
 
-  // ⚠️ IMPORTANT: avoid aggressive stale caching
+  // 🚀 FIX: Set to 50MB to accommodate large ONNX and TensorFlow WASM/Model files
+  maximumFileSizeToCacheInBytes: 50 * 1024 * 1024, 
+
   runtimeCaching: [
-    // Pages (always fresh first)
     {
       urlPattern: ({ request }) => request.destination === "document",
       handler: "NetworkFirst",
@@ -25,8 +26,6 @@ const withPWA = require("next-pwa")({
         },
       },
     },
-
-    // Next static files (safe to cache)
     {
       urlPattern: /\/_next\/static\/.*/i,
       handler: "CacheFirst",
@@ -38,26 +37,7 @@ const withPWA = require("next-pwa")({
         },
       },
     },
-
-    // Next data
-    {
-      urlPattern: /\/_next\/data\/.*/i,
-      handler: "NetworkFirst",
-      options: {
-        cacheName: "next-data",
-      },
-    },
-
-    // Images
-    {
-      urlPattern: /\/_next\/image\?.*/i,
-      handler: "CacheFirst",
-      options: {
-        cacheName: "images",
-      },
-    },
   ],
-
   fallbacks: {
     document: "/offline.html",
   },
@@ -65,8 +45,12 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = {
   reactStrictMode: true,
+  
+  // 🛠️ UNBLOCK BUILD: Increases timeout to 10 mins to prevent hanging at 1/26 
+  // while heavy AI libraries are being processed in the background.
+  staticPageGenerationTimeout: 600,
 
-  transpilePackages: ["yuktai-js"],
+  transpilePackages: ["@yuktishaalaa/yuktai"],
 
   async headers() {
     return [
@@ -83,6 +67,14 @@ const nextConfig = {
   },
 
   webpack: (config) => {
+    // 🛠️ SILENCE WARNINGS: Stops ONNX/Node.js critical dependency errors
+    config.module.exprContextCritical = false;
+
+    config.ignoreWarnings = [
+      { module: /ort\.bundle\.min\.mjs$/ },
+      { module: /ort\.node\.min\.mjs$/ },
+    ];
+
     config.resolve.alias = {
       ...config.resolve.alias,
       "onnxruntime-node": false,

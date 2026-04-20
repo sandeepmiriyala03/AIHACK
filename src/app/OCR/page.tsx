@@ -1,10 +1,27 @@
 "use client";
 
+import Dynamic from "next/dynamic"; // Import dynamic
 import Navbar from "@/components/Navbar";
-import FileLanguageAnalyzer from "@/components/FileLanguageAnalyzer";
 import GoToTopButton from "@/components/GoToTopButton";
 import "@/Styles/globals.css";
 
+// 🚀 FIX: Dynamically import the AI-heavy component and disable SSR.
+// This prevents the build worker from trying to initialize AI models 
+// during the static generation phase.
+const FileLanguageAnalyzer = Dynamic(
+  () => import("@/components/FileLanguageAnalyzer"),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="flex flex-col items-center justify-center p-12 space-y-4">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+        <p className="text-gray-600 dark:text-gray-400">Initializing Intelligent OCR Engine...</p>
+      </div>
+    )
+  }
+);
+
+export const dynamic = 'force-dynamic';
 
 export default function UploadPage() {
   return (
@@ -152,7 +169,7 @@ export default function UploadPage() {
     <p>✅ 100% client-side execution</p>
   </div>
 
- 
+  
 
   <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
     This ensures complete privacy, faster response times, and a secure offline-friendly experience.
@@ -165,6 +182,7 @@ export default function UploadPage() {
           id="ocr-tool"
           className="max-w-5xl mx-auto bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700"
         >
+          {/* Using the dynamic component here */}
           <FileLanguageAnalyzer />
         </section>
       </main>
