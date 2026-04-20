@@ -60,8 +60,11 @@ export default function AksharaChitraPage() {
     (fields) => dispatch({ type:"BULK", patch: fields })
   );
 
-  const { generatePoster, isGenerating } = usePosterGenerator({ previewRef, title: state.title, format: posterFormat });
-
+ const { generatePoster, isGenerating } = usePosterGenerator({ 
+  previewRef: previewRef as React.RefObject<HTMLDivElement>, 
+  title: state.title, 
+  format: posterFormat 
+});
   const { isListening, isSupported: voiceSupported, startListening, stopListening } = useVoice({
     language: state.language,
     onTranscript: (text) => dispatch({ type:"SET", key:"message", value: state.message ? state.message + " " + text : text }),
