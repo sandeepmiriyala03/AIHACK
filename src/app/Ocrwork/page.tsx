@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 "use client";
 
 import React, { useState, useRef, useCallback, useEffect } from "react";
@@ -569,3 +570,4 @@ export default function OcrWorkPage() {
     </>
   );
 }
+

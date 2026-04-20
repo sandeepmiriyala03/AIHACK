@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 "use client";
 // ============================================================
 // వేద సంకలనం — Veda Digitization Page

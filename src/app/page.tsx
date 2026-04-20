@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
@@ -740,3 +741,4 @@ export default function HomePage() {
     </>
   );
 }
+
