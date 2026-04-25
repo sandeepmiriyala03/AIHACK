@@ -1,20 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { YuktAIWrapper } from "@yuktishaalaa/yuktai";
 
-export default function YuktaiClient({ children }: { children: React.ReactNode }) {
+export default function YuktaiClient({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // During SSR and first render — return children plain, no wrapper
-  // This prevents React hydration mismatch error #418
-  if (!mounted) {
-    return <>{children}</>;
-  }
+  if (!mounted) return <>{children}</>;
 
   return (
     <YuktAIWrapper position="left">

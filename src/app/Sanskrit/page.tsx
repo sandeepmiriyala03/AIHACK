@@ -11,6 +11,8 @@ export default function UploadPage() {
   const [showOcr, setShowOcr] = useState(true);
 
   return (
+
+    
     <>
       <Navbar />
       <main className="container px-6 md:px-12 lg:px-24 py-12">
