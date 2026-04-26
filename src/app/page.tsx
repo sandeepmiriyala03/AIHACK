@@ -611,7 +611,8 @@ export default function HomePage() {
                 lineHeight: 1.6,
               }}>
                 <strong>♿ Accessibility Workflow:</strong><br />
-                This YuktAI feature also works from another repo by installing it as a node module. You can use the <code>package.json</code> and <code>package-lock.json</code> in your local repo to install and manage dependencies. It supports React, Angular, Next.js, and other modern frameworks, so you do not need to change core code — just import and call the module. For more details, see <a href="https://github.com/sandeepmiriyala03/yuktai" target="_blank" rel="noreferrer" style={{ color: "#0f766e", textDecoration: "underline" }}>https://github.com/sandeepmiriyala03/yuktai</a>.
+                This YuktAI feature also works from another repo by installing it as a node module. You can use the <code>package.json</code> and <code>package-lock.json</code> in your local repo to install and manage dependencies. It supports React, Angular, Next.js, and other modern frameworks, so you do not need to change core code — just import and call the module. For more details, 
+              
               </div>
 
               {/* Speech welcome */}
