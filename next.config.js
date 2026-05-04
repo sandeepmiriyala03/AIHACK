@@ -10,26 +10,18 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
 
-  // Transpile yuktai plugin
   transpilePackages: ["@yuktishaalaa/yuktai"],
 
-  // Skip type checking during build
   typescript: {
     ignoreBuildErrors: true,
   },
 
-  // Images
   images: {
     unoptimized: true,
   },
 
-  // Speed up static generation
-  experimental: {
-    workerThreads: true,
-    cpus:          2,
-  },
+  allowedDevOrigins: ["192.168.1.14"],
 
-  // Security + PWA + AI headers
   async headers() {
     return [
       {
