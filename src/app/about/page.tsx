@@ -92,8 +92,7 @@ export default function About() {
             {expanded.ocr && (
               <ul className="mt-4 space-y-2 text-gray-800">
                 <li><strong>Tesseract.js:</strong> OCR engine for multi-language text recognition.</li>
-                <li><strong>pdf-poppler:</strong> Converts PDF pages to images for OCR.</li>
-                <li><strong>pdf-parse:</strong> Extracts text directly from PDFs.</li>
+                      <li><strong>pdf-parse:</strong> Extracts text directly from PDFs.</li>
                 <li><strong>mammoth:</strong> Extracts text from DOCX files.</li>
                 <li><strong>pptx2json:</strong> Parses PPTX slides.</li>
                 <li><strong>Compromise (NLP):</strong> Used for keyword extraction.</li>

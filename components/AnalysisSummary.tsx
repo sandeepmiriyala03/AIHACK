@@ -41,7 +41,7 @@ export default function AnalysisSummary({
       if (!result?.analysis?.length) return;
 
       try {
-        const { pipeline } = await import("@xenova/transformers");
+        const { pipeline } = await import("@huggingface/transformers");
 
         const embedder = await pipeline(
           "feature-extraction",

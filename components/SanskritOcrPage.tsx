@@ -306,7 +306,7 @@ export default function SanskritOcrPage() {
   const runTrOCRPrinted = async (blob: Blob): Promise<string> => {
     setActiveEngine("Xenova/trocr-base-printed — Printed Devanagari (MIT)");
 
-    const { pipeline, env } = await import("@xenova/transformers");
+    const { pipeline, env } = await import("@huggingface/transformers");
     env.allowRemoteModels = true;
     env.useBrowserCache = true;
 

@@ -478,7 +478,7 @@ export default function IndicHTRPage() {
   const runHFModel = async (file: File, lang: LangOption): Promise<string> => {
     setActiveEngine(`${lang.hfModel} (${lang.modelSize}) — ${lang.modelNote}`);
 
-    const { pipeline, env } = await import("@xenova/transformers");
+    const { pipeline, env } = await import("@huggingface/transformers");
     env.allowRemoteModels = true;
     env.useBrowserCache = true;
 
