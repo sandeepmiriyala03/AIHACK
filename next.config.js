@@ -14,17 +14,17 @@ const nextConfig = {
   experimental: {
     webpackBuildWorker: true,
   },
-  // Essential for local-first AI modules
   transpilePackages: ["@yuktishaalaa/yuktai", "llamaindex", "@huggingface/transformers"],
   typescript: { ignoreBuildErrors: true },
   images: { unoptimized: true },
 
   webpack: (config, { isServer }) => {
-    // 1. RESOLVE ALIASES (Fixed to catch both literal name and package path)
+    // 1. DYNAMIC ALIASING
+    // Instead of absolute local paths, we let the bundler handle the module resolution
+    // This prevents hardcoding /vercel/path0/ into your client-side JS
     config.resolve.alias = {
       ...config.resolve.alias,
-      "onnxruntime-web/webgpu": path.resolve(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
-      "ort.webgpu.bundle.min.mjs": path.resolve(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
+      "onnxruntime-web/webgpu": "onnxruntime-web/dist/ort.webgpu.bundle.min.mjs",
     };
 
     // 2. BROWSER FALLBACKS
@@ -45,7 +45,6 @@ const nextConfig = {
 
     // 3. SERVER-SIDE BYPASS
     if (isServer) {
-      // Prevents the Node.js build from crashing on browser-only WebGPU bundles
       config.module.rules.push({
         test: /ort\.webgpu\.bundle\.min\.mjs$/,
         loader: "null-loader",
@@ -75,7 +74,6 @@ const nextConfig = {
       })
     );
 
-    // 7. ENABLE WEB-AI EXPERIMENTS
     config.experiments = {
       ...config.experiments,
       asyncWebAssembly: true,
@@ -90,7 +88,8 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: [
-          { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
+          // Use 'require-corp' for stronger isolation required by WebGPU/SharedArrayBuffer
+          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
         ],
       },
