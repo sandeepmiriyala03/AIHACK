@@ -20,11 +20,12 @@ const nextConfig = {
 
   webpack: (config, { isServer }) => {
     // 1. DYNAMIC ALIASING
-    // Instead of absolute local paths, we let the bundler handle the module resolution
-    // This prevents hardcoding /vercel/path0/ into your client-side JS
+    // We map the literal string to the actual file path.
+    // path.join(__dirname, ...) ensures it works on Vercel's Linux containers.
     config.resolve.alias = {
       ...config.resolve.alias,
-      "onnxruntime-web/webgpu": "onnxruntime-web/dist/ort.webgpu.bundle.min.mjs",
+      "onnxruntime-web/webgpu": path.join(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
+      "ort.webgpu.bundle.min.mjs": path.join(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
     };
 
     // 2. BROWSER FALLBACKS
@@ -43,21 +44,8 @@ const nextConfig = {
       };
     }
 
-    // 3. SERVER-SIDE BYPASS
-    if (isServer) {
-      config.module.rules.push({
-        test: /ort\.webgpu\.bundle\.min\.mjs$/,
-        loader: "null-loader",
-      });
-    }
-
-    // 4. HANDLE BINARY/NODE FILES
-    config.module.rules.push({
-      test: /\.node$/,
-      use: "null-loader",
-    });
-
-    // 5. MODERN ESM RESOLUTION
+    // 3. MODERN ESM RESOLUTION
+    // This is crucial: tell Webpack how to handle the .mjs files in node_modules
     config.module.rules.push({
       test: /\.mjs$/,
       include: /node_modules/,
@@ -67,7 +55,13 @@ const nextConfig = {
       },
     });
 
-    // 6. IGNORE EXTERNAL BINARIES
+    // 4. HANDLE BINARY/NODE FILES
+    config.module.rules.push({
+      test: /\.node$/,
+      use: "null-loader",
+    });
+
+    // 5. IGNORE EXTERNAL BINARIES
     config.plugins.push(
       new (require("webpack").IgnorePlugin)({
         resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
@@ -88,7 +82,7 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: [
-          // Use 'require-corp' for stronger isolation required by WebGPU/SharedArrayBuffer
+          // 'require-corp' is mandatory for SharedArrayBuffer/WebGPU isolation
           { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
         ],
