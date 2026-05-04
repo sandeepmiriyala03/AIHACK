@@ -6,28 +6,28 @@ const withPWA = require("next-pwa")({
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === "development",
-})
+});
 
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-
   experimental: {
     webpackBuildWorker: true,
   },
-
+  // Essential for local-first AI modules
   transpilePackages: ["@yuktishaalaa/yuktai", "llamaindex", "@huggingface/transformers"],
-
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-
-  images: {
-    unoptimized: true,
-  },
+  typescript: { ignoreBuildErrors: true },
+  images: { unoptimized: true },
 
   webpack: (config, { isServer }) => {
-    // 1. Resolve fallback for browser environments
+    // 1. RESOLVE ALIASES (Fixed to catch both literal name and package path)
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "onnxruntime-web/webgpu": path.resolve(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
+      "ort.webgpu.bundle.min.mjs": path.resolve(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
+    };
+
+    // 2. BROWSER FALLBACKS
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -41,49 +41,46 @@ const nextConfig = {
         net: false,
         tls: false,
       };
-
-      // FIX: Ensure the WebGPU bundle is properly mapped and not ignored
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        "onnxruntime-web/webgpu": path.resolve(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
-      };
     }
 
-    // 2. Updated IgnorePlugin: REMOVED ort.webgpu.bundle.min.mjs from here
-    config.plugins.push(
-      new (require("webpack").IgnorePlugin)({
-        resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
-      })
-    )
-
-    // 3. Handle .node files
-    if (!isServer) {
+    // 3. SERVER-SIDE BYPASS
+    if (isServer) {
+      // Prevents the Node.js build from crashing on browser-only WebGPU bundles
       config.module.rules.push({
-        test: /\.node$/,
-        use: "null-loader",
-      })
+        test: /ort\.webgpu\.bundle\.min\.mjs$/,
+        loader: "null-loader",
+      });
     }
 
-    // 4. Treat .mjs files as ESM
+    // 4. HANDLE BINARY/NODE FILES
+    config.module.rules.push({
+      test: /\.node$/,
+      use: "null-loader",
+    });
+
+    // 5. MODERN ESM RESOLUTION
     config.module.rules.push({
       test: /\.mjs$/,
       include: /node_modules/,
       type: "javascript/auto",
+      resolve: {
+        fullySpecified: false,
+      },
     });
 
-    // 5. Enable import.meta support
-    config.module.parser = {
-      ...config.module.parser,
-      javascript: {
-        importMeta: true,
-      },
-    };
+    // 6. IGNORE EXTERNAL BINARIES
+    config.plugins.push(
+      new (require("webpack").IgnorePlugin)({
+        resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
+      })
+    );
 
+    // 7. ENABLE WEB-AI EXPERIMENTS
     config.experiments = {
       ...config.experiments,
       asyncWebAssembly: true,
       layers: true,
-    }
+    };
 
     return config;
   },
@@ -93,22 +90,12 @@ const nextConfig = {
       {
         source: "/(.*)",
         headers: [
-          {
-            key: "Cross-Origin-Embedder-Policy",
-            value: "credentialless",
-          },
-          {
-            key: "Cross-Origin-Opener-Policy",
-            value: "same-origin",
-          },
-          {
-            key: "Permissions-Policy",
-            value: "microphone=*, speaker=*",
-          },
+          { key: "Cross-Origin-Embedder-Policy", value: "credentialless" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
         ],
       },
-    ]
+    ];
   },
-}
+};
 
-module.exports = withPWA(nextConfig)
+module.exports = withPWA(nextConfig);
