@@ -1,14 +1,16 @@
 /** @type {import('next').NextConfig} */
 
 const withPWA = require("next-pwa")({
-  dest:        "public",
-  register:    true,
+  dest: "public",
+  register: true,
   skipWaiting: true,
-  disable:     process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === "development",
 })
 
 const nextConfig = {
   reactStrictMode: true,
+  // Force SWC minification which handles modern ESM syntax naturally
+  swcMinify: true,
 
   experimental: {
     webpackBuildWorker: true,
@@ -25,7 +27,7 @@ const nextConfig = {
   },
 
   webpack: (config, { isServer }) => {
-    // 1. Handle Node.js modules for the browser
+    // 1. Resolve fallback for browser environments
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -41,7 +43,7 @@ const nextConfig = {
       };
     }
 
-    // 2. Ignore specific heavy/binary assets during bundling
+    // 2. Ignore heavy/binary assets during bundling
     config.plugins.push(
       new (require("webpack").IgnorePlugin)({
         resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|ort\.webgpu\.bundle\.min\.mjs$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
@@ -52,30 +54,24 @@ const nextConfig = {
     if (!isServer) {
       config.module.rules.push({
         test: /\.node$/,
-        use:  "null-loader",
+        use: "null-loader",
       })
     }
 
-    // 4. FIX: Enable import.meta support for Transformers.js
+    // 4. Force Webpack to treat .mjs files as ESM and allow import.meta
+    config.module.rules.push({
+      test: /\.mjs$/,
+      include: /node_modules/,
+      type: "javascript/auto",
+    });
+
+    // 5. Global parser settings for import.meta support
     config.module.parser = {
       ...config.module.parser,
       javascript: {
         importMeta: true,
       },
-    }
-
-    // 5. FIX: Prevent Terser from crashing on modern ESM syntax
-    if (config.optimization && config.optimization.minimizer) {
-      config.optimization.minimizer.forEach((minimizer) => {
-        if (minimizer.options && minimizer.options.terserOptions) {
-          minimizer.options.terserOptions.module = true;
-          minimizer.options.terserOptions.format = {
-            ...minimizer.options.terserOptions.format,
-            ascii_only: true,
-          };
-        }
-      });
-    }
+    };
 
     config.experiments = {
       ...config.experiments,
@@ -92,15 +88,15 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           {
-            key:   "Cross-Origin-Embedder-Policy",
+            key: "Cross-Origin-Embedder-Policy",
             value: "credentialless",
           },
           {
-            key:   "Cross-Origin-Opener-Policy",
+            key: "Cross-Origin-Opener-Policy",
             value: "same-origin",
           },
           {
-            key:   "Permissions-Policy",
+            key: "Permissions-Policy",
             value: "microphone=*, speaker=*",
           },
         ],
