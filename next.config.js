@@ -10,7 +10,8 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
 
-  transpilePackages: ["@yuktishaalaa/yuktai"],
+  // Required for Yuktai and heavy AI packages
+  transpilePackages: ["@yuktishaalaa/yuktai", "llamaindex"],
 
   typescript: {
     ignoreBuildErrors: true,
@@ -20,23 +21,36 @@ const nextConfig = {
     unoptimized: true,
   },
 
-  allowedDevOrigins: ["192.168.1.14"],
-
   webpack: (config, { isServer }) => {
-    // Ignore native packages that cannot run in browser or Vercel
+    // 1. Handle Node.js modules that don't exist in the browser
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+        os: false,
+        crypto: false,
+        perf_hooks: false,
+        stream: false,
+      };
+    }
+
+    // 2. Ignore native/Node-specific binaries during bundling
     config.plugins.push(
       new (require("webpack").IgnorePlugin)({
-        resourceRegExp: /^pdf-poppler$|onnxruntime-node/,
+        resourceRegExp: /^pdf-poppler$|onnxruntime-node$|^sharp$/,
       })
     )
-    // Ignore .node binary files in browser bundle
+
+    // 3. Handle .node files (often used by LlamaIndex/Sharp)
     if (!isServer) {
       config.module.rules.push({
         test: /\.node$/,
         use:  "null-loader",
       })
     }
-    return config
+
+    return config;
   },
 
   async headers() {
