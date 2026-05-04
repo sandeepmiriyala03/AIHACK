@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+const path = require("path");
 
 const withPWA = require("next-pwa")({
   dest: "public",
@@ -9,7 +10,6 @@ const withPWA = require("next-pwa")({
 
 const nextConfig = {
   reactStrictMode: true,
-  // Force SWC minification which handles modern ESM syntax naturally
   swcMinify: true,
 
   experimental: {
@@ -41,12 +41,18 @@ const nextConfig = {
         net: false,
         tls: false,
       };
+
+      // FIX: Ensure the WebGPU bundle is properly mapped and not ignored
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        "onnxruntime-web/webgpu": path.resolve(__dirname, "node_modules/onnxruntime-web/dist/ort.webgpu.bundle.min.mjs"),
+      };
     }
 
-    // 2. Ignore heavy/binary assets during bundling
+    // 2. Updated IgnorePlugin: REMOVED ort.webgpu.bundle.min.mjs from here
     config.plugins.push(
       new (require("webpack").IgnorePlugin)({
-        resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|ort\.webgpu\.bundle\.min\.mjs$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
+        resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
       })
     )
 
@@ -58,14 +64,14 @@ const nextConfig = {
       })
     }
 
-    // 4. Force Webpack to treat .mjs files as ESM and allow import.meta
+    // 4. Treat .mjs files as ESM
     config.module.rules.push({
       test: /\.mjs$/,
       include: /node_modules/,
       type: "javascript/auto",
     });
 
-    // 5. Global parser settings for import.meta support
+    // 5. Enable import.meta support
     config.module.parser = {
       ...config.module.parser,
       javascript: {
