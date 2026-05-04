@@ -10,12 +10,10 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
 
-  // Fixes "Call retries were exceeded" by isolating the build worker
   experimental: {
     webpackBuildWorker: true,
   },
 
-  // Added @huggingface/transformers to this list
   transpilePackages: ["@yuktishaalaa/yuktai", "llamaindex", "@huggingface/transformers"],
 
   typescript: {
@@ -27,7 +25,7 @@ const nextConfig = {
   },
 
   webpack: (config, { isServer }) => {
-    // 1. Handle Node.js modules that don't exist in the browser
+    // 1. Handle Node.js modules for the browser
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -43,8 +41,7 @@ const nextConfig = {
       };
     }
 
-    // 2. Fix for Transformers.js / ONNX WASM errors
-    // We explicitly ignore the .wasm and .mjs files that were crashing your build
+    // 2. Ignore specific heavy/binary assets during bundling
     config.plugins.push(
       new (require("webpack").IgnorePlugin)({
         resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|ort\.webgpu\.bundle\.min\.mjs$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
@@ -59,7 +56,27 @@ const nextConfig = {
       })
     }
 
-    // 4. Specifically handle WASM files if the IgnorePlugin isn't enough
+    // 4. FIX: Enable import.meta support for Transformers.js
+    config.module.parser = {
+      ...config.module.parser,
+      javascript: {
+        importMeta: true,
+      },
+    }
+
+    // 5. FIX: Prevent Terser from crashing on modern ESM syntax
+    if (config.optimization && config.optimization.minimizer) {
+      config.optimization.minimizer.forEach((minimizer) => {
+        if (minimizer.options && minimizer.options.terserOptions) {
+          minimizer.options.terserOptions.module = true;
+          minimizer.options.terserOptions.format = {
+            ...minimizer.options.terserOptions.format,
+            ascii_only: true,
+          };
+        }
+      });
+    }
+
     config.experiments = {
       ...config.experiments,
       asyncWebAssembly: true,
