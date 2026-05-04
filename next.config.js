@@ -10,8 +10,13 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
 
-  // Required for Yuktai and heavy AI packages
-  transpilePackages: ["@yuktishaalaa/yuktai", "llamaindex"],
+  // Fixes "Call retries were exceeded" by isolating the build worker
+  experimental: {
+    webpackBuildWorker: true,
+  },
+
+  // Added @huggingface/transformers to this list
+  transpilePackages: ["@yuktishaalaa/yuktai", "llamaindex", "@huggingface/transformers"],
 
   typescript: {
     ignoreBuildErrors: true,
@@ -32,22 +37,33 @@ const nextConfig = {
         crypto: false,
         perf_hooks: false,
         stream: false,
+        dns: false,
+        net: false,
+        tls: false,
       };
     }
 
-    // 2. Ignore native/Node-specific binaries during bundling
+    // 2. Fix for Transformers.js / ONNX WASM errors
+    // We explicitly ignore the .wasm and .mjs files that were crashing your build
     config.plugins.push(
       new (require("webpack").IgnorePlugin)({
-        resourceRegExp: /^pdf-poppler$|onnxruntime-node$|^sharp$/,
+        resourceRegExp: /ort-wasm-simd-threaded\.asyncify\.wasm$|ort\.webgpu\.bundle\.min\.mjs$|^pdf-poppler$|onnxruntime-node$|^sharp$/,
       })
     )
 
-    // 3. Handle .node files (often used by LlamaIndex/Sharp)
+    // 3. Handle .node files
     if (!isServer) {
       config.module.rules.push({
         test: /\.node$/,
         use:  "null-loader",
       })
+    }
+
+    // 4. Specifically handle WASM files if the IgnorePlugin isn't enough
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+      layers: true,
     }
 
     return config;
