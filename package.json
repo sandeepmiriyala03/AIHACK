@@ -18,7 +18,7 @@
     "@mui/icons-material": "^5.18.0",
     "@mui/material": "^5.15.14",
     "@next/third-parties": "14.2.0",
-    "@yuktishaalaa/yuktai": "^3.0.16",
+    "@yuktishaalaa/yuktai": "^4.0.0",
     "compromise": "^14.14.4",
     "cropperjs": "^1.5.13",
     "docx": "^9.6.0",
