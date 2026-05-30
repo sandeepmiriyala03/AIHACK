@@ -27,7 +27,7 @@ import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded';
 import InstallMobileRoundedIcon from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon from "@mui/icons-material/IosShareRounded";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-
+import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
 const G = "#10b981"; 
 const TEXT_MAIN = "#1e293b";
 const TEXT_SUB = "#64748b";
@@ -71,6 +71,12 @@ const navGroups = [
       { href: "/voice", label: "Talking AI", icon: MicRoundedIcon }
     ],
   },
+  {
+  group: "Code",
+  items: [
+    { href: "/rupantarcode", label: "RupantarCode", icon: CodeRoundedIcon },
+  ],
+},
 ];
 
 /* PWA Logic */
