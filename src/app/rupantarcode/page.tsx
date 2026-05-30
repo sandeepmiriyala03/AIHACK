@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function RupantarCodePage() {
   return (
     <>
-      <Navbar />
+   
       <RupantarCode />
     </>
   );

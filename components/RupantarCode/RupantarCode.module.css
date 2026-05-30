@@ -147,7 +147,7 @@
 .btnGhost:hover { color: var(--text); background: var(--bg3); border-color: var(--text3); }
 
 .btnDownload { background: var(--accent2); color: #fff; }
-.btnDownload:hover { background: #9580ff; }
+.btnDownload:hover { background: #3d2ea8; }
 
 .btnTest     { background: var(--warn); color: #ffffff; }
 .btnTest:hover     { background: #8f4600; }
@@ -302,10 +302,12 @@
   line-height: 1.7;
   padding: 16px;
   overflow: auto;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
   color: var(--text);
   margin: 0;
   min-height: 100%;
+  display: block;
 }
 
 .emptyState {
@@ -490,3 +492,82 @@
 .testResults::-webkit-scrollbar-track { background: transparent; }
 .codeArea::-webkit-scrollbar-thumb,
 .testResults::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+/* ── Responsive — tablet (≤900px) ───────────────────────── */
+@media (max-width: 900px) {
+  .header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 16px;
+    gap: 10px;
+  }
+  .headerRight {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .langSelector {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .langBtn {
+    flex: 1;
+    justify-content: center;
+    min-width: 48px;
+  }
+  .convertingAnim {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ── Responsive — mobile (≤640px) ───────────────────────── */
+@media (max-width: 640px) {
+  .main {
+    flex-direction: column;
+  }
+  .divider {
+    width: 100%;
+    height: 4px;
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .divider::after { content: '···'; }
+  .panel {
+    flex: 1;
+    min-height: 0;
+  }
+  .codeInput,
+  .codeOutput {
+    font-size: 12px;
+  }
+  .scenarioBar {
+    -webkit-overflow-scrolling: touch;
+  }
+  .btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .testPanelExpanded {
+    height: 220px;
+  }
+  .statsBar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 6px 12px;
+    gap: 10px;
+  }
+  .statCredit {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 2px;
+  }
+  .logoSub {
+    display: none;
+  }
+}
