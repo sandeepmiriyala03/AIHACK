@@ -30,7 +30,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import GroupsIcon from "@mui/icons-material/Groups";
-
+import Navbar from "@/components/Navbar";
 // Dynamic production URL handler
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://yuktishaalaa-ai.vercel.app";
 
@@ -119,6 +119,9 @@ export default function Home() {
   }
 
   return (
+    <>
+      <Navbar />
+      <Box sx={{ mt: 2 }} />
     <Container maxWidth="xl" sx={{ py: 4 }}>
       {/* Header */}
       <Card sx={{ mb: 4, borderRadius: 4 }}>
@@ -299,5 +302,6 @@ export default function Home() {
         />
       </Box>
     </Container>
+    </>
   );
 }
