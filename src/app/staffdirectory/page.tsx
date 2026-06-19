@@ -7,301 +7,275 @@ import {
   Box,
   Card,
   CardContent,
-  Chip,
   Container,
-  FormControl,
-  Grid, // Note: For modern MUI v5+, consider switching to Grid2 if you use newer layouts
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Pagination,
-  Select,
+  Grid,
+  InputAdornment,
+  Skeleton,
   TextField,
-  Tooltip,
   Typography,
-  CircularProgress,
 } from "@mui/material";
-
-import PersonIcon from "@mui/icons-material/Person";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import PlatformOverview from "@/components/PlatformOverview";
+import SearchIcon from "@mui/icons-material/Search";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import CakeIcon from "@mui/icons-material/Cake";
-import BusinessIcon from "@mui/icons-material/Business";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import GroupsIcon from "@mui/icons-material/Groups";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import Navbar from "@/components/Navbar";
+
 // Dynamic production URL handler
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://yuktishaalaa-ai.vercel.app";
 
 export default function Home() {
   const [employees, setEmployees] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState("id");
-  const [page, setPage] = useState(1);
-
-  const pageSize = 10;
 
   useEffect(() => {
-    // Hits the live production API URL now!
     fetch(`${API_BASE_URL}/employee/employees`)
       .then((response) => response.json())
       .then((data) => {
         setEmployees(Array.isArray(data) ? data : []);
         setLoading(false);
       })
-      .catch((error) => {
-        console.error("Error fetching employees:", error);
+      .catch((err) => {
+        console.error("Error fetching employees:", err);
+        setError(true);
         setLoading(false);
       });
   }, []);
 
-  const filteredEmployees = useMemo(() => {
-    let data = [...employees];
-
-    data = data.filter((emp) =>
-      emp.name?.toLowerCase().includes(search.toLowerCase())
-    );
-
-    if (sortBy === "id") {
-      data.sort((a, b) => (a.id || 0) - (b.id || 0));
-    }
-
-    if (sortBy === "name") {
-      data.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
-    }
-
-    if (sortBy === "salary") {
-      data.sort((a, b) => (b.salary || 0) - (a.salary || 0));
-    }
-
-    return data;
-  }, [employees, search, sortBy]);
-
-  // Reset to page 1 if search filters out rows below current pagination depth
-  useEffect(() => {
-    setPage(1);
-  }, [search]);
-
-  const totalPages = Math.ceil(filteredEmployees.length / pageSize) || 1;
-
-  const pagedEmployees = filteredEmployees.slice(
-    (page - 1) * pageSize,
-    page * pageSize
+  // Only non-sensitive fields are surfaced: no employee ID, no department ID.
+  // A stable internal row id is still required by DataGrid, derived but never shown.
+  const rows = useMemo(
+    () =>
+      employees.map((emp, idx) => ({
+        rowId: emp.id ?? idx,
+        name: emp.name || "Unknown",
+        salary: emp.salary ?? 0,
+        age: emp.age ?? null,
+      })),
+    [employees]
   );
 
-  // Safe Math Computations (Won't crash if employees list is empty)
+  const filteredRows = useMemo(() => {
+    if (!search.trim()) return rows;
+    const q = search.toLowerCase();
+    return rows.filter((r) => r.name.toLowerCase().includes(q));
+  }, [rows, search]);
+
   const maxSalary = useMemo(() => {
-    if (employees.length === 0) return 0;
-    return Math.max(...employees.map((x) => x.salary || 0));
-  }, [employees]);
+    if (rows.length === 0) return 0;
+    return Math.max(...rows.map((r) => r.salary || 0));
+  }, [rows]);
 
   const avgAge = useMemo(() => {
-    if (employees.length === 0) return 0;
-    const totalAge = employees.reduce((a, b) => a + (b.age || 0), 0);
-    return Math.round(totalAge / employees.length);
-  }, [employees]);
+    if (rows.length === 0) return 0;
+    const totalAge = rows.reduce((a, b) => a + (b.age || 0), 0);
+    return Math.round(totalAge / rows.length);
+  }, [rows]);
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          minHeight: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
+  const columns: GridColDef[] = [
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      minWidth: 180,
+    },
+    {
+      field: "age",
+      headerName: "Age",
+      width: 110,
+      type: "number",
+      valueFormatter: (value) => (value == null ? "N/A" : `${value} yrs`),
+    },
+    {
+      field: "salary",
+      headerName: "Salary",
+      flex: 1,
+      minWidth: 160,
+      type: "number",
+      valueFormatter: (value) =>
+        value == null ? "N/A" : `₹${Number(value).toLocaleString("en-IN")}`,
+    },
+  ];
 
   return (
     <>
       <Navbar />
       <Box sx={{ mt: 2 }} />
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      {/* Header */}
-      <Card sx={{ mb: 4, borderRadius: 4 }}>
-        <CardContent>
-          <Typography variant="h4" fontWeight="bold">
-            Yuktishaalaa AI
-          </Typography>
-          <Typography color="text.secondary">
-            Employee Management Dashboard
-          </Typography>
-        </CardContent>
-      </Card>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, sm: 3, md: 4 }, px: { xs: 1.5, sm: 3 } }}>
+        <PlatformOverview />
 
-      {/* Summary Analytics Section */}
-      <Grid container spacing={3} mb={4}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card sx={{ borderRadius: 4 }}>
-            <CardContent>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Avatar sx={{ bgcolor: "primary.light" }}>
-                  <GroupsIcon />
-                </Avatar>
-                <Box>
-                  <Typography color="text.secondary">Employees</Typography>
-                  <Typography variant="h5" fontWeight="bold">
-                    {employees.length}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card sx={{ borderRadius: 4 }}>
-            <CardContent>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Avatar sx={{ bgcolor: "success.light" }}>
-                  <CurrencyRupeeIcon />
-                </Avatar>
-                <Box>
-                  <Typography color="text.secondary">Highest Salary</Typography>
-                  <Typography variant="h5" fontWeight="bold">
-                    ₹{maxSalary.toLocaleString("en-IN")}
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card sx={{ borderRadius: 4 }}>
-            <CardContent>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Avatar sx={{ bgcolor: "info.light" }}>
-                  <CakeIcon />
-                </Avatar>
-                <Box>
-                  <Typography color="text.secondary">Average Age</Typography>
-                  <Typography variant="h5" fontWeight="bold">
-                    {avgAge} Yrs
-                  </Typography>
-                </Box>
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-
-      {/* Filters Control Panel */}
-      <Card sx={{ mb: 4, borderRadius: 4 }}>
-        <CardContent>
-          <Grid container spacing={2}>
-            <Grid size={{ xs: 12, md: 8 }}>
-              <TextField
-                fullWidth
-                label="Search Employee by Name"
-                variant="outlined"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 4 }}>
-              <FormControl fullWidth>
-                <InputLabel>Sort By</InputLabel>
-                <Select
-                  value={sortBy}
-                  label="Sort By"
-                  onChange={(e) => setSortBy(e.target.value)}
-                >
-                  <MenuItem value="id">ID</MenuItem>
-                  <MenuItem value="name">Name</MenuItem>
-                  <MenuItem value="salary">Salary</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+        {/* Summary Analytics Section */}
+        <Grid container spacing={{ xs: 1.5, sm: 2, md: 3 }} mb={{ xs: 3, md: 4 }}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <SummaryCard
+              icon={<GroupsIcon />}
+              color="primary.light"
+              label="Employees"
+              value={loading ? null : rows.length}
+            />
           </Grid>
-        </CardContent>
-      </Card>
 
-      {/* Employee Grid Stream */}
-      <Grid container spacing={3}>
-        {pagedEmployees.map((emp) => (
-          <Grid key={emp.id} size={{ xs: 12, md: 6 }}>
-            <Card
-              sx={{
-                borderRadius: 4,
-                height: "100%",
-                transition: "all .3s ease",
-                "&:hover": {
-                  transform: "translateY(-4px)",
-                  boxShadow: 4,
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <SummaryCard
+              icon={<CurrencyRupeeIcon />}
+              color="success.light"
+              label="Highest Salary"
+              value={loading ? null : `₹${maxSalary.toLocaleString("en-IN")}`}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, sm: 12, md: 4 }}>
+            <SummaryCard
+              icon={<CakeIcon />}
+              color="info.light"
+              label="Average Age"
+              value={loading ? null : `${avgAge} Yrs`}
+            />
+          </Grid>
+        </Grid>
+
+        {/* Search */}
+        <Card sx={{ mb: { xs: 2, md: 3 }, borderRadius: 4 }}>
+          <CardContent sx={{ py: { xs: 2, sm: 2.5 } }}>
+            <TextField
+              fullWidth
+              size="small"
+              label="Search employee by name"
+              variant="outlined"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" color="action" />
+                    </InputAdornment>
+                  ),
                 },
               }}
-            >
-              <CardContent>
-                <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-                  <Avatar sx={{ width: 56, height: 56, bgcolor: "grey.200", color: "grey.700" }}>
-                    <PersonIcon />
-                  </Avatar>
+            />
+            {!loading && (
+              <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1.5 }}>
+                {filteredRows.length} {filteredRows.length === 1 ? "result" : "results"}
+                {search ? ` for "${search}"` : ""}
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
 
-                  <Box sx={{ flex: 1 }}>
-                    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <Typography variant="h6" fontWeight="bold">
-                        {emp.name || "Unknown"}
-                      </Typography>
-
-                      <Box>
-                        <Tooltip title="View Details">
-                          <IconButton size="small" color="primary">
-                            <VisibilityIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Edit Profile">
-                          <IconButton size="small" color="warning">
-                            <EditIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip title="Remove">
-                          <IconButton size="small" color="error">
-                            <DeleteIcon fontSize="small" />
-                          </IconButton>
-                        </Tooltip>
-                      </Box>
-                    </Box>
-
-                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1.5 }}>
-                      <Chip size="small" variant="outlined" label={`ID: ${emp.id}`} />
-                      <Chip size="small" color="success" variant="soft" icon={<CurrencyRupeeIcon />} label={`${emp.salary}`} />
-                      <Chip size="small" variant="outlined" icon={<CakeIcon />} label={`Age: ${emp.age}`} />
-                      <Chip size="small" color="info" variant="soft" icon={<BusinessIcon />} label={`Dept: ${emp.departmentid || 'N/A'}`} />
-                    </Box>
-                  </Box>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-
-        {pagedEmployees.length === 0 && (
-          <Grid size={{ xs: 12 }}>
-            <Box sx={{ textCol: "text.secondary", textAlign: "center", py: 6 }}>
-              <Typography variant="subtitle1">No employees found matching your filters.</Typography>
-            </Box>
-          </Grid>
+        {/* Error state */}
+        {!loading && error && (
+          <EmptyState
+            title="Couldn't load employee data"
+            subtitle="Check your connection and try refreshing the page."
+          />
         )}
-      </Grid>
 
-      {/* Pagination Controls */}
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-        <Pagination
-          page={page}
-          count={totalPages}
-          color="primary"
-          onChange={(_, value) => setPage(value)}
-        />
-      </Box>
-    </Container>
+        {/* Data Grid */}
+        {!error && (
+          <Card sx={{ borderRadius: 4, overflow: "hidden" }}>
+            <Box sx={{ width: "100%" }}>
+              <DataGrid
+                rows={filteredRows}
+                columns={columns}
+                getRowId={(row) => row.rowId}
+                loading={loading}
+                autoHeight
+                disableColumnMenu
+                disableRowSelectionOnClick
+                density="comfortable"
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 10, page: 0 } },
+                  sorting: { sortModel: [{ field: "name", sort: "asc" }] },
+                }}
+                pageSizeOptions={[10, 25, 50]}
+                slots={{
+                  noRowsOverlay: () => (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        py: 6,
+                      }}
+                    >
+                      <SentimentDissatisfiedIcon sx={{ fontSize: 40, color: "text.disabled", mb: 1 }} />
+                      <Typography color="text.secondary">No employees match your search</Typography>
+                    </Box>
+                  ),
+                }}
+                sx={{
+                  border: "none",
+                  fontSize: { xs: "0.8rem", sm: "0.875rem" },
+                  "& .MuiDataGrid-columnHeaders": {
+                    bgcolor: "grey.100",
+                    fontWeight: "bold",
+                  },
+                  "& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within": {
+                    outline: "none",
+                  },
+                  "& .MuiDataGrid-row:hover": {
+                    bgcolor: "action.hover",
+                  },
+                }}
+              />
+            </Box>
+          </Card>
+        )}
+      </Container>
     </>
+  );
+}
+
+function SummaryCard({
+  icon,
+  color,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  color: string;
+  label: string;
+  value: string | number | null;
+}) {
+  return (
+    <Card sx={{ borderRadius: 4, height: "100%" }}>
+      <CardContent>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Avatar sx={{ bgcolor: color, width: 44, height: 44 }}>{icon}</Avatar>
+          <Box sx={{ minWidth: 0 }}>
+            <Typography color="text.secondary" variant="body2">
+              {label}
+            </Typography>
+            {value === null ? (
+              <Skeleton variant="text" width={80} height={32} />
+            ) : (
+              <Typography variant="h5" fontWeight="bold" noWrap>
+                {value}
+              </Typography>
+            )}
+          </Box>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+}
+
+function EmptyState({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <Card sx={{ borderRadius: 4 }}>
+      <CardContent sx={{ textAlign: "center", py: { xs: 5, sm: 7 } }}>
+        <SentimentDissatisfiedIcon sx={{ fontSize: 48, color: "text.disabled", mb: 1.5 }} />
+        <Typography variant="h6" fontWeight="bold" gutterBottom>
+          {title}
+        </Typography>
+        <Typography color="text.secondary">{subtitle}</Typography>
+      </CardContent>
+    </Card>
   );
 }
