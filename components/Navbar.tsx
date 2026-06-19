@@ -28,6 +28,7 @@ import InstallMobileRoundedIcon from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon from "@mui/icons-material/IosShareRounded";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
+import GroupsIcon from "@mui/icons-material/Groups";
 const G = "#10b981"; 
 const TEXT_MAIN = "#1e293b";
 const TEXT_SUB = "#64748b";
@@ -75,6 +76,12 @@ const navGroups = [
   group: "Code",
   items: [
     { href: "/rupantarcode", label: "RupantarCode", icon: CodeRoundedIcon },
+  ],
+},
+{
+  group: "Management",
+  items: [
+    { href: "/staffdirectory", label: "Staff Directory", icon: GroupsIcon },
   ],
 },
 ];
