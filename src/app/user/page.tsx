@@ -23,8 +23,8 @@ import BugReportIcon from "@mui/icons-material/BugReport";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import Navbar from "@/components/Navbar";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://yuktishaalaa-ai.vercel.app";
-
+// Standardize absolute routing directly to your production instance
+const API_BASE_URL = "https://yuktishaalaa-ai.vercel.app";
 
 export default function UsersPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -33,14 +33,25 @@ export default function UsersPage() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
+    // Sanitized to handle the exact live production endpoint directly
     fetch(`${API_BASE_URL}/users/users`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then((data) => {
-        setUsers(Array.isArray(data) ? data : []);
+        // Double safety check: unpack standard nested results if wrapped by backend router
+        const cleanData = Array.isArray(data) 
+          ? data 
+          : (data && Array.isArray(data.users) ? data.users : []);
+          
+        setUsers(cleanData);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching users:", err);
+        console.error("Production Data Load Error:", err);
         setError(true);
         setLoading(false);
       });
@@ -151,7 +162,7 @@ export default function UsersPage() {
 
         {/* --- Error Fallback UI --- */}
         {error && (
-          <EmptyState title="Platform Service Disconnected" subtitle="Unable to establish a link with Neon PostgreSQL database backend." />
+          <EmptyState title="Platform Service Disconnected" subtitle="Unable to establish a link with database backend." />
         )}
 
         {/* --- Responsive Light Grid View --- */}
