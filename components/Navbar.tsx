@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 /* Icons */
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+
 import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
 import DocumentScannerRoundedIcon from "@mui/icons-material/DocumentScannerRounded";
 import DrawRoundedIcon from "@mui/icons-material/DrawRounded";
@@ -16,25 +16,21 @@ import MicRoundedIcon from "@mui/icons-material/MicRounded";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
 import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
 import MilitaryTechRoundedIcon from "@mui/icons-material/MilitaryTechRounded";
-import FingerprintRoundedIcon from "@mui/icons-material/FingerprintRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
-import SportsEsportsRoundedIcon from "@mui/icons-material/SportsEsportsRounded";
-import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded';
 import InstallMobileRoundedIcon from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon from "@mui/icons-material/IosShareRounded";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
 import GroupsIcon from "@mui/icons-material/Groups";
+
 const G = "#10b981"; 
-const TEXT_MAIN = "#1e293b";
-const TEXT_SUB = "#64748b";
+const TEXT_MAIN = "#0f172a"; // Clean Charcoal-Black
+const TEXT_SUB = "#64748b"; // Crisp Neutral Gray
 
 const navGroups = [
-
   {
     group: "Digitize", 
     items: [
@@ -73,17 +69,18 @@ const navGroups = [
     ],
   },
   {
-  group: "Code",
-  items: [
-    { href: "/rupantarcode", label: "RupantarCode", icon: CodeRoundedIcon },
-  ],
-},
-{
-  group: "Management",
-  items: [
-    { href: "/staffdirectory", label: "Staff Directory", icon: GroupsIcon },
-  ],
-},
+    group: "Code",
+    items: [
+      { href: "/rupantarcode", label: "RupantarCode", icon: CodeRoundedIcon },
+    ],
+  },
+  {
+    group: "Management",
+    items: [
+      { href: "/staffdirectory", label: "Staff Directory", icon: GroupsIcon },
+      { href: "/user", label: "User List", icon: ScienceRoundedIcon },
+    ],
+  },
 ];
 
 /* PWA Logic */
@@ -145,7 +142,6 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const pathname = typeof window !== "undefined" ? window.location.pathname : "";
 
   useEffect(() => {
     setMounted(true);
@@ -169,51 +165,58 @@ export default function Navbar() {
         
         .at-desktop-nav {
           position: fixed; top: 0; left: 0; width: 100%; z-index: 2000;
-          background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(16px);
-          transition: all 0.3s ease; border-bottom: 1px solid rgba(0,0,0,0.05);
+          background: #ffffff;
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+          border-bottom: 1px solid #e2e8f0;
           display: flex; justify-content: space-between; align-items: center;
-          padding: ${scrolled ? "8px 40px" : "14px 40px"};
+          padding: ${scrolled ? "12px 40px" : "18px 40px"};
+          box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
         }
 
         .at-link-main {
-          display: flex; align-items: center; gap: 4px; padding: 8px 12px;
-          color: ${TEXT_SUB}; font-family: 'Outfit', sans-serif; font-size: 13.5px;
-          font-weight: 500; text-decoration: none; border-radius: 8px; transition: 0.2s;
+          display: flex; align-items: center; gap: 4px; padding: 8px 14px;
+          color: ${TEXT_SUB}; font-family: 'Outfit', sans-serif; font-size: 14px;
+          font-weight: 500; text-decoration: none; border-radius: 8px; transition: all 0.15s ease;
         }
-        .at-link-main:hover { background: rgba(0,0,0,0.04); color: ${TEXT_MAIN}; }
+        .at-link-main:hover { background: #f1f5f9; color: ${TEXT_MAIN}; }
 
         .nav-container { position: relative; display: inline-block; }
         
         .dropdown-menu {
-          position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px);
-          min-width: 170px; background: white; border: 1px solid rgba(0,0,0,0.08); 
+          position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px);
+          min-width: 200px; background: #ffffff; border: 1px solid #e2e8f0; 
           border-radius: 12px; padding: 6px; visibility: hidden; opacity: 0;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 5000; transition: all 0.2s ease;
+          box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05); 
+          z-index: 5000; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Edge check for Studio & Labs (the last two) */
+        /* Edge check for Management & Code (the last two groups) */
         .nav-container:nth-last-child(-n+2) .dropdown-menu {
-          left: auto; right: 0; transform: translateY(10px);
+          left: auto; right: 0; transform: translateY(8px);
         }
 
         .nav-container:hover .dropdown-menu { 
-          visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); 
+          visibility: visible; opacity: 1; transform: translateX(-50%) translateY(4px); 
         }
         
         .nav-container:nth-last-child(-n+2):hover .dropdown-menu {
-          transform: translateY(0);
+          transform: translateY(4px);
         }
 
         .dropdown-item {
           display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-          color: ${TEXT_SUB}; text-decoration: none; font-size: 13px; border-radius: 8px;
+          color: ${TEXT_SUB}; text-decoration: none; font-size: 13.5px; 
+          font-family: 'Outfit', sans-serif; font-weight: 500; border-radius: 8px;
+          transition: all 0.15s ease;
         }
-        .dropdown-item:hover { background: rgba(16,185,129,0.06); color: ${G}; }
+        .dropdown-item:hover { background: #f8fafc; color: ${TEXT_MAIN}; }
+        .dropdown-item:hover .dropdown-icon { color: ${TEXT_MAIN} !important; }
 
         .at-drawer {
           position: fixed; top: 0; left: 0; bottom: 0; width: 280px;
-          background: white; z-index: 2200; transform: translateX(-100%);
-          transition: 0.3s ease; display: flex; flex-direction: column;
+          background: #ffffff; z-index: 2200; transform: translateX(-100%);
+          transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column;
+          border-right: 1px solid #e2e8f0;
         }
         .at-drawer.open { transform: translateX(0); }
       `}</style>
@@ -222,52 +225,52 @@ export default function Navbar() {
         <nav className="at-desktop-nav">
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
             <Image src="/icon-512.png" alt="Logo" width={24} height={24} />
-            <span style={{ color: TEXT_MAIN, fontWeight: 700, fontFamily: 'Outfit', fontSize: 18 }}>
+            <span style={{ color: TEXT_MAIN, fontWeight: 700, fontFamily: 'Outfit', fontSize: 19, letterSpacing: "-0.02em" }}>
               Akshara<span style={{ color: G }}>Tantra</span>
             </span>
           </Link>
 
-          <div style={{ display: "flex", gap: 4 }}>
+          <div style={{ display: "flex", gap: 2 }}>
             <Link href="/" className="at-link-main">Home</Link>
             {navGroups.map((group) => (
               <div key={group.group} className="nav-container">
                 <div className="at-link-main" style={{ cursor: "pointer" }}>
-                  {group.group} <KeyboardArrowDownRoundedIcon style={{ fontSize: 16, opacity: 0.4 }} />
+                  {group.group} <KeyboardArrowDownRoundedIcon style={{ fontSize: 16, opacity: 0.5, marginLeft: 2 }} />
                 </div>
                 <div className="dropdown-menu">
                   {group.items.map((item) => (
                     <Link key={item.href} href={item.href} className="dropdown-item">
-                      <item.icon style={{ fontSize: 18 }} /> {item.label}
+                      <item.icon className="dropdown-icon" style={{ fontSize: 18, color: "#94a3b8", transition: "color 0.15s" }} /> {item.label}
                     </Link>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-          <div /> 
+          <div style={{ width: 24 }} /> 
         </nav>
       )}
 
-      {/* Mobile view logic same as before but ensured category rendering */}
+      {/* Mobile View configuration inside clean white limits */}
       {isMobile && (
         <>
-          <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 60, zIndex: 2000, background: "white", display: "flex", alignItems: "center", padding: "0 16px", borderBottom: "1px solid #eee" }}>
-            <button onClick={() => setDrawerOpen(true)} style={{ background: "#f1f5f9", border: "none", padding: 8, borderRadius: 8 }}><MenuRoundedIcon /></button>
-            <div style={{ flex: 1, textAlign: "center", fontWeight: 700 }}>AksharaTantra</div>
+          <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 60, zIndex: 2000, background: "#ffffff", display: "flex", alignItems: "center", padding: "0 16px", borderBottom: "1px solid #e2e8f0" }}>
+            <button onClick={() => setDrawerOpen(true)} style={{ background: "#f1f5f9", border: "none", padding: 8, borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><MenuRoundedIcon sx={{ color: TEXT_MAIN }} /></button>
+            <div style={{ flex: 1, textAlign: "center", fontWeight: 700, fontFamily: "Outfit, sans-serif", fontSize: 16, color: TEXT_MAIN }}>AksharaTantra</div>
           </div>
-          {drawerOpen && <div onClick={() => setDrawerOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.1)", zIndex: 2100 }} />}
+          {drawerOpen && <div onClick={() => setDrawerOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.15)", backdropFilter: "blur(4px)", zIndex: 2100 }} />}
           <div className={`at-drawer ${drawerOpen ? "open" : ""}`}>
-             <div style={{ padding: 20, display: "flex", justifyContent: "space-between", borderBottom: "1px solid #eee" }}>
-              <span style={{ fontWeight: 700 }}>Menu</span>
-              <CloseRoundedIcon onClick={() => setDrawerOpen(false)} />
+             <div style={{ padding: 20, display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e2e8f0" }}>
+              <span style={{ fontWeight: 700, fontFamily: "Outfit, sans-serif", color: TEXT_MAIN }}>Navigation</span>
+              <CloseRoundedIcon onClick={() => setDrawerOpen(false)} style={{ cursor: "pointer", color: TEXT_SUB }} />
             </div>
-            <div style={{ overflowY: 'auto' }}>
+            <div style={{ overflowY: 'auto', paddingBottom: 20 }}>
               {navGroups.map(g => (
-                <div key={g.group} style={{ padding: "10px 0" }}>
-                  <div style={{ padding: "4px 20px", fontSize: 11, color: TEXT_SUB, fontWeight: 700, textTransform: "uppercase" }}>{g.group}</div>
+                <div key={g.group} style={{ padding: "12px 0", borderBottom: "1px solid #f1f5f9" }}>
+                  <div style={{ padding: "4px 20px", fontSize: 11, color: TEXT_SUB, fontFamily: "Outfit, sans-serif", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>{g.group}</div>
                   {g.items.map(i => (
-                    <Link key={i.href} href={i.href} onClick={() => setDrawerOpen(false)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 20px", textDecoration: "none", color: TEXT_MAIN }}>
-                      <i.icon style={{ fontSize: 20, color: G }} /> {i.label}
+                    <Link key={i.href} href={i.href} onClick={() => setDrawerOpen(false)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 20px", textDecoration: "none", color: TEXT_MAIN, fontFamily: "Outfit, sans-serif", fontSize: 14.5, fontWeight: 500 }}>
+                      <i.icon style={{ fontSize: 20, color: TEXT_SUB }} /> {i.label}
                     </Link>
                   ))}
                 </div>
