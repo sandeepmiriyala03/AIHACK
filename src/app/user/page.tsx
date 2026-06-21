@@ -33,7 +33,7 @@ export default function UsersPage() {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/users`)
+    fetch(`${API_BASE_URL}/users/users`)
       .then((response) => response.json())
       .then((data) => {
         setUsers(Array.isArray(data) ? data : []);
