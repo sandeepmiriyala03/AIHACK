@@ -24,6 +24,7 @@ import InstallMobileRoundedIcon from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon from "@mui/icons-material/IosShareRounded";
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
 import GroupsIcon from "@mui/icons-material/Groups";
+import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 
 // Icons
 import SportsEsportsRoundedIcon from '@mui/icons-material/SportsEsportsRounded'; 
@@ -82,6 +83,12 @@ const navGroups = [
       { href: "/user", label: "User List", icon: AccountCircleRoundedIcon }, 
     ],
   },
+  {
+    group: "Yuktai Framework", /* 🌟 Created a brand new Module Group for Yuktai */
+    items: [
+      { href: "/yuktai", label: "About Yuktai", icon: InfoRoundedIcon },
+    ],
+  },
 ];
 
 /* PWA Logic */
@@ -138,7 +145,11 @@ function InstallFab() {
   );
 }
 
-export default function Navbar() {
+interface NavbarProps {
+  brand?: string;
+}
+
+export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -198,7 +209,7 @@ export default function Navbar() {
 
         .at-menu-wrapper {
           display: flex;
-          gap: 2px; /* 📉 Reduced gap between items from 8px to 2px */
+          gap: 2px;
           flex-wrap: nowrap; 
           justify-content: flex-end;
           flex: 1;
@@ -207,7 +218,7 @@ export default function Navbar() {
 
         .at-link-main {
           display: flex; align-items: center; gap: 1px; 
-          padding: 6px 6px; /* 📉 Reduced inner padding from 12px to 6px */
+          padding: 6px 6px; 
           color: ${TEXT_SUB}; font-family: 'Outfit', sans-serif; font-size: 13.5px;
           font-weight: 500; text-decoration: none; border-radius: 6px; transition: all 0.15s ease;
           white-space: nowrap;
@@ -230,7 +241,6 @@ export default function Navbar() {
           display: block;
         }
         
-        /* Dropdown Edge Correction */
         .nav-container:nth-last-child(-n+2) .dropdown-menu {
           left: auto; right: 0; transform: translateY(8px);
         }
@@ -259,7 +269,13 @@ export default function Navbar() {
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', flexShrink: 0 }} onClick={() => setActiveDropdown(null)}>
             <Image src="/icon-512.png" alt="Logo" width={22} height={22} />
             <span style={{ color: TEXT_MAIN, fontWeight: 700, fontFamily: 'Outfit', fontSize: 18, letterSpacing: "-0.02em" }}>
-              Akshara<span style={{ color: G }}>Tantra</span>
+              {brand === "AksharaTantra" ? (
+                <>
+                  Akshara<span style={{ color: G }}>Tantra</span>
+                </>
+              ) : (
+                brand
+              )}
             </span>
           </Link>
 
