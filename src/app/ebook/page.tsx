@@ -454,11 +454,12 @@ export default function VoiceForParents() {
 
           {/* ── HERO ── */}
           <div className="hero">
-            <div className="hero-icon">VaniSetu </div>
+            <div className="hero-icon">🤟 VaniSetu</div>
             <h1 className="hero-title">Give Your Child<br /><em>Your Voice</em></h1>
             <p className="hero-sub">
-              For parents who are deaf or mute — type or upload what you want to say,
-              and we turn it into a voice your child can hear. 
+              Dedicated to special web accessibility and inclusive communication. 
+              Type or upload what you want to say, and we turn it into a voice 
+              your child can hear anytime — even offline.
             </p>
           </div>
 
