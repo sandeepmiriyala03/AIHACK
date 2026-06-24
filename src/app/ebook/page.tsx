@@ -3,783 +3,736 @@ export const dynamic = "force-dynamic";
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Navbar from "@/components/Navbar";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
-type VoiceType = "female" | "male" | "story" | "news";
-type Step = "upload" | "voice" | "generating" | "done";
+type Step = "home" | "voice" | "generating" | "done";
 
 interface LangConfig {
   label: string;
   flag: string;
   googleTTSCode: string;
-  sampleText: string;
-  voiceId: string | null;
+  nativeName: string;
 }
 
 // ─── Languages ────────────────────────────────────────────────────────────────
 const LANGUAGES: Record<string, LangConfig> = {
-  eng: { label: "English",    flag: "🌍", googleTTSCode: "en", voiceId: "en_US-hfc_female-medium", sampleText: "Hello! This is a sample." },
-  hin: { label: "Hindi",      flag: "🇮🇳", googleTTSCode: "hi", voiceId: null, sampleText: "नमस्ते! यह एक नमूना है।" },
-  tam: { label: "Tamil",      flag: "🌸", googleTTSCode: "ta", voiceId: null, sampleText: "வணக்கம்! இது ஒரு மாதிரி." },
-  tel: { label: "Telugu",     flag: "🌺", googleTTSCode: "te", voiceId: null, sampleText: "నమస్కారం! ఇది ఒక నమూనా." },
-  ben: { label: "Bengali",    flag: "🐯", googleTTSCode: "bn", voiceId: null, sampleText: "নমস্কার! এটি একটি নমুনা।" },
-  mar: { label: "Marathi",    flag: "🏔️", googleTTSCode: "mr", voiceId: null, sampleText: "नमस्कार! हे एक नमुना आहे." },
-  guj: { label: "Gujarati",   flag: "🦁", googleTTSCode: "gu", voiceId: null, sampleText: "નમસ્તે! આ એક નમૂનો છે." },
-  kan: { label: "Kannada",    flag: "🐘", googleTTSCode: "kn", voiceId: null, sampleText: "ನಮಸ್ಕಾರ! ಇದು ಒಂದು ಮಾದರಿ." },
-  mal: { label: "Malayalam",  flag: "🌴", googleTTSCode: "ml", voiceId: null, sampleText: "നമസ്കാരം! ഇത് ഒരു സാമ്പിൾ." },
-  pan: { label: "Punjabi",    flag: "🪯", googleTTSCode: "pa", voiceId: null, sampleText: "ਸਤ ਸ੍ਰੀ ਅਕਾਲ! ਇਹ ਇੱਕ ਨਮੂਨਾ ਹੈ." },
-  urd: { label: "Urdu",       flag: "🌙", googleTTSCode: "ur", voiceId: null, sampleText: "السلام علیکم! یہ ایک نمونہ ہے." },
-  nep: { label: "Nepali",     flag: "🏔️", googleTTSCode: "ne", voiceId: null, sampleText: "नमस्ते! यो एउटा नमूना हो।" },
-  ori: { label: "Odia",       flag: "🪷", googleTTSCode: "or", voiceId: null, sampleText: "ନମସ୍କାର! ଏହା ଏକ ନମୁନା।" },
-  san: { label: "Sanskrit",   flag: "🕉️", googleTTSCode: "sa", voiceId: null, sampleText: "नमस्ते! इदं एकं नमूनाम्।" },
-  fra: { label: "French",     flag: "🇫🇷", googleTTSCode: "fr", voiceId: "fr_FR-upmc-medium", sampleText: "Bonjour! C'est un exemple." },
-  deu: { label: "German",     flag: "🇩🇪", googleTTSCode: "de", voiceId: "de_DE-eva_k-x_low", sampleText: "Hallo! Dies ist ein Beispiel." },
-  spa: { label: "Spanish",    flag: "🇪🇸", googleTTSCode: "es", voiceId: "es_ES-sharvard-medium", sampleText: "Hola! Este es un ejemplo." },
-  jpn: { label: "Japanese",   flag: "🇯🇵", googleTTSCode: "ja", voiceId: "ja_JP-kenichi-medium", sampleText: "こんにちは！サンプルです。" },
-  kor: { label: "Korean",     flag: "🇰🇷", googleTTSCode: "ko", voiceId: "ko_KR-dawn-x_low", sampleText: "안녕하세요! 샘플입니다." },
-  ara: { label: "Arabic",     flag: "🇸🇦", googleTTSCode: "ar", voiceId: null, sampleText: "مرحباً! هذا مثال." },
-  rus: { label: "Russian",    flag: "🇷🇺", googleTTSCode: "ru", voiceId: "ru_RU-irina-medium", sampleText: "Привет! Это образец." },
-  por: { label: "Portuguese", flag: "🇵🇹", googleTTSCode: "pt", voiceId: "pt_PT-tugao-medium", sampleText: "Olá! Este é um exemplo." },
-  ita: { label: "Italian",    flag: "🇮🇹", googleTTSCode: "it", voiceId: "it_IT-riccardo-x_low", sampleText: "Ciao! Questo è un esempio." },
+  eng: { label: "English",    flag: "🌍", googleTTSCode: "en", nativeName: "English" },
+  hin: { label: "Hindi",      flag: "🇮🇳", googleTTSCode: "hi", nativeName: "हिन्दी" },
+  tel: { label: "Telugu",     flag: "🌺", googleTTSCode: "te", nativeName: "తెలుగు" },
+  tam: { label: "Tamil",      flag: "🌸", googleTTSCode: "ta", nativeName: "தமிழ்" },
+  ben: { label: "Bengali",    flag: "🐯", googleTTSCode: "bn", nativeName: "বাংলা" },
+  mar: { label: "Marathi",    flag: "🏔️", googleTTSCode: "mr", nativeName: "मराठी" },
+  guj: { label: "Gujarati",   flag: "🦁", googleTTSCode: "gu", nativeName: "ગુજરાતી" },
+  kan: { label: "Kannada",    flag: "🐘", googleTTSCode: "kn", nativeName: "ಕನ್ನಡ" },
+  mal: { label: "Malayalam",  flag: "🌴", googleTTSCode: "ml", nativeName: "മലയാളം" },
+  pan: { label: "Punjabi",    flag: "🪯", googleTTSCode: "pa", nativeName: "ਪੰਜਾਬੀ" },
+  urd: { label: "Urdu",       flag: "🌙", googleTTSCode: "ur", nativeName: "اردو" },
+  fra: { label: "French",     flag: "🇫🇷", googleTTSCode: "fr", nativeName: "Français" },
+  deu: { label: "German",     flag: "🇩🇪", googleTTSCode: "de", nativeName: "Deutsch" },
+  spa: { label: "Spanish",    flag: "🇪🇸", googleTTSCode: "es", nativeName: "Español" },
+  ara: { label: "Arabic",     flag: "🇸🇦", googleTTSCode: "ar", nativeName: "العربية" },
+  rus: { label: "Russian",    flag: "🇷🇺", googleTTSCode: "ru", nativeName: "Русский" },
+  por: { label: "Portuguese", flag: "🇵🇹", googleTTSCode: "pt", nativeName: "Português" },
+  jpn: { label: "Japanese",   flag: "🇯🇵", googleTTSCode: "ja", nativeName: "日本語" },
+  kor: { label: "Korean",     flag: "🇰🇷", googleTTSCode: "ko", nativeName: "한국어" },
 };
 
-const INDIC_CODES = ["hin","tam","tel","ben","mar","guj","kan","mal","pan","urd","nep","ori","san"];
-
-const VOICES: { id: VoiceType; icon: string; label: string; desc: string }[] = [
-  { id: "female", icon: "👩", label: "Female",     desc: "Warm & clear" },
-  { id: "male",   icon: "👨", label: "Male",       desc: "Deep & steady" },
-  { id: "story",  icon: "📖", label: "Storyteller",desc: "Expressive" },
-  { id: "news",   icon: "📰", label: "Newsreader", desc: "Professional" },
+const VOICE_OPTIONS = [
+  { id: "female", emoji: "👩", label: "Mummy Voice",  hint: "Warm & gentle" },
+  { id: "male",   emoji: "👨", label: "Daddy Voice",  hint: "Deep & caring" },
+  { id: "story",  emoji: "🧒", label: "Child Voice",  hint: "Soft & playful" },
+  { id: "news",   emoji: "👴", label: "Elder Voice",  hint: "Calm & clear" },
 ];
 
-// ─── PDF Validator ────────────────────────────────────────────────────────────
-async function validatePDF(file: File): Promise<{ ok: boolean; text: string; error?: string; pageCount?: number }> {
-  const buffer = await file.arrayBuffer();
-  const bytes = new Uint8Array(buffer);
-  const str = new TextDecoder("latin1").decode(bytes);
+// ─── File reader — supports TXT, PDF, DOCX, RTF ──────────────────────────────
+async function extractTextFromFile(file: File): Promise<{ ok: boolean; text: string; error?: string }> {
+  const name = file.name.toLowerCase();
+  const type = file.type;
 
-  // Check PDF header
-  if (!str.startsWith("%PDF")) {
-    return { ok: false, text: "", error: "File is not a valid PDF." };
+  // ── Plain text ──
+  if (type === "text/plain" || name.endsWith(".txt")) {
+    const text = await file.text();
+    if (!text.trim()) return { ok: false, text: "", error: "The text file appears to be empty." };
+    return { ok: true, text: text.trim() };
   }
 
-  // Detect image-only PDF (scanned) — check for image XObjects
-  const hasImageXObject = /\/XObject[\s\S]{0,200}\/Image/i.test(str) ||
-    /\/Subtype\s*\/Image/i.test(str);
-  const hasText = /\/Font/i.test(str) || /BT[\s\S]{0,500}ET/i.test(str);
-
-  // If images found but no text fonts → image-only / scanned PDF
-  if (hasImageXObject && !hasText) {
-    return {
-      ok: false, text: "",
-      error: "This PDF contains only images (scanned document). Please upload a text-based PDF so we can extract the content."
-    };
+  // ── RTF — strip RTF control codes ──
+  if (name.endsWith(".rtf")) {
+    const raw = await file.text();
+    const text = raw
+      .replace(/\{\\[^}]*\}/g, "")          // remove groups
+      .replace(/\\[a-z]+\d*\s?/g, "")       // remove control words
+      .replace(/[{}\\]/g, "")               // remove remaining braces/backslash
+      .replace(/\s+/g, " ")
+      .trim();
+    if (text.length < 5) return { ok: false, text: "", error: "Could not read the RTF file. Please try saving it as a .txt file." };
+    return { ok: true, text };
   }
 
-  // If images found alongside text — also block (as per requirement)
-  if (hasImageXObject) {
-    return {
-      ok: false, text: "",
-      error: "This PDF contains embedded images. Please upload a text-only PDF without any images or diagrams."
-    };
-  }
-
-  // Extract text from PDF using simple stream parsing
-  const extracted = extractTextFromPDF(str);
-  if (!extracted || extracted.trim().length < 20) {
-    return { ok: false, text: "", error: "Could not extract readable text from this PDF. Make sure it is a text-based PDF, not a scanned image." };
-  }
-
-  // Count pages
-  const pageMatches = str.match(/\/Type\s*\/Page[^s]/g);
-  const pageCount = pageMatches ? pageMatches.length : 1;
-
-  return { ok: true, text: extracted.trim(), pageCount };
-}
-
-function extractTextFromPDF(str: string): string {
-  let result = "";
-  // Extract text between BT ... ET (text blocks)
-  const btEt = str.matchAll(/BT([\s\S]{1,2000}?)ET/g);
-  for (const match of btEt) {
-    const block = match[1];
-    // Extract strings in () or <>
-    const strings = block.matchAll(/\(([^)]{1,300})\)/g);
-    for (const s of strings) {
-      result += s[1].replace(/\\n/g, "\n").replace(/\\r/g, "").replace(/\\\(/g, "(").replace(/\\\)/g, ")") + " ";
-    }
-    // Hex strings
-    const hex = block.matchAll(/<([0-9a-fA-F]{2,300})>/g);
-    for (const h of hex) {
-      const hexStr = h[1];
-      let decoded = "";
-      for (let i = 0; i < hexStr.length; i += 2) {
-        const code = parseInt(hexStr.slice(i, i + 2), 16);
-        if (code > 31 && code < 127) decoded += String.fromCharCode(code);
-      }
-      if (decoded.length > 1) result += decoded + " ";
-    }
-  }
-  // Clean up
-  return result.replace(/\s+/g, " ").replace(/[^\x20-\x7E\u0080-\uFFFF]/g, "").trim();
-}
-
-// ─── TTS Call ─────────────────────────────────────────────────────────────────
-async function generateAudio(text: string, langCode: string, voice: VoiceType): Promise<Blob> {
-  const lang = LANGUAGES[langCode];
-  const isIndic = INDIC_CODES.includes(langCode);
-
-  // Try vits-web for langs with voiceId
-  if (lang.voiceId && !isIndic) {
+  // ── DOCX — unzip and extract word/document.xml ──
+  if (name.endsWith(".docx") || type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
     try {
-      const tts = await import("@diffusionstudio/vits-web");
-      const wavBlob: Blob = await tts.predict({ text: text.slice(0, 1000), voiceId: lang.voiceId as any });
-      return wavBlob;
-    } catch {}
-  }
-
-  // Indic → /api/indic-tts
-  if (isIndic) {
-    const res = await fetch(`/api/indic-tts?text=${encodeURIComponent(text.slice(0, 1000))}&lang=${lang.googleTTSCode}&voice=${voice}`);
-    if (res.ok) {
-      const data = await res.json();
-      const base64 = data.pipelineResponse?.[0]?.audio?.[0]?.audioContent;
-      if (base64) {
-        const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-        return new Blob([bytes], { type: "audio/mpeg" });
-      }
+      // @ts-ignore
+      if (!window.JSZip) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js");
+      // @ts-ignore
+      const zip = await window.JSZip.loadAsync(await file.arrayBuffer());
+      const xmlFile = zip.file("word/document.xml");
+      if (!xmlFile) return { ok: false, text: "", error: "Could not read the Word file. Please try saving as .txt." };
+      const xml = await xmlFile.async("string");
+      // Extract text between <w:t> tags
+      const matches = [...xml.matchAll(/<w:t[^>]*>([^<]*)<\/w:t>/g)];
+      const text = matches.map(m => m[1]).join(" ").replace(/\s+/g, " ").trim();
+      if (text.length < 5) return { ok: false, text: "", error: "The Word file seems empty. Please type your message and try again." };
+      return { ok: true, text };
+    } catch {
+      return { ok: false, text: "", error: "Could not open the Word file. Please save as .txt and try again." };
     }
   }
 
-  // Fallback → /api/tts proxy
-  const res = await fetch(`/api/tts?text=${encodeURIComponent(text.slice(0, 1000))}&lang=${lang.googleTTSCode}`);
-  if (!res.ok) throw new Error("Audio generation failed. Please try again.");
-  const buf = await res.arrayBuffer();
-  return new Blob([buf], { type: "audio/mpeg" });
+  // ── PDF — use pdf.js ──
+  if (type === "application/pdf" || name.endsWith(".pdf")) {
+    try {
+      // @ts-ignore
+      if (!window.pdfjsLib) {
+        await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+        // @ts-ignore
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+          "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+      }
+      // @ts-ignore
+      const pdf = await window.pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
+      let text = "";
+      for (let p = 1; p <= Math.min(pdf.numPages, 50); p++) {
+        const page = await pdf.getPage(p);
+        const content = await page.getTextContent();
+        // @ts-ignore
+        text += content.items.map((i: any) => i.str).join(" ") + "\n";
+      }
+      const trimmed = text.trim();
+      if (trimmed.length < 20) return { ok: false, text: "", error: "This PDF has no readable text (it may be a scanned image). Please type your message directly in the text box instead." };
+      return { ok: true, text: trimmed };
+    } catch (e: any) {
+      return { ok: false, text: "", error: `Could not read PDF: ${e?.message ?? "unknown error"}` };
+    }
+  }
+
+  return { ok: false, text: "", error: "File type not supported. Please upload a .txt, .docx, .pdf, or .rtf file — or just type your message below." };
 }
 
-// ─── Chapter splitter ─────────────────────────────────────────────────────────
-function splitChapters(text: string): { title: string; content: string }[] {
-  // Try to detect chapters
-  const chapterPattern = /(?:^|\n)((?:chapter|ch\.?|part|section|अध्याय|अध्‍याय)\s*[\d\w]+[^\n]*)/gi;
-  const matches = [...text.matchAll(chapterPattern)];
+function loadScript(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error(`Could not load: ${src}`));
+    document.head.appendChild(s);
+  });
+}
 
-  if (matches.length >= 2) {
-    const chapters: { title: string; content: string }[] = [];
-    for (let i = 0; i < matches.length; i++) {
-      const start = (matches[i].index ?? 0) + matches[i][0].length;
-      const end = i + 1 < matches.length ? (matches[i + 1].index ?? text.length) : text.length;
-      const content = text.slice(start, end).trim();
-      if (content.length > 50) {
-        chapters.push({ title: matches[i][1].trim(), content });
-      }
-    }
-    if (chapters.length > 0) return chapters;
-  }
+// ─── TTS ─────────────────────────────────────────────────────────────────────
+async function speakText(text: string, langCode: string): Promise<Blob> {
+  const lang = LANGUAGES[langCode];
+  const res = await fetch(
+    `/api/tts?text=${encodeURIComponent(text.slice(0, 1000))}&lang=${lang.googleTTSCode}`
+  );
+  if (!res.ok) throw new Error("Audio generation failed. Please try again.");
+  return new Blob([await res.arrayBuffer()], { type: "audio/mpeg" });
+}
 
-  // No chapters found — split by ~2000 chars at paragraph boundaries
-  const paragraphs = text.split(/\n{2,}/);
-  const chunks: { title: string; content: string }[] = [];
+function splitIntoChunks(text: string): string[] {
+  // Split at sentence boundaries, max ~800 chars each
+  const sentences = text.match(/[^.!?।\n]+[.!?।\n]*/g) ?? [text];
+  const chunks: string[] = [];
   let current = "";
-  let chNum = 1;
-  for (const para of paragraphs) {
-    if ((current + para).length > 2000 && current.length > 200) {
-      chunks.push({ title: `Part ${chNum}`, content: current.trim() });
-      chNum++;
-      current = para + "\n\n";
+  for (const s of sentences) {
+    if ((current + s).length > 800 && current.length > 50) {
+      chunks.push(current.trim());
+      current = s;
     } else {
-      current += para + "\n\n";
+      current += s;
     }
   }
-  if (current.trim()) chunks.push({ title: `Part ${chNum}`, content: current.trim() });
-  return chunks.length > 0 ? chunks : [{ title: "Full Text", content: text }];
+  if (current.trim()) chunks.push(current.trim());
+  return chunks.length ? chunks : [text];
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
-export default function AudioBookConverter() {
-  const [step, setStep] = useState<Step>("upload");
-  const [langSearch, setLangSearch] = useState("");
+export default function VoiceForParents() {
+  const [step, setStep] = useState<Step>("home");
+  const [inputText, setInputText] = useState("");
   const [selectedLang, setSelectedLang] = useState("eng");
-  const [selectedVoice, setSelectedVoice] = useState<VoiceType>("female");
-  const [pdfText, setPdfText] = useState("");
-  const [pdfName, setPdfName] = useState("");
-  const [pageCount, setPageCount] = useState(0);
+  const [selectedVoice, setSelectedVoice] = useState("female");
+  const [fileName, setFileName] = useState("");
   const [error, setError] = useState("");
-  const [validating, setValidating] = useState(false);
-  const [chapters, setChapters] = useState<{ title: string; content: string }[]>([]);
-  const [progress, setProgress] = useState<{ current: number; total: number; label: string }>({ current: 0, total: 0, label: "" });
-  const [audioFiles, setAudioFiles] = useState<{ title: string; url: string; ext: string }[]>([]);
+  const [fileLoading, setFileLoading] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [audioUrl, setAudioUrl] = useState("");
   const [isDragging, setIsDragging] = useState(false);
+  const [langSearch, setLangSearch] = useState("");
+  const [showAllLangs, setShowAllLangs] = useState(false);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const audioUrlsRef = useRef<string[]>([]);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<string>("");
 
-  useEffect(() => {
-    return () => { audioUrlsRef.current.forEach(u => URL.revokeObjectURL(u)); };
-  }, []);
-
-  const filteredLangs = Object.entries(LANGUAGES).filter(([, l]) =>
-    l.label.toLowerCase().includes(langSearch.toLowerCase())
-  ).sort(([, a], [, b]) => a.label.localeCompare(b.label));
+  useEffect(() => () => { if (audioRef.current) URL.revokeObjectURL(audioRef.current); }, []);
 
   const handleFile = useCallback(async (file: File) => {
     setError("");
-    if (file.type !== "application/pdf" && !file.name.endsWith(".pdf")) {
-      setError("Please upload a PDF file only (.pdf)");
-      return;
-    }
-    if (file.size > 20 * 1024 * 1024) {
-      setError("PDF is too large. Please upload a file under 20MB.");
-      return;
-    }
-    setValidating(true);
-    const result = await validatePDF(file);
-    setValidating(false);
+    setFileLoading(true);
+    setFileName(file.name);
+    const result = await extractTextFromFile(file);
+    setFileLoading(false);
     if (!result.ok) {
-      setError(result.error || "Invalid PDF.");
+      setError(result.error || "Could not read file.");
+      setFileName("");
       return;
     }
-    setPdfText(result.text);
-    setPdfName(file.name.replace(".pdf", ""));
-    setPageCount(result.pageCount || 1);
-    setStep("voice");
+    setInputText(result.text);
   }, []);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
+    const f = e.dataTransfer.files[0];
+    if (f) handleFile(f);
   }, [handleFile]);
 
-  const startGeneration = async () => {
-    const chs = splitChapters(pdfText);
-    setChapters(chs);
+  const handleGenerate = async () => {
+    if (!inputText.trim()) { setError("Please type or upload your message first."); return; }
+    setError("");
     setStep("generating");
-    setProgress({ current: 0, total: chs.length, label: "Starting…" });
-    const results: { title: string; url: string; ext: string }[] = [];
-
-    for (let i = 0; i < chs.length; i++) {
-      setProgress({ current: i + 1, total: chs.length, label: `Generating "${chs[i].title}"…` });
+    setProgress(0);
+    const chunks = splitIntoChunks(inputText.trim());
+    const blobs: Blob[] = [];
+    for (let i = 0; i < chunks.length; i++) {
       try {
-        const blob = await generateAudio(chs[i].content, selectedLang, selectedVoice);
-        const url = URL.createObjectURL(blob);
-        audioUrlsRef.current.push(url);
-        const ext = blob.type.includes("mpeg") ? "mp3" : "wav";
-        results.push({ title: chs[i].title, url, ext });
-      } catch (e: any) {
-        results.push({ title: chs[i].title, url: "", ext: "mp3" });
-      }
+        const blob = await speakText(chunks[i], selectedLang);
+        blobs.push(blob);
+      } catch {}
+      setProgress(Math.round(((i + 1) / chunks.length) * 100));
     }
-    setAudioFiles(results);
+    // Merge blobs
+    const merged = new Blob(blobs, { type: "audio/mpeg" });
+    if (audioRef.current) URL.revokeObjectURL(audioRef.current);
+    const url = URL.createObjectURL(merged);
+    audioRef.current = url;
+    setAudioUrl(url);
     setStep("done");
   };
 
-  const downloadAll = () => {
-    audioFiles.forEach((f, i) => {
-      if (!f.url) return;
-      setTimeout(() => {
-        const a = document.createElement("a");
-        a.href = f.url;
-        a.download = `${pdfName}_${String(i + 1).padStart(2, "0")}_${f.title.replace(/\s+/g, "_")}.${f.ext}`;
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
-      }, i * 400);
-    });
-  };
+  const filteredLangs = Object.entries(LANGUAGES).filter(([, l]) =>
+    l.label.toLowerCase().includes(langSearch.toLowerCase()) ||
+    l.nativeName.toLowerCase().includes(langSearch.toLowerCase())
+  );
+  const displayedLangs = showAllLangs ? filteredLangs : filteredLangs.slice(0, 8);
+
+  const charCount = inputText.length;
+  const wordCount = inputText.trim() ? inputText.trim().split(/\s+/).length : 0;
+  const L = LANGUAGES[selectedLang];
 
   const reset = () => {
-    audioUrlsRef.current.forEach(u => URL.revokeObjectURL(u));
-    audioUrlsRef.current = [];
-    setStep("upload"); setError(""); setPdfText(""); setPdfName(""); setPageCount(0);
-    setChapters([]); setAudioFiles([]); setLangSearch(""); setProgress({ current: 0, total: 0, label: "" });
+    setStep("home");
+    setInputText("");
+    setFileName("");
+    setError("");
+    setAudioUrl("");
+    setProgress(0);
+    setLangSearch("");
+    setShowAllLangs(false);
   };
-
-  const L = LANGUAGES[selectedLang];
-  const progressPct = progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0;
 
   return (
     <>
-        <Navbar />
+      <Navbar />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-          --ink: #0F172A; --ink2: #334155; --muted: #94A3B8;
-          --bg: #F8FAFC; --surface: #FFFFFF; --border: #E2E8F0;
-          --accent: #6366F1; --accent-light: #EEF2FF; --accent-mid: #C7D2FE;
-          --green: #059669; --green-light: #ECFDF5; --green-mid: #6EE7B7;
-          --red: #DC2626; --red-light: #FEF2F2; --red-mid: #FCA5A5;
-          --amber: #D97706; --amber-light: #FFFBEB; --amber-mid: #FDE68A;
-          --radius: 16px; --radius-sm: 10px;
-          --shadow: 0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04);
-          --shadow-lg: 0 4px 24px rgba(99,102,241,.12);
+          --bg: #FFF8F0;
+          --surface: #FFFFFF;
+          --border: #E8DDD0;
+          --primary: #E8621A;
+          --primary-light: #FFF0E8;
+          --primary-mid: #FACCAA;
+          --primary-dark: #C24E10;
+          --green: #2E8B57;
+          --green-light: #F0FFF6;
+          --green-mid: #A8E6C3;
+          --red: #CC2222;
+          --red-light: #FFF0F0;
+          --red-mid: #FFBBBB;
+          --muted: #8A7A6A;
+          --ink: #2C1810;
+          --ink2: #5C3D2A;
+          --radius: 20px;
+          --radius-sm: 12px;
+          --shadow: 0 2px 8px rgba(0,0,0,.06);
+          --shadow-lg: 0 6px 24px rgba(232,98,26,.15);
         }
-        body { background: var(--bg); font-family: 'Sora', sans-serif; color: var(--ink); }
+        body { background: var(--bg); font-family: 'Nunito', sans-serif; color: var(--ink); }
 
-        .page { min-height: 100vh; padding: 32px 16px 80px; background: var(--bg); }
-        .container { max-width: 560px; margin: 0 auto; }
+        /* ── layout ── */
+        .page { min-height: 100vh; padding: 24px 16px 80px; }
+        .wrap { max-width: 600px; margin: 0 auto; }
 
-        /* Header */
-        .header { text-align: center; margin-bottom: 36px; }
-        .header-icon { width: 64px; height: 64px; border-radius: 20px;
-          background: linear-gradient(135deg, #6366F1, #8B5CF6);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 28px; margin: 0 auto 14px; box-shadow: 0 8px 24px rgba(99,102,241,.3); }
-        .header-title { font-size: 26px; font-weight: 800; color: var(--ink); margin-bottom: 6px; }
-        .header-title span { color: var(--accent); }
-        .header-sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
+        /* ── hero ── */
+        .hero { text-align: center; padding: 28px 0 20px; }
+        .hero-icon { font-size: 64px; line-height: 1; margin-bottom: 12px; }
+        .hero-title { font-size: 28px; font-weight: 900; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+        .hero-title em { color: var(--primary); font-style: normal; }
+        .hero-sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 420px; margin: 0 auto; }
 
-        /* Steps indicator */
-        .steps { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 28px; }
-        .step-item { display: flex; align-items: center; gap: 0; }
-        .step-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
-          justify-content: center; font-size: 12px; font-weight: 700; border: 2px solid var(--border);
-          background: var(--surface); color: var(--muted); transition: all .2s; flex-shrink: 0; }
-        .step-dot.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: var(--shadow-lg); }
-        .step-dot.done { background: var(--green); border-color: var(--green); color: #fff; }
-        .step-label { font-size: 11px; font-weight: 600; color: var(--muted); margin-left: 6px; white-space: nowrap; }
-        .step-label.active { color: var(--accent); }
-        .step-label.done { color: var(--green); }
-        .step-line { width: 28px; height: 2px; background: var(--border); margin: 0 4px; flex-shrink: 0; }
-        .step-line.done { background: var(--green); }
+        /* ── how-to strip ── */
+        .howto { display: flex; gap: 0; margin: 20px 0 28px; background: var(--surface);
+          border-radius: var(--radius); border: 1.5px solid var(--border); overflow: hidden; }
+        .howto-step { flex: 1; padding: 16px 12px; text-align: center; border-right: 1.5px solid var(--border); }
+        .howto-step:last-child { border-right: none; }
+        .howto-num { width: 32px; height: 32px; border-radius: 50%; background: var(--primary);
+          color: #fff; font-size: 15px; font-weight: 900; display: flex; align-items: center;
+          justify-content: center; margin: 0 auto 8px; }
+        .howto-emoji { font-size: 26px; display: block; margin-bottom: 6px; }
+        .howto-label { font-size: 12px; font-weight: 700; color: var(--ink); line-height: 1.4; }
 
-        /* Card */
-        .card { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border);
-          box-shadow: var(--shadow); padding: 24px; margin-bottom: 16px; }
+        /* ── card ── */
+        .card { background: var(--surface); border-radius: var(--radius);
+          border: 1.5px solid var(--border); padding: 24px; margin-bottom: 16px;
+          box-shadow: var(--shadow); }
 
-        /* Upload zone */
-        .upload-zone { border: 2px dashed var(--border); border-radius: var(--radius);
-          padding: 48px 24px; text-align: center; cursor: pointer;
-          transition: all .2s; background: var(--bg); }
-        .upload-zone:hover, .upload-zone.dragging { border-color: var(--accent);
-          background: var(--accent-light); }
-        .upload-icon { font-size: 40px; margin-bottom: 12px; }
-        .upload-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-        .upload-sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
-        .upload-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px;
-          padding: 10px 22px; border-radius: var(--radius-sm); background: var(--accent);
-          color: #fff; font-size: 13px; font-weight: 600; font-family: inherit; border: none; cursor: pointer;
-          transition: all .15s; }
-        .upload-btn:hover { background: #4F46E5; transform: translateY(-1px); }
+        /* ── section label ── */
+        .sec { font-size: 13px; font-weight: 800; text-transform: uppercase;
+          letter-spacing: .06em; color: var(--muted); margin-bottom: 12px; }
 
-        /* Error */
-        .error-box { background: var(--red-light); border: 1px solid var(--red-mid);
-          border-radius: var(--radius-sm); padding: 14px 16px;
-          display: flex; gap: 10px; align-items: flex-start; margin-bottom: 16px; }
-        .error-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-        .error-text { font-size: 13px; color: var(--red); font-weight: 500; line-height: 1.6; }
+        /* ── textarea ── */
+        .text-area { width: 100%; min-height: 160px; padding: 16px;
+          border-radius: var(--radius-sm); border: 2px solid var(--border);
+          background: var(--bg); font-size: 16px; font-family: inherit;
+          color: var(--ink); line-height: 1.7; resize: vertical; outline: none;
+          transition: border-color .15s; }
+        .text-area:focus { border-color: var(--primary); background: #fff; }
+        .text-area::placeholder { color: var(--muted); }
+        .char-count { font-size: 12px; color: var(--muted); text-align: right; margin-top: 6px; }
 
-        /* Success box */
-        .success-box { background: var(--green-light); border: 1px solid var(--green-mid);
-          border-radius: var(--radius-sm); padding: 14px 16px;
-          display: flex; gap: 10px; align-items: center; margin-bottom: 16px; }
-
-        /* Section label */
-        .sec-label { font-size: 11px; font-weight: 700; text-transform: uppercase;
-          letter-spacing: .08em; color: var(--muted); margin-bottom: 12px; }
-
-        /* Language search */
-        .lang-search { position: relative; margin-bottom: 10px; }
-        .lang-search input { width: 100%; padding: 10px 14px 10px 38px;
-          border-radius: var(--radius-sm); border: 1.5px solid var(--border);
-          background: var(--bg); font-size: 14px; font-family: inherit; color: var(--ink);
-          outline: none; transition: border-color .15s; }
-        .lang-search input:focus { border-color: var(--accent); background: #fff; }
-        .lang-search .search-icon { position: absolute; left: 12px; top: 50%;
-          transform: translateY(-50%); font-size: 15px; pointer-events: none; }
-
-        /* Language grid */
-        .lang-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
-          max-height: 280px; overflow-y: auto; padding-right: 4px; }
-        .lang-grid::-webkit-scrollbar { width: 4px; }
-        .lang-grid::-webkit-scrollbar-track { background: var(--bg); border-radius: 4px; }
-        .lang-grid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-        .lang-item { display: flex; align-items: center; gap: 8px; padding: 10px 12px;
-          border-radius: var(--radius-sm); border: 1.5px solid var(--border);
-          cursor: pointer; transition: all .15s; background: var(--surface); }
-        .lang-item:hover { border-color: var(--accent-mid); background: var(--accent-light); }
-        .lang-item.selected { border-color: var(--accent); background: var(--accent-light); }
-        .lang-flag { font-size: 18px; flex-shrink: 0; }
-        .lang-name { font-size: 13px; font-weight: 600; color: var(--ink); }
-        .lang-badge { font-size: 9px; font-weight: 700; padding: 2px 6px;
-          border-radius: 4px; background: var(--green-light); color: var(--green);
-          border: 1px solid var(--green-mid); flex-shrink: 0; }
-
-        /* Voice cards */
-        .voice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .voice-card { padding: 14px 12px; border-radius: var(--radius-sm);
-          border: 1.5px solid var(--border); cursor: pointer; transition: all .15s;
-          background: var(--surface); display: flex; align-items: center; gap: 10px; }
-        .voice-card:hover { border-color: var(--accent-mid); background: var(--accent-light); }
-        .voice-card.selected { border-color: var(--accent); background: var(--accent-light);
-          box-shadow: 0 0 0 3px rgba(99,102,241,.1); }
-        .voice-emoji { font-size: 24px; flex-shrink: 0; }
-        .voice-label { font-size: 13px; font-weight: 700; color: var(--ink); }
-        .voice-desc { font-size: 11px; color: var(--muted); margin-top: 1px; }
-
-        /* Buttons */
-        .btn-primary { width: 100%; padding: 15px; border-radius: var(--radius-sm);
-          background: linear-gradient(135deg, var(--accent), #7C3AED); color: #fff;
-          border: none; font-size: 15px; font-weight: 700; font-family: inherit;
-          cursor: pointer; transition: all .15s; box-shadow: var(--shadow-lg); }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(99,102,241,.25); }
-        .btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
-        .btn-secondary { padding: 11px 20px; border-radius: var(--radius-sm);
-          background: var(--surface); color: var(--ink2); border: 1.5px solid var(--border);
-          font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all .15s; }
-        .btn-secondary:hover { border-color: var(--accent-mid); color: var(--accent); }
-        .btn-green { padding: 13px 24px; border-radius: var(--radius-sm);
-          background: var(--green); color: #fff; border: none;
+        /* ── upload zone ── */
+        .upload-zone { border: 2.5px dashed var(--border); border-radius: var(--radius-sm);
+          padding: 24px 16px; text-align: center; cursor: pointer;
+          transition: all .2s; background: var(--bg); margin-top: 14px; }
+        .upload-zone:hover, .upload-zone.drag { border-color: var(--primary); background: var(--primary-light); }
+        .upload-zone-title { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+        .upload-zone-sub { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+        .upload-types { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 12px; }
+        .type-pill { padding: 4px 10px; border-radius: 20px; background: var(--primary-light);
+          border: 1px solid var(--primary-mid); color: var(--primary-dark);
+          font-size: 12px; font-weight: 700; }
+        .upload-btn { display: inline-flex; align-items: center; gap: 6px;
+          padding: 10px 20px; border-radius: var(--radius-sm);
+          background: var(--primary); color: #fff; border: none;
           font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer;
-          transition: all .15s; box-shadow: 0 4px 14px rgba(5,150,105,.25); }
-        .btn-green:hover { background: #047857; transform: translateY(-1px); }
+          transition: background .15s; }
+        .upload-btn:hover { background: var(--primary-dark); }
 
-        /* Progress */
-        .progress-wrap { margin: 20px 0; }
-        .progress-bar-bg { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-        .progress-bar-fill { height: 100%; border-radius: 4px;
-          background: linear-gradient(90deg, var(--accent), #7C3AED);
-          transition: width .4s ease; }
-        .progress-label { font-size: 12px; color: var(--muted); margin-top: 8px;
-          display: flex; justify-content: space-between; }
+        /* ── file loaded badge ── */
+        .file-badge { display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+          background: var(--green-light); border: 1.5px solid var(--green-mid);
+          border-radius: var(--radius-sm); margin-top: 14px; }
+        .file-badge-name { font-size: 13px; font-weight: 700; color: var(--green); flex: 1; }
+        .file-badge-clear { background: none; border: none; color: var(--muted);
+          font-size: 18px; cursor: pointer; padding: 0 4px; }
 
-        /* Chapters generating */
-        .chapter-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
-        .chapter-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-          border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); }
-        .chapter-num { width: 24px; height: 24px; border-radius: 50%; background: var(--border);
-          display: flex; align-items: center; justify-content: center;
-          font-size: 11px; font-weight: 700; color: var(--muted); flex-shrink: 0; }
-        .chapter-num.done { background: var(--green); color: #fff; }
-        .chapter-num.active { background: var(--accent); color: #fff;
-          animation: pulse 1.2s ease-in-out infinite; }
-        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-        .chapter-title { font-size: 13px; font-weight: 500; color: var(--ink); flex: 1; }
-        .chapter-status { font-size: 11px; color: var(--muted); }
-
-        /* Audio files */
-        .audio-item { padding: 14px 16px; border-radius: var(--radius-sm);
-          background: var(--bg); border: 1px solid var(--border); margin-bottom: 10px; }
-        .audio-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .audio-title { font-size: 13px; font-weight: 700; color: var(--ink); }
-        .audio-dl { padding: 6px 14px; border-radius: 6px; background: var(--accent-light);
-          color: var(--accent); border: 1px solid var(--accent-mid);
-          font-size: 11px; font-weight: 700; font-family: inherit; cursor: pointer; transition: all .15s; }
-        .audio-dl:hover { background: var(--accent); color: #fff; }
-        audio { width: 100%; border-radius: 6px; }
-        audio::-webkit-media-controls-panel { background: var(--surface); }
-
-        /* PDF info tag */
-        .pdf-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
-          border-radius: var(--radius-sm); background: var(--amber-light);
-          border: 1px solid var(--amber-mid); color: var(--amber); font-size: 12px; font-weight: 600; }
-
-        /* Divider */
-        .divider { height: 1px; background: var(--border); margin: 18px 0; }
-
-        /* Validating */
-        .validating { display: flex; align-items: center; gap: 10px; padding: 14px 16px;
-          background: var(--accent-light); border: 1px solid var(--accent-mid);
-          border-radius: var(--radius-sm); color: var(--accent); font-size: 13px; font-weight: 600; }
+        /* ── loading badge ── */
+        .loading-badge { display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+          background: var(--primary-light); border: 1.5px solid var(--primary-mid);
+          border-radius: var(--radius-sm); margin-top: 14px;
+          font-size: 13px; font-weight: 700; color: var(--primary-dark); }
         .spin { animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Rules list */
-        .rules { display: flex; flex-direction: column; gap: 6px; }
-        .rule { display: flex; align-items: center; gap: 8px;
-          font-size: 12px; color: var(--ink2); }
-        .rule-icon { font-size: 14px; flex-shrink: 0; }
+        /* ── error ── */
+        .error-box { display: flex; gap: 10px; padding: 14px 16px;
+          background: var(--red-light); border: 1.5px solid var(--red-mid);
+          border-radius: var(--radius-sm); margin-bottom: 14px; }
+        .error-text { font-size: 14px; font-weight: 600; color: var(--red); line-height: 1.6; }
+
+        /* ── divider ── */
+        .div { display: flex; align-items: center; gap: 12px; margin: 18px 0; }
+        .div-line { flex: 1; height: 1px; background: var(--border); }
+        .div-text { font-size: 12px; color: var(--muted); font-weight: 700; white-space: nowrap; }
+
+        /* ── lang grid ── */
+        .lang-search-wrap { position: relative; margin-bottom: 10px; }
+        .lang-search-wrap input { width: 100%; padding: 10px 14px 10px 36px;
+          border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+          font-size: 14px; font-family: inherit; color: var(--ink);
+          background: var(--bg); outline: none; transition: border-color .15s; }
+        .lang-search-wrap input:focus { border-color: var(--primary); background: #fff; }
+        .lang-search-wrap .si { position: absolute; left: 12px; top: 50%;
+          transform: translateY(-50%); font-size: 15px; }
+        .lang-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .lang-btn { padding: 10px 6px; border-radius: var(--radius-sm);
+          border: 2px solid var(--border); background: var(--surface);
+          cursor: pointer; transition: all .15s; text-align: center; }
+        .lang-btn:hover { border-color: var(--primary-mid); background: var(--primary-light); }
+        .lang-btn.sel { border-color: var(--primary); background: var(--primary-light); }
+        .lang-flag { font-size: 20px; display: block; margin-bottom: 3px; }
+        .lang-name { font-size: 11px; font-weight: 700; color: var(--ink); display: block; }
+        .lang-native { font-size: 10px; color: var(--muted); display: block; }
+        .show-more { width: 100%; margin-top: 8px; padding: 9px;
+          border-radius: var(--radius-sm); border: 1.5px dashed var(--border);
+          background: none; font-size: 13px; font-weight: 700; color: var(--muted);
+          font-family: inherit; cursor: pointer; transition: all .15s; }
+        .show-more:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* ── voice grid ── */
+        .voice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .voice-btn { padding: 16px 12px; border-radius: var(--radius-sm);
+          border: 2px solid var(--border); background: var(--surface);
+          cursor: pointer; transition: all .15s; text-align: center; }
+        .voice-btn:hover { border-color: var(--primary-mid); background: var(--primary-light); }
+        .voice-btn.sel { border-color: var(--primary); background: var(--primary-light);
+          box-shadow: 0 0 0 3px rgba(232,98,26,.12); }
+        .voice-emoji { font-size: 36px; display: block; margin-bottom: 6px; }
+        .voice-label { font-size: 14px; font-weight: 800; color: var(--ink); display: block; }
+        .voice-hint { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+
+        /* ── big action button ── */
+        .btn-go { width: 100%; padding: 18px; border-radius: var(--radius-sm);
+          background: var(--primary); color: #fff; border: none;
+          font-size: 18px; font-weight: 900; font-family: inherit;
+          cursor: pointer; transition: all .15s; box-shadow: var(--shadow-lg);
+          display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-go:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-go:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-secondary { padding: 12px 24px; border-radius: var(--radius-sm);
+          border: 2px solid var(--border); background: var(--surface);
+          color: var(--ink2); font-size: 14px; font-weight: 700;
+          font-family: inherit; cursor: pointer; transition: all .15s; }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* ── generating screen ── */
+        .gen-center { text-align: center; padding: 20px 0; }
+        .gen-icon { font-size: 56px; margin-bottom: 12px;
+          animation: bounce 1s ease-in-out infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+        .gen-title { font-size: 22px; font-weight: 900; color: var(--ink); margin-bottom: 6px; }
+        .gen-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+        .progress-bg { height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; margin: 0 0 8px; }
+        .progress-fill { height: 100%; border-radius: 6px; background: var(--primary);
+          transition: width .4s ease; }
+        .progress-pct { font-size: 14px; font-weight: 700; color: var(--primary); }
+
+        /* ── done screen ── */
+        .done-hero { text-align: center; padding: 8px 0 20px; }
+        .done-icon { font-size: 64px; margin-bottom: 10px; }
+        .done-title { font-size: 22px; font-weight: 900; color: var(--green); margin-bottom: 6px; }
+        .done-sub { font-size: 14px; color: var(--muted); }
+        .audio-player { width: 100%; border-radius: var(--radius-sm); margin-bottom: 16px; }
+        .btn-download { width: 100%; padding: 16px; border-radius: var(--radius-sm);
+          background: var(--green); color: #fff; border: none;
+          font-size: 16px; font-weight: 800; font-family: inherit; cursor: pointer;
+          transition: all .15s; box-shadow: 0 4px 16px rgba(46,139,87,.2);
+          display: flex; align-items: center; justify-content: center; gap: 8px;
+          margin-bottom: 10px; }
+        .btn-download:hover { background: #246b43; transform: translateY(-1px); }
+        .done-actions { display: flex; gap: 10px; margin-top: 4px; }
+
+        /* ── tip box ── */
+        .tip { padding: 14px 16px; border-radius: var(--radius-sm);
+          background: #FFFBEB; border: 1.5px solid #FDE68A;
+          font-size: 13px; color: #92400E; font-weight: 600; line-height: 1.6; }
 
         @media (max-width: 480px) {
-          .lang-grid { grid-template-columns: 1fr 1fr; }
-          .voice-grid { grid-template-columns: 1fr 1fr; }
-          .header-title { font-size: 22px; }
+          .lang-grid { grid-template-columns: repeat(3, 1fr); }
+          .howto { flex-direction: column; }
+          .howto-step { border-right: none; border-bottom: 1.5px solid var(--border); }
+          .howto-step:last-child { border-bottom: none; }
         }
       `}</style>
 
       <div className="page">
-        <div className="container">
+        <div className="wrap">
 
-          {/* Header */}
-          <div className="header">
-            <div className="header-icon">🎧</div>
-            <h1 className="header-title">Your Book, <span>in Audio</span></h1>
-          <p className="header-sub">
-  Upload your manuscript PDF → Choose voice → Download MP3 chapters
-</p>
+          {/* ── HERO ── */}
+          <div className="hero">
+            <div className="hero-icon">VaniSetu </div>
+            <h1 className="hero-title">Give Your Child<br /><em>Your Voice</em></h1>
+            <p className="hero-sub">
+              For parents who are deaf or mute — type or upload what you want to say,
+              and we turn it into a voice your child can hear. 
+            </p>
           </div>
 
-          {/* Steps */}
-          <div className="steps">
-            {[
-              { key: "upload", label: "Upload" },
-              { key: "voice", label: "Voice" },
-              { key: "generating", label: "Generate" },
-              { key: "done", label: "Download" },
-            ].map((s, i) => {
-              const stepKeys: Step[] = ["upload", "voice", "generating", "done"];
-              const currentIdx = stepKeys.indexOf(step);
-              const thisIdx = i;
-              const isDone = currentIdx > thisIdx;
-              const isActive = currentIdx === thisIdx;
-              return (
-                <div key={s.key} className="step-item">
-                  {i > 0 && <div className={`step-line${isDone ? " done" : ""}`} />}
-                  <div className={`step-dot${isActive ? " active" : isDone ? " done" : ""}`}>
-                    {isDone ? "✓" : i + 1}
-                  </div>
-                  <span className={`step-label${isActive ? " active" : isDone ? " done" : ""}`}>{s.label}</span>
+          {/* ── HOW TO USE ── */}
+          {step === "home" && (
+            <div className="howto" role="list" aria-label="How to use — 3 steps">
+              {[
+                { emoji: "✍️", label: "Type your message OR upload a file" },
+                { emoji: "🌍", label: "Choose language & voice type" },
+                { emoji: "🔊", label: "Download the audio for your child" },
+              ].map((s, i) => (
+                <div className="howto-step" key={i} role="listitem">
+                  <div className="howto-num" aria-hidden="true">{i + 1}</div>
+                  <span className="howto-emoji" aria-hidden="true">{s.emoji}</span>
+                  <div className="howto-label">{s.label}</div>
                 </div>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
 
-          {/* ── STEP 1: UPLOAD ── */}
-          {step === "upload" && (
+          {/* ════════════════════════════════════
+              STEP 1 — HOME: type + upload + settings
+          ════════════════════════════════════ */}
+          {step === "home" && (
             <>
               {error && (
-                <div className="error-box">
-                  <span className="error-icon">⚠️</span>
+                <div className="error-box" role="alert">
+                  <span aria-hidden="true">⚠️</span>
                   <div className="error-text">{error}</div>
                 </div>
               )}
 
-              {validating && (
-                <div className="validating">
-                  <span className="spin">⏳</span>
-                  Validating PDF — checking for images and extracting text…
-                </div>
-              )}
-
-              <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-                <div
-                  className={`upload-zone${isDragging ? " dragging" : ""}`}
-                  style={{ margin: 0, borderRadius: "15px 15px 0 0", border: "none", borderBottom: "1px solid var(--border)" }}
-                  onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-                  onDragLeave={() => setIsDragging(false)}
-                  onDrop={handleDrop}
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <div className="upload-icon">📄</div>
-                  <div className="upload-title">Drop your manuscript PDF here</div>
-                  <div className="upload-sub">
-                    Text-based PDFs only · Max 20MB<br />
-                    Images inside PDF are not supported
-                  </div>
-                  <button className="upload-btn" onClick={e => { e.stopPropagation(); fileInputRef.current?.click(); }}>
-                    📁 Choose PDF File
-                  </button>
-                  <input ref={fileInputRef} type="file" accept=".pdf,application/pdf"
-                    style={{ display: "none" }}
-                    onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
-                </div>
-
-                <div style={{ padding: "16px 20px" }}>
-                  <div className="rules">
-                    <div className="rule"><span className="rule-icon">✅</span> Text-based PDF (typed or exported from Word)</div>
-                    <div className="rule"><span className="rule-icon">✅</span> Novel, article, report, textbook — any text content</div>
-                    <div className="rule"><span className="rule-icon">❌</span> Scanned PDFs (photos of pages)</div>
-                    <div className="rule"><span className="rule-icon">❌</span> PDFs with embedded images or diagrams</div>
-                    <div className="rule"><span className="rule-icon">🔒</span> Your file never leaves your browser — zero data saved</div>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* ── STEP 2: VOICE SELECTION ── */}
-          {step === "voice" && (
-            <>
-              {/* PDF confirmed */}
-              <div className="success-box">
-                <span style={{ fontSize: 20 }}>✅</span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 700, fontSize: 13, color: "var(--green)" }}>PDF validated successfully</div>
-                  <div style={{ fontSize: 12, color: "#047857", marginTop: 2 }}>
-                    <span className="pdf-tag">📄 {pdfName}.pdf · {pageCount} page{pageCount !== 1 ? "s" : ""} · {(pdfText.length / 1000).toFixed(1)}k chars</span>
-                  </div>
-                </div>
-                <button className="btn-secondary" style={{ padding: "6px 12px", fontSize: 12 }} onClick={reset}>Change</button>
-              </div>
-
+              {/* Text input */}
               <div className="card">
-                {/* Language selection */}
-                <div className="sec-label">🌍 Choose Language</div>
-                <div className="lang-search">
-                  <span className="search-icon">🔍</span>
+                <div className="sec">✍️ Step 1 — Type what you want to say</div>
+                <textarea
+                  className="text-area"
+                  placeholder={`Write your message here…\n\nExample: "Good morning my love. I made breakfast for you. I am always with you."`}
+                  value={inputText}
+                  onChange={e => { setInputText(e.target.value); setError(""); }}
+                  aria-label="Type your message"
+                  rows={6}
+                />
+                {inputText && (
+                  <div className="char-count">{wordCount} words · {charCount} characters</div>
+                )}
+
+                <div className="div">
+                  <div className="div-line" />
+                  <div className="div-text">OR UPLOAD A FILE</div>
+                  <div className="div-line" />
+                </div>
+
+                {/* Upload zone */}
+                {!fileName && !fileLoading && (
+                  <div
+                    className={`upload-zone${isDragging ? " drag" : ""}`}
+                    onDragOver={e => { e.preventDefault(); setIsDragging(true); }}
+                    onDragLeave={() => setIsDragging(false)}
+                    onDrop={handleDrop}
+                    onClick={() => fileRef.current?.click()}
+                    role="button"
+                    aria-label="Upload a file"
+                    tabIndex={0}
+                    onKeyDown={e => e.key === "Enter" && fileRef.current?.click()}
+                  >
+                    <div className="upload-zone-title">📂 Upload your file</div>
+                    <div className="upload-zone-sub">Drag & drop here, or tap to choose</div>
+                    <div className="upload-types">
+                      <span className="type-pill">📄 .txt</span>
+                      <span className="type-pill">📝 .docx</span>
+                      <span className="type-pill">📋 .pdf</span>
+                      <span className="type-pill">📃 .rtf</span>
+                    </div>
+                    <button
+                      className="upload-btn"
+                      onClick={e => { e.stopPropagation(); fileRef.current?.click(); }}
+                      type="button"
+                    >
+                      📁 Choose File
+                    </button>
+                    <input
+                      ref={fileRef}
+                      type="file"
+                      accept=".txt,.pdf,.docx,.rtf,text/plain,application/pdf"
+                      style={{ display: "none" }}
+                      onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
+                    />
+                  </div>
+                )}
+
+                {fileLoading && (
+                  <div className="loading-badge">
+                    <span className="spin" aria-hidden="true">⏳</span>
+                    Reading your file…
+                  </div>
+                )}
+
+                {fileName && !fileLoading && (
+                  <div className="file-badge">
+                    <span aria-hidden="true">✅</span>
+                    <span className="file-badge-name">📄 {fileName}</span>
+                    <button
+                      className="file-badge-clear"
+                      onClick={() => { setFileName(""); setInputText(""); setError(""); }}
+                      aria-label="Remove file"
+                      title="Remove file"
+                    >×</button>
+                  </div>
+                )}
+              </div>
+
+              {/* Language */}
+              <div className="card">
+                <div className="sec">🌍 Step 2 — Choose your language</div>
+                <div className="lang-search-wrap">
+                  <span className="si" aria-hidden="true">🔍</span>
                   <input
                     type="text"
                     placeholder="Search language…"
                     value={langSearch}
                     onChange={e => setLangSearch(e.target.value)}
+                    aria-label="Search for a language"
                   />
                 </div>
-                <div className="lang-grid">
-                  {filteredLangs.map(([code, l]) => (
-                    <div
+                <div className="lang-grid" role="radiogroup" aria-label="Language selection">
+                  {displayedLangs.map(([code, l]) => (
+                    <button
                       key={code}
-                      className={`lang-item${selectedLang === code ? " selected" : ""}`}
+                      className={`lang-btn${selectedLang === code ? " sel" : ""}`}
                       onClick={() => setSelectedLang(code)}
+                      role="radio"
+                      aria-checked={selectedLang === code}
+                      aria-label={`${l.label} — ${l.nativeName}`}
                     >
-                      <span className="lang-flag">{l.flag}</span>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div className="lang-name">{l.label}</div>
-                      </div>
-                      {INDIC_CODES.includes(code) && <span className="lang-badge">IND</span>}
-                    </div>
-                  ))}
-                  {filteredLangs.length === 0 && (
-                    <div style={{ gridColumn: "span 2", textAlign: "center", padding: "24px", color: "var(--muted)", fontSize: 13 }}>
-                      No language found for &ldquo;{langSearch}&rdquo;
-                    </div>
-                  )}
-                </div>
-
-                <div className="divider" />
-
-                {/* Voice selection */}
-                <div className="sec-label">🎙️ Choose Voice</div>
-                <div className="voice-grid">
-                  {VOICES.map(v => (
-                    <div
-                      key={v.id}
-                      className={`voice-card${selectedVoice === v.id ? " selected" : ""}`}
-                      onClick={() => setSelectedVoice(v.id)}
-                    >
-                      <span className="voice-emoji">{v.icon}</span>
-                      <div>
-                        <div className="voice-label">{v.label}</div>
-                        <div className="voice-desc">{v.desc}</div>
-                      </div>
-                      {selectedVoice === v.id && (
-                        <span style={{ marginLeft: "auto", color: "var(--accent)", fontSize: 16, flexShrink: 0 }}>✓</span>
-                      )}
-                    </div>
+                      <span className="lang-flag" aria-hidden="true">{l.flag}</span>
+                      <span className="lang-name">{l.label}</span>
+                      <span className="lang-native">{l.nativeName}</span>
+                    </button>
                   ))}
                 </div>
-
-                <div className="divider" />
-
-                {/* Summary */}
-                <div style={{ background: "var(--accent-light)", border: "1px solid var(--accent-mid)", borderRadius: "var(--radius-sm)", padding: "12px 14px", marginBottom: 16 }}>
-                  <div style={{ fontSize: 12, color: "var(--accent)", fontWeight: 600, marginBottom: 4 }}>Ready to generate</div>
-                  <div style={{ fontSize: 13, color: "var(--ink2)" }}>
-                    📄 <strong>{pdfName}</strong> · {L.flag} {L.label} · {VOICES.find(v => v.id === selectedVoice)?.label} voice
-                  </div>
-                  <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>
-                    Chapters will be auto-detected · Each downloads as a separate MP3
-                  </div>
-                </div>
-
-                <button className="btn-primary" onClick={startGeneration}>
-                  🎧 Generate Audiobook
-                </button>
+                {filteredLangs.length > 8 && (
+                  <button className="show-more" onClick={() => setShowAllLangs(v => !v)}>
+                    {showAllLangs ? "▲ Show less" : `▼ Show all ${filteredLangs.length} languages`}
+                  </button>
+                )}
               </div>
+
+              {/* Voice */}
+              <div className="card">
+                <div className="sec">🎙️ Step 3 — Choose voice type</div>
+                <div className="voice-grid" role="radiogroup" aria-label="Voice type selection">
+                  {VOICE_OPTIONS.map(v => (
+                    <button
+                      key={v.id}
+                      className={`voice-btn${selectedVoice === v.id ? " sel" : ""}`}
+                      onClick={() => setSelectedVoice(v.id)}
+                      role="radio"
+                      aria-checked={selectedVoice === v.id}
+                      aria-label={`${v.label} — ${v.hint}`}
+                    >
+                      <span className="voice-emoji" aria-hidden="true">{v.emoji}</span>
+                      <span className="voice-label">{v.label}</span>
+                      <span className="voice-hint">{v.hint}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Go button */}
+              <div className="tip" style={{ marginBottom: 16 }}>
+                💡 <strong>Tip:</strong> You can type a lullaby, a bedtime story, a morning greeting,
+                homework instructions — anything you want your child to hear in your language.
+              </div>
+
+              <button
+                className="btn-go"
+                onClick={handleGenerate}
+                disabled={!inputText.trim()}
+                aria-disabled={!inputText.trim()}
+              >
+                <span aria-hidden="true">🔊</span>
+                Create Voice Audio
+              </button>
+
+              {!inputText.trim() && (
+                <p style={{ textAlign: "center", fontSize: 13, color: "var(--muted)", marginTop: 10 }}>
+                  Type your message or upload a file to get started
+                </p>
+              )}
             </>
           )}
 
-          {/* ── STEP 3: GENERATING ── */}
+          {/* ════════════════════════════════════
+              STEP — GENERATING
+          ════════════════════════════════════ */}
           {step === "generating" && (
             <div className="card">
-              <div style={{ textAlign: "center", marginBottom: 20 }}>
-                <div style={{ fontSize: 32, marginBottom: 8 }}>🎙️</div>
-                <div style={{ fontWeight: 700, fontSize: 16, color: "var(--ink)", marginBottom: 4 }}>Generating your audiobook…</div>
-                <div style={{ fontSize: 13, color: "var(--muted)" }}>{L.flag} {L.label} · {VOICES.find(v => v.id === selectedVoice)?.label} voice</div>
-              </div>
-
-              <div className="progress-wrap">
-                <div className="progress-bar-bg">
-                  <div className="progress-bar-fill" style={{ width: `${progressPct}%` }} />
+              <div className="gen-center">
+                <div className="gen-icon" aria-hidden="true">🔊</div>
+                <div className="gen-title">Creating your voice…</div>
+                <div className="gen-sub">
+                  {L.flag} {L.label} · {VOICE_OPTIONS.find(v => v.id === selectedVoice)?.label}
                 </div>
-                <div className="progress-label">
-                  <span>{progress.label}</span>
-                  <span>{progressPct}%</span>
+                <div className="progress-bg" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
+                  <div className="progress-fill" style={{ width: `${progress}%` }} />
                 </div>
+                <div className="progress-pct">{progress}% done</div>
               </div>
-
-              <div className="chapter-list">
-                {chapters.map((ch, i) => {
-                  const isDone = i < progress.current;
-                  const isActive = i === progress.current - 1 && progress.current <= progress.total;
-                  const isWaiting = i >= progress.current;
-                  return (
-                    <div key={i} className="chapter-item">
-                      <div className={`chapter-num${isDone ? " done" : isActive ? " active" : ""}`}>
-                        {isDone ? "✓" : i + 1}
-                      </div>
-                      <span className="chapter-title">{ch.title}</span>
-                      <span className="chapter-status">
-                        {isDone ? "✅ Done" : isActive ? "⏳ Generating" : "⏸ Waiting"}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div style={{ marginTop: 16, padding: "10px 14px", background: "var(--amber-light)", border: "1px solid var(--amber-mid)", borderRadius: "var(--radius-sm)", fontSize: 12, color: "var(--amber)", fontWeight: 500 }}>
-                🔒 No data is being stored. Audio is generated live and stays in your browser.
+              <div className="tip" style={{ marginTop: 20 }}>
+                🔒 Your text never leaves your device. Everything is private.
               </div>
             </div>
           )}
 
-          {/* ── STEP 4: DONE / DOWNLOAD ── */}
+          {/* ════════════════════════════════════
+              STEP — DONE
+          ════════════════════════════════════ */}
           {step === "done" && (
-            <>
-              <div className="success-box" style={{ marginBottom: 16 }}>
-                <span style={{ fontSize: 24 }}>🎉</span>
-                <div>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: "var(--green)" }}>
-                    Audiobook ready! {audioFiles.filter(f => f.url).length} of {audioFiles.length} chapters generated
-                  </div>
-                  <div style={{ fontSize: 12, color: "#047857", marginTop: 2 }}>
-                    {L.flag} {L.label} · {VOICES.find(v => v.id === selectedVoice)?.label} voice · {pdfName}
-                  </div>
+            <div className="card">
+              <div className="done-hero">
+                <div className="done-icon" aria-hidden="true">🎉</div>
+                <div className="done-title">Your voice is ready!</div>
+                <div className="done-sub">
+                  {L.flag} {L.label} · {VOICE_OPTIONS.find(v => v.id === selectedVoice)?.label} ·
+                  {wordCount} words
                 </div>
               </div>
 
-              <div className="card">
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                  <div style={{ fontWeight: 700, fontSize: 15, color: "var(--ink)" }}>📥 Your Chapters</div>
-                  <button className="btn-green" onClick={downloadAll}>
-                    ⬇️ Download All
-                  </button>
-                </div>
+              {/* Audio player */}
+              <audio
+                ref={el => { if (el && audioUrl) el.src = audioUrl; }}
+                controls
+                className="audio-player"
+                aria-label="Your generated voice audio"
+              />
 
-                {audioFiles.map((f, i) => (
-                  <div key={i} className="audio-item">
-                    <div className="audio-header">
-                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <div style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--accent-light)", border: "1.5px solid var(--accent-mid)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "var(--accent)", flexShrink: 0 }}>
-                          {i + 1}
-                        </div>
-                        <span className="audio-title">{f.title}</span>
-                      </div>
-                      {f.url ? (
-                        <button className="audio-dl" onClick={() => {
-                          const a = document.createElement("a");
-                          a.href = f.url;
-                          a.download = `${pdfName}_${String(i + 1).padStart(2, "0")}_${f.title.replace(/\s+/g, "_")}.${f.ext}`;
-                          document.body.appendChild(a); a.click(); document.body.removeChild(a);
-                        }}>⬇️ {f.ext.toUpperCase()}</button>
-                      ) : (
-                        <span style={{ fontSize: 11, color: "var(--red)", fontWeight: 600 }}>Failed</span>
-                      )}
-                    </div>
-                    {f.url && <audio controls src={f.url} preload="none" />}
-                  </div>
-                ))}
+              {/* Download */}
+              <button
+                className="btn-download"
+                onClick={() => {
+                  const a = document.createElement("a");
+                  a.href = audioUrl;
+                  a.download = `my-voice-${selectedLang}-${Date.now()}.mp3`;
+                  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                }}
+              >
+                ⬇️ Download MP3 — Save to Phone / Tablet
+              </button>
 
-                <div className="divider" />
-
-                <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
-                  <button className="btn-secondary" onClick={reset}>📄 Convert Another Book</button>
-                </div>
+              <div className="tip" style={{ marginBottom: 16 }}>
+                💡 <strong>How to use:</strong> Download and save this file on your child's phone or tablet.
+                They can play it anytime — even offline. You can also share it on WhatsApp or Bluetooth.
               </div>
 
-              <div style={{ textAlign: "center", fontSize: 12, color: "var(--muted)", marginTop: 8 }}>
-                🔒 All audio was generated locally. Nothing was saved on any server.
+              <div className="done-actions">
+                <button className="btn-secondary" onClick={reset} style={{ flex: 1 }}>
+                  ✍️ Make Another
+                </button>
+                <button
+                  className="btn-secondary"
+                  style={{ flex: 1 }}
+                  onClick={() => {
+                    setStep("home");
+                    setAudioUrl("");
+                    setProgress(0);
+                  }}
+                >
+                  ✏️ Change Voice / Language
+                </button>
               </div>
-            </>
+            </div>
           )}
+
         </div>
       </div>
     </>
