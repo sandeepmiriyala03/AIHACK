@@ -454,7 +454,7 @@ export default function VoiceForParents() {
 
           {/* ── HERO ── */}
           <div className="hero">
-            <div className="hero-icon">🤟 VaniSetu</div>
+            <div className="hero-icon"> VaniSetu</div>
             <h1 className="hero-title">Give Your Child<br /><em>Your Voice</em></h1>
             <p className="hero-sub">
               Dedicated to special web accessibility and inclusive communication. 
