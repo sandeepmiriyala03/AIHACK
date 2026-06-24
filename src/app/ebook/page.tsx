@@ -710,10 +710,7 @@ export default function VoiceForParents() {
                 ⬇️ Download MP3 — Save to Phone / Tablet
               </button>
 
-              <div className="tip" style={{ marginBottom: 16 }}>
-                💡 <strong>How to use:</strong> Download and save this file on your child's phone or tablet.
-                They can play it anytime — even offline. You can also share it on WhatsApp or Bluetooth.
-              </div>
+             
 
               <div className="done-actions">
                 <button className="btn-secondary" onClick={reset} style={{ flex: 1 }}>
