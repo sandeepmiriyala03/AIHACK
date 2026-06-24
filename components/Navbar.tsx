@@ -87,6 +87,7 @@ const navGroups = [
     group: "Yuktai Framework", /* 🌟 Created a brand new Module Group for Yuktai */
     items: [
       { href: "/yuktai", label: "About Yuktai", icon: InfoRoundedIcon },
+      { href: "/whatsapp-bot", label: "WhatsApp Bot", icon: InfoRoundedIcon },
     ],
   },
 ];
