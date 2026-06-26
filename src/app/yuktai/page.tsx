@@ -262,7 +262,7 @@ export default function YuktaiFullDocs() {
         <span style={{ color: TEXT_SUB }}>Developed openly with support from Claude, GPT & Gemini.</span>
         <div style={{ display: "flex", gap: "16px" }}>
           <a href="https://github.com/sandeepmiriyala03/yuktai" target="_blank" rel="noreferrer" style={{ color: G, fontWeight: 600, textDecoration: "none" }}>GitHub Repository</a>
-          <a href="https://aksharatantra.vercel.app" style={{ color: TEXT_MAIN, fontWeight: 600, textDecoration: "none" }}>Live Application</a>
+          <a href="https://aksharatantra.miriyala.in" style={{ color: TEXT_MAIN, fontWeight: 600, textDecoration: "none" }}>Live Application</a>
         </div>
       </footer>
     </main>
