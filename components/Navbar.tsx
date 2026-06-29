@@ -79,7 +79,6 @@ const navGroups = [
       { href: "/calendarpage", label: "Calendar", icon: CalendarMonthRoundedIcon }, 
       { href: "/ebook", label: "E-Book Maker", icon: LocalLibraryRoundedIcon }, 
       { href: "/rupantarcode", label: "RupantarCode", icon: CodeRoundedIcon },
-      { href: "/staffdirectory", label: "Staff Directory", icon: GroupsIcon },
       { href: "/user", label: "User List", icon: AccountCircleRoundedIcon }, 
     ],
   },
@@ -87,7 +86,7 @@ const navGroups = [
     group: "Yuktai Framework", /* 🌟 Created a brand new Module Group for Yuktai */
     items: [
       { href: "/yuktai", label: "About Yuktai", icon: InfoRoundedIcon },
-      { href: "/whatsapp-bot", label: "WhatsApp Bot", icon: InfoRoundedIcon },
+      { href: "/staffdirectory", label: "Yuktai Demo", icon: InfoRoundedIcon },
     ],
   },
 ];
