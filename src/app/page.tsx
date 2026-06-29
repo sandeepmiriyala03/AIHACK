@@ -598,9 +598,7 @@ export default function HomePage() {
                   </div>
                 ))}
               </div>
-              <div style={{ marginTop: 20, padding: "12px 16px", background: "#fffbeb", border: "1px solid #fde68a", borderRadius: 10, fontSize: 13, color: "#92400e", fontFamily: "'DM Sans',sans-serif", lineHeight: 1.6 }}>
-                💡 <strong>Example messages:</strong> "Good morning my love", "I am always proud of you", a favourite lullaby in your language.
-              </div>
+            
             </div>
           </div>
         </section>

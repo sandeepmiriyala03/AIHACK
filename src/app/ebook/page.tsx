@@ -1446,11 +1446,7 @@ export default function VaniSetu() {
                 </div>
               )}
 
-              <div className="tip" style={{ marginBottom:14 }}>
-                💡 <strong>100% Free — no API key needed.</strong> Upload any voice message or
-                recording → your browser's built-in Speech Recognition reads the spoken words
-                → convert to a clear voice for your child. Works best in Chrome or Edge.
-              </div>
+              
             </>
           )}
 
@@ -1500,10 +1496,6 @@ export default function VaniSetu() {
                 ⬇️ Download MP3 — Save to Phone / Tablet
               </button>
 
-              <div className="tip" style={{ marginBottom:12 }}>
-                💡 Send via WhatsApp or save to your child's phone.
-                They can play it anytime — even offline.
-              </div>
 
               <div className="done-actions">
                 <button className="btn-secondary" onClick={reset} style={{ flex:1 }}>
