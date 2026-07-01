@@ -59,50 +59,40 @@ const navGroups = [
   {
     group: "AI Tools & Digitize",
     items: [
-      { href: "/aksharadrishti", label: "Photo Scanner",      icon: ImageSearchRoundedIcon },
-      { href: "/OCR",            label: "Text Reader",        icon: DocumentScannerRoundedIcon },
-      { href: "/ocreng",         label: "Handwriting Reader", icon: DrawRoundedIcon },
-      { href: "/upload",         label: "Add Files",          icon: UploadFileRoundedIcon },
-      { href: "/voice",          label: "Talking AI",         icon: MicRoundedIcon },
+      { href: "/aksharadrishti", label: "Photo Scanner",     icon: ImageSearchRoundedIcon },
+      { href: "/OCR",            label: "Text Reader",       icon: DocumentScannerRoundedIcon },
+      { href: "/ocreng",         label: "Handwriting Reader",icon: DrawRoundedIcon },
+      { href: "/upload",         label: "Add Files",         icon: UploadFileRoundedIcon },
+      { href: "/voice",          label: "Talking AI",        icon: MicRoundedIcon },
     ],
   },
   {
     group: "Heritage & Culture",
     items: [
-      { href: "/Sanskrit", label: "Sanskrit Books",  icon: MenuBookRoundedIcon },
-      { href: "/vedha",    label: "Old Stories",     icon: AutoStoriesRoundedIcon },
-      { href: "/kosha",    label: "Kosha Dictionary",icon: SpellcheckRoundedIcon },
-      { href: "/Media",    label: "Photo Gallery",   icon: CollectionsRoundedIcon },
-    ],
-  },
-  {
-    group: "Business & Recreation",
-    items: [
-      { href: "/kyc",       label: "Secure KYC",  icon: VerifiedUserRoundedIcon },
-      { href: "/smsparser", label: "SMS Parser",   icon: TextSnippetRoundedIcon },
-      { href: "/chess",     label: "Vedic Chess",  icon: SportsEsportsRoundedIcon },
-      { href: "/ipl",       label: "IPL Dashboard",icon: SportsCricketRoundedIcon },
+      { href: "/Sanskrit", label: "Sanskrit Books", icon: MenuBookRoundedIcon },
+      { href: "/vedha",    label: "Old Stories",    icon: AutoStoriesRoundedIcon },
+      { href: "/Media",    label: "Photo Gallery",  icon: CollectionsRoundedIcon },
     ],
   },
   {
     group: "Studio & Labs",
     items: [
-      { href: "/posters",        label: "Make Posters",   icon: DashboardCustomizeRoundedIcon },
-      { href: "/badge",          label: "Certificates",   icon: MilitaryTechRoundedIcon },
-      { href: "/Ocrwork",        label: "New Ideas",      icon: HistoryEduRoundedIcon },
-      { href: "/onecrdb",        label: "Data List",      icon: ScienceRoundedIcon },
-      { href: "/calendarpage",   label: "Calendar",       icon: CalendarMonthRoundedIcon },
-      { href: "/ebook",          label: "E-Book Maker",   icon: LocalLibraryRoundedIcon },
-      { href: "/rupantarcode",   label: "RupantarCode",   icon: CodeRoundedIcon },
-      { href: "/staffdirectory", label: "Staff Directory",icon: GroupsIcon },
-      { href: "/user",           label: "User List",      icon: AccountCircleRoundedIcon },
-    ],
+      { href: "/posters",       label: "Make Posters",   icon: DashboardCustomizeRoundedIcon },
+      { href: "/badge",         label: "Certificates",   icon: MilitaryTechRoundedIcon },
+      { href: "/Ocrwork",       label: "New Ideas",      icon: HistoryEduRoundedIcon },
+      { href: "/onecrdb",       label: "Data List",      icon: ScienceRoundedIcon },
+      { href: "/calendarpage",  label: "Calendar",       icon: CalendarMonthRoundedIcon },
+      { href: "/ebook",         label: "E-Book Maker",   icon: LocalLibraryRoundedIcon },
+      { href: "/rupantarcode",  label: "RupantarCode",   icon: CodeRoundedIcon }
+        ],
   },
   {
     group: "Yuktai Framework",
     items: [
-      { href: "/yuktai",       label: "About Yuktai",  icon: InfoRoundedIcon },
-      { href: "/whatsapp-bot", label: "WhatsApp Bot",  icon: InfoRoundedIcon },
+      { href: "/yuktai",         label: "About Yuktai", icon: InfoRoundedIcon },
+      { href: "/staffdirectory", label: "Yuktai Demo",  icon: InfoRoundedIcon },
+       { href: "/user",          label: "User List",      icon: AccountCircleRoundedIcon },
+
     ],
   },
 ];
