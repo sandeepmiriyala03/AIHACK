@@ -896,7 +896,7 @@ export default function VaniSetu() {
 
           {/* ══ HERO ══ */}
           <div className="hero">
-            <div className="hero-icon">🤟</div>
+       
             <h1 className="hero-title">VaniSetu — <em>वाणी सेतु</em></h1>
             <p className="hero-sub">
               For deaf &amp; mute parents. Type, upload a document, or upload an audio file to
