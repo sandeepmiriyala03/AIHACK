@@ -246,7 +246,7 @@ const GROUP_ORDER = ["AI Tools & Digitize","Heritage & Culture","Business & Recr
 const GROUP_META: Record<string, { label: string; color: string }> = {
   "AI Tools & Digitize":   { label: "Reading & Digitizing",  color: "#10b981" },
   "Heritage & Culture":    { label: "Heritage & Culture",    color: "#7c3aed" },
-
+  "Business & Recreation": { label: "Business & Recreation", color: "#f59e0b" },
   "Studio & Labs":         { label: "Studio & Labs",         color: "#0ea5e9" },
   "Yuktai Framework":      { label: "Yuktai Framework",      color: "#10b981" },
 };
@@ -600,7 +600,7 @@ export default function HomePage() {
 
           {GROUP_ORDER.map(groupKey => {
             const mods = ALL_MODULES.filter(m => m.group === groupKey);
-            const meta = GROUP_META[groupKey];
+            const meta = GROUP_META[groupKey] ?? { label: groupKey, color: "#94a3b8" };
             return (
               <div key={groupKey}>
                 <div className="grp-div">

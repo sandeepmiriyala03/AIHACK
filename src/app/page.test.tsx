@@ -27,6 +27,10 @@ describe('About Page', () => {
     });
   });
 
+  test('renders grouped module headings without crashing on missing meta', () => {
+    expect(screen.getByText('Business & Recreation')).toBeInTheDocument();
+  });
+
   sections.forEach(({ label, contentText }) => {
     test(`toggles section "${label}" on click`, () => {
       const header = screen.getByRole('button', { name: label });
