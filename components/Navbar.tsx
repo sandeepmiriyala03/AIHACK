@@ -2,78 +2,82 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-/* Icons */
-import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
-import DocumentScannerRoundedIcon from "@mui/icons-material/DocumentScannerRounded";
-import DrawRoundedIcon from "@mui/icons-material/DrawRounded";
-import HistoryEduRoundedIcon from "@mui/icons-material/HistoryEduRounded";
-import MenuBookRoundedIcon from "@mui/icons-material/MenuBookRounded";
-import CollectionsRoundedIcon from "@mui/icons-material/CollectionsRounded";
-import MicRoundedIcon from "@mui/icons-material/MicRounded";
-import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
-import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
-import MilitaryTechRoundedIcon from "@mui/icons-material/MilitaryTechRounded";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import ImageSearchRoundedIcon from "@mui/icons-material/ImageSearchRounded";
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded';
-import InstallMobileRoundedIcon from "@mui/icons-material/InstallMobileRounded";
-import IosShareRoundedIcon from "@mui/icons-material/IosShareRounded";
-import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
-import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-// Icons
 
-import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';   
-import LocalLibraryRoundedIcon from '@mui/icons-material/LocalLibraryRounded';     
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';   
+// ── yuktai (yours) — used where possible ─────────────────────
+import { CloseIcon } from "@yuktishaalaa/yuktai";
 
-const G = "#10b981"; 
-const TEXT_MAIN = "#0f172a"; 
-const TEXT_SUB = "#64748b"; 
+// ── MUI icons — for menu items (yuktai has no equivalents yet) ──
+import UploadFileRoundedIcon            from "@mui/icons-material/UploadFileRounded";
+import DocumentScannerRoundedIcon       from "@mui/icons-material/DocumentScannerRounded";
+import DrawRoundedIcon                  from "@mui/icons-material/DrawRounded";
+import HistoryEduRoundedIcon            from "@mui/icons-material/HistoryEduRounded";
+import MenuBookRoundedIcon              from "@mui/icons-material/MenuBookRounded";
+import CollectionsRoundedIcon           from "@mui/icons-material/CollectionsRounded";
+import MicRoundedIcon                   from "@mui/icons-material/MicRounded";
+import AutoStoriesRoundedIcon           from "@mui/icons-material/AutoStoriesRounded";
+import DashboardCustomizeRoundedIcon    from "@mui/icons-material/DashboardCustomizeRounded";
+import MilitaryTechRoundedIcon          from "@mui/icons-material/MilitaryTechRounded";
+import MenuRoundedIcon                  from "@mui/icons-material/MenuRounded";
+import ImageSearchRoundedIcon           from "@mui/icons-material/ImageSearchRounded";
+import KeyboardArrowDownRoundedIcon     from '@mui/icons-material/KeyboardArrowDownRounded';
+import ScienceRoundedIcon               from '@mui/icons-material/ScienceRounded';
+import InstallMobileRoundedIcon         from "@mui/icons-material/InstallMobileRounded";
+import IosShareRoundedIcon              from "@mui/icons-material/IosShareRounded";
+import CodeRoundedIcon                  from "@mui/icons-material/CodeRounded";
+import InfoRoundedIcon                  from '@mui/icons-material/InfoRounded';
+import CalendarMonthRoundedIcon         from '@mui/icons-material/CalendarMonthRounded';
+import LocalLibraryRoundedIcon          from '@mui/icons-material/LocalLibraryRounded';
+import AccountCircleRoundedIcon         from '@mui/icons-material/AccountCircleRounded';
+
+const G         = "#10b981";
+const TEXT_MAIN = "#0f172a";
+const TEXT_SUB  = "#64748b";
 
 const navGroups = [
   {
-    group: "AI Tools & Digitize", 
+    group: "AI Tools & Digitize",
     items: [
-      { href: "/aksharadrishti", label: "Photo Scanner", icon: ImageSearchRoundedIcon },
-      { href: "/OCR", label: "Text Reader", icon: DocumentScannerRoundedIcon },
-      { href: "/ocreng", label: "Handwriting Reader", icon: DrawRoundedIcon },
-      { href: "/upload", label: "Add Files", icon: UploadFileRoundedIcon },
-      { href: "/voice", label: "Talking AI", icon: MicRoundedIcon }
+      { href: "/aksharadrishti", label: "Photo Scanner",     icon: ImageSearchRoundedIcon },
+      { href: "/OCR",            label: "Text Reader",       icon: DocumentScannerRoundedIcon },
+      { href: "/ocreng",         label: "Handwriting Reader",icon: DrawRoundedIcon },
+      { href: "/upload",         label: "Add Files",         icon: UploadFileRoundedIcon },
+      { href: "/voice",          label: "Talking AI",        icon: MicRoundedIcon },
     ],
   },
   {
-    group: "Heritage & Culture", 
+    group: "Heritage & Culture",
     items: [
       { href: "/Sanskrit", label: "Sanskrit Books", icon: MenuBookRoundedIcon },
-      { href: "/vedha", label: "Old Stories", icon: AutoStoriesRoundedIcon },
-      { href: "/Media", label: "Photo Gallery", icon: CollectionsRoundedIcon },
+      { href: "/vedha",    label: "Old Stories",    icon: AutoStoriesRoundedIcon },
+      { href: "/Media",    label: "Photo Gallery",  icon: CollectionsRoundedIcon },
     ],
   },
   {
-    group: "Studio & Labs", 
+    group: "Studio & Labs",
     items: [
-      { href: "/posters", label: "Make Posters", icon: DashboardCustomizeRoundedIcon },
-      { href: "/badge", label: "Certificates", icon: MilitaryTechRoundedIcon },
-      { href: "/Ocrwork", label: "New Ideas", icon: HistoryEduRoundedIcon },
-      { href: "/onecrdb", label: "Data List", icon: ScienceRoundedIcon },
-      { href: "/calendarpage", label: "Calendar", icon: CalendarMonthRoundedIcon }, 
-      { href: "/ebook", label: "E-Book Maker", icon: LocalLibraryRoundedIcon }, 
-      { href: "/rupantarcode", label: "RupantarCode", icon: CodeRoundedIcon },
-      { href: "/user", label: "User List", icon: AccountCircleRoundedIcon }, 
-    ],
+      { href: "/posters",       label: "Make Posters",   icon: DashboardCustomizeRoundedIcon },
+      { href: "/badge",         label: "Certificates",   icon: MilitaryTechRoundedIcon },
+      { href: "/Ocrwork",       label: "New Ideas",      icon: HistoryEduRoundedIcon },
+      { href: "/onecrdb",       label: "Data List",      icon: ScienceRoundedIcon },
+      { href: "/calendarpage",  label: "Calendar",       icon: CalendarMonthRoundedIcon },
+      { href: "/ebook",         label: "E-Book Maker",   icon: LocalLibraryRoundedIcon },
+      { href: "/rupantarcode",  label: "RupantarCode",   icon: CodeRoundedIcon }
+        ],
   },
   {
-    group: "Yuktai Framework", /* 🌟 Created a brand new Module Group for Yuktai */
+    group: "Yuktai Framework",
     items: [
-      { href: "/yuktai", label: "About Yuktai", icon: InfoRoundedIcon },
-      { href: "/staffdirectory", label: "Yuktai Demo", icon: InfoRoundedIcon },
+      { href: "/yuktai",         label: "About Yuktai", icon: InfoRoundedIcon },
+      { href: "/staffdirectory", label: "Yuktai Demo",  icon: InfoRoundedIcon },
+       { href: "/user",          label: "User List",      icon: AccountCircleRoundedIcon },
+
     ],
   },
 ];
 
-/* PWA Logic */
+// ─────────────────────────────────────────────────────────────
+// PWA Install Logic
+// ─────────────────────────────────────────────────────────────
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
@@ -84,13 +88,15 @@ function useInstallState() {
   const promptRef = useRef<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
-    const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as any).standalone === true;
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as any).standalone === true;
     if (isStandalone) { setState("installed"); return; }
     const ua = navigator.userAgent;
     const isIOS = /iphone|ipad|ipod/i.test(ua);
     const isSafari = /safari/i.test(ua) && !/chrome|crios|fxios/i.test(ua);
     if (isIOS && isSafari) { setState("ios"); return; }
-    
+
     const handler = (e: Event) => {
       e.preventDefault();
       promptRef.current = e as BeforeInstallPromptEvent;
@@ -115,36 +121,58 @@ function InstallFab() {
   if (state === "checking" || state === "unsupported" || state === "installed") return null;
 
   return (
-    <button onClick={triggerPrompt} style={{
-      position: "fixed", bottom: 24, right: 24, zIndex: 9999, height: 48, padding: "0 20px", 
-      borderRadius: 24, border: "none", background: G, color: "white", cursor: "pointer", 
-      display: "flex", alignItems: "center", gap: 8, boxShadow: "0 8px 20px rgba(16,185,129,0.3)",
-      fontFamily: "Outfit, sans-serif", fontWeight: 600, fontSize: 14, transition: '0.2s'
-    }}>
-      {state === "ios" ? <IosShareRoundedIcon style={{ fontSize: 20 }} /> : <InstallMobileRoundedIcon style={{ fontSize: 20 }} />}
+    <button
+      onClick={triggerPrompt}
+      style={{
+        position:     "fixed",
+        bottom:       24,
+        right:        24,
+        zIndex:       9999,
+        height:       48,
+        padding:      "0 20px",
+        borderRadius: 24,
+        border:       "none",
+        background:   G,
+        color:        "white",
+        cursor:       "pointer",
+        display:      "flex",
+        alignItems:   "center",
+        gap:          8,
+        boxShadow:    "0 8px 20px rgba(16,185,129,0.3)",
+        fontFamily:   "Outfit, sans-serif",
+        fontWeight:   600,
+        fontSize:     14,
+        transition:   "0.2s",
+      }}
+    >
+      {state === "ios"
+        ? <IosShareRoundedIcon      style={{ fontSize: 20 }} />
+        : <InstallMobileRoundedIcon style={{ fontSize: 20 }} />}
       <span>{state === "ios" ? "Add to Home" : "Install App"}</span>
     </button>
   );
 }
 
+// ─────────────────────────────────────────────────────────────
+// Main Navbar
+// ─────────────────────────────────────────────────────────────
 interface NavbarProps {
   brand?: string;
 }
 
 export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
-  const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  
+  const [mounted,        setMounted]        = useState(false);
+  const [isMobile,       setIsMobile]       = useState(false);
+  const [drawerOpen,     setDrawerOpen]     = useState(false);
+  const [scrolled,       setScrolled]       = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
-    const handleResize = () => setIsMobile(window.innerWidth < 1024); 
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
     const handleScroll = () => setScrolled(window.scrollY > 10);
-    
+
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setActiveDropdown(null);
@@ -155,7 +183,7 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
     window.addEventListener("resize", handleResize);
     window.addEventListener("scroll", handleScroll);
     document.addEventListener("mousedown", handleClickOutside);
-    
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
@@ -164,11 +192,7 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
   }, []);
 
   const toggleDropdown = (groupName: string) => {
-    if (activeDropdown === groupName) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown(groupName);
-    }
+    setActiveDropdown(activeDropdown === groupName ? null : groupName);
   };
 
   if (!mounted) return null;
@@ -181,7 +205,7 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         .at-desktop-nav {
           position: fixed; top: 0; left: 0; width: 100%; z-index: 2000;
           background: #ffffff;
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
           border-bottom: 1px solid #e2e8f0;
           display: flex; justify-content: space-between; align-items: center;
           padding: ${scrolled ? "10px 24px" : "14px 24px"};
@@ -192,15 +216,15 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         .at-menu-wrapper {
           display: flex;
           gap: 2px;
-          flex-wrap: nowrap; 
+          flex-wrap: nowrap;
           justify-content: flex-end;
           flex: 1;
           margin-left: 12px;
         }
 
         .at-link-main {
-          display: flex; align-items: center; gap: 1px; 
-          padding: 6px 6px; 
+          display: flex; align-items: center; gap: 1px;
+          padding: 6px 6px;
           color: ${TEXT_SUB}; font-family: 'Outfit', sans-serif; font-size: 13.5px;
           font-weight: 500; text-decoration: none; border-radius: 6px; transition: all 0.15s ease;
           white-space: nowrap;
@@ -209,27 +233,27 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         .at-link-main:hover, .at-link-main.active { background: #f1f5f9; color: ${TEXT_MAIN}; }
 
         .nav-container { position: relative; display: inline-block; }
-        
+
         .dropdown-menu {
           position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px);
-          min-width: 210px; background: #ffffff; border: 1px solid #e2e8f0; 
-          border-radius: 12px; padding: 6px; 
-          display: none; 
-          box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05); 
+          min-width: 210px; background: #ffffff; border: 1px solid #e2e8f0;
+          border-radius: 12px; padding: 6px;
+          display: none;
+          box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05), 0 8px 10px -6px rgba(0,0,0,0.05);
           z-index: 5000;
         }
-        
+
         .dropdown-menu.show {
           display: block;
         }
-        
+
         .nav-container:nth-last-child(-n+2) .dropdown-menu {
           left: auto; right: 0; transform: translateY(8px);
         }
 
         .dropdown-item {
           display: flex; align-items: center; gap: 10px; padding: 10px 14px;
-          color: ${TEXT_SUB}; text-decoration: none; font-size: 13.5px; 
+          color: ${TEXT_SUB}; text-decoration: none; font-size: 13.5px;
           font-family: 'Outfit', sans-serif; font-weight: 500; border-radius: 8px;
           transition: all 0.15s ease;
           white-space: nowrap;
@@ -246,18 +270,19 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         .at-drawer.open { transform: translateX(0); }
       `}</style>
 
+      {/* ─── Desktop Navbar ─── */}
       {!isMobile && (
         <nav className="at-desktop-nav" ref={navRef}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', flexShrink: 0 }} onClick={() => setActiveDropdown(null)}>
+          <Link
+            href="/"
+            style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', flexShrink: 0 }}
+            onClick={() => setActiveDropdown(null)}
+          >
             <Image src="/icon-512.png" alt="Logo" width={22} height={22} />
             <span style={{ color: TEXT_MAIN, fontWeight: 700, fontFamily: 'Outfit', fontSize: 18, letterSpacing: "-0.02em" }}>
               {brand === "AksharaTantra" ? (
-                <>
-                  Akshara<span style={{ color: G }}>Tantra</span>
-                </>
-              ) : (
-                brand
-              )}
+                <>Akshara<span style={{ color: G }}>Tantra</span></>
+              ) : (brand)}
             </span>
           </Link>
 
@@ -265,17 +290,36 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
             <Link href="/" className="at-link-main" onClick={() => setActiveDropdown(null)}>Home</Link>
             {navGroups.map((group) => (
               <div key={group.group} className="nav-container">
-                <div 
-                  className={`at-link-main ${activeDropdown === group.group ? 'active' : ''}`} 
+                <div
+                  className={`at-link-main ${activeDropdown === group.group ? 'active' : ''}`}
                   style={{ cursor: "pointer" }}
                   onClick={() => toggleDropdown(group.group)}
                 >
-                  {group.group} <KeyboardArrowDownRoundedIcon style={{ fontSize: 13, opacity: 0.5, marginLeft: 1, transform: activeDropdown === group.group ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+                  {group.group}{" "}
+                  {/* Dropdown arrow kept as MUI — yuktai has no ChevronDown yet */}
+                  <KeyboardArrowDownRoundedIcon
+                    style={{
+                      fontSize: 13,
+                      opacity: 0.5,
+                      marginLeft: 1,
+                      transform: activeDropdown === group.group ? 'rotate(180deg)' : 'none',
+                      transition: 'transform 0.2s',
+                    }}
+                  />
                 </div>
                 <div className={`dropdown-menu ${activeDropdown === group.group ? 'show' : ''}`}>
                   {group.items.map((item) => (
-                    <Link key={item.href} href={item.href} className="dropdown-item" onClick={() => setActiveDropdown(null)}>
-                      <item.icon className="dropdown-icon" style={{ fontSize: 18, color: "#94a3b8", transition: "color 0.15s" }} /> {item.label}
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="dropdown-item"
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <item.icon
+                        className="dropdown-icon"
+                        style={{ fontSize: 18, color: "#94a3b8", transition: "color 0.15s" }}
+                      />{" "}
+                      {item.label}
                     </Link>
                   ))}
                 </div>
@@ -285,26 +329,135 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         </nav>
       )}
 
-      {/* Mobile view Layer */}
+      {/* ─── Mobile View ─── */}
       {isMobile && (
         <>
-          <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 60, zIndex: 2000, background: "#ffffff", display: "flex", alignItems: "center", padding: "0 16px", borderBottom: "1px solid #e2e8f0", boxSizing: "border-box" }}>
-            <button onClick={() => setDrawerOpen(true)} style={{ background: "#f1f5f9", border: "none", padding: 8, borderRadius: 8, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}><MenuRoundedIcon sx={{ color: TEXT_MAIN }} /></button>
-            <div style={{ flex: 1, textAlign: "center", fontWeight: 700, fontFamily: "Outfit, sans-serif", fontSize: 16, color: TEXT_MAIN }}>AksharaTantra</div>
-          </div>
-          {drawerOpen && <div onClick={() => setDrawerOpen(false)} style={{ position: "fixed", inset: 0, background: "rgba(15, 23, 42, 0.15)", backdropFilter: "blur(4px)", zIndex: 2100 }} />}
-          <div className={`at-drawer ${drawerOpen ? "open" : ""}`}>
-             <div style={{ padding: 20, display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e2e8f0" }}>
-              <span style={{ fontWeight: 700, fontFamily: "Outfit, sans-serif", color: TEXT_MAIN }}>Navigation</span>
-              <CloseRoundedIcon onClick={() => setDrawerOpen(false)} style={{ cursor: "pointer", color: TEXT_SUB }} />
+          <div
+            style={{
+              position:      "fixed",
+              top:           0,
+              left:          0,
+              right:         0,
+              height:        60,
+              zIndex:        2000,
+              background:    "#ffffff",
+              display:       "flex",
+              alignItems:    "center",
+              padding:       "0 16px",
+              borderBottom:  "1px solid #e2e8f0",
+              boxSizing:     "border-box",
+            }}
+          >
+            <button
+              onClick={() => setDrawerOpen(true)}
+              style={{
+                background:    "#f1f5f9",
+                border:        "none",
+                padding:       8,
+                borderRadius:  8,
+                cursor:        "pointer",
+                display:       "flex",
+                alignItems:    "center",
+                justifyContent:"center",
+              }}
+              aria-label="Open menu"
+            >
+              <MenuRoundedIcon sx={{ color: TEXT_MAIN }} />
+            </button>
+            <div
+              style={{
+                flex:       1,
+                textAlign:  "center",
+                fontWeight: 700,
+                fontFamily: "Outfit, sans-serif",
+                fontSize:   16,
+                color:      TEXT_MAIN,
+              }}
+            >
+              AksharaTantra
             </div>
-            <div style={{ overflowY: 'auto', paddingBottom: 20 }}>
-              {navGroups.map(g => (
+          </div>
+
+          {/* Overlay */}
+          {drawerOpen && (
+            <div
+              onClick={() => setDrawerOpen(false)}
+              style={{
+                position:       "fixed",
+                inset:          0,
+                background:     "rgba(15, 23, 42, 0.15)",
+                backdropFilter: "blur(4px)",
+                zIndex:         2100,
+              }}
+            />
+          )}
+
+          {/* Drawer */}
+          <div className={`at-drawer ${drawerOpen ? "open" : ""}`}>
+            <div
+              style={{
+                padding:        20,
+                display:        "flex",
+                justifyContent: "space-between",
+                alignItems:     "center",
+                borderBottom:   "1px solid #e2e8f0",
+              }}
+            >
+              <span style={{ fontWeight: 700, fontFamily: "Outfit, sans-serif", color: TEXT_MAIN }}>
+                Navigation
+              </span>
+              {/* yuktai CloseIcon replaces MUI CloseRoundedIcon */}
+              <button
+                onClick={() => setDrawerOpen(false)}
+                style={{
+                  background:   "transparent",
+                  border:       "none",
+                  cursor:       "pointer",
+                  padding:      4,
+                  display:      "flex",
+                  alignItems:   "center",
+                }}
+                aria-label="Close menu"
+              >
+                <CloseIcon size={22} color={TEXT_SUB} />
+              </button>
+            </div>
+
+            <div style={{ overflowY: "auto", paddingBottom: 20 }}>
+              {navGroups.map((g) => (
                 <div key={g.group} style={{ padding: "12px 0", borderBottom: "1px solid #f1f5f9" }}>
-                  <div style={{ padding: "4px 20px", fontSize: 11, color: TEXT_SUB, fontFamily: "Outfit, sans-serif", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>{g.group}</div>
-                  {g.items.map(i => (
-                    <Link key={i.href} href={i.href} onClick={() => setDrawerOpen(false)} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 20px", textDecoration: "none", color: TEXT_MAIN, fontFamily: "Outfit, sans-serif", fontSize: 14.5, fontWeight: 500 }}>
-                      <i.icon style={{ fontSize: 20, color: TEXT_SUB }} /> {i.label}
+                  <div
+                    style={{
+                      padding:       "4px 20px",
+                      fontSize:      11,
+                      color:         TEXT_SUB,
+                      fontFamily:    "Outfit, sans-serif",
+                      fontWeight:    700,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}
+                  >
+                    {g.group}
+                  </div>
+                  {g.items.map((i) => (
+                    <Link
+                      key={i.href}
+                      href={i.href}
+                      onClick={() => setDrawerOpen(false)}
+                      style={{
+                        display:        "flex",
+                        alignItems:     "center",
+                        gap:            12,
+                        padding:        "10px 20px",
+                        textDecoration: "none",
+                        color:          TEXT_MAIN,
+                        fontFamily:     "Outfit, sans-serif",
+                        fontSize:       14.5,
+                        fontWeight:     500,
+                      }}
+                    >
+                      <i.icon style={{ fontSize: 20, color: TEXT_SUB }} />
+                      {i.label}
                     </Link>
                   ))}
                 </div>
