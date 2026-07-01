@@ -229,27 +229,24 @@ const ALL_MODULES = [
   { href: "/vedha",          icon: AutoStoriesRoundedIcon,       color: "#7c3aed", bg: "#f5f3ff", label: "Old Stories",         tagline: "Vedic text digitizer",         desc: "OCR for Sanskrit and Vedic manuscripts with pitch accent marking.", bullets: ["Pitch accents","Sanskrit-first","HTML export"], group: "Heritage & Culture", badge: "NEW" },
   { href: "/kosha",          icon: SpellcheckRoundedIcon,        color: "#0ea5e9", bg: "#f0f9ff", label: "Kosha Dictionary",    tagline: "Multilingual word explorer",   desc: "Explore meanings across Sanskrit, Telugu, Hindi and more.", bullets: ["Cross-language","Semantic search","Offline"], group: "Heritage & Culture", badge: null },
   { href: "/Media",          icon: CollectionsRoundedIcon,       color: "#d97706", bg: "#fffbeb", label: "Photo Gallery",       tagline: "Cultural media library",       desc: "Browse and search a curated collection of Indic cultural photography.", bullets: ["Tagged archive","Search","Download"], group: "Heritage & Culture", badge: null },
-  // Business
-  { href: "/kyc",            icon: VerifiedUserRoundedIcon,      color: "#10b981", bg: "#f0fdf4", label: "Secure KYC",          tagline: "ID verification tool",         desc: "Offline-safe KYC document reader with privacy-first processing.", bullets: ["Privacy-first","Offline","Instant verify"], group: "Business & Recreation", badge: null },
-  { href: "/smsparser",      icon: TextSnippetRoundedIcon,       color: "#6366f1", bg: "#eef2ff", label: "SMS Parser",          tagline: "Parse financial SMSes",        desc: "Extract transaction details from bank SMS messages automatically.", bullets: ["Bank SMS","Auto extract","CSV export"], group: "Business & Recreation", badge: null },
-  { href: "/chess",          icon: SportsEsportsRoundedIcon,     color: "#7c3aed", bg: "#f5f3ff", label: "Vedic Chess",         tagline: "Chess with Sanskrit notation", desc: "Play chess with Chaturanga-style Sanskrit piece names and notation.", bullets: ["Sanskrit notation","Offline","Two-player"], group: "Business & Recreation", badge: "NEW" },
-  { href: "/ipl",            icon: SportsCricketRoundedIcon,     color: "#f59e0b", bg: "#fffbeb", label: "IPL Dashboard",       tagline: "Live cricket tracker",         desc: "Track IPL scores, team standings and player stats in real time.", bullets: ["Live scores","Team stats","Player cards"], group: "Business & Recreation", badge: null },
-  // Studio
+   // Studio
   { href: "/posters",        icon: DashboardCustomizeRoundedIcon,color: "#0ea5e9", bg: "#f0f9ff", label: "Make Posters",        tagline: "Multilingual design tool",     desc: "Design beautiful posters in 40+ languages with custom fonts and QR codes.", bullets: ["40+ languages","QR code + voice","Print-ready"], group: "Studio & Labs", badge: "NEW" },
   { href: "/badge",          icon: MilitaryTechRoundedIcon,      color: "#ec4899", bg: "#fdf2f8", label: "Certificates",        tagline: "Auto certificate maker",       desc: "Generate and print certificates with custom names and templates.", bullets: ["Custom templates","Bulk generation","PDF download"], group: "Studio & Labs", badge: null },
   { href: "/calendarpage",   icon: CalendarMonthRoundedIcon,     color: "#64748b", bg: "#f8fafc", label: "Calendar",            tagline: "Panchanga planner",            desc: "Personal planner with Panchanga — see Tithi, Nakshatra alongside events.", bullets: ["Panchanga overlay","Personal events","Offline"], group: "Studio & Labs", badge: "NEW" },
   { href: "/ebook",          icon: LocalLibraryRoundedIcon,      color: "#059669", bg: "#f0fdf4", label: "E-Book Maker",        tagline: "Publish digital books",        desc: "Convert documents into beautiful e-books ready for sharing or download.", bullets: ["Multi-format","Cover design","Offline"], group: "Studio & Labs", badge: null },
   { href: "/rupantarcode",   icon: CodeRoundedIcon,              color: "#8b5cf6", bg: "#f5f3ff", label: "RupantarCode",        tagline: "Script transliterator",        desc: "Instantly convert text between any two Indic scripts or romanisation.", bullets: ["Any Indic script","Romanisation","Copy & paste"], group: "Studio & Labs", badge: null },
   // Yuktai
-  { href: "/yuktai",         icon: InfoRoundedIcon,              color: "#10b981", bg: "#f0fdf4", label: "About Yuktai",        tagline: "Accessibility framework",      desc: "Install as a node module — supports React, Angular, Next.js. One import, full accessibility.", bullets: ["React/Next.js/Angular","One function call","WCAG 2.1 AA"], group: "Yuktai Framework", badge: "NEW" },
-  { href: "/whatsapp-bot",   icon: InfoRoundedIcon,              color: "#25d366", bg: "#f0fdf4", label: "WhatsApp Bot",        tagline: "Vernacular messaging AI",      desc: "Interact with AksharaTantra tools via WhatsApp in your own language.", bullets: ["19+ languages","No app install","Voice replies"], group: "Yuktai Framework", badge: "NEW" },
-];
+   { href: "/yuktai",         label: "About Yuktai", icon: InfoRoundedIcon },
+      { href: "/staffdirectory", label: "Yuktai Demo",  icon: InfoRoundedIcon },
+       { href: "/user",          label: "User List",      icon: AccountCircleRoundedIcon },
+
+   ];
 
 const GROUP_ORDER = ["AI Tools & Digitize","Heritage & Culture","Business & Recreation","Studio & Labs","Yuktai Framework"];
 const GROUP_META: Record<string, { label: string; color: string }> = {
   "AI Tools & Digitize":   { label: "Reading & Digitizing",  color: "#10b981" },
   "Heritage & Culture":    { label: "Heritage & Culture",    color: "#7c3aed" },
-  "Business & Recreation": { label: "Business & Recreation", color: "#f59e0b" },
+
   "Studio & Labs":         { label: "Studio & Labs",         color: "#0ea5e9" },
   "Yuktai Framework":      { label: "Yuktai Framework",      color: "#10b981" },
 };
