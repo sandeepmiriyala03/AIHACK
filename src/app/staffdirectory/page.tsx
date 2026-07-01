@@ -20,18 +20,27 @@ import {
   ToggleButtonGroup,
   Tooltip,
 } from "@mui/material";
-import { YuktaiGrid, type GridColumn, type GridTheme } from "@yuktishaalaa/yuktai";
+import PaletteIcon from "@mui/icons-material/Palette";
 import Navbar from "@/components/Navbar";
-
+import {
+  YuktaiGrid,
+  type GridColumn,
+  type GridTheme,
+  SearchIcon,
+  SortUpIcon,
+  SortDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CheckIcon,
+  CloseIcon,
+} from "@yuktishaalaa/yuktai";
 // Icons
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import CakeIcon from "@mui/icons-material/Cake";
 import GroupsIcon from "@mui/icons-material/Groups";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PaletteIcon from "@mui/icons-material/Palette";
-import SearchIcon from "@mui/icons-material/Search";
-import SortIcon from "@mui/icons-material/Sort";
+
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import KeyboardIcon from "@mui/icons-material/Keyboard";
 import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
@@ -371,7 +380,7 @@ function UserGuide() {
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Avatar sx={{ bgcolor: "success.light", width: 32, height: 32 }}>
-              <SearchIcon fontSize="small" />
+            <SearchIcon size={18} />
             </Avatar>
             <Typography fontWeight={600}>Step 2 — Search employees</Typography>
           </Stack>
@@ -392,7 +401,7 @@ function UserGuide() {
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Stack direction="row" spacing={1.5} alignItems="center">
             <Avatar sx={{ bgcolor: "info.light", width: 32, height: 32 }}>
-              <SortIcon fontSize="small" />
+              <SortUpIcon size={18} />
             </Avatar>
             <Typography fontWeight={600}>Step 3 — Sort columns</Typography>
           </Stack>
@@ -522,10 +531,9 @@ function EmptyState({ title, subtitle }: { title: string; subtitle: string }) {
   return (
     <Card sx={{ borderRadius: 4 }}>
       <CardContent sx={{ textAlign: "center", py: { xs: 5, sm: 7 } }}>
-        <SentimentDissatisfiedIcon
-          sx={{ fontSize: 48, color: "text.disabled", mb: 1.5 }}
-        />
-        <Typography variant="h6" fontWeight="bold" gutterBottom>
+        {/* Updated CloseIcon */}
+        <CloseIcon /> 
+        <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ mt: 2 }}>
           {title}
         </Typography>
         <Typography color="text.secondary">{subtitle}</Typography>
