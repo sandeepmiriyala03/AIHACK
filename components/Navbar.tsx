@@ -1,9 +1,7 @@
 "use client";
-
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
 /* Icons */
 import UploadFileRoundedIcon from "@mui/icons-material/UploadFileRounded";
 import DocumentScannerRoundedIcon from "@mui/icons-material/DocumentScannerRounded";
@@ -23,15 +21,9 @@ import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded';
 import InstallMobileRoundedIcon from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon from "@mui/icons-material/IosShareRounded";
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
-import GroupsIcon from "@mui/icons-material/Groups";
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-
 // Icons
-import SportsEsportsRoundedIcon from '@mui/icons-material/SportsEsportsRounded'; 
-import SportsCricketRoundedIcon from '@mui/icons-material/SportsCricketRounded'; 
-import SpellcheckRoundedIcon from '@mui/icons-material/SpellcheckRounded';         
-import VerifiedUserRoundedIcon from '@mui/icons-material/VerifiedUserRounded';     
-import TextSnippetRoundedIcon from '@mui/icons-material/TextSnippetRounded';       
+
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';   
 import LocalLibraryRoundedIcon from '@mui/icons-material/LocalLibraryRounded';     
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';   
@@ -56,17 +48,7 @@ const navGroups = [
     items: [
       { href: "/Sanskrit", label: "Sanskrit Books", icon: MenuBookRoundedIcon },
       { href: "/vedha", label: "Old Stories", icon: AutoStoriesRoundedIcon },
-      { href: "/kosha", label: "Kosha Dictionary", icon: SpellcheckRoundedIcon },
       { href: "/Media", label: "Photo Gallery", icon: CollectionsRoundedIcon },
-    ],
-  },
-  {
-    group: "Business & Recreation", 
-    items: [
-      { href: "/kyc", label: "Secure KYC", icon: VerifiedUserRoundedIcon }, 
-      { href: "/smsparser", label: "SMS Parser", icon: TextSnippetRoundedIcon }, 
-      { href: "/chess", label: "Vedic Chess", icon: SportsEsportsRoundedIcon }, 
-      { href: "/ipl", label: "IPL Dashboard", icon: SportsCricketRoundedIcon }, 
     ],
   },
   {
