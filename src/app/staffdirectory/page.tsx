@@ -458,8 +458,7 @@ export default function Home() {
               <Typography variant="body2" fontWeight={600} color="#166534">
                 Ask & Highlight
               </Typography>
-              <Chip label="v4.2.0" size="small" sx={{ bgcolor: G, color: "#fff", fontWeight: 700, fontSize: "0.65rem", height: 20 }} />
-              {activeAction && (
+               {activeAction && (
                 <>
                   <Chip label={`${highlightIds.length} highlighted`} size="small" sx={{ bgcolor: activeAction.color, color: "#fff", fontSize: "0.7rem" }} />
                   <Button size="small" onClick={clearHighlight} startIcon={<CloseIcon size={14} />} sx={{ textTransform: "none", fontSize: "0.75rem", color: "#64748b" }}>
