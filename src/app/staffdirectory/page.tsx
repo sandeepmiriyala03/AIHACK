@@ -491,10 +491,9 @@ export default function Home() {
                 {chatOpen ? "Close" : "Ask Yukti"}
               </Button>
             </Stack>
-
-            <Typography variant="caption" color="text.secondary">
-              Click a button below OR click <strong>Ask Yukti</strong> → mic → say "top salaries" / "youngest" / "dark theme".
-            </Typography>
+<Typography variant="caption" color="text.secondary">
+  Click a button below OR click <strong>Ask Yukti</strong> → mic → say &quot;top salaries&quot; / &quot;youngest&quot; / &quot;dark theme&quot;.
+</Typography>
 
             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
               {HIGHLIGHT_ACTIONS.map((action) => {
@@ -597,14 +596,14 @@ export default function Home() {
             <Stack spacing={2}>
               <Stack direction="row" alignItems="center" spacing={1.5}>
                 <VolumeUpRoundedIcon sx={{ color: G, fontSize: 20 }} />
-                <Typography variant="body2">
-                  <strong>Voice Assistant (NEW):</strong> Click "Ask Yukti" button at top → mic → speak: "dark theme", "top salaries", "youngest".
-                </Typography>
+               <Typography variant="body2">
+  <strong>Voice Assistant (NEW):</strong> Click {'"'}Ask Yukti{'"'} button at top → mic → speak: {'"'}dark theme{'"'}, {'"'}top salaries{'"'}, {'"'}youngest{'"'}.
+</Typography>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1.5}>
                 <AutoAwesomeIcon sx={{ color: G, fontSize: 20 }} />
                 <Typography variant="body2">
-                  <strong>Ask & Highlight (NEW v4.2.0):</strong> Rows glow — full data stays visible for context.
+                  <strong>Ask & Highlight :</strong> Rows glow — full data stays visible for context.
                 </Typography>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1.5}>
@@ -648,15 +647,29 @@ export default function Home() {
               <Chip label="NEW" size="small" sx={{ bgcolor: G, color: "#fff", fontWeight: 700, fontSize: "0.6rem", height: 18 }} />
             </Stack>
           </AccordionSummary>
-          <AccordionDetails>
-            <Stack spacing={1.2}>
-              <Typography variant="body2"><strong>🔍 Search:</strong> "search Ravi", "find Sandeep", "clear search"</Typography>
-              <Typography variant="body2"><strong>🎨 Themes:</strong> "dark theme", "light theme", "dyslexia", "high contrast"</Typography>
-              <Typography variant="body2"><strong>✨ Highlights:</strong> "top salaries", "youngest", "oldest", "salary anomalies", "clear highlights"</Typography>
-              <Typography variant="body2"><strong>❓ Questions:</strong> "highest salary?", "average age?", "how many employees?"</Typography>
-              <Typography variant="body2"><strong>💡 Help:</strong> "help", "what can you do"</Typography>
-            </Stack>
-          </AccordionDetails>
+        <AccordionDetails>
+  <Stack spacing={1.2}>
+    <Typography variant="body2">
+      <strong>🔍 Search:</strong> &quot;search Ravi&quot;, &quot;find Sandeep&quot;, &quot;clear search&quot;
+    </Typography>
+
+    <Typography variant="body2">
+      <strong>🎨 Themes:</strong> &quot;dark theme&quot;, &quot;light theme&quot;, &quot;dyslexia&quot;, &quot;high contrast&quot;
+    </Typography>
+
+    <Typography variant="body2">
+      <strong>✨ Highlights:</strong> &quot;top salaries&quot;, &quot;youngest&quot;, &quot;oldest&quot;, &quot;salary anomalies&quot;, &quot;clear highlights&quot;
+    </Typography>
+
+    <Typography variant="body2">
+      <strong>❓ Questions:</strong> &quot;highest salary?&quot;, &quot;average age?&quot;, &quot;how many employees?&quot;
+    </Typography>
+
+    <Typography variant="body2">
+      <strong>💡 Help:</strong> &quot;help&quot;, &quot;what can you do&quot;
+    </Typography>
+  </Stack>
+</AccordionDetails>
         </Accordion>
 
         {/* ─── KEYBOARD SHORTCUTS ─── */}
