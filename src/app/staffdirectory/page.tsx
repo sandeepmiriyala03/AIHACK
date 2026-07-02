@@ -256,18 +256,25 @@ export default function Home() {
 
   // ── Apply highlight ──
   const applyHighlight = async (strategy: HighlightStrategy) => {
+    console.log("🎨 applyHighlight called:", strategy);
     if (strategy === "none" || strategy === activeStrategy) {
+      console.log("🎨 Clearing (same strategy or none)");
       setHighlightIds([]);
       setActiveStrategy("none");
       return;
     }
     try {
-      const res = await fetch(`/api/employees?highlight=${strategy}`);
+      const url = `/api/employees?highlight=${strategy}`;
+      console.log("🎨 Fetching:", url);
+      const res = await fetch(url);
       const response = await res.json();
-      setHighlightIds(response.highlightIds ?? []);
+      console.log("🎨 API response:", response);
+      const ids = response.highlightIds ?? [];
+      console.log("🎨 Setting highlightIds:", ids);
+      setHighlightIds(ids);
       setActiveStrategy(strategy);
     } catch (err) {
-      console.error("Highlight failed:", err);
+      console.error("🎨 Highlight failed:", err);
     }
   };
 
@@ -327,27 +334,33 @@ export default function Home() {
     }
 
     // COMMAND: highlight actions
-    if (/top salar|highest salar|highest paid/.test(t)) {
+    if (/top salar|highest salar|highest paid|top pay/.test(t)) {
+      console.log("🎯 Voice command: top-salary");
       applyHighlight("top-salary");
-      return "Highlighting top 5 salaries.";
+      return "Fetching top 5 salaries. Watch the grid.";
     }
-    if (/low salar|lowest salar|bottom salar/.test(t)) {
+    if (/low salar|lowest salar|bottom salar|low pay/.test(t)) {
+      console.log("🎯 Voice command: low-salary");
       applyHighlight("low-salary");
-      return "Highlighting bottom 5 salaries.";
+      return "Fetching lowest 5 salaries. Watch the grid.";
     }
-    if (/youngest/.test(t)) {
+    if (/youngest|young/.test(t)) {
+      console.log("🎯 Voice command: youngest");
       applyHighlight("youngest");
-      return "Highlighting youngest 5 employees.";
+      return "Fetching youngest 5 employees. Watch the grid.";
     }
-    if (/oldest/.test(t)) {
+    if (/oldest|old/.test(t)) {
+      console.log("🎯 Voice command: oldest");
       applyHighlight("oldest");
-      return "Highlighting oldest 5 employees.";
+      return "Fetching oldest 5 employees. Watch the grid.";
     }
-    if (/anomal|unusual|suspicious|outlier/.test(t)) {
+    if (/anomal|unusual|suspicious|outlier|strange/.test(t)) {
+      console.log("🎯 Voice command: anomaly-salary");
       applyHighlight("anomaly-salary");
-      return "Highlighting salary anomalies.";
+      return "Fetching salary anomalies. Watch the grid.";
     }
-    if (/clear highlight|remove highlight|no highlight/.test(t)) {
+    if (/clear highlight|remove highlight|no highlight|clear all/.test(t)) {
+      console.log("🎯 Voice command: clear highlights");
       clearHighlight();
       return "Cleared all highlights.";
     }
@@ -454,10 +467,33 @@ export default function Home() {
                   </Button>
                 </>
               )}
+
+              {/* Spacer to push Ask Yukti button to the right */}
+              <Box sx={{ flexGrow: 1 }} />
+
+              {/* 🤖 Ask Yukti Button — INSIDE the card, top-right */}
+              <Button
+                variant="contained"
+                onClick={() => setChatOpen(!chatOpen)}
+                startIcon={<SmartToyRoundedIcon />}
+                size="small"
+                sx={{
+                  bgcolor: chatOpen ? "#dc2626" : G,
+                  color: "#fff",
+                  textTransform: "none",
+                  fontWeight: 600,
+                  fontSize: "0.8rem",
+                  borderRadius: 2,
+                  boxShadow: "0 2px 8px rgba(16,185,129,0.3)",
+                  "&:hover": { bgcolor: chatOpen ? "#b91c1c" : "#059669" },
+                }}
+              >
+                {chatOpen ? "Close" : "Ask Yukti"}
+              </Button>
             </Stack>
 
             <Typography variant="caption" color="text.secondary">
-              Click a button OR click 🎤 and say "top salaries" / "youngest" / "salary anomalies".
+              Click a button below OR click <strong>Ask Yukti</strong> → mic → say "top salaries" / "youngest" / "dark theme".
             </Typography>
 
             <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
@@ -555,20 +591,20 @@ export default function Home() {
         {/* ─── GRID CONTROLS OVERVIEW ─── */}
         <Accordion sx={{ borderRadius: 4, mb: 2 }} defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography fontWeight={600}>Grid Controls Overview</Typography>
+            <Typography fontWeight={600}>🎯 Grid Controls Overview (All 7 Yuktai Icons)</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Stack spacing={2}>
               <Stack direction="row" alignItems="center" spacing={1.5}>
                 <VolumeUpRoundedIcon sx={{ color: G, fontSize: 20 }} />
                 <Typography variant="body2">
-                  <strong>Voice Assistant (NEW):</strong> Click 🤖 button bottom-right → mic → speak commands like "dark theme" or "top salaries".
+                  <strong>Voice Assistant (NEW):</strong> Click "Ask Yukti" button at top → mic → speak: "dark theme", "top salaries", "youngest".
                 </Typography>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1.5}>
                 <AutoAwesomeIcon sx={{ color: G, fontSize: 20 }} />
                 <Typography variant="body2">
-                  <strong>Ask & Highlight (NEW):</strong> Rows glow yellow — full data stays visible for context.
+                  <strong>Ask & Highlight (NEW v4.2.0):</strong> Rows glow — full data stays visible for context.
                 </Typography>
               </Stack>
               <Stack direction="row" alignItems="center" spacing={1.5}>
@@ -656,29 +692,13 @@ export default function Home() {
         </Box>
       </Container>
 
-      {/* ═══════════ FLOATING CHAT BUTTON ═══════════ */}
-      {/* Positioned ABOVE the InstallFab from Navbar */}
-      <button
-        onClick={() => setChatOpen(!chatOpen)}
-        aria-label={chatOpen ? "Close chat" : "Open chat"}
-        style={{
-          position: "fixed", bottom: 90, right: 24, zIndex: 9998,
-          width: 56, height: 56, borderRadius: 28,
-          background: chatOpen ? "#dc2626" : G, color: "#fff",
-          border: "none", cursor: "pointer",
-          boxShadow: "0 8px 20px rgba(16,185,129,0.35)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          transition: "transform 0.2s",
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
-        onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
-      >
-        {chatOpen ? <CloseIcon size={22} color="#fff" /> : <SmartToyRoundedIcon style={{ fontSize: 28 }} />}
-      </button>
-
+      {/* ═══════════ CHAT PANEL (opens from Ask & Highlight card button) ═══════════ */}
       {chatOpen && (
         <div role="dialog" aria-label="Yukti Assistant" style={{
-          position: "fixed", bottom: 160, right: 24,
+          position: "fixed",
+          top: "50%",
+          right: 24,
+          transform: "translateY(-50%)",
           width: 360, maxWidth: "calc(100vw - 48px)",
           height: 500, maxHeight: "70vh",
           background: "#fff", border: `1px solid ${BORDER}`,
