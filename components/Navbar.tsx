@@ -73,6 +73,14 @@ const navGroups = [
 
     ],
   },
+
+   {
+    group: "Agents",
+    items: [
+      { href: "/codeagent",         label: "codeagent", icon: CodeRoundedIcon }
+
+    ],
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────
