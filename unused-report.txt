@@ -1,0 +1,183 @@
+﻿===== AIHACK =====  10/02/2026 15:03:22
+
+## 1. Android files (0)
+  (ఏమీ లేవు ✅)
+
+## 2. Git లో అతిపెద్ద 25 files
+
+File                                                               MB
+----                                                               --
+public\Multi.mp4                                                29.73
+public\tessdata\chi_tra.traineddata.gz                          25.86
+public\tessdata\chi_sim.traineddata.gz                          19.23
+public\tessdata\jpn.traineddata.gz                              15.41
+public\tesseract\public\tesseract\lang-data\eng.traineddata     14.69
+public\tessdata\eng.traineddata                                 14.69
+public\tessdata\rus.traineddata                                 14.59
+public\tesseract\public\tesseract\lang-data\rus.traineddata     14.59
+public\tessdata\san.traineddata                                 14.44
+public\tesseract\public\tesseract\lang-data\san.traineddata     14.44
+public\tesseract\public\tesseract\lang-data\jpn.traineddata     13.67
+public\tessdata\jpn.traineddata                                 13.67
+public\tessdata\swe.traineddata                                 13.66
+public\tesseract\public\tesseract\lang-data\swe.traineddata     13.66
+public\tesseract\public\tesseract\lang-data\spa.traineddata     12.94
+public\tessdata\spa.traineddata                                 12.94
+public\tessdata\mar.traineddata                                 12.82
+public\tesseract\public\tesseract\lang-data\mar.traineddata     12.82
+public\tesseract\public\tesseract\lang-data\chi_sim.traineddata 12.47
+public\tessdata\chi_sim.traineddata                             12.47
+public\tessdata\chi_tra.traineddata                             12.38
+public\tesseract\public\tesseract\lang-data\chi_tra.traineddata 12.38
+public\tesseract\public\tesseract\lang-data\ara.traineddata     12.02
+public\tessdata\ara.traineddata                                 12.02
+public\tesseract\public\tesseract\lang-data\kor.traineddata     11.95
+
+
+
+
+## 3. Folder వారీగా size
+
+Folder               Files     MB
+------               -----     --
+public                 200 961.87
+.wa-session            226  40.34
+components             275  38.06
+eng.traineddata          1   4.96
+src                     39   0.82
+package-lock.json        1   0.69
+tsconfig.tsbuildinfo     1   0.54
+ocr-api                 48   0.36
+lib                      9    0.1
+Styles                   3   0.04
+hooks                    4   0.01
+README.md                1   0.01
+types                    7   0.01
+server.js                1   0.01
+.npmrc                   1      0
+.gitignore               1      0
+eslint.config.mjs        1      0
+download-model.mjs       1      0
+.eslintrc.json           1      0
+.env.local               1      0
+.gitattributes           1      0
+services                 1      0
+next-env.d.ts            1      0
+setDeployTime.js         1      0
+package.json             1      0
+next.config.js           1      0
+tsconfig.json            1      0
+.vercel                  2      0
+jest.config.js           1      0
+jest.setup.ts            1      0
+unused-report.txt        1      0
+
+
+
+
+## 4. public/ లో వాడనట్టు కనిపిస్తున్నవి (81) — తీసేసే ముందు తప్పక చూడండి
+
+File                                                              MB
+----                                                              --
+public\tessdata\chi_tra.traineddata.gz                         25.86
+public\tessdata\chi_sim.traineddata.gz                         19.23
+public\tessdata\jpn.traineddata.gz                             15.41
+public\tessdata\eng.traineddata.gz                             10.42
+public\tesseract\public\tesseract\lang-data\eng.traineddata.gz 10.42
+public\tessdata\nld.traineddata.gz                              9.75
+public\tessdata\rus.traineddata.gz                              8.23
+public\tessdata\spa.traineddata.gz                              7.98
+public\tessdata\tur.traineddata.gz                              7.69
+public\tessdata\deu.traineddata.gz                              6.77
+public\tessdata\kor.traineddata.gz                              6.63
+public\tessdata\ita.traineddata.gz                              6.61
+public\tessdata\por.traineddata.gz                              6.44
+public\tessdata\fra.traineddata.gz                              5.99
+public\tessdata\san.traineddata.gz                              5.45
+public\tesseract-core\tesseract-core.wasm.js                    4.52
+public\Multidecode.mp4                                          4.18
+public\tessdata\osd.traineddata.gz                              4.12
+public\tessdata\vie.traineddata.gz                              3.67
+public\tesseract\tesseract-core.wasm                            3.31
+public\tesseract-core\tesseract-core.wasm                        3.3
+public\tessdata\swe.traineddata.gz                               2.9
+public\tessdata\mal.traineddata.gz                              2.67
+public\tessdata\mar.traineddata.gz                              1.89
+public\tessdata\kan.traineddata.gz                              1.84
+public\tessdata\tel.traineddata.gz                              1.66
+public\tessdata\ara.traineddata.gz                               1.6
+public\tessdata\nep.traineddata.gz                              1.53
+public\fonts\telugu\Peddana-Regular.ttf                         1.51
+public\tessdata\asm.traineddata.gz                              1.41
+public\tessdata\tam.traineddata.gz                              1.38
+public\tessdata\snd.traineddata.gz                              1.35
+public\tessdata\pan.traineddata.gz                              1.34
+public\tessdata\hin.traineddata.gz                              1.34
+public\tessdata\ben.traineddata.gz                              1.32
+public\tessdata\bod.traineddata.gz                              1.22
+public\tessdata\guj.traineddata.gz                              1.17
+public\fonts\telugu\TenaliRamakrishna-Regular.ttf               1.09
+public\fonts\telugu\TimmanaRegular.ttf                          1.06
+public\tessdata\ori.traineddata.gz                              1.02
+public\tessdata\urd.traineddata.gz                              0.99
+public\tessdata\tha.traineddata.gz                              0.86
+public\fonts\telugu\Ramaraja-Regular.ttf                        0.75
+public\fonts\telugu\AnnamayyaItalic.otf                          0.6
+public\fonts\telugu\AnnamayyaBoldItalic.otf                      0.6
+public\fonts\telugu\AnnamayyaBold.otf                           0.57
+public\fonts\telugu\Sree Krushnadevaraya-Italic.otf             0.56
+public\fonts\telugu\JIMSItalic.otf                              0.55
+public\fonts\telugu\Mandali-Bold Italic.otf                     0.45
+public\fonts\telugu\Suranna Regular.otf                         0.42
+public\fonts\telugu\Gurajada-Regular.ttf                        0.41
+public\fonts\telugu\NTR-Regular.ttf                             0.36
+public\Test data HTR\PHnai.jpg                                  0.31
+public\fonts\telugu\NATS-Italic.otf                             0.23
+public\fonts\telugu\NATS.otf                                    0.21
+public\Test data HTR\SANDEEP .jpeg                              0.06
+public\Test data HTR\san input and out.png                      0.06
+public\Test data HTR\Image 2.jpeg                               0.05
+public\logo-dark@2x.png                                         0.04
+public\logo-light@2x.png                                        0.04
+
+
+
+
+## 5. పాత / తాత్కాలిక / భారీ media files
+
+File                                                                                                       MB
+----                                                                                                       --
+public\Multi.mp4                                                                                        29.73
+public\Multidecode.mp4                                                                                   4.18
+.wa-session\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb\000003.log              1.39
+public\fonts\telugu\AnnamayyaBold.otf                                                                    0.57
+public\fonts\telugu\Suranna Bold.otf                                                                     0.42
+public\fonts\telugu\Mandali-Bold.otf                                                                     0.42
+public\fonts\telugu\Chathura-ExtraBold.ttf                                                               0.31
+public\fonts\telugu\Chathura-Bold.ttf                                                                    0.31
+components\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb\000003.log  0.26
+components\.wwebjs_auth\session\Default\shared_proto_db\000003.log                                       0.01
+.wa-session\session\Default\shared_proto_db\000003.log                                                   0.01
+.wa-session\session\Default\Local Storage\leveldb\000003.log                                                0
+components\.wwebjs_auth\session\Default\Local Storage\leveldb\000003.log                                    0
+components\.wwebjs_auth\session\Default\GCM Store\000003.log                                                0
+.wa-session\session\Default\GCM Store\000003.log                                                            0
+.wa-session\session\Default\Service Worker\Database\000003.log                                              0
+components\.wwebjs_auth\session\Default\Service Worker\Database\000003.log                                  0
+.wa-session\session\Default\shared_proto_db\metadata\000003.log                                             0
+components\.wwebjs_auth\session\Default\shared_proto_db\metadata\000003.log                                 0
+.wa-session\session\Default\Session Storage\000003.log                                                      0
+components\.wwebjs_auth\session\Default\Session Storage\000003.log                                          0
+components\.wwebjs_auth\session\Default\Sync Data\LevelDB\000003.log                                        0
+.wa-session\session\Default\Sync Data\LevelDB\000003.log                                                    0
+components\.wwebjs_auth\session\Default\Extension State\000003.log                                          0
+.wa-session\session\Default\Extension State\000003.log                                                      0
+components\.wwebjs_auth\session\Default\Extension Rules\000003.log                                          0
+.wa-session\session\Default\Extension Rules\000003.log                                                      0
+components\.wwebjs_auth\session\Default\Site Characteristics Database\000003.log                            0
+.wa-session\session\Default\Site Characteristics Database\000003.log                                        0
+components\.wwebjs_auth\session\Default\Extension Scripts\000003.log                                        0
+.wa-session\session\Default\Extension Scripts\000003.log                                                    0
+
+
+
