@@ -5,5 +5,8 @@
       "maxDuration": 10,
       "excludeFiles": "{public/**,ocr-api/**,components/.wwebjs_auth/**,.wa-session/**}"
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/api/main/:path*", "destination": "/api/main" }
+  ]
 }
