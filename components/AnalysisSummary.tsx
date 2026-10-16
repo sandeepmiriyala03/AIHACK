@@ -1,9 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AccordionChunk from "./AccordionChunk";
+import RagWorkflow, { RagStep, RagItem } from "./RagWorkflow";
 import SendIcon from "@mui/icons-material/Send";
 import ClearIcon from "@mui/icons-material/Clear";
+
+// Use the local Python server in development and the co-deployed Vercel function in production.
+const RAG_API =
+  process.env.NEXT_PUBLIC_RAG_API ??
+  (process.env.NODE_ENV === "production" ? "/api/main" : "http://localhost:8000");
 
 interface Analysis {
   chunk_number: number;
@@ -24,147 +30,144 @@ interface Props {
   elapsedTime: number | null;
 }
 
-export default function AnalysisSummary({
-  result,
-  loading,
-  elapsedTime,
-}: Props) {
-  const [queryEngine, setQueryEngine] = useState<any>(null);
+type RagStatus = "idle" | "indexing" | "ready" | "searching" | "error";
+
+async function postJSON<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`${RAG_API}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => null);
+  if (!res.ok) {
+    throw new Error(
+      typeof data?.detail === "string" ? data.detail : `RAG API error ${res.status}`,
+    );
+  }
+  return data as T;
+}
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+export default function AnalysisSummary({ result, loading, elapsedTime }: Props) {
   const [question, setQuestion] = useState("");
-  const [chatHistory, setChatHistory] = useState<
-    { question: string; answer: string }[]
-  >([]);
+  const [chatHistory, setChatHistory] = useState<{ question: string; answer: string }[]>([]);
 
-  // 🔥 BUILD LOCAL AI (NO API)
+  const [docId, setDocId] = useState<string | null>(null);
+  const [status, setStatus] = useState<RagStatus>("idle");
+  const [ragError, setRagError] = useState("");
+  const [ingestSteps, setIngestSteps] = useState<RagStep[]>([]);
+  const [searchSteps, setSearchSteps] = useState<RagStep[]>([]);
+  const [sources, setSources] = useState<RagItem[]>([]);
+
+  const fullText = useMemo(
+    () => result?.analysis?.map((c) => c.summary.join(" ")).join("\n") ?? "",
+    [result],
+  );
+
+  // ── INDEXING: split → chunk → embed → store (Python API) ──
   useEffect(() => {
-    const buildAI = async () => {
-      if (!result?.analysis?.length) return;
+    if (!fullText.trim()) return;
+    let cancelled = false;
 
-      try {
-        const { pipeline } = await import("@huggingface/transformers");
+    setStatus("indexing");
+    setRagError("");
+    setDocId(null);
+    setIngestSteps([]);
+    setSearchSteps([]);
+    setSources([]);
 
-        const embedder = await pipeline(
-          "feature-extraction",
-          "Xenova/all-MiniLM-L6-v2"
+    postJSON<{ doc_id: string; steps: RagStep[] }>("/rag/ingest", { text: fullText })
+      .then((data) => {
+        if (cancelled) return;
+        setDocId(data.doc_id);
+        setIngestSteps(data.steps);
+        setStatus("ready");
+      })
+      .catch((err: Error) => {
+        if (cancelled) return;
+        setStatus("error");
+        setRagError(
+          err.message === "Failed to fetch"
+            ? `Python RAG API is not running at ${RAG_API}`
+            : err.message,
         );
+      });
 
-        const fullText = result.analysis
-          .map((c) => c.summary.join(" "))
-          .join(" ");
-
-        setQueryEngine({
-          embedder,
-          text: fullText,
-        });
-
-        console.log("✅ Local AI Ready");
-      } catch (err) {
-        console.error(err);
-      }
+    return () => {
+      cancelled = true;
     };
+  }, [fullText]);
 
-    buildAI();
-  }, [result]);
+  const setLastAnswer = (answer: string) =>
+    setChatHistory((prev) =>
+      prev.map((c, i) => (i === prev.length - 1 ? { ...c, answer } : c)),
+    );
 
-  // 🔥 ASK QUESTION (SEMANTIC SEARCH)
+  // ── QUESTION: embed → search → augment → generate ──
   const askQuestion = async () => {
-    if (!queryEngine) {
-      setChatHistory((prev) => [
-        ...prev,
-        { question, answer: "⚠️ AI not ready yet" },
-      ]);
+    const q = question.trim();
+    if (!q || status === "searching") return;
+
+    setQuestion("");
+    setChatHistory((prev) => [...prev, { question: q, answer: "Thinking..." }]);
+
+    if (!docId) {
+      setLastAnswer(
+        status === "indexing" ? "⚠️ Still indexing the document, try again in a moment." : `⚠️ ${ragError || "Document is not indexed."}`,
+      );
       return;
     }
 
-    const q = question.trim();
-    if (!q) return;
-
-    setChatHistory((prev) => [
-      ...prev,
-      { question: q, answer: "Thinking..." },
-    ]);
-
-    setQuestion("");
+    setStatus("searching");
+    setSearchSteps([]);
 
     try {
-      const { embedder, text } = queryEngine;
-
-      const sentences = text.split(". ");
-
-      let bestMatch = "";
-      let bestScore = -Infinity;
-
-      const qEmbedding = await embedder(q, {
-        pooling: "mean",
-        normalize: true,
-      });
-
-      for (const sentence of sentences) {
-        const sEmbedding = await embedder(sentence, {
-          pooling: "mean",
-          normalize: true,
-        });
-
-        const score = qEmbedding.data.reduce(
-          (sum: number, val: number, i: number) =>
-            sum + val * sEmbedding.data[i],
-          0
-        );
-
-        if (score > bestScore) {
-          bestScore = score;
-          bestMatch = sentence;
-        }
-      }
-
-      const answer = bestMatch || "❌ No relevant answer found";
-
-      // 🔥 Streaming effect
-      let output = "";
-      for (let i = 0; i < answer.length; i++) {
-        output += answer[i];
-
-        setChatHistory((prev) => {
-          const updated = [...prev];
-          updated[updated.length - 1].answer = output;
-          return updated;
-        });
-
-        await new Promise((r) => setTimeout(r, 5));
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const fullText = result?.analysis
-    ?.map((c) => c.summary.join(" "))
-    .join(" ");
-
-  const lastAnswer = chatHistory.at(-1)?.answer || "";
-
-  const highlightText = (text: string, answer: string) => {
-    if (!answer) return text;
-
-    const words = answer.split(" ").slice(0, 5);
-
-    let highlighted = text;
-
-    words.forEach((word) => {
-      const regex = new RegExp(`(${word})`, "gi");
-      highlighted = highlighted.replace(
-        regex,
-        `<mark style="background:yellow">$1</mark>`
+      const data = await postJSON<{ answer: string; sources: RagItem[]; steps: RagStep[] }>(
+        "/rag/search",
+        { doc_id: docId, text: fullText, question: q, top_k: 3 },
       );
-    });
+      setSearchSteps(data.steps);
+      setSources(data.sources);
 
-    return highlighted;
+      // Typing effect
+      const answer = data.answer || "❌ No relevant answer found";
+      for (let i = 3; i < answer.length + 3; i += 3) {
+        setLastAnswer(answer.slice(0, i));
+        await new Promise((r) => setTimeout(r, 10));
+      }
+      setStatus("ready");
+    } catch (err) {
+      setLastAnswer(`❌ ${(err as Error).message}`);
+      setStatus("ready");
+    }
   };
 
   const clearChat = () => {
     setChatHistory([]);
     setQuestion("");
+    setSearchSteps([]);
+    setSources([]);
   };
+
+  // Highlight the best-matching chunk inside the full text
+  const highlighted = useMemo(() => {
+    const safe = escapeHtml(fullText);
+    const best = sources[0]?.text;
+    if (!best) return safe;
+    const words = best
+      .split(/\s+/)
+      .filter((w) => w.length > 3)
+      .slice(0, 8)
+      .map((w) => escapeRegExp(escapeHtml(w)));
+    if (!words.length) return safe;
+    return safe.replace(
+      new RegExp(`(${words.join("|")})`, "gi"),
+      `<mark style="background:#fef08a">$1</mark>`,
+    );
+  }, [fullText, sources]);
 
   return (
     <section className="analysisSection">
@@ -174,32 +177,42 @@ export default function AnalysisSummary({
         <p className="fileDetails">
           <b>File Type:</b> {result.file_type.toUpperCase()} &nbsp;|&nbsp;
           <b>Chunks:</b> {result.total_chunks}
+          {elapsedTime !== null && <> &nbsp;|&nbsp; <b>Time:</b> {elapsedTime}s</>}
         </p>
       )}
 
       {!result?.analysis?.length ? (
-        <p>No analysis results</p>
+        <p>{loading ? "Analyzing…" : "No analysis results"}</p>
       ) : (
-        result.analysis.map((chunk) => (
-          <AccordionChunk key={chunk.chunk_number} chunk={chunk} />
-        ))
+        result.analysis.map((chunk) => <AccordionChunk key={chunk.chunk_number} chunk={chunk} />)
       )}
 
-      {/* Highlight */}
+      {/* RAG pipeline view */}
+      {fullText && (
+        <RagWorkflow
+          ingestSteps={ingestSteps}
+          searchSteps={searchSteps}
+          indexing={status === "indexing"}
+          searching={status === "searching"}
+          error={status === "error" ? ragError : undefined}
+        />
+      )}
+
+      {/* Full text with the best chunk highlighted */}
       {fullText && (
         <div
-          dangerouslySetInnerHTML={{
-            __html: highlightText(fullText, lastAnswer),
-          }}
+          style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}
+          dangerouslySetInnerHTML={{ __html: highlighted }}
         />
       )}
 
       {/* Chat */}
       <div style={{ marginTop: 30 }}>
-        <h3>🤖 AI Document Chat</h3>
+        <h3>🤖 Document Q&amp;A</h3>
+        <p>Answers quote the most relevant passages. Document text is not stored between requests.</p>
 
         {chatHistory.map((chat, i) => (
-          <div key={i}>
+          <div key={i} style={{ marginBottom: 10 }}>
             <b>Q:</b> {chat.question}
             <br />
             <b>A:</b> {chat.answer}
@@ -211,13 +224,13 @@ export default function AnalysisSummary({
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && askQuestion()}
+            placeholder={status === "indexing" ? "Indexing document…" : "Ask about this document"}
+            style={{ flex: 1 }}
           />
-
-          <button onClick={askQuestion}>
+          <button onClick={askQuestion} disabled={status === "searching"} aria-label="Ask">
             <SendIcon />
           </button>
-
-          <button onClick={clearChat}>
+          <button onClick={clearChat} aria-label="Clear chat">
             <ClearIcon />
           </button>
         </div>

@@ -650,3 +650,28 @@ Yuktishaalaa AI Lab
 
 Project URL
 https://aksharatantra.vercel.app
+
+9. Document RAG API (Vercel)
+
+The document-analysis page uses a small Python FastAPI function in `api/main.py`.
+It splits extracted document text into overlapping chunks, ranks passages with a
+compact hashed TF-IDF vector, and returns the most relevant excerpts. Answers are
+extractive; no external model or API key is required. The API does not persist
+documents: the browser resends the text with each question and the index is
+rebuilt for that request. Requests are limited to 200,000 characters of document
+text.
+
+Endpoints:
+
+- `POST /api/main/rag/ingest` with `{"text":"..."}` returns a document ID and
+  indexing workflow steps.
+- `POST /api/main/rag/search` with `{"doc_id":"...","text":"...","question":"...","top_k":3}`
+  returns an extractive answer, source chunks, and search workflow steps.
+- `GET /api/main/health` checks the deployed function.
+
+For local development, install `requirements.txt`, run
+`python -m uvicorn api.main:app --reload --port 8000`, and start the Next.js app.
+The frontend defaults to that local API in development and `/api/main` in
+production. Set `NEXT_PUBLIC_RAG_API` only when using a separate API host. The
+Vercel function configuration excludes unrelated OCR and session assets to
+reduce its bundle size.

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/main.py": {
+      "maxDuration": 10,
+      "excludeFiles": "{public/**,ocr-api/**,components/.wwebjs_auth/**,.wa-session/**}"
+    }
+  }
+}

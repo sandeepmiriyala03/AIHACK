@@ -20,6 +20,7 @@
     "@mui/x-data-grid": "^9.6.0",
     "@next/third-parties": "14.2.0",
     "@yuktishaalaa/yuktai": "^4.4.1",
+    "ai": "^7.0.142",
     "compromise": "^14.14.4",
     "cors": "^2.8.6",
     "cropperjs": "^1.5.13",
