@@ -8,7 +8,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 // Use the local Python server in development and the co-deployed Vercel function in production.
 const RAG_API =
-  process.env.NEXT_PUBLIC_RAG_API ??
+  process.env.NEXT_PUBLIC_RAG_API ||
   (process.env.NODE_ENV === "production" ? "/api/main" : "http://localhost:8000");
 
 interface Analysis {
@@ -33,7 +33,11 @@ interface Props {
 type RagStatus = "idle" | "indexing" | "ready" | "searching" | "error";
 
 async function postJSON<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(`${RAG_API}${path}`, {
+  // Local server (http://...) uses normal paths; Vercel's /api/main needs ?route=
+  const url = RAG_API.startsWith("http")
+    ? `${RAG_API}${path}`
+    : `${RAG_API}?route=${encodeURIComponent(path)}`;
+  const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),

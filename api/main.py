@@ -35,6 +35,16 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def route_from_query(request, call_next):
+    # Vercel serves api/main.py only at the exact path /api/main,
+    # so the real route arrives as a query: /api/main?route=/rag/ingest
+    target = request.query_params.get("route", "")
+    if request.url.path.rstrip("/") == "/api/main" and target.startswith("/"):
+        request.scope["path"] = target
+    return await call_next(request)
+
+
 class IngestRequest(BaseModel):
     text: str = Field(min_length=1, max_length=MAX_TEXT_LENGTH)
 
