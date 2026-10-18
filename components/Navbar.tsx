@@ -28,15 +28,8 @@ import CalendarMonthRoundedIcon      from "@mui/icons-material/CalendarMonthRoun
 import ScienceRoundedIcon            from "@mui/icons-material/ScienceRounded";
 import SmsRoundedIcon                from "@mui/icons-material/SmsRounded";
 import VerifiedUserRoundedIcon       from "@mui/icons-material/VerifiedUserRounded";
-// Fun
-import SportsEsportsRoundedIcon      from "@mui/icons-material/SportsEsportsRounded";
-import SportsCricketRoundedIcon      from "@mui/icons-material/SportsCricketRounded";
-// Agents & Labs
-import SmartToyRoundedIcon           from "@mui/icons-material/SmartToyRounded";
-import WhatsAppIcon                  from "@mui/icons-material/WhatsApp";
-import CodeRoundedIcon               from "@mui/icons-material/CodeRounded";
-import HistoryEduRoundedIcon         from "@mui/icons-material/HistoryEduRounded";
 // Yuktai
+import GridViewRoundedIcon           from "@mui/icons-material/GridViewRounded";
 import InfoRoundedIcon               from "@mui/icons-material/InfoRounded";
 import PlayCircleRoundedIcon         from "@mui/icons-material/PlayCircleRounded";
 import AccountCircleRoundedIcon      from "@mui/icons-material/AccountCircleRounded";
@@ -52,18 +45,28 @@ const TEXT_MAIN = "#0f172a";
 const TEXT_SUB  = "#64748b";
 
 // ─────────────────────────────────────────────────────────────
-// Menu structure — every page folder in /app is listed here
-// (api/ is excluded: it holds API routes, not pages)
+// Menu structure — Yuktai Grid first.
+// Removed from the menu: Fun (Chess, IPL) and Agents & Labs
+// (Code Agent, WhatsApp Bot, RupantarCode, New Ideas).
 // ─────────────────────────────────────────────────────────────
 type NavItem  = { href: string; label: string; icon: React.ElementType };
 type NavGroup = { group: string; items: NavItem[] };
 
 const topLinks: NavItem[] = [
-  { href: "/",      label: "Home",  icon: HomeRoundedIcon },
-  { href: "/about", label: "About", icon: InfoRoundedIcon },
+  { href: "/",               label: "Home",        icon: HomeRoundedIcon },
+  { href: "/staffdirectory", label: "Yuktai Grid", icon: GridViewRoundedIcon },
+  { href: "/about",          label: "About",       icon: InfoRoundedIcon },
 ];
 
 const navGroups: NavGroup[] = [
+  {
+    group: "Yuktai",
+    items: [
+      { href: "/staffdirectory", label: "Yuktai Grid Demo", icon: PlayCircleRoundedIcon },
+      { href: "/yuktai",         label: "About Yuktai",     icon: InfoRoundedIcon },
+      { href: "/user",           label: "User List",        icon: AccountCircleRoundedIcon },
+    ],
+  },
   {
     group: "AI Tools",
     items: [
@@ -98,30 +101,6 @@ const navGroups: NavGroup[] = [
       { href: "/onecrdb",   label: "Data List",  icon: ScienceRoundedIcon },
       { href: "/smsparser", label: "SMS Parser", icon: SmsRoundedIcon },
       { href: "/kyc",       label: "KYC",        icon: VerifiedUserRoundedIcon },
-    ],
-  },
-  {
-    group: "Fun",
-    items: [
-      { href: "/chess", label: "Chess", icon: SportsEsportsRoundedIcon },
-      { href: "/ipl",   label: "IPL",   icon: SportsCricketRoundedIcon },
-    ],
-  },
-  {
-    group: "Agents & Labs",
-    items: [
-      { href: "/codeagent",    label: "Code Agent",   icon: SmartToyRoundedIcon },
-      { href: "/whatsapp-bot", label: "WhatsApp Bot", icon: WhatsAppIcon },
-      { href: "/rupantarcode", label: "RupantarCode", icon: CodeRoundedIcon },
-      { href: "/Ocrwork",      label: "New Ideas",    icon: HistoryEduRoundedIcon },
-    ],
-  },
-  {
-    group: "Yuktai",
-    items: [
-      { href: "/yuktai",         label: "About Yuktai", icon: InfoRoundedIcon },
-      { href: "/staffdirectory", label: "Yuktai Demo",  icon: PlayCircleRoundedIcon },
-      { href: "/user",           label: "User List",    icon: AccountCircleRoundedIcon },
     ],
   },
 ];

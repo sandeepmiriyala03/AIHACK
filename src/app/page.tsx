@@ -9,7 +9,6 @@ import Image from "next/image";
 import UploadFileRoundedIcon        from "@mui/icons-material/UploadFileRounded";
 import DocumentScannerRoundedIcon   from "@mui/icons-material/DocumentScannerRounded";
 import DrawRoundedIcon              from "@mui/icons-material/DrawRounded";
-import HistoryEduRoundedIcon        from "@mui/icons-material/HistoryEduRounded";
 import MenuBookRoundedIcon          from "@mui/icons-material/MenuBookRounded";
 import CollectionsRoundedIcon       from "@mui/icons-material/CollectionsRounded";
 import MicRoundedIcon               from "@mui/icons-material/MicRounded";
@@ -23,18 +22,13 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import ScienceRoundedIcon           from "@mui/icons-material/ScienceRounded";
 import InstallMobileRoundedIcon     from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon          from "@mui/icons-material/IosShareRounded";
-import CodeRoundedIcon              from "@mui/icons-material/CodeRounded";
-import GroupsIcon                   from "@mui/icons-material/Groups";
 import InfoRoundedIcon              from "@mui/icons-material/InfoRounded";
-import SportsEsportsRoundedIcon     from "@mui/icons-material/SportsEsportsRounded";
-import SportsCricketRoundedIcon     from "@mui/icons-material/SportsCricketRounded";
 import SpellcheckRoundedIcon        from "@mui/icons-material/SpellcheckRounded";
-import VerifiedUserRoundedIcon      from "@mui/icons-material/VerifiedUserRounded";
-import TextSnippetRoundedIcon       from "@mui/icons-material/TextSnippetRounded";
 import CalendarMonthRoundedIcon     from "@mui/icons-material/CalendarMonthRounded";
 import LocalLibraryRoundedIcon      from "@mui/icons-material/LocalLibraryRounded";
 import AccountCircleRoundedIcon     from "@mui/icons-material/AccountCircleRounded";
 import RocketLaunchIcon             from "@mui/icons-material/RocketLaunch";
+import GridViewRoundedIcon          from "@mui/icons-material/GridViewRounded";
 import ChevronRightIcon             from "@mui/icons-material/ChevronRight";
 import CheckCircleIcon              from "@mui/icons-material/CheckCircle";
 import RecordVoiceOverIcon          from "@mui/icons-material/RecordVoiceOver";
@@ -56,6 +50,14 @@ const TEXT_MAIN = "#0f172a";
 const TEXT_SUB = "#64748b";
 
 const navGroups = [
+  {
+    group: "Yuktai Framework",
+    items: [
+      { href: "/staffdirectory", label: "Yuktai Grid Demo", icon: GridViewRoundedIcon },
+      { href: "/yuktai",         label: "About Yuktai",     icon: InfoRoundedIcon },
+      { href: "/user",           label: "User List",        icon: AccountCircleRoundedIcon },
+    ],
+  },
   {
     group: "AI Tools & Digitize",
     items: [
@@ -79,20 +81,9 @@ const navGroups = [
     items: [
       { href: "/posters",       label: "Make Posters",   icon: DashboardCustomizeRoundedIcon },
       { href: "/badge",         label: "Certificates",   icon: MilitaryTechRoundedIcon },
-      { href: "/Ocrwork",       label: "New Ideas",      icon: HistoryEduRoundedIcon },
       { href: "/onecrdb",       label: "Data List",      icon: ScienceRoundedIcon },
       { href: "/calendarpage",  label: "Calendar",       icon: CalendarMonthRoundedIcon },
       { href: "/ebook",         label: "E-Book Maker",   icon: LocalLibraryRoundedIcon },
-      { href: "/rupantarcode",  label: "RupantarCode",   icon: CodeRoundedIcon }
-        ],
-  },
-  {
-    group: "Yuktai Framework",
-    items: [
-      { href: "/yuktai",         label: "About Yuktai", icon: InfoRoundedIcon },
-      { href: "/staffdirectory", label: "Yuktai Demo",  icon: InfoRoundedIcon },
-       { href: "/user",          label: "User List",      icon: AccountCircleRoundedIcon },
-
     ],
   },
 ];
@@ -234,19 +225,16 @@ const ALL_MODULES = [
   { href: "/badge",          icon: MilitaryTechRoundedIcon,      color: "#ec4899", bg: "#fdf2f8", label: "Certificates",        tagline: "Auto certificate maker",       desc: "Generate and print certificates with custom names and templates.", bullets: ["Custom templates","Bulk generation","PDF download"], group: "Studio & Labs", badge: null },
   { href: "/calendarpage",   icon: CalendarMonthRoundedIcon,     color: "#64748b", bg: "#f8fafc", label: "Calendar",            tagline: "Panchanga planner",            desc: "Personal planner with Panchanga — see Tithi, Nakshatra alongside events.", bullets: ["Panchanga overlay","Personal events","Offline"], group: "Studio & Labs", badge: "NEW" },
   { href: "/ebook",          icon: LocalLibraryRoundedIcon,      color: "#059669", bg: "#f0fdf4", label: "E-Book Maker",        tagline: "Publish digital books",        desc: "Convert documents into beautiful e-books ready for sharing or download.", bullets: ["Multi-format","Cover design","Offline"], group: "Studio & Labs", badge: null },
-  { href: "/rupantarcode",   icon: CodeRoundedIcon,              color: "#8b5cf6", bg: "#f5f3ff", label: "RupantarCode",        tagline: "Script transliterator",        desc: "Instantly convert text between any two Indic scripts or romanisation.", bullets: ["Any Indic script","Romanisation","Copy & paste"], group: "Studio & Labs", badge: null },
   // Yuktai
-   { href: "/yuktai",         label: "About Yuktai", icon: InfoRoundedIcon },
-      { href: "/staffdirectory", label: "Yuktai Demo",  icon: InfoRoundedIcon },
-       { href: "/user",          label: "User List",      icon: AccountCircleRoundedIcon },
+  { href: "/staffdirectory", icon: GridViewRoundedIcon,          color: "#10b981", bg: "#f0fdf4", label: "Yuktai Grid Demo",    tagline: "Agentic data grid",            desc: "Ask your data in plain English or Telugu: filters, totals, unusual rows and multi-step tasks.", bullets: ["Natural-language queries","Voice + WebMCP","WCAG accessible"], group: "Yuktai Framework", badge: "v5.1" },
+  { href: "/yuktai",         icon: InfoRoundedIcon,              color: "#059669", bg: "#ecfdf5", label: "About Yuktai",        tagline: "Open-source Next.js toolkit",  desc: "Accessibility auto-fix, in-browser RAG, AI agent and the agentic grid in one npm package.", bullets: ["Zero API keys","Works offline","Free & open source"], group: "Yuktai Framework", badge: null },
+  { href: "/user",           icon: AccountCircleRoundedIcon,     color: "#0ea5e9", bg: "#f0f9ff", label: "User List",           tagline: "Yuktai Grid in action",        desc: "A user directory built on YuktaiGrid with search, sort and mobile card view.", bullets: ["Search & sort","Mobile cards","Accessible"], group: "Yuktai Framework", badge: null },
+];
 
-   ];
-
-const GROUP_ORDER = ["AI Tools & Digitize","Heritage & Culture","Business & Recreation","Studio & Labs","Yuktai Framework"];
+const GROUP_ORDER = ["Yuktai Framework","AI Tools & Digitize","Heritage & Culture","Studio & Labs"];
 const GROUP_META: Record<string, { label: string; color: string }> = {
   "AI Tools & Digitize":   { label: "Reading & Digitizing",  color: "#10b981" },
   "Heritage & Culture":    { label: "Heritage & Culture",    color: "#7c3aed" },
-  "Business & Recreation": { label: "Business & Recreation", color: "#f59e0b" },
   "Studio & Labs":         { label: "Studio & Labs",         color: "#0ea5e9" },
   "Yuktai Framework":      { label: "Yuktai Framework",      color: "#10b981" },
 };
@@ -508,7 +496,8 @@ export default function HomePage() {
               </p>
               <div style={{ marginBottom: 28 }}><SpeechWelcome /></div>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <Link href="/upload" className="btn-primary"><RocketLaunchIcon style={{ fontSize: 17 }} /> Launch Platform</Link>
+                <Link href="/staffdirectory" className="btn-primary"><GridViewRoundedIcon style={{ fontSize: 17 }} /> Try Yuktai Grid</Link>
+                <Link href="/upload" className="btn-ghost"><RocketLaunchIcon style={{ fontSize: 17 }} /> Launch Platform</Link>
                 <button className="btn-ghost" onClick={() => document.getElementById("modules")?.scrollIntoView({ behavior: "smooth" })}>Explore modules ↓</button>
               </div>
             </div>
@@ -527,7 +516,7 @@ export default function HomePage() {
                 ))}
               </div>
               <div style={{ marginTop: 16, display: "flex", gap: 7, flexWrap: "wrap" }}>
-                {["OCR","Handwriting","Poster Maker","Vedha","Calendar","VaniSetu"].map(t => (
+                {["Yuktai Grid","OCR","Handwriting","Poster Maker","Vedha","VaniSetu"].map(t => (
                   <span key={t} style={{ padding: "5px 13px", borderRadius: 99, background: "#fff", border: "1.5px solid #f1f5f9", fontSize: 11.5, color: TEXT_SUB, fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>{t}</span>
                 ))}
               </div>
@@ -543,6 +532,48 @@ export default function HomePage() {
             <div key={item} className="priv-item"><div className="priv-dot" />{item}</div>
           ))}
         </div>
+
+        {/* ══════════════════════════════════════════
+            YUKTAI GRID SPOTLIGHT
+        ══════════════════════════════════════════ */}
+        <section className="section" style={{ paddingTop: "clamp(60px,8vw,90px)" }}>
+          <div className="section-eyebrow">⭐ Featured · New in v5.1</div>
+          <h2 className="section-title">Yuktai Grid: talk to your data</h2>
+          <p className="section-sub">An accessible data grid with an AI assistant built in. Ask in English or Telugu and the grid filters, sorts, highlights and summarises for you, right in the browser.</p>
+          <div className="vani-card" style={{ background: "linear-gradient(135deg,#f0fdf4,#fff)", borderColor: "rgba(16,185,129,0.3)" }}>
+            <div>
+              <div style={{ fontSize: 48, marginBottom: 14 }}>📊</div>
+              <h3 style={{ fontFamily: "'Syne',sans-serif", fontSize: 24, fontWeight: 800, color: TEXT_MAIN, marginBottom: 10 }}>Questions, not filters</h3>
+              <p style={{ fontSize: 14.5, color: TEXT_SUB, lineHeight: 1.75, marginBottom: 20 }}>
+                Type what you want to see. Yuktai turns it into real grid actions: no API keys, no server, and nothing leaves the device.
+              </p>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 22 }}>
+                {["English + Telugu","Voice input","WebMCP","WCAG 2.2","Free npm package"].map(tag => (
+                  <span key={tag} style={{ padding: "4px 12px", borderRadius: 99, background: "#ecfdf5", border: "1px solid rgba(16,185,129,0.3)", fontSize: 11.5, color: "#059669", fontWeight: 700, fontFamily: "'DM Sans',sans-serif" }}>{tag}</span>
+                ))}
+              </div>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                <Link href="/staffdirectory" className="btn-primary"><GridViewRoundedIcon style={{ fontSize: 17 }} /> Open the demo</Link>
+                <a href="https://www.npmjs.com/package/@yuktishaalaa/yuktai" target="_blank" rel="noopener noreferrer" className="btn-ghost">npm package ↗</a>
+              </div>
+            </div>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#059669", marginBottom: 16, fontFamily: "'DM Sans',sans-serif" }}>Try asking</div>
+              <div className="vani-howto">
+                {[
+                  { n: "1", q: "salary over 1 lakh",            a: "Filters the rows and highlights the matches" },
+                  { n: "2", q: "average salary by department",  a: "Groups the data and answers in one line" },
+                  { n: "3", q: "anything unusual?",             a: "Finds outliers and duplicate rows" },
+                ].map(s => (
+                  <div key={s.n} className="vani-step">
+                    <div className="vani-num" style={{ background: G }}>{s.n}</div>
+                    <div className="vani-step-text"><strong>“{s.q}”</strong><br />{s.a}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ══════════════════════════════════════════
             VANISETU SPOTLIGHT
