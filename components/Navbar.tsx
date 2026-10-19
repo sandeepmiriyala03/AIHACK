@@ -29,12 +29,10 @@ import ScienceRoundedIcon            from "@mui/icons-material/ScienceRounded";
 import SmsRoundedIcon                from "@mui/icons-material/SmsRounded";
 import VerifiedUserRoundedIcon       from "@mui/icons-material/VerifiedUserRounded";
 // Yuktai
-import GridViewRoundedIcon           from "@mui/icons-material/GridViewRounded";
 import InfoRoundedIcon               from "@mui/icons-material/InfoRounded";
 import PlayCircleRoundedIcon         from "@mui/icons-material/PlayCircleRounded";
 import AccountCircleRoundedIcon      from "@mui/icons-material/AccountCircleRounded";
 // Chrome
-import HomeRoundedIcon               from "@mui/icons-material/HomeRounded";
 import MenuRoundedIcon               from "@mui/icons-material/MenuRounded";
 import KeyboardArrowDownRoundedIcon  from "@mui/icons-material/KeyboardArrowDownRounded";
 import InstallMobileRoundedIcon      from "@mui/icons-material/InstallMobileRounded";
@@ -45,18 +43,12 @@ const TEXT_MAIN = "#0f172a";
 const TEXT_SUB  = "#64748b";
 
 // ─────────────────────────────────────────────────────────────
-// Menu structure — Yuktai Grid first.
-// Removed from the menu: Fun (Chess, IPL) and Agents & Labs
-// (Code Agent, WhatsApp Bot, RupantarCode, New Ideas).
+// Menu structure — dropdown groups only, Yuktai first.
+// The logo links to Home. Yuktai Grid and About Yuktai are in the
+// Yuktai group, so there are no separate top links.
 // ─────────────────────────────────────────────────────────────
 type NavItem  = { href: string; label: string; icon: React.ElementType };
 type NavGroup = { group: string; items: NavItem[] };
-
-const topLinks: NavItem[] = [
-  { href: "/",               label: "Home",        icon: HomeRoundedIcon },
-  { href: "/staffdirectory", label: "Yuktai Grid", icon: GridViewRoundedIcon },
-  { href: "/about",          label: "About",       icon: InfoRoundedIcon },
-];
 
 const navGroups: NavGroup[] = [
   {
@@ -253,8 +245,6 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         /* Menu items keep their natural width (never stretch across the bar) */
         .at-menu-wrapper > * { flex: 0 0 auto !important; width: auto !important; }
 
-        .at-divider { width: 1px; height: 20px; background: #e2e8f0; margin: 0 6px; align-self: center; }
-
         .at-link-main {
           display: flex; align-items: center; gap: 2px;
           padding: 6px 8px; background: none; border: none;
@@ -322,18 +312,6 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
           </Link>
 
           <div className="at-menu-wrapper">
-            {topLinks.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className={`at-link-main ${isActivePath(pathname, l.href) ? "current" : ""}`}
-              >
-                {l.label}
-              </Link>
-            ))}
-
-            <span className="at-divider" />
-
             {navGroups.map((group) => {
               const open = activeDropdown === group.group;
               return (
@@ -441,21 +419,6 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
             </div>
 
             <div style={{ overflowY: "auto", paddingBottom: 20 }}>
-              {/* Home / About */}
-              <div style={{ padding: "12px 0", borderBottom: "1px solid #f1f5f9" }}>
-                {topLinks.map((l) => (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    className={`drawer-link ${isActivePath(pathname, l.href) ? "current" : ""}`}
-                    onClick={() => setDrawerOpen(false)}
-                  >
-                    <l.icon style={{ fontSize: 20, color: TEXT_SUB }} />
-                    {l.label}
-                  </Link>
-                ))}
-              </div>
-
               {navGroups.map((g) => (
                 <div key={g.group} style={{ padding: "12px 0", borderBottom: "1px solid #f1f5f9" }}>
                   <div
