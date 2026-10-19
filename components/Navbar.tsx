@@ -55,8 +55,7 @@ const navGroups: NavGroup[] = [
     group: "Yuktai",
     items: [
       { href: "/staffdirectory", label: "Yuktai Grid Demo", icon: PlayCircleRoundedIcon },
-      { href: "/yuktai",         label: "About Yuktai",     icon: InfoRoundedIcon },
-      { href: "/user",           label: "User List",        icon: AccountCircleRoundedIcon },
+      { href: "/yuktai",         label: "About Yuktai",     icon: InfoRoundedIcon }
     ],
   },
   {

@@ -1,19 +1,41 @@
 "use client";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// /yuktai — About Yuktai (v5 agentic AI)
+// Every demo on this page calls the real @yuktishaalaa/yuktai functions in the
+// browser. Nothing is simulated, nothing is sent to a server, no API keys.
+// ─────────────────────────────────────────────────────────────────────────────
+
 import React, { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
-// ── yuktai icons (yours) ─────────────────────────────────────
 import {
-  CheckIcon,          // ✅ prerequisites, success items
-  CloseIcon,          // ✕ close things
-  SearchIcon,         // 🔍 RAG section
-  ChevronRightIcon,   // → CTA button
-  ChevronLeftIcon,    // ← Back to Dashboard
+  // UI
+  YuktaiGrid,
+  AgenticGridBar,
+  AgenticPanel,
+  useAgenticGrid,
+  // Agentic functions
+  runQaAudit,
+  auditToMarkdown,
+  askAboutPage,
+  planTasks,
+  reviewDesign,
+  parseVoiceA11yCommand,
+  // Types
+  type AuditReport,
+  type PageAnswer,
+  type PlannedStep,
+  type DesignReview,
+  // Icons
+  CheckIcon,
+  SearchIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
 } from "@yuktishaalaa/yuktai";
 
-// ── MUI icons (kept where yuktai doesn't have equivalents) ──
+// ── MUI icons (yuktai has no equivalents yet) ──
 import PlayArrowRoundedIcon               from "@mui/icons-material/PlayArrowRounded";
 import PauseRoundedIcon                   from "@mui/icons-material/PauseRounded";
 import StopRoundedIcon                    from "@mui/icons-material/StopRounded";
@@ -25,151 +47,182 @@ import IntegrationInstructionsRoundedIcon from "@mui/icons-material/IntegrationI
 import ComputerRoundedIcon                from "@mui/icons-material/ComputerRounded";
 import CodeRoundedIcon                    from "@mui/icons-material/CodeRounded";
 import ContentCopyRoundedIcon             from "@mui/icons-material/ContentCopyRounded";
+import GridViewRoundedIcon                from "@mui/icons-material/GridViewRounded";
+import FactCheckRoundedIcon               from "@mui/icons-material/FactCheckRounded";
 
 // ── Theme colors ─────────────────────────────────────────────
-const G         = "#10b981";  // green accent
+const G         = "#10b981";
+const G_DARK    = "#047857";   // text/buttons on white (passes 4.5:1)
 const TEXT_MAIN = "#0f172a";
-const TEXT_SUB  = "#64748b";
+const TEXT_SUB  = "#475569";
 const BG_CODE   = "#0f172a";
 const FG_CODE   = "#34d399";
 
+// ── Sample data for the live grid agent demo (made up) ───────
+type Staff = Record<string, unknown> & {
+  id: number; name: string; city: string; department: string;
+  salary: number; joined: string; status: string;
+};
+
+const SAMPLE: Staff[] = [
+  { id: 1,  name: "Ravi Kumar",    city: "Hyderabad", department: "Engineering", salary: 145000, joined: "2024-03-12", status: "Active"   },
+  { id: 2,  name: "Sneha Varma",   city: "Bengaluru", department: "Design",      salary: 92000,  joined: "2025-08-03", status: "Active"   },
+  { id: 3,  name: "Imran Shaikh",  city: "Mumbai",    department: "Finance",     salary: 118000, joined: "2022-06-22", status: "On leave" },
+  { id: 4,  name: "Kavya Iyer",    city: "Chennai",   department: "Engineering", salary: 162000, joined: "2026-10-07", status: "Active"   },
+  { id: 5,  name: "Arjun Mehta",   city: "Delhi",     department: "Sales",       salary: 76000,  joined: "2024-09-30", status: "Active"   },
+  { id: 6,  name: "Lakshmi Rao",   city: "Hyderabad", department: "HR",          salary: 68000,  joined: "2023-05-05", status: "Active"   },
+  { id: 7,  name: "Vikram Joshi",  city: "Pune",      department: "Engineering", salary: 520000, joined: "2021-11-11", status: "Active"   },
+  { id: 8,  name: "Priya Nair",    city: "Kochi",     department: "Design",      salary: 88000,  joined: "2026-10-01", status: "Probation"},
+  { id: 9,  name: "Rohit Naidu",   city: "Vijayawada",department: "Sales",       salary: 71000,  joined: "2025-02-14", status: "Active"   },
+  { id: 10, name: "Divya Reddy",   city: "Hyderabad", department: "Finance",     salary: 125000, joined: "2023-01-19", status: "Active"   },
+];
+
+const AGENT_COLUMNS = [
+  { key: "name",       label: "Name",       type: "text"   },
+  { key: "city",       label: "City",       type: "text"   },
+  { key: "department", label: "Department", type: "text"   },
+  { key: "salary",     label: "Salary",     type: "number" },
+  { key: "joined",     label: "Joined",     type: "date"   },
+  { key: "status",     label: "Status",     type: "text"   },
+];
+
+const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
+
+// ── Code samples ─────────────────────────────────────────────
+const INSTALL_CODE = `npm install @yuktishaalaa/yuktai`;
+
+const AGENT_GRID_CODE = `"use client";
+import { YuktaiGrid, AgenticGridBar, useAgenticGrid } from "@yuktishaalaa/yuktai";
+
+const columns = [
+  { key: "name",   label: "Name",   type: "text"   },
+  { key: "salary", label: "Salary", type: "number" },
+  { key: "joined", label: "Joined", type: "date"   },
+];
+
+export default function StaffPage({ rows }) {
+  // The agent: plain-English questions → filters, sort, highlights, summaries
+  const grid = useAgenticGrid({ data: rows, columns, rowKey: "id" });
+
+  return (
+    <>
+      <AgenticGridBar
+        grid={grid}
+        examples={["salary over 1 lakh", "joined this month", "anything unusual?"]}
+      />
+      <YuktaiGrid
+        data={grid.gridData}
+        highlightIds={grid.highlightIds}
+        columns={columns.map((c) => ({ ...c, sortable: true }))}
+      />
+    </>
+  );
+}`;
+
+const BUILTIN_AGENT_CODE = `<YuktaiGrid
+  data={rows}
+  columns={columns}
+  ai                         // built-in assistant: chat + voice
+  webmcp                     // exposes the grid as a tool to browser AI agents
+  toolName="my_staff_grid"
+  inputLanguage="te-IN"      // understands Telugu questions too
+  customRules={[
+    {
+      name: "high-earners",
+      phrases: ["high earners", "top people"],
+      description: "Salary over 1 lakh",
+      execute: ({ executeTool }) =>
+        executeTool("filter", { key: "salary", operator: "greaterThan", value: 100000 }),
+    },
+  ]}
+/>`;
+
+const QA_CODE = `import { runQaAudit, auditToMarkdown } from "@yuktishaalaa/yuktai";
+
+const report = runQaAudit();          // 15 WCAG checks on the current page
+console.log(report.score);            // 0–100
+console.log(report.issues[0].fix);    // what to change, in plain English
+const md = auditToMarkdown(report);   // paste into a ticket or PR`;
+
+// ═══════════════════════════════════════════════════════════
 export default function YuktaiFullDocs() {
-  // ── TTS State ──────────────────────────────────────────────
+  // ── TTS ──
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isPaused,   setIsPaused]   = useState(false);
 
-  // ── AI Simulator States ────────────────────────────────────
-  const [ragQuery,   setRagQuery]   = useState("");
-  const [ragAnswer,  setRagAnswer]  = useState("");
-  const [agentGoal,  setAgentGoal]  = useState("");
-  const [agentSteps, setAgentSteps] = useState<string[]>([]);
-  const [vibePrompt, setVibePrompt] = useState("");
-  const [vibeCode,   setVibeCode]   = useState("");
-
-  // ── Copy code state ────────────────────────────────────────
+  // ── Copy ──
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
-
-  const copyCode = (code: string, id: string) => {
-    navigator.clipboard.writeText(code);
+  const copyCode = async (code: string, id: string) => {
+    try { await navigator.clipboard.writeText(code); } catch { /* clipboard blocked */ }
     setCopiedCode(id);
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  // ── TTS handler ────────────────────────────────────────────
+  // ── Live demo state ──
+  const grid = useAgenticGrid<Staff>({ data: SAMPLE, columns: AGENT_COLUMNS, rowKey: "id" });
+
+  const [audit,      setAudit]      = useState<AuditReport | null>(null);
+  const [pageQ,      setPageQ]      = useState("");
+  const [pageAns,    setPageAns]    = useState<PageAnswer | null>(null);
+  const [pageBusy,   setPageBusy]   = useState(false);
+  const [taskText,   setTaskText]   = useState("show salary over 1 lakh, then sort by joined, then summarize");
+  const [taskSteps,  setTaskSteps]  = useState<PlannedStep[]>([]);
+  const [design,     setDesign]     = useState<DesignReview | null>(null);
+  const [voiceText,  setVoiceText]  = useState("make text bigger");
+  const [voiceOut,   setVoiceOut]   = useState<string>("");
+  const [panelOpen,  setPanelOpen]  = useState(false);
+
+  // ── Handlers ──
   const handleTTS = (action: "play" | "pause" | "stop") => {
     if (typeof window === "undefined" || !window.speechSynthesis) return;
-
     if (action === "play") {
       if (isPaused) {
         window.speechSynthesis.resume();
-        setIsSpeaking(true);
-        setIsPaused(false);
+        setIsSpeaking(true); setIsPaused(false);
       } else {
         window.speechSynthesis.cancel();
-        const textToRead =
-          document.getElementById("yuktai-content")?.innerText || "";
-        const utterance = new SpeechSynthesisUtterance(textToRead);
-        utterance.onend = () => {
-          setIsSpeaking(false);
-          setIsPaused(false);
-        };
-        window.speechSynthesis.speak(utterance);
+        const text = document.getElementById("yuktai-content")?.innerText || "";
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = "en-IN";
+        u.onend = () => { setIsSpeaking(false); setIsPaused(false); };
+        window.speechSynthesis.speak(u);
         setIsSpeaking(true);
       }
     } else if (action === "pause") {
       window.speechSynthesis.pause();
-      setIsSpeaking(false);
-      setIsPaused(true);
-    } else if (action === "stop") {
+      setIsSpeaking(false); setIsPaused(true);
+    } else {
       window.speechSynthesis.cancel();
-      setIsSpeaking(false);
-      setIsPaused(false);
+      setIsSpeaking(false); setIsPaused(false);
     }
   };
 
-  // ── AI Simulators ──────────────────────────────────────────
-  const runRagSim = () => {
-    if (!ragQuery) return;
-    setRagAnswer(
-      "Processing locally via Transformers.js (q4 quantization)... Found match using Cosine Similarity: 'yuktai is a zero-API, zero-cost Next.js plugin built for offline in-browser AI.'"
-    );
+  const runAudit = () => setAudit(runQaAudit());
+
+  const downloadAudit = () => {
+    if (!audit) return;
+    const blob = new Blob([auditToMarkdown(audit)], { type: "text/markdown" });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement("a");
+    a.href = url; a.download = "yuktai-qa-report.md"; a.click();
+    URL.revokeObjectURL(url);
   };
 
-  const runAgentSim = () => {
-    if (!agentGoal) return;
-    setAgentSteps([
-      "1. Scanning full page DOM using 9 core extraction strategies...",
-      "2. Found input field matching label: '" + agentGoal + "' using 11 label strategies.",
-      "3. Executing Chrome Gemini Nano planning fallback sequence...",
-      "4. Action complete: Target field highlighted with a teal outline.",
-    ]);
+  const askPage = async (q?: string) => {
+    const question = (q ?? pageQ).trim();
+    if (!question) return;
+    setPageQ(question);
+    setPageBusy(true);
+    try { setPageAns(await askAboutPage(question)); }
+    finally { setPageBusy(false); }
   };
 
-  const runVibeSim = () => {
-    if (!vibePrompt) return;
-    setVibeCode(
-      `// Generated via Vibe Coder pure templates (No Cost, Offline)
-export default function GeneratedPage() {
-  return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <Navbar brand="${vibePrompt}" />
-      <main className="max-w-4xl mx-auto mt-10">...</main>
-    </div>
-  );
-}`
-    );
+  const runPlanner = () => setTaskSteps(taskText.trim() ? planTasks(taskText) : []);
+  const runDesign  = () => setDesign(reviewDesign());
+  const runVoice   = () => {
+    const cmd = parseVoiceA11yCommand(voiceText);
+    setVoiceOut(cmd ? JSON.stringify(cmd, null, 2) : "No command recognised. Try: \"high contrast on\", \"bigger text\", \"dark mode\".");
   };
-
-  // ── Code samples ───────────────────────────────────────────
-  const INSTALL_CODE = `npm install @yuktishaalaa/yuktai`;
-
-  const GRID_USAGE_CODE = `"use client";
-import { YuktaiGrid } from "@yuktishaalaa/yuktai";
-
-const data = [
-  { id: 1, name: "Sandeep", role: "Developer" },
-  { id: 2, name: "Priya",   role: "Designer"  },
-];
-
-export default function DemoPage() {
-  return (
-    <YuktaiGrid
-      data={data}
-      columns={[
-        { key: "name", label: "Name", sortable: true },
-        { key: "role", label: "Role" },
-      ]}
-      theme="default"          // default | high-contrast | dark | color-blind | dyslexia
-      search={true}
-      view="auto"              // auto (card on mobile) | table | card
-      pagination={{ pageSize: 10 }}
-    />
-  );
-}`;
-
-  const ICONS_USAGE_CODE = `import {
-  SearchIcon,
-  SortUpIcon,
-  SortDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CheckIcon,
-  CloseIcon,
-} from "@yuktishaalaa/yuktai";
-
-export default function IconsDemo() {
-  return (
-    <div style={{ display: "flex", gap: 16 }}>
-      <SearchIcon        size={20} />
-      <SortUpIcon        size={20} color="#0D9488" />
-      <SortDownIcon      size={20} color="#0D9488" />
-      <ChevronLeftIcon   size={24} label="Previous" />
-      <ChevronRightIcon  size={24} label="Next" />
-      <CheckIcon         size={20} color="#10b981" />
-      <CloseIcon         size={20} color="#dc2626" />
-    </div>
-  );
-}`;
 
   return (
     <>
@@ -177,583 +230,353 @@ export default function IconsDemo() {
 
       <main
         style={{
-          maxWidth:  "900px",
-          margin:    "100px auto 60px auto",
-          padding:   "0 24px",
-          fontFamily:"'Outfit', sans-serif",
-          color:     TEXT_MAIN,
-          lineHeight:"1.7",
+          maxWidth: "960px",
+          margin: "100px auto 60px auto",
+          padding: "0 20px",
+          fontFamily: "'Outfit', sans-serif",
+          color: TEXT_MAIN,
+          lineHeight: 1.7,
           boxSizing: "border-box",
         }}
       >
-
-        {/* ═══════════ TOP CONTROLS BAR ═══════════ */}
-        <div
-          style={{
-            display:        "flex",
-            justifyContent: "space-between",
-            alignItems:     "center",
-            flexWrap:       "wrap",
-            gap:            "12px",
-            marginBottom:   "30px",
-          }}
-        >
-          {/* Back link — uses yuktai ChevronLeftIcon */}
-          <Link
-            href="/"
-            style={{
-              display:        "inline-flex",
-              alignItems:     "center",
-              gap:            "6px",
-              color:          G,
-              textDecoration: "none",
-              fontSize:       "14px",
-              fontWeight:     600,
-            }}
-          >
-            <ChevronLeftIcon size={16} color={G} /> Back to Dashboard
+        {/* ═══════════ TOP CONTROLS ═══════════ */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, marginBottom: 30 }}>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: G_DARK, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
+            <ChevronLeftIcon size={16} color={G_DARK} /> Back to Home
           </Link>
 
-          {/* TTS control bar */}
-          <div
-            style={{
-              display:      "flex",
-              alignItems:   "center",
-              gap:          "8px",
-              background:   "#f1f5f9",
-              padding:      "6px 12px",
-              borderRadius: "30px",
-              border:       "1px solid #e2e8f0",
-            }}
-          >
-            <span style={{ fontSize: "12px", fontWeight: 600, color: TEXT_SUB, marginRight: "4px" }}>
-              🔊 Listen to Page:
-            </span>
-            <button
-              onClick={() => handleTTS("play")}
-              aria-label="Play"
-              style={{
-                background:   isSpeaking && !isPaused ? G : "#ffffff",
-                border:       "none",
-                borderRadius: "50%",
-                width:        "28px",
-                height:       "28px",
-                display:      "flex",
-                alignItems:   "center",
-                justifyContent:"center",
-                cursor:       "pointer",
-                boxShadow:    "0 2px 4px rgba(0,0,0,0.05)",
-              }}
-            >
-              <PlayArrowRoundedIcon style={{ fontSize: 16, color: isSpeaking && !isPaused ? "white" : TEXT_MAIN }} />
-            </button>
-            <button
-              onClick={() => handleTTS("pause")}
-              aria-label="Pause"
-              style={{
-                background:   isPaused ? "#e11d48" : "#ffffff",
-                border:       "none",
-                borderRadius: "50%",
-                width:        "28px",
-                height:       "28px",
-                display:      "flex",
-                alignItems:   "center",
-                justifyContent:"center",
-                cursor:       "pointer",
-                boxShadow:    "0 2px 4px rgba(0,0,0,0.05)",
-              }}
-            >
-              <PauseRoundedIcon style={{ fontSize: 16, color: isPaused ? "white" : TEXT_MAIN }} />
-            </button>
-            <button
-              onClick={() => handleTTS("stop")}
-              aria-label="Stop"
-              style={{
-                background:   "#ffffff",
-                border:       "none",
-                borderRadius: "50%",
-                width:        "28px",
-                height:       "28px",
-                display:      "flex",
-                alignItems:   "center",
-                justifyContent:"center",
-                cursor:       "pointer",
-                boxShadow:    "0 2px 4px rgba(0,0,0,0.05)",
-              }}
-            >
-              <StopRoundedIcon style={{ fontSize: 16, color: TEXT_MAIN }} />
-            </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#f1f5f9", padding: "6px 12px", borderRadius: 30, border: "1px solid #e2e8f0" }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: TEXT_SUB, marginRight: 4 }}>Listen to page:</span>
+            <TtsButton label="Play"  active={isSpeaking && !isPaused} activeBg={G_DARK}   onClick={() => handleTTS("play")}><PlayArrowRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
+            <TtsButton label="Pause" active={isPaused}                activeBg="#be123c"  onClick={() => handleTTS("pause")}><PauseRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
+            <TtsButton label="Stop"  active={false}                   activeBg={TEXT_MAIN} onClick={() => handleTTS("stop")}><StopRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
           </div>
         </div>
 
-        {/* ═══════════ MAIN TTS-READABLE CONTENT ═══════════ */}
         <div id="yuktai-content">
-
-          {/* ── Yuktai info header ── */}
-          <header
-            style={{
-              borderBottom:  "1px solid #e2e8f0",
-              paddingBottom: "24px",
-              marginBottom:  "32px",
-            }}
-          >
-            <span
-              style={{
-                color:          G,
-                fontSize:       "13px",
-                fontWeight:     700,
-                textTransform:  "uppercase",
-                letterSpacing:  "0.05em",
-              }}
-            >
-              Comprehensive Documentation
+          {/* ═══════════ HEADER ═══════════ */}
+          <header style={{ borderBottom: "1px solid #e2e8f0", paddingBottom: 24, marginBottom: 32 }}>
+            <span style={{ color: G_DARK, fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              Documentation · v5 Agentic AI
             </span>
-            <h1
-              style={{
-                fontSize:      "34px",
-                fontWeight:    700,
-                letterSpacing: "-0.03em",
-                marginTop:     "6px",
-                marginBottom:  "12px",
-              }}
-            >
-              The Complete <code style={{ fontSize: "28px" }}>yuktai</code> Framework Specification
+            <h1 style={{ fontSize: "clamp(26px, 5vw, 34px)", fontWeight: 700, letterSpacing: "-0.03em", marginTop: 6, marginBottom: 12, borderBottom: "none", paddingBottom: 0 }}>
+              <code style={{ fontSize: "0.85em" }}>yuktai</code>: accessible, agentic AI that runs in the browser
             </h1>
-            <p style={{ fontSize: "16px", color: TEXT_SUB }}>
-              An architectural breakdown of the 70+ in-browser features powering the open-source Next.js ecosystem.
+            <p style={{ fontSize: 16, color: TEXT_SUB }}>
+              An open-source React / Next.js toolkit: a data grid you can talk to, browser AI agents,
+              WCAG accessibility and page Q&amp;A. Everything on this page is a live demo of the real package.
             </p>
-
-            {/* Quick metrics */}
-            <div
-              style={{
-                display:      "flex",
-                gap:          "12px",
-                marginTop:    "16px",
-                flexWrap:     "wrap",
-              }}
-            >
-              <MetricPill label="Downloads"       value="7,213+" />
-              <MetricPill label="Features"        value="70+"    />
-              <MetricPill label="Cost"            value="Free"   />
-              <MetricPill label="API Keys needed" value="Zero"   />
+            <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
+              <MetricPill label="npm downloads"     value="7,213+" />
+              <MetricPill label="Agentic features"  value="10"     />
+              <MetricPill label="Cost"              value="Free"   />
+              <MetricPill label="API keys needed"   value="Zero"   />
+              <MetricPill label="Languages"         value="English + Telugu" />
             </div>
           </header>
 
-          {/* ── Introduction ── */}
-          <section style={{ marginBottom: "40px" }}>
-            <p style={{ fontSize: "16.5px", marginBottom: "16px" }}>
-              Built entirely during free weekends and late nights, <strong>yuktai</strong> is a client-side open-source npm plugin for Next.js designed to bridge the massive gap in web accessibility and localized browser intelligence. It enables offline RAG architecture, AI planning agents, automated semantic styling, and semantic layouts directly inside the browser tab without sending data to servers, needing subscription models, or requiring API configurations.
+          {/* ═══════════ INTRO ═══════════ */}
+          <section style={{ marginBottom: 40 }}>
+            <p style={{ fontSize: 16.5, marginBottom: 16 }}>
+              Built during weekends and late nights, <strong>yuktai</strong> started as an accessibility plugin and
+              grew into an agentic toolkit. Version 5 adds agents that understand plain-English (and Telugu) questions,
+              test pages for accessibility, review forms and designs, and run multi-step tasks on a grid,
+              all with rule-based logic in the browser, so they work offline and never send your data anywhere.
             </p>
           </section>
 
-          {/* ═══════════ MODULE 1 — ACCESSIBILITY ═══════════ */}
-          <section
-            style={{
-              marginBottom:  "40px",
-              border:        "1px solid #e2e8f0",
-              borderRadius:  "16px",
-              padding:       "24px",
-            }}
-          >
-            <h2 style={sectionH2Style}>
-              <AccessibilityNewRoundedIcon style={{ color: G }} /> 1. Web Accessibility Engine (16 Features)
-            </h2>
-            <p style={{ fontSize: "15px", color: TEXT_SUB, marginBottom: "16px" }}>
-              Addresses standard DOM-level navigation breaks, keyboard support structures, and elements required under WCAG 2.2 criteria applied globally to live runtime sessions.
-            </p>
-            <ul style={ulStyle}>
-              <li style={liStyle}><strong>WCAG 2.2 Auto-Fix:</strong> Injects necessary ARIA roles, states, and properties systematically into plain markup.</li>
-              <li style={liStyle}><strong>Speak on Focus & Voice UI:</strong> Native speech synthesis routing that reads active elements dynamically upon focus.</li>
-              <li style={liStyle}><strong>Dyslexia Friendly Engine:</strong> One-click conversion to target device fonts and specialized hyperlegible formats.</li>
-              <li style={liStyle}><strong>Visual Shifters:</strong> Complete color-blind profile filters (Deuteranopia, Protanopia, Tritanopia, Grayscale).</li>
-            </ul>
-            <InsightBox>
-              Accessibility is often treated as an afterthought in complex tech cycles. Injecting directly into the local DOM creates a stable UX layer without waiting on server refreshes.
-            </InsightBox>
-          </section>
-
-          {/* ═══════════ MODULE 2 — RAG + SIMULATOR ═══════════ */}
-          <section
-            style={{
-              marginBottom:  "40px",
-              border:        "1px solid #e2e8f0",
-              borderRadius:  "16px",
-              padding:       "24px",
-            }}
-          >
-            <h2 style={sectionH2Style}>
-              <PsychologyRoundedIcon style={{ color: G }} /> 2. In-Tab Retrieval-Augmented Generation (11 Features)
-            </h2>
-            <p style={{ fontSize: "15px", color: TEXT_SUB, marginBottom: "16px" }}>
-              Extracts clear content maps directly from DOM structures, deduplicates redundant metadata, and calculates semantic matching inline. Automatically toggles based on current hardware specifications.
-            </p>
-            <ul style={ulStyle}>
-              <li style={liStyle}><strong>Gemini Nano Integration:</strong> Utilizes Chrome standalone built-in globals to manage high-efficiency semantic pipelines locally.</li>
-              <li style={liStyle}><strong>Transformers.js Execution:</strong> Fallback logic that manages execution via local client packages on cross-platform mobile environments.</li>
-              <li style={liStyle}><strong>Quantized Efficiency:</strong> Converts 32-bit floating operations to tight 4-bit configurations, preventing iOS memory failures.</li>
-            </ul>
-
-            {/* RAG Simulator */}
-            <div
-              style={{
-                background:   "#f8fafc",
-                padding:      "16px",
-                borderRadius: "12px",
-                marginTop:    "16px",
-                border:       "1px solid #cbd5e1",
-              }}
-            >
-              <span style={simulatorLabelStyle}>
-                <SearchIcon size={14} color={G} /> Try In-Tab RAG Simulator
-              </span>
-              <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-                <input
-                  type="text"
-                  placeholder="Ask something about this page..."
-                  value={ragQuery}
-                  onChange={(e) => setRagQuery(e.target.value)}
-                  style={inputStyle}
-                />
-                <button onClick={runRagSim} style={btnPrimary}>Analyze</button>
-              </div>
-              {ragAnswer && (
-                <div style={outputBoxStyle}>
-                  {ragAnswer}
+          {/* ═══════════ WHAT'S NEW — 10 AGENTIC FEATURES ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><AutoAwesomeRoundedIcon style={{ color: G_DARK }} /> What&apos;s new in v5: 10 agentic features</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
+              {[
+                ["Smart grid queries", "\"salary over 1 lakh and age under 30\" → filters, sort, limit. Understands 10k, lakh, crore."],
+                ["BI copilot",         "Group by, compare this month vs last month, trends."],
+                ["Task runner",        "\"filter, then sort, then summarize\" runs as ordered steps with a before/after summary."],
+                ["Anomaly finder",     "Flags unusual numbers and duplicate rows."],
+                ["QA tester",          "15 WCAG checks, a 0–100 score and a Markdown report."],
+                ["Accessibility copilot", "Explains issues in plain English and applies safe fixes with undo."],
+                ["Page understanding", "Ask \"what is this page for?\" or \"which fields have no label?\""],
+                ["Form review",        "Labels, autocomplete, error messages, senior-friendly tips."],
+                ["Design review",      "Hierarchy, readability, focus states, clutter."],
+                ["Voice commands",     "\"bigger text\", \"high contrast\", \"next row\" in English and Telugu."],
+              ].map(([t, d]) => (
+                <div key={t} style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: "12px 14px", background: "#fff" }}>
+                  <div style={{ fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}><CheckIcon size={14} color={G_DARK} /> {t}</div>
+                  <div style={{ fontSize: 14, color: TEXT_SUB }}>{d}</div>
                 </div>
-              )}
+              ))}
             </div>
-          </section>
+          </Card>
 
-          {/* ═══════════ MODULE 3 — AGENT + SIMULATOR ═══════════ */}
-          <section
-            style={{
-              marginBottom:  "40px",
-              border:        "1px solid #e2e8f0",
-              borderRadius:  "16px",
-              padding:       "24px",
-            }}
-          >
-            <h2 style={sectionH2Style}>
-              <AutoAwesomeRoundedIcon style={{ color: G }} /> 3. Autonomous Local AI Agent (13 Features)
-            </h2>
-            <p style={{ fontSize: "15px", color: TEXT_SUB, marginBottom: "16px" }}>
-              Parses intents from natural language and automatically determines multi-step browser tasks like populating targets, mapping inputs, and traversing legacy elements.
+          {/* ═══════════ LIVE DEMO 1 — GRID AGENT ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><GridViewRoundedIcon style={{ color: G_DARK }} /> Live demo: talk to a grid</h2>
+            <p style={leadStyle}>
+              <code>useAgenticGrid</code> + <code>AgenticGridBar</code> on 10 sample rows. Try the examples, or type your own.
+              For 10 lakh rows on a real database, open the <Link href="/staffdirectory" style={{ color: G_DARK, fontWeight: 600 }}>Yuktai Grid demo</Link>.
             </p>
-            <ul style={ulStyle}>
-              <li style={liStyle}><strong>9 DOM Traversal Strategies:</strong> Targets deep structures, static text nodes, nested views, and dynamic rendering layouts.</li>
-              <li style={liStyle}><strong>11 Label Context Classifiers:</strong> Interprets placeholders, preceding grid structures, and contemporary aria identifiers on old ports.</li>
-            </ul>
+            <AgenticGridBar
+              grid={grid}
+              placeholder="Ask the grid… e.g. salary over 1 lakh in Hyderabad"
+              examples={[
+                "salary over 1 lakh",
+                "Engineering in Hyderabad",
+                "joined this month",
+                "anything unusual?",
+                "average salary by department",
+                "show salary over 80k, then sort by salary, then summarize",
+              ]}
+            />
+            <div style={{ marginTop: 12, overflowX: "auto" }}>
+              <YuktaiGrid
+                data={grid.gridData}
+                highlightIds={grid.highlightIds}
+                rowKey="id"
+                search={false}
+                pagination={false}
+                columns={[
+                  { key: "name",       label: "Name",       sortable: true },
+                  { key: "city",       label: "City",       sortable: true },
+                  { key: "department", label: "Department", sortable: true },
+                  { key: "salary",     label: "Salary",     sortable: true, type: "number", align: "right",
+                    render: (v) => inr(Number(v)) },
+                  { key: "joined",     label: "Joined",     sortable: true, type: "date",
+                    render: (v) => new Date(String(v)).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) },
+                  { key: "status",     label: "Status",     type: "badge" },
+                ]}
+              />
+            </div>
+            <InsightBox>
+              The agent is rule-based, not a chatbot guessing: every answer says which filters it used, so the user can
+              check it. If Chrome&apos;s built-in Gemini Nano is available it can be plugged in, but it is never required.
+            </InsightBox>
+          </Card>
 
-            {/* Agent Simulator */}
-            <div
-              style={{
-                background:   "#f8fafc",
-                padding:      "16px",
-                borderRadius: "12px",
-                marginTop:    "16px",
-                border:       "1px solid #cbd5e1",
-              }}
-            >
-              <span style={simulatorLabelStyle}>
-                🤖 Test AI Agent Navigation Plan
-              </span>
-              <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-                <input
-                  type="text"
-                  placeholder="Enter target action (e.g., Fill email field)..."
-                  value={agentGoal}
-                  onChange={(e) => setAgentGoal(e.target.value)}
-                  style={inputStyle}
-                />
-                <button onClick={runAgentSim} style={btnPrimary}>Plan Action</button>
+          {/* ═══════════ LIVE DEMO 2 — QA + DESIGN ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><FactCheckRoundedIcon style={{ color: G_DARK }} /> Live demo: test this page</h2>
+            <p style={leadStyle}>
+              <code>runQaAudit()</code> runs 15 WCAG checks and <code>reviewDesign()</code> checks hierarchy and readability,
+              on this very page, right now.
+            </p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button type="button" onClick={runAudit}  style={btnPrimary}>Run accessibility test</button>
+              <button type="button" onClick={runDesign} style={btnSecondary}>Run design review</button>
+              {audit && <button type="button" onClick={downloadAudit} style={btnSecondary}>Download report (.md)</button>}
+            </div>
+
+            {audit && (
+              <div style={resultBox} aria-live="polite">
+                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                  <span style={{ fontSize: 28, fontWeight: 700, color: audit.score >= 90 ? G_DARK : audit.score >= 70 ? "#b45309" : "#be123c" }}>{audit.score}/100</span>
+                  <span style={{ color: TEXT_SUB }}>{audit.checks.filter((c) => c.passed).length} of {audit.checks.length} checks passed</span>
+                </div>
+                <p style={{ margin: "6px 0 10px", fontSize: 14 }}>{audit.summary}</p>
+                {audit.issues.slice(0, 5).map((i) => (
+                  <div key={i.id} style={{ borderTop: "1px solid #e2e8f0", padding: "8px 0", fontSize: 14 }}>
+                    <strong>{i.message}</strong> <span style={{ color: TEXT_SUB }}>· WCAG {i.wcag} · {i.severity}</span>
+                    <div style={{ color: TEXT_SUB }}>Fix: {i.fix}</div>
+                  </div>
+                ))}
+                {audit.issues.length > 5 && <div style={{ fontSize: 13, color: TEXT_SUB }}>+ {audit.issues.length - 5} more in the downloaded report</div>}
               </div>
-              {agentSteps.length > 0 && (
-                <div
-                  style={{
-                    background:   "#1e293b",
-                    color:        "#f8fafc",
-                    padding:      "12px",
-                    borderRadius: "6px",
-                    marginTop:    "10px",
-                    fontSize:     "13px",
-                  }}
-                >
-                  {agentSteps.map((step, idx) => (
-                    <div key={idx} style={{ marginBottom: "4px" }}>{step}</div>
+            )}
+
+            {design && (
+              <div style={resultBox} aria-live="polite">
+                <div style={{ fontWeight: 600 }}>Design score: {design.score}/100</div>
+                <p style={{ margin: "4px 0 8px", fontSize: 14 }}>{design.summary}</p>
+                {design.findings.slice(0, 4).map((f, idx) => (
+                  <div key={idx} style={{ fontSize: 14, borderTop: "1px solid #e2e8f0", padding: "6px 0" }}>
+                    <strong style={{ textTransform: "capitalize" }}>{f.category}:</strong> {f.message} <span style={{ color: TEXT_SUB }}>→ {f.suggestion}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div style={{ marginTop: 16 }}>
+              <CodeBlock code={QA_CODE} copied={copiedCode === "qa"} onCopy={() => copyCode(QA_CODE, "qa")} />
+            </div>
+          </Card>
+
+          {/* ═══════════ LIVE DEMO 3 — ASK THE PAGE ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><PsychologyRoundedIcon style={{ color: G_DARK }} /> Live demo: ask this page</h2>
+            <p style={leadStyle}>
+              <code>askAboutPage()</code> reads the page structure (headings, forms, links, images) and answers questions about it.
+              Search across page and grid text uses a BM25 index that also handles Telugu.
+            </p>
+            <form onSubmit={(e) => { e.preventDefault(); askPage(); }} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <label htmlFor="page-q" className="sr-only">Question about this page</label>
+              <input id="page-q" type="text" value={pageQ} onChange={(e) => setPageQ(e.target.value)}
+                placeholder="e.g. What is this page about?" style={inputStyle} />
+              <button type="submit" style={btnPrimary} disabled={pageBusy}>{pageBusy ? "Reading…" : "Ask"}</button>
+            </form>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+              {["What is this page about?", "Which fields have no label?", "How many links are there?", "Show the page structure"].map((q) => (
+                <button key={q} type="button" onClick={() => askPage(q)} style={chipStyle}>{q}</button>
+              ))}
+            </div>
+            {pageAns && (
+              <div style={resultBox} aria-live="polite">
+                <div style={{ fontSize: 15, whiteSpace: "pre-line" }}>{pageAns.answer}</div>
+                {pageAns.suggestions.length > 0 && (
+                  <div style={{ fontSize: 13, color: TEXT_SUB, marginTop: 6 }}>Try next: {pageAns.suggestions.join(" · ")}</div>
+                )}
+              </div>
+            )}
+          </Card>
+
+          {/* ═══════════ LIVE DEMO 4 — TASKS + VOICE ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><AutoAwesomeRoundedIcon style={{ color: G_DARK }} /> Live demo: multi-step tasks and voice commands</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+              <div>
+                <span style={simulatorLabelStyle}>Task planner · planTasks()</span>
+                <label htmlFor="task-text" className="sr-only">Instruction</label>
+                <textarea id="task-text" value={taskText} onChange={(e) => setTaskText(e.target.value)}
+                  rows={3} style={{ ...inputStyle, width: "100%", marginTop: 8, resize: "vertical" }} />
+                <button type="button" onClick={runPlanner} style={{ ...btnPrimary, marginTop: 8 }}>Plan steps</button>
+                {taskSteps.length > 0 && (
+                  <ol style={{ ...resultBox, paddingLeft: 32 }} aria-live="polite">
+                    {taskSteps.map((s, i) => (
+                      <li key={i} style={{ fontSize: 14 }}><strong>{s.action}</strong> <span style={{ color: TEXT_SUB }}>— “{s.text}”</span></li>
+                    ))}
+                  </ol>
+                )}
+              </div>
+              <div>
+                <span style={simulatorLabelStyle}>Voice command parser · parseVoiceA11yCommand()</span>
+                <label htmlFor="voice-text" className="sr-only">Spoken command</label>
+                <input id="voice-text" type="text" value={voiceText} onChange={(e) => setVoiceText(e.target.value)}
+                  style={{ ...inputStyle, width: "100%", marginTop: 8 }} />
+                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+                  {["make text bigger", "high contrast on", "dark mode", "next row"].map((v) => (
+                    <button key={v} type="button" onClick={() => setVoiceText(v)} style={chipStyle}>{v}</button>
                   ))}
                 </div>
-              )}
-            </div>
-          </section>
-
-          {/* ═══════════ MODULE 4 — VIBE + SIMULATOR ═══════════ */}
-          <section
-            style={{
-              marginBottom:  "40px",
-              border:        "1px solid #e2e8f0",
-              borderRadius:  "16px",
-              padding:       "24px",
-            }}
-          >
-            <h2 style={sectionH2Style}>
-              <IntegrationInstructionsRoundedIcon style={{ color: G }} /> 4. Vibe Coder Architecture (19 Features)
-            </h2>
-            <p style={{ fontSize: "15px", color: TEXT_SUB, marginBottom: "16px" }}>
-              Combines client-side prompt routing logic with predefined structural scaffolding to output fully production-ready system layers instantly.
-            </p>
-
-            <div
-              style={{
-                background:   "#f8fafc",
-                padding:      "16px",
-                borderRadius: "12px",
-                border:       "1px solid #cbd5e1",
-              }}
-            >
-              <span style={simulatorLabelStyle}>
-                💻 Sandbox Project Generator
-              </span>
-              <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-                <input
-                  type="text"
-                  placeholder="Type app type (e.g., E-Commerce Hub)..."
-                  value={vibePrompt}
-                  onChange={(e) => setVibePrompt(e.target.value)}
-                  style={inputStyle}
-                />
-                <button onClick={runVibeSim} style={btnPrimary}>Compile</button>
+                <button type="button" onClick={runVoice} style={{ ...btnPrimary, marginTop: 8 }}>Understand</button>
+                {voiceOut && <pre style={{ ...outputBoxStyle, whiteSpace: "pre-wrap" }} aria-live="polite">{voiceOut}</pre>}
               </div>
-              {vibeCode && (
-                <pre
-                  style={{
-                    background:   "#0f172a",
-                    color:        "#e2e8f0",
-                    padding:      "12px",
-                    borderRadius: "6px",
-                    marginTop:    "10px",
-                    overflowX:    "auto",
-                    fontSize:     "12px",
-                    fontFamily:   "monospace",
-                  }}
-                >
-                  <code>{vibeCode}</code>
-                </pre>
-              )}
             </div>
-          </section>
+          </Card>
 
-          {/* ═══════════ MODULE 5 — GRID USAGE ═══════════ */}
-          <section
-            style={{
-              marginBottom:  "40px",
-              border:        "1px solid #e2e8f0",
-              borderRadius:  "16px",
-              padding:       "24px",
-            }}
-          >
-            <h2 style={sectionH2Style}>
-              <CodeRoundedIcon style={{ color: G }} /> 5. YuktaiGrid — Usage Example for Next.js
-            </h2>
-            <p style={{ fontSize: "15px", color: TEXT_SUB, marginBottom: "16px" }}>
-              A copy-paste ready code sample. Drop this into any Next.js App Router page to get an accessible AI-powered data grid.
+          {/* ═══════════ ALL-IN-ONE PANEL ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><AccessibilityNewRoundedIcon style={{ color: G_DARK }} /> All-in-one: AgenticPanel</h2>
+            <p style={leadStyle}>
+              One component with six tabs: Copilot, QA, Forms, Design, Ask and Voice. Drop <code>&lt;AgenticPanel /&gt;</code> into any page.
             </p>
-            <CodeBlock code={GRID_USAGE_CODE} id="grid-code" copied={copiedCode === "grid-code"} onCopy={() => copyCode(GRID_USAGE_CODE, "grid-code")} />
-            <ul style={{ ...ulStyle, marginTop: "16px" }}>
-              <li style={liStyle}>
-                <CheckIcon size={14} color={G} /> <strong> Auto card view</strong> on mobile (below 768px) — no config needed
-              </li>
-              <li style={liStyle}>
-                <CheckIcon size={14} color={G} /> <strong> Search bar</strong> at top — filters across all columns instantly
-              </li>
-              <li style={liStyle}>
-                <CheckIcon size={14} color={G} /> <strong> Sort</strong> — click any column header · ascending → descending → clear
-              </li>
-              <li style={liStyle}>
-                <CheckIcon size={14} color={G} /> <strong> Pagination</strong> — set pageSize in the pagination prop
-              </li>
-              <li style={liStyle}>
-                <CheckIcon size={14} color={G} /> <strong> WCAG 2.2</strong> — keyboard-navigable and screen-reader friendly by default
-              </li>
+            <button type="button" onClick={() => setPanelOpen((v) => !v)} aria-expanded={panelOpen} style={btnPrimary}>
+              {panelOpen ? "Hide the panel" : "Open the panel"}
+            </button>
+            {panelOpen && (
+              <div style={{ marginTop: 12 }}>
+                <AgenticPanel defaultTab="qa" voiceLang="en-IN" />
+              </div>
+            )}
+          </Card>
+
+          {/* ═══════════ CORE MODULES (existing) ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><AccessibilityNewRoundedIcon style={{ color: G_DARK }} /> Core: accessibility engine</h2>
+            <ul style={ulStyle}>
+              <li style={liStyle}><strong>WCAG 2.2 auto-fix:</strong> adds missing ARIA roles, labels and states to plain markup.</li>
+              <li style={liStyle}><strong>Speak on focus:</strong> reads the focused element aloud with the browser&apos;s speech engine.</li>
+              <li style={liStyle}><strong>Dyslexia-friendly mode</strong>, larger targets, reduced motion and keyboard mode.</li>
+              <li style={liStyle}><strong>Colour-blind filters:</strong> deuteranopia, protanopia, tritanopia, grayscale.</li>
             </ul>
-          </section>
+            <p style={{ fontSize: 14, color: TEXT_SUB, margin: 0 }}>Open it from the ♿ button in the yuktai tools (bottom-left).</p>
+          </Card>
 
-          {/* ═══════════ MODULE 6 — ICONS USAGE ═══════════ */}
-          <section
-            style={{
-              marginBottom:  "40px",
-              border:        "1px solid #e2e8f0",
-              borderRadius:  "16px",
-              padding:       "24px",
-            }}
-          >
-            <h2 style={sectionH2Style}>
-              <CodeRoundedIcon style={{ color: G }} /> 6. Yuktai Icons — Usage Example
-            </h2>
-            <p style={{ fontSize: "15px", color: TEXT_SUB, marginBottom: "16px" }}>
-              Yuktai ships 7 minimal-line SVG icons. Each one accepts <code>size</code>, <code>color</code>, and <code>label</code> props.
+          <Card>
+            <h2 style={sectionH2Style}><SearchIcon size={20} color={G_DARK} /> Core: in-browser RAG</h2>
+            <ul style={ulStyle}>
+              <li style={liStyle}><strong>Gemini Nano</strong> when Chrome&apos;s built-in AI is available.</li>
+              <li style={liStyle}><strong>Transformers.js</strong> fallback with 4-bit quantised models, so it also works on phones.</li>
+              <li style={liStyle}><strong>BM25 context index</strong> for fast keyword search over page and grid text, no model needed.</li>
+            </ul>
+            <p style={{ fontSize: 14, color: TEXT_SUB, margin: 0 }}>Try it from the 💬 button in the yuktai tools.</p>
+          </Card>
+
+          <Card>
+            <h2 style={sectionH2Style}><IntegrationInstructionsRoundedIcon style={{ color: G_DARK }} /> Core: Vibe Coder</h2>
+            <p style={{ fontSize: 15, color: TEXT_SUB, margin: 0 }}>
+              Describe a page and get a starting layout from built-in templates. Free, offline, no API.
+              Open it from the ⚡ button in the yuktai tools.
             </p>
+          </Card>
 
-            {/* Visual icon grid */}
-            <div
-              style={{
-                display:              "grid",
-                gridTemplateColumns:  "repeat(auto-fit, minmax(120px, 1fr))",
-                gap:                  "12px",
-                padding:              "16px",
-                background:           "#f8fafc",
-                border:               "1px solid #cbd5e1",
-                borderRadius:         "12px",
-                marginBottom:         "16px",
-              }}
-            >
-              <IconCard name="SearchIcon"       icon={<SearchIcon        size={22} color={G} />} />
-              <IconCard name="CheckIcon"        icon={<CheckIcon         size={22} color={G} />} />
-              <IconCard name="CloseIcon"        icon={<CloseIcon         size={22} color="#dc2626" />} />
-              <IconCard name="ChevronLeftIcon"  icon={<ChevronLeftIcon   size={22} color={G} />} />
-              <IconCard name="ChevronRightIcon" icon={<ChevronRightIcon  size={22} color={G} />} />
-            </div>
+          {/* ═══════════ CODE ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><CodeRoundedIcon style={{ color: G_DARK }} /> Use it in your Next.js app</h2>
+            <h3 style={h3Style}>1. Agentic grid with your own question bar</h3>
+            <CodeBlock code={AGENT_GRID_CODE} copied={copiedCode === "agent"} onCopy={() => copyCode(AGENT_GRID_CODE, "agent")} />
+            <h3 style={{ ...h3Style, marginTop: 20 }}>2. Or the grid&apos;s built-in assistant with your own rules</h3>
+            <CodeBlock code={BUILTIN_AGENT_CODE} copied={copiedCode === "builtin"} onCopy={() => copyCode(BUILTIN_AGENT_CODE, "builtin")} />
+            <p style={{ fontSize: 14, color: TEXT_SUB, marginTop: 12, marginBottom: 0 }}>
+              Custom rules run before the built-in intents and match by phrase, so you can teach the assistant your own words.
+            </p>
+          </Card>
 
-            <CodeBlock code={ICONS_USAGE_CODE} id="icons-code" copied={copiedCode === "icons-code"} onCopy={() => copyCode(ICONS_USAGE_CODE, "icons-code")} />
-
-            <div style={{ marginTop: "16px", padding: "12px", background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "8px", fontSize: "13.5px" }}>
-                   
-           <strong style={{ color: "#166534" }}>Props:</strong> All icons accept the same props — <code>size</code> (number, default 20), <code>color</code> (string, default <code>&quot;currentColor&quot;</code>), <code>strokeWidth</code> (number, default 2.5), and <code>label</code> (string — makes the icon accessible instead of decorative). </div>
-          </section>
-
-          {/* ═══════════ MODULE 7 — TECHNICAL MATRIX ═══════════ */}
-          <section
-            style={{
-              marginBottom:  "40px",
-              border:        "1px solid #e2e8f0",
-              borderRadius:  "16px",
-              padding:       "24px",
-            }}
-          >
-            <h2 style={sectionH2Style}>
-              <ComputerRoundedIcon style={{ color: G }} /> 7. Technical Compatibility Matrix
-            </h2>
+          {/* ═══════════ MATRIX ═══════════ */}
+          <Card>
+            <h2 style={sectionH2Style}><ComputerRoundedIcon style={{ color: G_DARK }} /> Technical compatibility</h2>
             <div style={{ overflowX: "auto" }}>
-              <table
-                style={{
-                  width:          "100%",
-                  borderCollapse: "collapse",
-                  fontSize:       "14.5px",
-                  textAlign:      "left",
-                }}
-              >
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14.5, textAlign: "left", minWidth: 480 }}>
                 <thead>
                   <tr style={{ borderBottom: "2px solid #cbd5e1" }}>
-                    <th style={{ padding: "8px" }}>Dependency Parameter</th>
-                    <th style={{ padding: "8px" }}>Supported Build Specification</th>
+                    <th scope="col" style={{ padding: 8 }}>Area</th>
+                    <th scope="col" style={{ padding: 8 }}>Support</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <MatrixRow k="Framework Environments"  v="Next.js 16+ & React 19 Core Compatible" />
-                  <MatrixRow k="Type Definitions"        v="Strict TypeScript configuration across layout nodes" />
-                  <MatrixRow k="SSR Safety"              v="Dynamic window verification to prevent hydration crashes" />
-                  <MatrixRow k="Network Boundary"        v="100% Client-Side Execution / Zero Data Outflow" />
-                  <MatrixRow k="Icon Bundle"             v="7 minimal-line SVG icons · under 5KB total" />
+                  <MatrixRow k="Frameworks"       v="React 19 · Next.js 16 (App Router)" />
+                  <MatrixRow k="Types"            v="Full TypeScript definitions" />
+                  <MatrixRow k="SSR safety"       v="Browser-only code checks for window, no hydration crashes" />
+                  <MatrixRow k="Data"             v="Agents run in the browser; your data stays on the device" />
+                  <MatrixRow k="Large data"       v="Server mode: the grid asks your API page by page (tested on 10 lakh rows)" />
+                  <MatrixRow k="Browser AI"       v="WebMCP tool for browser agents · optional Gemini Nano" />
+                  <MatrixRow k="Languages"        v="English and Telugu input; en-IN number format (10,00,000)" />
+                  <MatrixRow k="Tests"            v="Vitest + happy-dom test suite for the agentic module" />
                 </tbody>
               </table>
             </div>
-          </section>
+          </Card>
+        </div>
 
-        </div> {/* end of yuktai-content */}
-
-        {/* ═══════════ INSTALLATION ═══════════ */}
-        <div
-          style={{
-            background:   "#0f172a",
-            color:        "white",
-            borderRadius: "16px",
-            padding:      "24px",
-            marginBottom: "40px",
-            display:      "flex",
-            flexDirection: "column",
-            gap:          "12px",
-          }}
-        >
-          <div
-            style={{
-              display:    "flex",
-              alignItems: "center",
-              gap:        "8px",
-              fontWeight: 600,
-              color:      G,
-            }}
-          >
-            <TerminalRoundedIcon /> Production Deployment
+        {/* ═══════════ INSTALL ═══════════ */}
+        <div style={{ background: "#0f172a", color: "white", borderRadius: 16, padding: 24, marginBottom: 40, display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 600, color: FG_CODE }}>
+            <TerminalRoundedIcon /> Install
           </div>
-          <p style={{ fontSize: "14px", color: "#94a3b8", margin: 0 }}>
-            Inject the framework globally using your preferred package management terminal:
-          </p>
+          <p style={{ fontSize: 14, color: "#cbd5e1", margin: 0 }}>Add yuktai to any React or Next.js project:</p>
           <div style={{ position: "relative" }}>
-            <code
-              style={{
-                background:   "#1e293b",
-                color:        "#34d399",
-                padding:      "12px 16px",
-                borderRadius: "8px",
-                fontFamily:   "monospace",
-                fontSize:     "14px",
-                display:      "block",
-                paddingRight: "48px",
-              }}
-            >
+            <code style={{ background: "#1e293b", color: FG_CODE, padding: "12px 48px 12px 16px", borderRadius: 8, fontFamily: "monospace", fontSize: 14, display: "block" }}>
               {INSTALL_CODE}
             </code>
-            <button
-              onClick={() => copyCode(INSTALL_CODE, "install")}
-              style={{
-                position:     "absolute",
-                top:          "8px",
-                right:        "8px",
-                background:   "transparent",
-                border:       "none",
-                cursor:       "pointer",
-                color:        copiedCode === "install" ? G : "#94a3b8",
-                display:      "flex",
-                alignItems:   "center",
-              }}
-              aria-label="Copy install command"
-            >
-              {copiedCode === "install"
-                ? <CheckIcon size={18} color={G} />
-                : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
+            <button type="button" onClick={() => copyCode(INSTALL_CODE, "install")} aria-label="Copy install command"
+              style={{ position: "absolute", top: 4, right: 4, width: 44, height: 44, background: "transparent", border: "none", cursor: "pointer", color: copiedCode === "install" ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {copiedCode === "install" ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
             </button>
           </div>
         </div>
 
         {/* ═══════════ FOOTER ═══════════ */}
-        <footer
-          style={{
-            borderTop:      "1px solid #e2e8f0",
-            paddingTop:     "20px",
-            display:        "flex",
-            justifyContent: "space-between",
-            flexWrap:       "wrap",
-            gap:            "12px",
-            fontSize:       "14px",
-          }}
-        >
-          <span style={{ color: TEXT_SUB }}>
-            Developed openly with support from Claude, GPT & Gemini.
-          </span>
-          <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-            <a
-              href="https://github.com/sandeepmiriyala03/yuktai"
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: G, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
-            >
-              GitHub Repository <ChevronRightIcon size={14} color={G} />
+        <footer style={{ borderTop: "1px solid #e2e8f0", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontSize: 14 }}>
+          <span style={{ color: TEXT_SUB }}>Built in public, with help from Claude, GPT and Gemini.</span>
+          <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+            <a href="https://github.com/sandeepmiriyala03/yuktai" target="_blank" rel="noreferrer"
+              style={{ color: G_DARK, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+              GitHub <ChevronRightIcon size={14} color={G_DARK} />
             </a>
-            <a
-              href="https://aksharatantra.miriyala.in"
-              style={{ color: TEXT_MAIN, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "4px" }}
-            >
-              Live Application <ChevronRightIcon size={14} color={TEXT_MAIN} />
+            <a href="https://www.npmjs.com/package/@yuktishaalaa/yuktai" target="_blank" rel="noreferrer"
+              style={{ color: G_DARK, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+              npm <ChevronRightIcon size={14} color={G_DARK} />
             </a>
+            <Link href="/staffdirectory" style={{ color: TEXT_MAIN, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+              Yuktai Grid demo <ChevronRightIcon size={14} color={TEXT_MAIN} />
+            </Link>
           </div>
         </footer>
       </main>
@@ -762,23 +585,31 @@ export default function IconsDemo() {
 }
 
 // ═══════════════════════════════════════════════════════════
-// Reusable sub-components
+// Small components
 // ═══════════════════════════════════════════════════════════
+function Card({ children }: { children: React.ReactNode }) {
+  return (
+    <section style={{ marginBottom: 32, border: "1px solid #e2e8f0", borderRadius: 16, padding: "clamp(16px, 4vw, 24px)", background: "#ffffff" }}>
+      {children}
+    </section>
+  );
+}
+
+function TtsButton({ label, active, activeBg, onClick, children }: {
+  label: string; active: boolean; activeBg: string; onClick: () => void; children: React.ReactNode;
+}) {
+  return (
+    <button type="button" onClick={onClick} aria-label={label} aria-pressed={active}
+      style={{ background: active ? activeBg : "#ffffff", color: active ? "#ffffff" : TEXT_MAIN, border: "none", borderRadius: "50%",
+        width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", boxShadow: "0 2px 4px rgba(0,0,0,0.05)" }}>
+      {children}
+    </button>
+  );
+}
 
 function MetricPill({ label, value }: { label: string; value: string }) {
   return (
-    <div
-      style={{
-        background:   "#f0fdf4",
-        border:       "1px solid #86efac",
-        padding:      "6px 12px",
-        borderRadius: "20px",
-        display:      "flex",
-        alignItems:   "center",
-        gap:          "6px",
-        fontSize:     "13px",
-      }}
-    >
+    <div style={{ background: "#f0fdf4", border: "1px solid #86efac", padding: "6px 12px", borderRadius: 20, display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
       <span style={{ color: "#166534", fontWeight: 700 }}>{value}</span>
       <span style={{ color: TEXT_SUB }}>{label}</span>
     </div>
@@ -787,89 +618,21 @@ function MetricPill({ label, value }: { label: string; value: string }) {
 
 function InsightBox({ children }: { children: React.ReactNode }) {
   return (
-    <div
-      style={{
-        background:   "#f8fafc",
-        padding:      "14px",
-        borderRadius: "8px",
-        borderLeft:   `3px solid ${G}`,
-        fontSize:     "13.5px",
-      }}
-    >
-      <strong>Learned Insight: </strong>
-      {children}
+    <div style={{ background: "#f8fafc", padding: 14, borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13.5, marginTop: 16 }}>
+      <strong>Why it matters: </strong>{children}
     </div>
   );
 }
 
-function IconCard({ name, icon }: { name: string; icon: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        background:   "#fff",
-        border:       "1px solid #e2e8f0",
-        borderRadius: "8px",
-        padding:      "12px",
-        textAlign:    "center",
-        display:      "flex",
-        flexDirection:"column",
-        alignItems:   "center",
-        gap:          "6px",
-      }}
-    >
-      {icon}
-      <span style={{ fontSize: "11px", color: TEXT_SUB, fontFamily: "monospace" }}>{name}</span>
-    </div>
-  );
-}
-
-function CodeBlock({
-  code,
-  id,
-  copied,
-  onCopy,
-}: {
-  code:   string;
-  id:     string;
-  copied: boolean;
-  onCopy: () => void;
-}) {
+function CodeBlock({ code, copied, onCopy }: { code: string; copied: boolean; onCopy: () => void }) {
   return (
     <div style={{ position: "relative" }}>
-      <pre
-        style={{
-          background:   BG_CODE,
-          color:        FG_CODE,
-          padding:      "16px",
-          borderRadius: "10px",
-          overflowX:    "auto",
-          fontSize:     "12.5px",
-          fontFamily:   "monospace",
-          lineHeight:   "1.6",
-          margin:       0,
-          paddingRight: "48px",
-        }}
-      >
+      <pre style={{ background: BG_CODE, color: FG_CODE, padding: "16px 52px 16px 16px", borderRadius: 10, overflowX: "auto", fontSize: 12.5, fontFamily: "monospace", lineHeight: 1.6, margin: 0 }}>
         <code>{code}</code>
       </pre>
-      <button
-        onClick={onCopy}
-        aria-label="Copy code"
-        style={{
-          position:   "absolute",
-          top:        "12px",
-          right:      "12px",
-          background: "transparent",
-          border:     "none",
-          cursor:     "pointer",
-          color:      copied ? G : "#94a3b8",
-          display:    "flex",
-          alignItems: "center",
-        }}
-      >
-        {copied
-          ? <CheckIcon size={18} color={G} />
-          : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
+      <button type="button" onClick={onCopy} aria-label="Copy code"
+        style={{ position: "absolute", top: 4, right: 4, width: 44, height: 44, background: "transparent", border: "none", cursor: "pointer", color: copied ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {copied ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
       </button>
     </div>
   );
@@ -878,68 +641,46 @@ function CodeBlock({
 function MatrixRow({ k, v }: { k: string; v: string }) {
   return (
     <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-      <td style={{ padding: "8px", fontWeight: 600 }}>{k}</td>
-      <td style={{ padding: "8px" }}>{v}</td>
+      <th scope="row" style={{ padding: 8, fontWeight: 600 }}>{k}</th>
+      <td style={{ padding: 8 }}>{v}</td>
     </tr>
   );
 }
 
 // ═══════════════════════════════════════════════════════════
-// Inline style constants
+// Styles
 // ═══════════════════════════════════════════════════════════
 const sectionH2Style: React.CSSProperties = {
-  fontSize:      "20px",
-  fontWeight:    700,
-  marginBottom:  "14px",
-  display:       "flex",
-  alignItems:    "center",
-  gap:           "8px",
+  fontSize: 20, fontWeight: 700, marginBottom: 14, display: "flex", alignItems: "center", gap: 8,
+  // globals.css gives h2 a bottom border; not wanted inside cards
+  borderBottom: "none", paddingBottom: 0,
 };
-
-const ulStyle: React.CSSProperties = {
-  paddingLeft: "20px",
-  fontSize:    "15px",
-  marginBottom:"16px",
-};
-
-const liStyle: React.CSSProperties = {
-  marginBottom: "6px",
-};
+const h3Style: React.CSSProperties  = { fontSize: 16, fontWeight: 600, color: TEXT_MAIN, marginBottom: 8 };
+const leadStyle: React.CSSProperties = { fontSize: 15, color: TEXT_SUB, marginBottom: 16 };
+const ulStyle: React.CSSProperties   = { paddingLeft: 20, fontSize: 15, marginBottom: 12 };
+const liStyle: React.CSSProperties   = { marginBottom: 6 };
 
 const simulatorLabelStyle: React.CSSProperties = {
-  fontSize:      "12px",
-  fontWeight:    700,
-  color:         G,
-  textTransform: "uppercase",
-  display:       "inline-flex",
-  alignItems:    "center",
-  gap:           "6px",
+  fontSize: 12, fontWeight: 700, color: G_DARK, textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: 6,
 };
-
 const inputStyle: React.CSSProperties = {
-  flex:         1,
-  padding:      "8px 12px",
-  border:       "1px solid #cbd5e1",
-  borderRadius: "6px",
-  fontFamily:   "inherit",
+  flex: "1 1 240px", minWidth: 0, minHeight: 44, padding: "8px 12px", border: "1px solid #94a3b8", borderRadius: 8,
+  fontFamily: "inherit", fontSize: 15, boxSizing: "border-box",
 };
-
 const btnPrimary: React.CSSProperties = {
-  background:   G,
-  color:        "white",
-  border:       "none",
-  padding:      "8px 16px",
-  borderRadius: "6px",
-  fontWeight:   600,
-  cursor:       "pointer",
+  background: G_DARK, color: "white", border: "none", minHeight: 44, padding: "8px 18px", borderRadius: 8,
+  fontWeight: 600, fontFamily: "inherit", fontSize: 15, cursor: "pointer",
 };
-
+const btnSecondary: React.CSSProperties = {
+  ...btnPrimary, background: "#ffffff", color: G_DARK, border: `1.5px solid ${G_DARK}`,
+};
+const chipStyle: React.CSSProperties = {
+  minHeight: 36, padding: "6px 12px", borderRadius: 999, border: "1px solid #cbd5e1", background: "#f8fafc",
+  color: TEXT_MAIN, fontFamily: "inherit", fontSize: 13.5, cursor: "pointer",
+};
+const resultBox: React.CSSProperties = {
+  background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: 12, padding: 14, marginTop: 12,
+};
 const outputBoxStyle: React.CSSProperties = {
-  background:   "#0f172a",
-  color:        "#34d399",
-  padding:      "12px",
-  borderRadius: "6px",
-  marginTop:    "10px",
-  fontFamily:   "monospace",
-  fontSize:     "13px",
+  background: "#0f172a", color: FG_CODE, padding: 12, borderRadius: 8, marginTop: 10, fontFamily: "monospace", fontSize: 13,
 };
