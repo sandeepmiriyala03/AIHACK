@@ -205,31 +205,31 @@ export default function AnalysisSummary({ result, loading, elapsedTime }: Props)
       {/* Full text with the best chunk highlighted */}
       {fullText && (
         <div
-          style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}
+          className="is-1ec3f36"
           dangerouslySetInnerHTML={{ __html: highlighted }}
         />
       )}
 
       {/* Chat */}
-      <div style={{ marginTop: 30 }}>
+      <div className="is-bc9cee5">
         <h3>🤖 Document Q&amp;A</h3>
         <p>Answers quote the most relevant passages. Document text is not stored between requests.</p>
 
         {chatHistory.map((chat, i) => (
-          <div key={i} style={{ marginBottom: 10 }}>
+          <div key={i} className="is-3301ea9">
             <b>Q:</b> {chat.question}
             <br />
             <b>A:</b> {chat.answer}
           </div>
         ))}
 
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className="is-0ed0e90">
           <input
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && askQuestion()}
             placeholder={status === "indexing" ? "Indexing document…" : "Ask about this document"}
-            style={{ flex: 1 }}
+            className="is-49cdf87"
           />
           <button onClick={askQuestion} disabled={status === "searching"} aria-label="Ask">
             <SendIcon />

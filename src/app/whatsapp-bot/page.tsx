@@ -49,69 +49,54 @@ export default function GreetingBot() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, fontFamily: "system-ui,sans-serif" }}>
-      <div style={{ width: "100%", maxWidth: 420, display: "flex", flexDirection: "column", gap: 20 }}>
+    <div className="is-042369a">
+      <div className="is-caa7971">
 
         {/* Header */}
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>📱</div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 6px", color: "#0f172a" }}>AksharaTantra Greetings</h1>
-          <p style={{ fontSize: 14, color: "#64748b", margin: 0 }}>Send a WhatsApp greeting instantly</p>
+        <div className="is-cdd8ca0">
+          <div className="is-acc6ee9">📱</div>
+          <h1 className="is-518767b">AksharaTantra Greetings</h1>
+          <p className="is-ebefd94">Send a WhatsApp greeting instantly</p>
         </div>
 
         {/* Phone input */}
-        <div style={card}>
-          <label style={labelStyle}>📞 WhatsApp Number</label>
-          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-            <span style={{ padding: "10px 12px", background: "#f1f5f9", borderRadius: 8, border: "0.5px solid #cbd5e1", fontSize: 13, color: "#475569", flexShrink: 0 }}>+91</span>
+        <div className="is-97cd2ec">
+          <label className="is-0e85094">📞 WhatsApp Number</label>
+          <div className="is-b131259">
+            <span className="is-421d327">+91</span>
             <input
               type="tel"
               placeholder="98765 43210"
               value={phone}
               onChange={e => setPhone(e.target.value)}
               maxLength={15}
-              style={{ flex: 1, padding: "10px 12px", borderRadius: 8, border: "0.5px solid #cbd5e1", fontFamily: "inherit", fontSize: 14, outline: "none", color: "#0f172a" }}
+              className="is-a22a0e0"
             />
           </div>
-          <p style={{ fontSize: 11, color: "#94a3b8", margin: 0 }}>Enter number with country code — e.g. 919876543210</p>
+          <p className="is-c37b892">Enter number with country code — e.g. 919876543210</p>
         </div>
 
         {/* Greeting picker */}
-        <div style={card}>
-          <label style={labelStyle}>💬 Pick a Greeting</label>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div className="is-97cd2ec">
+          <label className="is-0e85094">💬 Pick a Greeting</label>
+          <div className="is-d7bb5fd">
             {GREETINGS.map(g => (
               <div
                 key={g.id}
                 onClick={() => setSelected(g.id)}
-                style={{
-                  padding: "10px 14px",
-                  borderRadius: 8,
-                  border: selected === g.id ? "1.5px solid #1D9E75" : "0.5px solid #e2e8f0",
-                  background: selected === g.id ? "#f0fdf9" : "#fff",
-                  cursor: "pointer",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 3,
-                }}
+                className="is-53e2e07" style={{ border: selected === g.id ? "1.5px solid #1D9E75" : "0.5px solid #e2e8f0", background: selected === g.id ? "#f0fdf9" : "#fff", cursor: "pointer", display: "flex", flexDirection: "column", gap: 3 }}
               >
-                <span style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>{g.label}</span>
-                <span style={{ fontSize: 11, color: "#64748b", lineHeight: 1.4 }}>{g.text}</span>
+                <span className="is-6ab5912">{g.label}</span>
+                <span className="is-d5dc823">{g.text}</span>
               </div>
             ))}
 
             {/* Custom option */}
             <div
               onClick={() => setSelected("custom")}
-              style={{
-                padding: "10px 14px",
-                borderRadius: 8,
-                border: selected === "custom" ? "1.5px solid #1D9E75" : "0.5px solid #e2e8f0",
-                background: selected === "custom" ? "#f0fdf9" : "#fff",
-                cursor: "pointer",
-              }}
+              className="is-53e2e07" style={{ border: selected === "custom" ? "1.5px solid #1D9E75" : "0.5px solid #e2e8f0", background: selected === "custom" ? "#f0fdf9" : "#fff", cursor: "pointer" }}
             >
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>✏️ Custom Message</span>
+              <span className="is-6ab5912">✏️ Custom Message</span>
               {selected === "custom" && (
                 <textarea
                   rows={3}
@@ -120,7 +105,7 @@ export default function GreetingBot() {
                   onChange={e => { e.stopPropagation(); setCustom(e.target.value); }}
                   onClick={e => e.stopPropagation()}
                   maxLength={300}
-                  style={{ display: "block", width: "100%", marginTop: 8, padding: "8px 10px", borderRadius: 8, border: "0.5px solid #cbd5e1", fontFamily: "inherit", fontSize: 13, resize: "none", boxSizing: "border-box", outline: "none" }}
+                  className="is-692e76d"
                 />
               )}
             </div>
@@ -129,12 +114,12 @@ export default function GreetingBot() {
 
         {/* Result messages */}
         {result === "success" && (
-          <div style={{ background: "#d1fae5", color: "#065f46", padding: "12px 16px", borderRadius: 10, fontSize: 14, textAlign: "center" }}>
+          <div className="is-b8532fa">
             ✅ Message sent successfully on WhatsApp!
           </div>
         )}
         {result === "error" && (
-          <div style={{ background: "#fee2e2", color: "#991b1b", padding: "12px 16px", borderRadius: 10, fontSize: 14, textAlign: "center" }}>
+          <div className="is-4d582f5">
             ❌ {errMsg}
           </div>
         )}
@@ -143,28 +128,15 @@ export default function GreetingBot() {
         <button
           onClick={handleSend}
           disabled={sending || !phone.trim() || !messageToSend.trim()}
-          style={{
-            padding: "14px",
-            borderRadius: 10,
-            border: "none",
-            background: (sending || !phone.trim() || !messageToSend.trim()) ? "#94a3b8" : "#085041",
-            color: "#fff",
-            fontSize: 15,
-            fontWeight: 600,
-            cursor: (sending || !phone.trim() || !messageToSend.trim()) ? "not-allowed" : "pointer",
-            fontFamily: "inherit",
-          }}
+          className="is-41c1688" style={{ background: (sending || !phone.trim() || !messageToSend.trim()) ? "#94a3b8" : "#085041", color: "#fff", fontSize: 15, fontWeight: 600, cursor: (sending || !phone.trim() || !messageToSend.trim()) ? "not-allowed" : "pointer", fontFamily: "inherit" }}
         >
           {sending ? "⏳ Sending…" : "Send WhatsApp Greeting →"}
         </button>
 
-        <p style={{ fontSize: 11, color: "#94a3b8", textAlign: "center", margin: 0 }}>
+        <p className="is-a274948">
           Powered by AksharaTantra · Meta WhatsApp Cloud API
         </p>
       </div>
     </div>
   );
 }
-
-const card = { background: "#fff", border: "0.5px solid #e2e8f0", borderRadius: 12, padding: 16, display: "flex", flexDirection: "column", gap: 10 };
-const labelStyle = { fontSize: 11, fontWeight: 600, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" };

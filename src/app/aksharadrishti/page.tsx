@@ -357,7 +357,7 @@ export default function AksharaDrishtiPage() {
 
           <div className="ad-tips">
             <div className="ad-tips-hdr">
-              <span style={{fontSize:16}}>💡</span>
+              <span className="is-beab583">💡</span>
               <span className="ad-tips-title">How to use</span>
             </div>
             <div className="ad-tips-body">
@@ -385,7 +385,7 @@ export default function AksharaDrishtiPage() {
                 <div className="ad-lang-lbl">
                   <span>Languages</span>
                   {extraLangs.length > 0 && (
-                    <button style={{fontSize:11,color:"var(--muted)",cursor:"pointer",background:"none",border:"none",textDecoration:"underline"}}
+                    <button className="is-b2488f5"
                       onClick={()=>{setExtraLangs([]);setResult("");setStage("idle");}}>
                       clear extra
                     </button>
@@ -409,8 +409,8 @@ export default function AksharaDrishtiPage() {
                     </div>
                   ))}
                 </div>
-                <div style={{borderTop:"1px solid var(--border)",margin:"14px 0"}} />
-                <div style={{fontSize:11,fontWeight:600,color:"var(--muted)",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>Image</div>
+                <div className="is-ddd3c8b" />
+                <div className="is-cb1cee4">Image</div>
                 <div ref={dropRef} className={`ad-drop ${file?"has":""}`} onClick={()=>fileInputRef.current?.click()}>
                   <input ref={fileInputRef} type="file" accept="image/*" onChange={onInputChange} onClick={e=>e.stopPropagation()} />
                   <div className="ad-drop-icon">{file?"🖼️":"📷"}</div>
@@ -419,7 +419,7 @@ export default function AksharaDrishtiPage() {
                 </div>
                 {preview && (
                   <div className="ad-preview">
-                    <Image src={preview} alt="Preview" width={400} height={300} style={{maxWidth:"100%",height:"auto"}} />
+                    <Image src={preview} alt="Preview" width={400} height={300} className="is-36746cb" />
                   </div>
                 )}
                 {isProcessing && (
@@ -440,12 +440,12 @@ export default function AksharaDrishtiPage() {
             <div className="ad-panel">
               <div className="ad-panel-hdr">
                 <span className="ad-panel-title">Result</span>
-                {result && <span style={{fontSize:11,color:"var(--success)",fontWeight:600}}>✓ {langLabel}</span>}
+                {result && <span className="is-ec8c677">✓ {langLabel}</span>}
               </div>
               <div className="ad-panel-body">
                 {result && (
-                  <div style={{marginBottom:10}}>
-                    <div className="ad-font-lbl" style={{marginBottom:6}}>Font size for download</div>
+                  <div className="is-3301ea9">
+                    <div className="ad-font-lbl is-1015caf">Font size for download</div>
                     <div className="ad-font-row">
                       {FONT_SIZES.map(s=>(
                         <button key={s} className={`ad-font-btn ${fontSize===s?"active":""}`} onClick={()=>setFontSize(s)}>{s}px</button>
@@ -479,14 +479,14 @@ export default function AksharaDrishtiPage() {
                   <div className="ad-placeholder">
                     {isProcessing ? (
                       <span>
-                        <span className="ad-spin" style={{display:"inline-block",marginRight:8,verticalAlign:"middle"}} />
+                        <span className="ad-spin is-1830c9d" />
                         {progressMsg||"Processing…"}
                       </span>
                     ) : (
                       <span>
                         Select languages, upload an image,<br/>
-                        then click <strong style={{color:"var(--text)"}}>Extract Text</strong>.<br/>
-                        <span style={{fontSize:12,marginTop:6,display:"block"}}>Output can be copied or downloaded as PNG.</span>
+                        then click <strong className="is-495da58">Extract Text</strong>.<br/>
+                        <span className="is-e732eb8">Output can be copied or downloaded as PNG.</span>
                       </span>
                     )}
                   </div>

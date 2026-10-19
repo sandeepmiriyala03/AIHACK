@@ -36,7 +36,7 @@ export function ExtractedTextSectionComponent({
 
       {/* 🔥 ALWAYS SHOW AFTER OCR */}
       {fullText && (
-        <div style={{ marginTop: 30 }}>
+        <div className="is-bc9cee5">
           <h3>🤖 Ask About This Document</h3>
 
           <input
@@ -44,26 +44,19 @@ export function ExtractedTextSectionComponent({
             placeholder="Ask something..."
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "10px",
-            }}
+            className="is-75402cb"
           />
 
           <button
             onClick={askQuestion}
             disabled={!question || loading}
-            style={{
-              marginTop: "10px",
-              padding: "10px 20px",
-            }}
+            className="is-cecfe74"
           >
             Ask
           </button>
 
           {answer && (
-            <div style={{ marginTop: "15px" }}>
+            <div className="is-8ecca84">
               <strong>Answer:</strong>
               <p>{answer}</p>
             </div>

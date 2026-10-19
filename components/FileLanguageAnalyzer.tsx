@@ -687,7 +687,7 @@ return (
         alt="Uploaded preview"
         width={800}
         height={600}
-        style={{ width: "100%", height: "auto" }}
+        className="is-4e97ec5"
       />
     )}
 
@@ -702,7 +702,7 @@ return (
 />
 
     {ocrEngine && (
-      <div style={{ marginTop: 10 }}>
+      <div className="is-07c308b">
         <strong>OCR Engine Used:</strong> {ocrEngine}
       </div>
     )}

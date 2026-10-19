@@ -403,21 +403,21 @@ export default function AksharaKosha() {
   // RENDER
   // ════════════════════════════════════════════════════════
   return (
-    <div style={S.page}>
+    <div className="is-84fdff8">
       <Navbar />
       {/* ── Header ── */}
-      <div style={S.header}>
+      <div className="is-c02a8f0">
         <div>
-          <p style={S.headerSub}>AKSHARATANTRA · AI</p>
-          <h1 style={S.headerTitle}>🏦 AksharaKosha</h1>
+          <p className="is-85b97d3">AKSHARATANTRA · AI</p>
+          <h1 className="is-8cb4cd3">🏦 AksharaKosha</h1>
         </div>
-        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+        <div className="is-b131259">
           {/* Bill scanner FAB in header */}
-          <label style={S.scanBtn} title="Scan Bill with AI">
+          <label className="is-f216f68" title="Scan Bill with AI">
             {scanLoading ? "⏳" : "📷"}
             <input ref={scanRef} type="file" accept="image/*" capture="environment" hidden onChange={handleScanBill}/>
           </label>
-          <button style={S.currBtn} onClick={()=>setShowCurrPicker(!showCurrPicker)}>
+          <button className="is-6ed4aa8" onClick={()=>setShowCurrPicker(!showCurrPicker)}>
             {currency.flag} {currency.symbol} ▾
           </button>
         </div>
@@ -425,14 +425,14 @@ export default function AksharaKosha() {
 
       {/* ── Currency Picker ── */}
       {showCurrPicker && (
-        <div style={S.currDropdown}>
+        <div className="is-a182e08">
           {["Main","Neighbor"].map(region=>(
             <div key={region}>
-              <p style={S.currRegionLabel}>{region==="Main"?"🌍 Global":"🌏 South Asia"}</p>
+              <p className="is-a7632f8">{region==="Main"?"🌍 Global":"🌏 South Asia"}</p>
               {CURRENCIES.filter(c=>c.region===region).map(c=>(
-                <button key={c.code} style={{...S.currOption,background:currency.code===c.code?"#E8F5E9":"#fff",fontWeight:currency.code===c.code?800:600}}
+                <button key={c.code} className="is-5329abb" style={{ background:currency.code===c.code?"#E8F5E9":"#fff", fontWeight:currency.code===c.code?800:600 }}
                   onClick={()=>{setCurrency(c);setShowCurrPicker(false);}}>
-                  {c.flag} {c.country} <span style={{color:"#888",fontWeight:400}}>{c.symbol} {c.code}</span>
+                  {c.flag} {c.country} <span className="is-b57d185">{c.symbol} {c.code}</span>
                 </button>
               ))}
             </div>
@@ -441,7 +441,7 @@ export default function AksharaKosha() {
       )}
 
       {/* ── Tab Bar ── */}
-      <div style={S.tabBar}>
+      <div className="is-c41bd95">
         {([
           ["today",   "💰","Today"  ],
           ["monthly", "📅","Monthly"],
@@ -450,52 +450,52 @@ export default function AksharaKosha() {
           ["ai",      "🧠","AI"     ],
           ["help",    "❓","Help"   ],
         ] as [TabKey,string,string][]).map(([key,icon,label])=>(
-          <button key={key} style={{...S.tab,...(activeTab===key?S.tabActive:{})}} onClick={()=>setActiveTab(key)}>
-            <span style={{fontSize:14}}>{icon}</span>
-            <span style={{fontSize:9,fontWeight:800,color:activeTab===key?"#fff":"#888"}}>{label}</span>
+          <button key={key} className="is-c76f891" style={{ ...(activeTab===key?S.tabActive:{}) }} onClick={()=>setActiveTab(key)}>
+            <span className="is-267f6d5">{icon}</span>
+            <span className="is-54344db" style={{ color:activeTab===key?"#fff":"#888" }}>{label}</span>
           </button>
         ))}
       </div>
 
       {/* ════ TODAY ════ */}
       {activeTab==="today" && (
-        <div style={S.section}>
+        <div className="is-6a276c2">
           {/* Budget progress if set */}
           {budgetAnalysis && (
-            <div style={{...S.card,border:`1.5px solid ${budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50"}`}}>
-              <div style={{display:"flex",justifyContent:"space-between"}}>
-                <p style={S.cardTitle}>🎯 Monthly Budget</p>
-                <p style={{margin:0,fontSize:12,fontWeight:800,color:budgetAnalysis.status==="over"?"#C62828":budgetAnalysis.status==="warn"?"#E65100":"#2E7D32"}}>
+            <div className="is-ae301a7" style={{ border:`1.5px solid ${budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50"}` }}>
+              <div className="is-58e548b">
+                <p className="is-8ea776d">🎯 Monthly Budget</p>
+                <p className="is-498afbd" style={{ color:budgetAnalysis.status==="over"?"#C62828":budgetAnalysis.status==="warn"?"#E65100":"#2E7D32" }}>
                   {budgetAnalysis.pct}% used
                 </p>
               </div>
-              <div style={{height:8,background:"#f0f4f8",borderRadius:4,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${budgetAnalysis.pct}%`,background:budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50",borderRadius:4,transition:"width 0.4s"}}/>
+              <div className="is-07762b5">
+                <div className="is-587c60d" style={{ width:`${budgetAnalysis.pct}%`, background:budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50", borderRadius:4, transition:"width 0.4s" }}/>
               </div>
-              <div style={{display:"flex",justifyContent:"space-between"}}>
-                <span style={{fontSize:11,color:"#666"}}>Spent: {fmt(budgetAnalysis.spent,currency)}</span>
-                <span style={{fontSize:11,color:"#666"}}>Left: {fmt(budgetAnalysis.remain,currency)}</span>
+              <div className="is-58e548b">
+                <span className="is-f57ec4f">Spent: {fmt(budgetAnalysis.spent,currency)}</span>
+                <span className="is-f57ec4f">Left: {fmt(budgetAnalysis.remain,currency)}</span>
               </div>
               {budgetAnalysis.daysLeft>0&&budgetAnalysis.remain>0&&(
-                <p style={{margin:0,fontSize:12,color:"#1565C0",fontWeight:700}}>
+                <p className="is-356b6c2">
                   💡 Daily limit: {fmt(budgetAnalysis.dailyLimit,currency)} for {budgetAnalysis.daysLeft} days left
                 </p>
               )}
             </div>
           )}
 
-          <div style={S.summaryRow}>
+          <div className="is-0ed0e90">
             <SummaryCard label="📥 Income"  value={fmt(todayIn, currency)}  color="#2E7D32" border="#A5D6A7"/>
             <SummaryCard label="📤 Expense" value={fmt(todayOut,currency)} color="#C62828" border="#EF9A9A"/>
           </div>
           <BalanceCard label="💼 Net Today" value={fmt(todayIn-todayOut,currency)} positive={todayIn-todayOut>=0}/>
 
           {/* Bill scanner hint */}
-          <div style={S.aiHintBox}>
-            <span style={{fontSize:18}}>📷</span>
+          <div className="is-1050fe8">
+            <span className="is-768e1f2">📷</span>
             <div>
-              <p style={{margin:0,fontSize:12,fontWeight:800,color:"#1565C0"}}>AI Bill Scanner</p>
-              <p style={{margin:0,fontSize:11,color:"#555"}}>Tap the 📷 button in the header to scan any receipt — amount auto-fills!</p>
+              <p className="is-fd6cf0b">AI Bill Scanner</p>
+              <p className="is-2c38b0e">Tap the 📷 button in the header to scan any receipt — amount auto-fills!</p>
             </div>
           </div>
 
@@ -503,18 +503,18 @@ export default function AksharaKosha() {
             ? <Empty icon="💰" text="No transactions today" sub="Tap ➕ below or 📷 to scan a bill"/>
             : [...todayTx].reverse().map(tx=><TxRow key={tx.id} tx={tx} currency={currency} onDelete={handleDelete}/>)
           }
-          <div style={S.actionRow}>
-            <button style={S.actionBtn} onClick={()=>exportToExcel(transactions,currency)}>📊 Excel</button>
-            <button style={{...S.actionBtn,color:"#C62828",borderColor:"#EF9A9A"}} onClick={()=>setShowDeleteAll(true)}>🗑️ Clear All</button>
+          <div className="is-0ed0e90">
+            <button className="is-eba8795" onClick={()=>exportToExcel(transactions,currency)}>📊 Excel</button>
+            <button className="is-98e371c" onClick={()=>setShowDeleteAll(true)}>🗑️ Clear All</button>
           </div>
         </div>
       )}
 
       {/* ════ MONTHLY ════ */}
       {activeTab==="monthly" && (
-        <div style={S.section}>
+        <div className="is-6a276c2">
           <MonthNav month={viewMonth} year={viewYear} onChange={navMonth}/>
-          <div style={S.summaryRow}>
+          <div className="is-0ed0e90">
             <SummaryCard label="📥 Income"  value={fmt(monthIn, currency)}  color="#2E7D32" border="#A5D6A7"/>
             <SummaryCard label="📤 Expense" value={fmt(monthOut,currency)} color="#C62828" border="#EF9A9A"/>
           </div>
@@ -523,44 +523,44 @@ export default function AksharaKosha() {
             ? <Empty icon="📅" text={`No transactions in ${getMonthName(viewMonth)}`} sub=""/>
             : [...monthTx].reverse().map(tx=><TxRow key={tx.id} tx={tx} currency={currency} onDelete={handleDelete}/>)
           }
-          <button style={S.fullBtn} onClick={()=>exportToExcel(transactions,currency)}>📥 Download Excel Report</button>
+          <button className="is-625a4b7" onClick={()=>exportToExcel(transactions,currency)}>📥 Download Excel Report</button>
         </div>
       )}
 
       {/* ════ CHARTS ════ */}
       {activeTab==="charts" && (
-        <div style={S.section}>
+        <div className="is-6a276c2">
           <MonthNav month={viewMonth} year={viewYear} onChange={navMonth}/>
-          <div style={S.card}>
-            <p style={S.cardTitle}>📊 {getMonthName(viewMonth)} Overview</p>
-            <div style={{display:"flex",gap:16,justifyContent:"center",alignItems:"flex-end",height:160,paddingBottom:8}}>
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">📊 {getMonthName(viewMonth)} Overview</p>
+            <div className="is-8f0173a">
               {[{label:"📥 In",val:monthIn,color:"#4CAF50"},{label:"📤 Out",val:monthOut,color:"#EF5350"},{label:"💾 Save",val:Math.abs(monthIn-monthOut),color:monthIn-monthOut>=0?"#4A90E2":"#FF7043"}].map(bar=>{
                 const h=Math.max(6,(bar.val/Math.max(monthIn,monthOut,1))*120);
-                return(<div key={bar.label} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
-                  <p style={{margin:0,fontSize:11,fontWeight:700,color:bar.color}}>{fmt(bar.val,currency)}</p>
-                  <div style={{width:52,height:h,background:bar.color,borderRadius:"6px 6px 0 0"}}/>
-                  <p style={{margin:0,fontSize:11,color:"#666",fontWeight:700}}>{bar.label}</p>
+                return(<div key={bar.label} className="is-cdbe310">
+                  <p className="is-88eaedc" style={{ color:bar.color }}>{fmt(bar.val,currency)}</p>
+                  <div className="is-2e2cccb" style={{ height:h, background:bar.color, borderRadius:"6px 6px 0 0" }}/>
+                  <p className="is-e6ea1bc">{bar.label}</p>
                 </div>);
               })}
             </div>
-            {monthIn>0&&(<div style={{background:"#f0f4f8",borderRadius:10,padding:"10px 14px",display:"flex",justifyContent:"space-between"}}>
-              <p style={{margin:0,fontSize:12,color:"#666"}}>Savings Rate</p>
-              <p style={{margin:0,fontSize:18,fontWeight:900,color:monthIn-monthOut>=0?"#2E7D32":"#C62828"}}>{Math.round(((monthIn-monthOut)/monthIn)*100)}%</p>
+            {monthIn>0&&(<div className="is-489d460">
+              <p className="is-e34c2e4">Savings Rate</p>
+              <p className="is-8540546" style={{ color:monthIn-monthOut>=0?"#2E7D32":"#C62828" }}>{Math.round(((monthIn-monthOut)/monthIn)*100)}%</p>
             </div>)}
           </div>
-          <div style={S.card}>
-            <p style={S.cardTitle}>🏷️ Spending by Category</p>
-            {catBreakdown.length===0?<p style={{color:"#aaa",fontSize:12,textAlign:"center",padding:"16px 0"}}>No expenses this month</p>
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">🏷️ Spending by Category</p>
+            {catBreakdown.length===0?<p className="is-c7e6885">No expenses this month</p>
               :catBreakdown.map(({cat,total})=>(
-              <div key={cat.id} style={{display:"flex",alignItems:"center",gap:10}}>
-                <span style={{fontSize:18,width:26,textAlign:"center"}}>{cat.icon}</span>
-                <div style={{flex:1}}>
-                  <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
-                    <span style={{fontSize:12,fontWeight:700,color:"#333"}}>{cat.label}</span>
-                    <span style={{fontSize:12,fontWeight:800,color:"#555"}}>{fmt(total,currency)}</span>
+              <div key={cat.id} className="is-b512c98">
+                <span className="is-1c3259e">{cat.icon}</span>
+                <div className="is-49cdf87">
+                  <div className="is-aba0906">
+                    <span className="is-15b2bb9">{cat.label}</span>
+                    <span className="is-ed3ef0d">{fmt(total,currency)}</span>
                   </div>
-                  <div style={{height:7,background:"#f0f4f8",borderRadius:4,overflow:"hidden"}}>
-                    <div style={{height:"100%",width:`${(total/maxCatAmt)*100}%`,background:"#4A90E2",borderRadius:4}}/>
+                  <div className="is-c850e7b">
+                    <div className="is-587c60d" style={{ width:`${(total/maxCatAmt)*100}%`, background:"#4A90E2", borderRadius:4 }}/>
                   </div>
                 </div>
               </div>
@@ -571,152 +571,152 @@ export default function AksharaKosha() {
 
       {/* ════ YEARLY ════ */}
       {activeTab==="yearly" && (
-        <div style={S.section}>
-          <div style={S.monthNav}>
-            <button style={S.navBtn} onClick={()=>setViewYear(y=>y-1)}>◀</button>
-            <p style={S.monthLabel}>{viewYear} Overview</p>
-            <button style={S.navBtn} onClick={()=>setViewYear(y=>y+1)}>▶</button>
+        <div className="is-6a276c2">
+          <div className="is-5d712d5">
+            <button className="is-b9dff3a" onClick={()=>setViewYear(y=>y-1)}>◀</button>
+            <p className="is-177d9b0">{viewYear} Overview</p>
+            <button className="is-b9dff3a" onClick={()=>setViewYear(y=>y+1)}>▶</button>
           </div>
-          <div style={S.summaryRow}>
+          <div className="is-0ed0e90">
             <SummaryCard label="📥 Total In"  value={fmt(yearlyData.reduce((s,d)=>s+d.income, 0),currency)} color="#2E7D32" border="#A5D6A7" small/>
             <SummaryCard label="📤 Total Out" value={fmt(yearlyData.reduce((s,d)=>s+d.expense,0),currency)} color="#C62828" border="#EF9A9A" small/>
           </div>
-          <div style={S.card}>
-            <p style={S.cardTitle}>📊 Jan–Dec {viewYear}</p>
-            <div style={{display:"flex",alignItems:"flex-end",gap:3,height:110,overflowX:"auto",paddingBottom:4}}>
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">📊 Jan–Dec {viewYear}</p>
+            <div className="is-881a24d">
               {yearlyData.map((d,i)=>(
-                <div key={i} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:3,flex:1,minWidth:20}}>
-                  <div style={{display:"flex",gap:2,alignItems:"flex-end",height:84}}>
-                    <div style={{width:9,height:Math.max(2,(d.income/maxYearAmt)*84),background:"#4CAF50",borderRadius:"3px 3px 0 0"}}/>
-                    <div style={{width:9,height:Math.max(2,(d.expense/maxYearAmt)*84),background:"#EF5350",borderRadius:"3px 3px 0 0"}}/>
+                <div key={i} className="is-c5c4daf">
+                  <div className="is-dbb9fa4">
+                    <div className="is-8232581" style={{ height:Math.max(2,(d.income/maxYearAmt)*84), background:"#4CAF50", borderRadius:"3px 3px 0 0" }}/>
+                    <div className="is-8232581" style={{ height:Math.max(2,(d.expense/maxYearAmt)*84), background:"#EF5350", borderRadius:"3px 3px 0 0" }}/>
                   </div>
-                  <p style={{margin:0,fontSize:8,color:"#888",fontWeight:700}}>{d.month}</p>
+                  <p className="is-5508c66">{d.month}</p>
                 </div>
               ))}
             </div>
-            <div style={{display:"flex",gap:14,justifyContent:"center"}}>
+            <div className="is-beb977a">
               <LegendDot color="#4CAF50" label="Income"/>
               <LegendDot color="#EF5350" label="Expense"/>
             </div>
           </div>
-          <div style={S.card}>
-            <p style={S.cardTitle}>📋 Month by Month</p>
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">📋 Month by Month</p>
             {yearlyData.map((d,i)=>{
               const net=d.income-d.expense,has=d.income>0||d.expense>0;
-              return(<div key={i} style={{display:"flex",alignItems:"center",gap:4,padding:"7px 0",borderBottom:i<11?"1px solid #f8f8f8":"none",opacity:has?1:0.35}}>
-                <span style={S.yearMonth}>{d.month}</span>
-                <span style={{flex:1,fontSize:11,color:"#2E7D32"}}>{d.income>0?fmt(d.income,currency):"—"}</span>
-                <span style={{flex:1,fontSize:11,color:"#C62828"}}>{d.expense>0?fmt(d.expense,currency):"—"}</span>
-                <span style={{minWidth:70,fontSize:11,fontWeight:800,color:net>=0?"#1565C0":"#C62828",textAlign:"right"}}>{has?(net>=0?"+":"")+fmt(net,currency):"—"}</span>
+              return(<div key={i} className="is-4a511de" style={{ borderBottom:i<11?"1px solid #f8f8f8":"none", opacity:has?1:0.35 }}>
+                <span className="is-416ff87">{d.month}</span>
+                <span className="is-59ef123">{d.income>0?fmt(d.income,currency):"—"}</span>
+                <span className="is-6a3562c">{d.expense>0?fmt(d.expense,currency):"—"}</span>
+                <span className="is-2cae72b" style={{ color:net>=0?"#1565C0":"#C62828", textAlign:"right" }}>{has?(net>=0?"+":"")+fmt(net,currency):"—"}</span>
               </div>);
             })}
           </div>
-          <button style={S.fullBtn} onClick={()=>exportToExcel(transactions,currency)}>📥 Download Full Year Excel</button>
+          <button className="is-625a4b7" onClick={()=>exportToExcel(transactions,currency)}>📥 Download Full Year Excel</button>
         </div>
       )}
 
       {/* ════ AI TAB ════ */}
       {activeTab==="ai" && (
-        <div style={S.section}>
+        <div className="is-6a276c2">
 
           {/* ── AI Feature 2: Insights ── */}
-          <div style={S.card}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <p style={S.cardTitle}>💡 AI Spending Insights</p>
-              <button style={S.refreshBtn} onClick={loadInsights} disabled={insightLoading}>
+          <div className="is-ae301a7">
+            <div className="is-948e6d6">
+              <p className="is-8ea776d">💡 AI Spending Insights</p>
+              <button className="is-3bcbbb5" onClick={loadInsights} disabled={insightLoading}>
                 {insightLoading?"⏳":"🔄"}
               </button>
             </div>
             <MonthNav month={viewMonth} year={viewYear} onChange={navMonth}/>
             {insightLoading
-              ? <p style={{color:"#aaa",fontSize:13,textAlign:"center",padding:"20px 0"}}>🧠 Analyzing your spending...</p>
+              ? <p className="is-6699497">🧠 Analyzing your spending...</p>
               : insights.length===0
-                ? <p style={{color:"#aaa",fontSize:13,textAlign:"center",padding:"20px 0"}}>Add transactions to see insights</p>
+                ? <p className="is-6699497">Add transactions to see insights</p>
                 : insights.map((ins,i)=>(
-                  <div key={i} style={{...S.insightRow,background:ins.type==="good"?"#E8F5E9":ins.type==="warn"?"#FFF3E0":"#EBF3FD",borderColor:ins.type==="good"?"#A5D6A7":ins.type==="warn"?"#FFCC80":"#BBDEFB"}}>
-                    <span style={{fontSize:22,flexShrink:0}}>{ins.icon}</span>
+                  <div key={i} className="is-fb2c14c" style={{ background:ins.type==="good"?"#E8F5E9":ins.type==="warn"?"#FFF3E0":"#EBF3FD", borderColor:ins.type==="good"?"#A5D6A7":ins.type==="warn"?"#FFCC80":"#BBDEFB" }}>
+                    <span className="is-382a08a">{ins.icon}</span>
                     <div>
-                      <p style={{margin:0,fontSize:13,fontWeight:800,color:"#1a1a2e"}}>{ins.title}</p>
-                      <p style={{margin:"3px 0 0",fontSize:12,color:"#555",lineHeight:1.5}}>{ins.desc}</p>
+                      <p className="is-ac75cc8">{ins.title}</p>
+                      <p className="is-e284c78">{ins.desc}</p>
                     </div>
                   </div>
                 ))
             }
-            <p style={{margin:0,fontSize:10,color:"#bbb",textAlign:"center"}}>
+            <p className="is-1d28f29">
               {("ai" in (typeof window!=="undefined"?window:{}))?"🤖 Powered by Chrome AI + smart math":"📊 Powered by smart math analysis"}
             </p>
           </div>
 
           {/* ── AI Feature 3: Budget Planner ── */}
-          <div style={S.card}>
-            <p style={S.cardTitle}>🎯 Budget Planner</p>
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">🎯 Budget Planner</p>
             {!budgetGoal ? (
               <>
-                <p style={{margin:0,fontSize:13,color:"#555"}}>Set a monthly spending budget and get daily limit alerts.</p>
-                <div style={{display:"flex",gap:8}}>
+                <p className="is-3085795">Set a monthly spending budget and get daily limit alerts.</p>
+                <div className="is-13262f5">
                   <input type="number" inputMode="decimal" placeholder={`Budget (${currency.symbol})`}
                     value={budgetInput} onChange={e=>setBudgetInput(e.target.value)}
-                    style={{...S.input,flex:1}}/>
-                  <button style={{...S.fullBtn,width:"auto",padding:"0 20px"}} onClick={handleSaveBudget}>Set</button>
+                    className="is-9866fbe"/>
+                  <button className="is-9f95e13" onClick={handleSaveBudget}>Set</button>
                 </div>
               </>
             ) : budgetAnalysis ? (
               <>
-                <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                  <span style={{fontSize:13,color:"#555"}}>Budget: {fmt(budgetGoal.amount,currency)}</span>
-                  <button style={{background:"none",border:"none",fontSize:12,color:"#EF5350",cursor:"pointer",fontWeight:700}} onClick={()=>{setBudgetGoal(null);localStorage.removeItem("aksharakosha_budget");}}>Remove</button>
+                <div className="is-948e6d6">
+                  <span className="is-b6d0111">Budget: {fmt(budgetGoal.amount,currency)}</span>
+                  <button className="is-303fb5b" onClick={()=>{setBudgetGoal(null);localStorage.removeItem("aksharakosha_budget");}}>Remove</button>
                 </div>
-                <div style={{height:12,background:"#f0f4f8",borderRadius:6,overflow:"hidden"}}>
-                  <div style={{height:"100%",width:`${budgetAnalysis.pct}%`,background:budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50",borderRadius:6,transition:"width 0.4s"}}/>
+                <div className="is-5293e74">
+                  <div className="is-587c60d" style={{ width:`${budgetAnalysis.pct}%`, background:budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50", borderRadius:6, transition:"width 0.4s" }}/>
                 </div>
-                <div style={{display:"flex",justifyContent:"space-between",fontSize:12}}>
-                  <span style={{color:"#C62828",fontWeight:700}}>Spent: {fmt(budgetAnalysis.spent,currency)}</span>
-                  <span style={{color:"#2E7D32",fontWeight:700}}>Left: {fmt(budgetAnalysis.remain,currency)}</span>
+                <div className="is-de63317">
+                  <span className="is-9dad4f9">Spent: {fmt(budgetAnalysis.spent,currency)}</span>
+                  <span className="is-4a0d778">Left: {fmt(budgetAnalysis.remain,currency)}</span>
                 </div>
                 {budgetAnalysis.status==="over"
-                  ? <div style={{...S.insightRow,background:"#FFEBEE",borderColor:"#EF9A9A"}}><span>🚨</span><p style={{margin:0,fontSize:12,fontWeight:700,color:"#C62828"}}>Over budget by {fmt(budgetAnalysis.spent-budgetGoal.amount,currency)}!</p></div>
-                  : <div style={{...S.insightRow,background:"#EBF3FD",borderColor:"#BBDEFB"}}><span>💡</span><p style={{margin:0,fontSize:12,color:"#1565C0"}}>Spend max <strong>{fmt(budgetAnalysis.dailyLimit,currency)}/day</strong> for the next {budgetAnalysis.daysLeft} days to stay on track.</p></div>
+                  ? <div className="is-eda95a3"><span>🚨</span><p className="is-e056b3c">Over budget by {fmt(budgetAnalysis.spent-budgetGoal.amount,currency)}!</p></div>
+                  : <div className="is-58b19ca"><span>💡</span><p className="is-4dbb009">Spend max <strong>{fmt(budgetAnalysis.dailyLimit,currency)}/day</strong> for the next {budgetAnalysis.daysLeft} days to stay on track.</p></div>
                 }
               </>
             ) : null}
           </div>
 
           {/* ── AI Feature 4: Bill Scanner ── */}
-          <div style={S.card}>
-            <p style={S.cardTitle}>📷 AI Bill Scanner</p>
-            <p style={{margin:0,fontSize:13,color:"#555",lineHeight:1.6}}>
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">📷 AI Bill Scanner</p>
+            <p className="is-aa7238a">
               Take a photo of any receipt or bill. AI reads the amount and merchant name, then auto-fills the expense form.
             </p>
-            <label style={{...S.fullBtn,display:"flex",alignItems:"center",justifyContent:"center",gap:8,cursor:"pointer",background:"#1565C0"}}>
+            <label className="is-7baa0c4">
               {scanLoading?"⏳ Scanning...":"📷 Tap to Scan Receipt"}
               <input type="file" accept="image/*" capture="environment" hidden onChange={handleScanBill}/>
             </label>
             {scanResult && (
-              <div style={{...S.insightRow,background:scanResult.amount?"#E8F5E9":"#FFF3E0",borderColor:scanResult.amount?"#A5D6A7":"#FFCC80"}}>
-                <span style={{fontSize:22}}>{scanResult.amount?"✅":"⚠️"}</span>
+              <div className="is-fb2c14c" style={{ background:scanResult.amount?"#E8F5E9":"#FFF3E0", borderColor:scanResult.amount?"#A5D6A7":"#FFCC80" }}>
+                <span className="is-249bf02">{scanResult.amount?"✅":"⚠️"}</span>
                 <div>
-                  <p style={{margin:0,fontSize:13,fontWeight:800,color:"#1a1a2e"}}>
+                  <p className="is-ac75cc8">
                     {scanResult.amount?`${fmt(scanResult.amount,currency)} detected`:"Amount not found"}
                   </p>
-                  <p style={{margin:"2px 0 0",fontSize:12,color:"#555"}}>{scanResult.note}</p>
+                  <p className="is-c577b2a">{scanResult.note}</p>
                 </div>
               </div>
             )}
-            <p style={{margin:0,fontSize:11,color:"#aaa",textAlign:"center"}}>
+            <p className="is-75bddd4">
               Powered by Tesseract.js · Works offline · No data uploaded
             </p>
           </div>
 
           {/* ── AI Feature 1: Auto-categorize demo ── */}
-          <div style={S.card}>
-            <p style={S.cardTitle}>🧠 Smart Auto-Categorize</p>
-            <p style={{margin:0,fontSize:13,color:"#555",lineHeight:1.6}}>
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">🧠 Smart Auto-Categorize</p>
+            <p className="is-aa7238a">
               When adding an expense, just type the note — category is selected automatically.
             </p>
-          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+          <div className="is-f2470a1">
   {[["swiggy biryani","🍱 Food"],["ola cab","🚗 Transport"],["apollo pharmacy","🏥 Medical"],["amazon order","🛍️ Shopping"],["salary credited","💰 Salary"]].map(([ex,cat])=>(
-    <div key={ex} style={{background:"#f0f4f8",borderRadius:8,padding:"6px 10px",fontSize:11}}>
-      <span style={{color:"#888"}}>{`"${ex}"`}</span> → <strong style={{color:"#4CAF50"}}>{cat}</strong>
+    <div key={ex} className="is-4a0a36f">
+      <span className="is-4671278">{`"${ex}"`}</span> → <strong className="is-8ac7607">{cat}</strong>
     </div>
   ))}
 </div>
@@ -727,9 +727,9 @@ export default function AksharaKosha() {
 
       {/* ════ HELP ════ */}
       {activeTab==="help" && (
-        <div style={S.section}>
-          <div style={S.card}>
-            <p style={S.cardTitle}>🚀 How to Use AksharaKosha</p>
+        <div className="is-6a276c2">
+          <div className="is-ae301a7">
+            <p className="is-8ea776d">🚀 How to Use AksharaKosha</p>
             {[
               ["1️⃣","Select currency","Tap flag button top right → pick your country"],
               ["2️⃣","Scan a bill","Tap 📷 in header → photo of receipt → auto-fills amount"],
@@ -742,34 +742,34 @@ export default function AksharaKosha() {
               ["9️⃣","Excel export","Tap 📥 Download Excel in Monthly or Yearly tab"],
               ["🔟","Delete all","❓ Help tab → Danger Zone → Delete All"],
             ].map(([num,title,desc])=>(
-              <div key={num} style={S.helpRow}>
-                <span style={S.helpNum}>{num}</span>
-                <div><p style={S.helpTitle}>{title}</p><p style={S.helpDesc}>{desc}</p></div>
+              <div key={num} className="is-7a04c43">
+                <span className="is-bc88754">{num}</span>
+                <div><p className="is-e4a4098">{title}</p><p className="is-2c4e520">{desc}</p></div>
               </div>
             ))}
           </div>
-          <div style={{...S.card,border:"1.5px solid #FFCDD2"}}>
-            <p style={{...S.cardTitle,color:"#C62828"}}>⚠️ Danger Zone</p>
-            <p style={{margin:0,fontSize:13,color:"#666"}}>Permanently delete all transactions. Cannot be undone.</p>
-            <button style={{...S.fullBtn,background:"#EF5350",marginTop:4}} onClick={()=>setShowDeleteAll(true)}>🗑️ Delete All My Data</button>
+          <div className="is-b3c04e2">
+            <p className="is-d6a50bc">⚠️ Danger Zone</p>
+            <p className="is-a13cbad">Permanently delete all transactions. Cannot be undone.</p>
+            <button className="is-ca38411" onClick={()=>setShowDeleteAll(true)}>🗑️ Delete All My Data</button>
           </div>
         </div>
       )}
 
       {/* ── FAB ── */}
-      <button style={S.fab} onClick={()=>setShowForm(true)}>＋</button>
+      <button className="is-a0f8b35" onClick={()=>setShowForm(true)}>＋</button>
 
       {/* ── Add Transaction Modal ── */}
       {showForm && (
-        <div style={S.overlay}>
-          <div style={S.modal}>
-            <div style={S.modalHeader}>
-              <p style={S.modalTitle}>{form.type==="income"?"📥 Add Income":"📤 Add Expense"}</p>
-              <button style={S.closeBtn} onClick={()=>{setShowForm(false);setForm(emptyForm());setScanResult(null);}}>✕</button>
+        <div className="is-63a6ec2">
+          <div className="is-1dbdb8e">
+            <div className="is-948e6d6">
+              <p className="is-b94a765">{form.type==="income"?"📥 Add Income":"📤 Add Expense"}</p>
+              <button className="is-477a8da" onClick={()=>{setShowForm(false);setForm(emptyForm());setScanResult(null);}}>✕</button>
             </div>
-            <div style={{display:"flex",gap:8}}>
+            <div className="is-13262f5">
               {(["expense","income"] as const).map(type=>(
-                <button key={type} style={{...S.typeBtn,background:form.type===type?(type==="income"?"#4CAF50":"#EF5350"):"#f0f4f8",color:form.type===type?"#fff":"#666"}}
+                <button key={type} className="is-b6268ed" style={{ background:form.type===type?(type==="income"?"#4CAF50":"#EF5350"):"#f0f4f8", color:form.type===type?"#fff":"#666" }}
                   onClick={()=>setForm(f=>({...f,type,categoryId:autoCategorize(f.note,type)}))}>
                   {type==="income"?"📥 Income":"📤 Expense"}
                 </button>
@@ -779,24 +779,24 @@ export default function AksharaKosha() {
             <FormField label={`Amount (${currency.symbol})`}>
               <input type="number" inputMode="decimal" placeholder="0.00" value={form.amount}
                 onChange={e=>setForm(f=>({...f,amount:e.target.value}))}
-                style={{...S.input,fontSize:22,fontWeight:800,textAlign:"center"}} autoFocus/>
+                className="is-fea23c2" autoFocus/>
             </FormField>
 
             {/* Note with auto-categorize */}
             <FormField label="Note (AI auto-categorizes)">
               <input type="text" placeholder="e.g. Swiggy dinner, Ola cab..." value={form.note}
-                onChange={e=>handleNoteChange(e.target.value)} style={S.input}/>
+                onChange={e=>handleNoteChange(e.target.value)} className="is-81e6cc9"/>
               {form.note && (
-                <p style={{margin:0,fontSize:11,color:"#4CAF50",fontWeight:700}}>
+                <p className="is-b70fd76">
                   🧠 Auto-selected: {getCat(form.categoryId).icon} {getCat(form.categoryId).label}
                 </p>
               )}
             </FormField>
 
             <FormField label="Category (tap to override)">
-              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+              <div className="is-f2470a1">
                 {CATEGORIES.filter(c=>c.type===form.type||c.type==="both").map(cat=>(
-                  <button key={cat.id} style={{...S.catChip,background:form.categoryId===cat.id?"#EBF3FD":"#f8f9fa",borderColor:form.categoryId===cat.id?"#4A90E2":"#e0e0e0",fontWeight:form.categoryId===cat.id?800:600}}
+                  <button key={cat.id} className="is-7ed0e52" style={{ background:form.categoryId===cat.id?"#EBF3FD":"#f8f9fa", borderColor:form.categoryId===cat.id?"#4A90E2":"#e0e0e0", fontWeight:form.categoryId===cat.id?800:600 }}
                     onClick={()=>setForm(f=>({...f,categoryId:cat.id}))}>
                     {cat.icon} {cat.label}
                   </button>
@@ -805,10 +805,10 @@ export default function AksharaKosha() {
             </FormField>
 
             <FormField label="Date">
-              <input type="date" value={form.date} onChange={e=>setForm(f=>({...f,date:e.target.value}))} style={S.input}/>
+              <input type="date" value={form.date} onChange={e=>setForm(f=>({...f,date:e.target.value}))} className="is-81e6cc9"/>
             </FormField>
 
-            <button style={{...S.saveBtn,background:form.type==="income"?"#4CAF50":"#4A90E2"}} onClick={handleSave}>
+            <button className="is-75f8a74" style={{ background:form.type==="income"?"#4CAF50":"#4A90E2" }} onClick={handleSave}>
               💾 Save {form.type==="income"?"Income":"Expense"}
             </button>
           </div>
@@ -817,73 +817,73 @@ export default function AksharaKosha() {
 
       {/* ── Delete All Confirm ── */}
       {showDeleteAll && (
-        <div style={S.overlay}>
-          <div style={{...S.modal,gap:16}}>
-            <p style={{...S.modalTitle,color:"#C62828"}}>⚠️ Delete All Data?</p>
-            <p style={{margin:0,fontSize:13,color:"#555",lineHeight:1.7}}>This will permanently delete <strong>all {transactions.length} transactions</strong>. Cannot be undone.</p>
-            <div style={{display:"flex",gap:10}}>
-              <button style={{...S.typeBtn,flex:1,background:"#f0f4f8",color:"#555"}} onClick={()=>setShowDeleteAll(false)}>Cancel</button>
-              <button style={{...S.typeBtn,flex:1,background:"#EF5350",color:"#fff"}} onClick={handleDeleteAll}>Yes, Delete All</button>
+        <div className="is-63a6ec2">
+          <div className="is-ec4a0ff">
+            <p className="is-d4d8090">⚠️ Delete All Data?</p>
+            <p className="is-cddf46f">This will permanently delete <strong>all {transactions.length} transactions</strong>. Cannot be undone.</p>
+            <div className="is-0ed0e90">
+              <button className="is-c40a96b" onClick={()=>setShowDeleteAll(false)}>Cancel</button>
+              <button className="is-924ef92" onClick={handleDeleteAll}>Yes, Delete All</button>
             </div>
           </div>
         </div>
       )}
 
-      {toast && <div style={S.toast}>{toast}</div>}
+      {toast && <div className="is-faafd54">{toast}</div>}
     </div>
   );
 }
 
 // ─── Sub-components ───────────────────────────────────────────
 function SummaryCard({label,value,color,border,small=false}:{label:string;value:string;color:string;border:string;small?:boolean}) {
-  return(<div style={{flex:1,background:"#fff",borderRadius:12,padding:"12px 14px",border:`1.5px solid ${border}`,boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
-    <p style={{margin:"0 0 4px",fontSize:11,fontWeight:700,color:"#888",textTransform:"uppercase",letterSpacing:"0.05em"}}>{label}</p>
-    <p style={{margin:0,fontSize:small?13:16,fontWeight:800,color}}>{value}</p>
+  return(<div className="is-737f3ce" style={{ border:`1.5px solid ${border}`, boxShadow:"0 2px 8px rgba(0,0,0,0.05)" }}>
+    <p className="is-0793444">{label}</p>
+    <p className="is-e2b74ba" style={{ fontSize:small?13:16, fontWeight:800, color }}>{value}</p>
   </div>);
 }
 function BalanceCard({label,value,positive}:{label:string;value:string;positive:boolean}) {
-  return(<div style={{background:"#fff",borderRadius:12,padding:"14px 16px",border:`2px solid ${positive?"#4A90E2":"#EF5350"}`,boxShadow:"0 2px 8px rgba(0,0,0,0.06)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-    <p style={{margin:0,fontSize:12,fontWeight:700,color:"#666"}}>{label}</p>
-    <p style={{margin:0,fontSize:20,fontWeight:900,color:positive?"#1565C0":"#C62828"}}>{positive?"+":""}{value}</p>
+  return(<div className="is-600ed9e" style={{ border:`2px solid ${positive?"#4A90E2":"#EF5350"}`, boxShadow:"0 2px 8px rgba(0,0,0,0.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+    <p className="is-9cf08e2">{label}</p>
+    <p className="is-86b56df" style={{ color:positive?"#1565C0":"#C62828" }}>{positive?"+":""}{value}</p>
   </div>);
 }
 function TxRow({tx,currency,onDelete}:{tx:Transaction;currency:CurrencyConfig;onDelete:(id:string)=>void}) {
   const cat=getCat(tx.categoryId);
-  return(<div style={{background:"#fff",borderRadius:12,padding:"12px 14px",display:"flex",alignItems:"center",gap:10,boxShadow:"0 1px 6px rgba(0,0,0,0.05)"}}>
-    <div style={{width:36,height:36,borderRadius:10,background:"#f0f4f8",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{cat.icon}</div>
-    <div style={{flex:1}}>
-      <p style={{margin:0,fontSize:13,fontWeight:700,color:"#1a1a2e"}}>{cat.label}</p>
-      {tx.note&&<p style={{margin:"1px 0 0",fontSize:11,color:"#888"}}>{tx.note}</p>}
-      <p style={{margin:"2px 0 0",fontSize:10,color:"#bbb"}}>{tx.date}</p>
+  return(<div className="is-b567433">
+    <div className="is-bf62ca2">{cat.icon}</div>
+    <div className="is-49cdf87">
+      <p className="is-0637897">{cat.label}</p>
+      {tx.note&&<p className="is-312a307">{tx.note}</p>}
+      <p className="is-cdc81f9">{tx.date}</p>
     </div>
-    <p style={{margin:0,fontSize:14,fontWeight:800,color:tx.type==="income"?"#2E7D32":"#C62828",flexShrink:0}}>{tx.type==="income"?"+":"-"}{fmt(tx.amount,currency)}</p>
-    <button style={{background:"none",border:"none",cursor:"pointer",fontSize:14,padding:"4px",flexShrink:0}} onClick={()=>onDelete(tx.id)}>🗑️</button>
+    <p className="is-7d273f7" style={{ color:tx.type==="income"?"#2E7D32":"#C62828", flexShrink:0 }}>{tx.type==="income"?"+":"-"}{fmt(tx.amount,currency)}</p>
+    <button className="is-e25dbb7" onClick={()=>onDelete(tx.id)}>🗑️</button>
   </div>);
 }
 function MonthNav({month,year,onChange}:{month:number;year:number;onChange:(d:1|-1)=>void}) {
-  return(<div style={{background:"#fff",borderRadius:12,padding:"10px 14px",display:"flex",alignItems:"center",justifyContent:"space-between",boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
-    <button style={S.navBtn} onClick={()=>onChange(-1)}>◀</button>
-    <p style={S.monthLabel}>{getMonthName(month)} {year}</p>
-    <button style={S.navBtn} onClick={()=>onChange(1)}>▶</button>
+  return(<div className="is-5d712d5">
+    <button className="is-b9dff3a" onClick={()=>onChange(-1)}>◀</button>
+    <p className="is-177d9b0">{getMonthName(month)} {year}</p>
+    <button className="is-b9dff3a" onClick={()=>onChange(1)}>▶</button>
   </div>);
 }
 function Empty({icon,text,sub}:{icon:string;text:string;sub:string}) {
-  return(<div style={{textAlign:"center",padding:"36px 20px",display:"flex",flexDirection:"column",alignItems:"center",gap:8}}>
-    <p style={{fontSize:32,margin:0}}>{icon}</p>
-    <p style={{color:"#aaa",fontSize:13,margin:0}}>{text}</p>
-    {sub&&<p style={{color:"#bbb",fontSize:12,margin:0}}>{sub}</p>}
+  return(<div className="is-fdcdbad">
+    <p className="is-eb6af45">{icon}</p>
+    <p className="is-6d14f90">{text}</p>
+    {sub&&<p className="is-b8bbfd2">{sub}</p>}
   </div>);
 }
 function FormField({label,children}:{label:string;children:React.ReactNode}) {
-  return(<div style={{display:"flex",flexDirection:"column",gap:6}}>
-    <p style={{margin:0,fontSize:11,fontWeight:800,color:"#888",textTransform:"uppercase",letterSpacing:"0.08em"}}>{label}</p>
+  return(<div className="is-eecb2be">
+    <p className="is-c1006e9">{label}</p>
     {children}
   </div>);
 }
 function LegendDot({color,label}:{color:string;label:string}) {
-  return(<div style={{display:"flex",alignItems:"center",gap:5}}>
-    <div style={{width:12,height:12,background:color,borderRadius:2}}/>
-    <span style={{fontSize:11,color:"#666"}}>{label}</span>
+  return(<div className="is-37e43dc">
+    <div className="is-6d179b3" style={{ background:color, borderRadius:2 }}/>
+    <span className="is-f57ec4f">{label}</span>
   </div>);
 }
 

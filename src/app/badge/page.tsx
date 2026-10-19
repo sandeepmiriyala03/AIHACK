@@ -435,42 +435,42 @@ export default function AksharaNamaPage() {
   if (!mounted) return null;
 
   return (
-    <div style={{ minHeight:"100vh", background:"#F7F7F5", fontFamily:"'DM Sans',system-ui,sans-serif" }}>
+    <div className="is-f431735">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap"/>
       <Navbar/>
 
-      <div style={{ maxWidth:520, margin:"0 auto", padding:"clamp(12px,4vw,24px)" }}>
+      <div className="is-b8bc244">
 
         {/* ── Header ── */}
-        <div style={{ marginBottom:20 }}>
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <div className="is-7002f9c">
+          <div className="is-651ca08">
             <div>
-              <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.12em", color:"#9CA3AF", textTransform:"uppercase", marginBottom:2 }}>AKSHARANAMA</p>
-              <h1 style={{ fontSize:22, fontWeight:800, color:"#111", margin:0, letterSpacing:"-0.02em" }}>Round Badge Studio</h1>
+              <p className="is-cc18001">AKSHARANAMA</p>
+              <h1 className="is-19891f7">Round Badge Studio</h1>
             </div>
-            <div style={{ display:"flex", gap:6, alignItems:"center" }}>
-              <span style={{ fontSize:10, fontWeight:600, padding:"4px 10px", borderRadius:50, background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#15803D" }}>🔒 Offline</span>
-              <span style={{ fontSize:10, fontWeight:600, padding:"4px 10px", borderRadius:50, background:"#EFF6FF", border:"1px solid #BFDBFE", color:"#1D4ED8" }}>{LANGUAGES.length}+ langs</span>
+            <div className="is-3e22b63">
+              <span className="is-c813cd4">🔒 Offline</span>
+              <span className="is-ae4aac3">{LANGUAGES.length}+ langs</span>
             </div>
           </div>
         </div>
 
         {/* ── Language selector ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
-          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:10 }}>
-            <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:0 }}>Language</p>
+        <div className="is-833a7d6">
+          <div className="is-dccc7be">
+            <p className="is-0e99142">Language</p>
             <button onClick={() => setShowLangs(v=>!v)}
-              style={{ fontSize:12, fontWeight:700, color:"#2563EB", background:"none", border:"none", cursor:"pointer", padding:"4px 8px" }}>
+              className="is-33fbb76">
               {showLangs ? "Close ▲" : `Change (${currentLang.flag} ${currentLang.native}) ▼`}
             </button>
           </div>
 
           {!showLangs && (
-            <div style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 12px", borderRadius:12, background:"#F9FAFB", border:"1px solid #E5E7EB" }}>
-              <span style={{ fontSize:22 }}>{currentLang.flag}</span>
+            <div className="is-6881752">
+              <span className="is-249bf02">{currentLang.flag}</span>
               <div>
-                <div style={{ fontWeight:800, fontSize:15, color:"#111" }}>{currentLang.native}</div>
-                <div style={{ fontSize:11, color:"#9CA3AF" }}>{currentLang.label}</div>
+                <div className="is-a7c264a">{currentLang.native}</div>
+                <div className="is-93a6e04">{currentLang.label}</div>
               </div>
             </div>
           )}
@@ -479,27 +479,23 @@ export default function AksharaNamaPage() {
             <div>
               <input value={langSearch} onChange={e=>setLangSearch(e.target.value)}
                 placeholder="Search language..."
-                style={{ width:"100%", padding:"8px 12px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, outline:"none", marginBottom:10, boxSizing:"border-box", fontFamily:"inherit" }}
+                className="is-c29154a"
               />
-              <div style={{ display:"flex", gap:4, marginBottom:10 }}>
+              <div className="is-60f439a">
                 {(["indian","global"] as const).map(t => (
                   <button key={t} onClick={()=>setTab(t)}
-                    style={{ flex:1, padding:"7px 0", borderRadius:8, border:"1.5px solid", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
-                      background: tab===t?"#111":"#fff", color: tab===t?"#fff":"#374151",
-                      borderColor: tab===t?"#111":"#E5E7EB" }}>
+                    className="is-5a1ebea" style={{ background: tab===t?"#111":"#fff", color: tab===t?"#fff":"#374151", borderColor: tab===t?"#111":"#E5E7EB" }}>
                     {t==="indian"?"🇮🇳 Indian":"🌍 Global"}
                   </button>
                 ))}
               </div>
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:6, maxHeight:220, overflowY:"auto" }}>
+              <div className="is-6810f38">
                 {filteredLangs.map(l => (
                   <button key={l.code} onClick={()=>handleLang(l.code)}
-                    style={{ padding:"10px 6px", borderRadius:10, border:"1.5px solid", textAlign:"left", cursor:"pointer", fontFamily:"inherit", transition:"all 0.15s",
-                      background: langCode===l.code?"#EFF6FF":"#fff",
-                      borderColor: langCode===l.code?"#3B82F6":"#E5E7EB" }}>
-                    <div style={{ fontSize:16, marginBottom:2 }}>{l.flag}</div>
-                    <div style={{ fontSize:12, fontWeight:700, color: langCode===l.code?"#1D4ED8":"#111", lineHeight:1.2 }}>{l.native}</div>
-                    <div style={{ fontSize:10, color:"#9CA3AF" }}>{l.label}</div>
+                    className="is-5566ed3" style={{ background: langCode===l.code?"#EFF6FF":"#fff", borderColor: langCode===l.code?"#3B82F6":"#E5E7EB" }}>
+                    <div className="is-b757129">{l.flag}</div>
+                    <div className="is-fe738ee" style={{ color: langCode===l.code?"#1D4ED8":"#111", lineHeight:1.2 }}>{l.native}</div>
+                    <div className="is-b96e8ef">{l.label}</div>
                   </button>
                 ))}
               </div>
@@ -508,110 +504,106 @@ export default function AksharaNamaPage() {
         </div>
 
         {/* ── Preview canvas ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:20, marginBottom:12, display:"flex", flexDirection:"column", alignItems:"center", gap:16 }}>
-          <div style={{ width:260, height:260, borderRadius:"50%", overflow:"hidden", position:"relative", flexShrink:0, boxShadow:"0 4px 24px rgba(0,0,0,0.10)" }}>
-            <canvas ref={previewRef} width={320} height={320} style={{ width:"100%", height:"100%", display:"block" }}/>
+        <div className="is-65ab07d">
+          <div className="is-a3f98c3">
+            <canvas ref={previewRef} width={320} height={320} className="is-bc1c853"/>
             {uploading && (
-              <div style={{ position:"absolute", inset:0, background:"rgba(255,255,255,0.8)", display:"flex", alignItems:"center", justifyContent:"center", borderRadius:"50%", fontSize:28 }}>⏳</div>
+              <div className="is-a040ff0">⏳</div>
             )}
           </div>
 
           {/* Zoom + Pan */}
-          <div style={{ width:"100%" }}>
-            <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-              <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>Zoom</span>
-              <span style={{ fontSize:11, fontWeight:700, color:"#111", fontFamily:"monospace" }}>{zoom.toFixed(2)}×</span>
+          <div className="is-199b6f0">
+            <div className="is-952640c">
+              <span className="is-d0ccc10">Zoom</span>
+              <span className="is-6c209a7">{zoom.toFixed(2)}×</span>
             </div>
             <input type="range" min={1} max={3} step={0.05} value={zoom} onChange={e=>setZoom(Number(e.target.value))}
-              style={{ width:"100%", accentColor:"#111", height:4 }}/>
+              className="is-19268ef"/>
           </div>
 
-          <div style={{ width:"100%", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+          <div className="is-299ed7f">
             <div>
-              <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-                <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>Pan X</span>
-                <span style={{ fontSize:11, fontWeight:700, color:"#111", fontFamily:"monospace" }}>{panX.toFixed(1)}</span>
+              <div className="is-952640c">
+                <span className="is-d0ccc10">Pan X</span>
+                <span className="is-6c209a7">{panX.toFixed(1)}</span>
               </div>
               <input type="range" min={-1} max={1} step={0.05} value={panX} onChange={e=>setPanX(Number(e.target.value))}
-                style={{ width:"100%", accentColor:"#111", height:4 }}/>
+                className="is-19268ef"/>
             </div>
             <div>
-              <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-                <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>Pan Y</span>
-                <span style={{ fontSize:11, fontWeight:700, color:"#111", fontFamily:"monospace" }}>{panY.toFixed(1)}</span>
+              <div className="is-952640c">
+                <span className="is-d0ccc10">Pan Y</span>
+                <span className="is-6c209a7">{panY.toFixed(1)}</span>
               </div>
               <input type="range" min={-1} max={1} step={0.05} value={panY} onChange={e=>setPanY(Number(e.target.value))}
-                style={{ width:"100%", accentColor:"#111", height:4 }}/>
+                className="is-19268ef"/>
             </div>
           </div>
         </div>
 
         {/* ── Photo upload ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
-          <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", marginBottom:8, margin:"0 0 8px 0" }}>1 · Photo</p>
+        <div className="is-833a7d6">
+          <p className="is-ba325c9">1 · Photo</p>
           <button onClick={()=>fileRef.current?.click()}
-            style={{ width:"100%", padding:"16px", borderRadius:12, border:`1.5px dashed ${userImg?"#22C55E":"#D1D5DB"}`,
-              background: userImg?"#F0FDF4":"#FAFAFA", color: userImg?"#15803D":"#9CA3AF",
-              fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"inherit", minHeight:52 }}>
+            className="is-0ad3a60" style={{ border:`1.5px dashed ${userImg?"#22C55E":"#D1D5DB"}`, background: userImg?"#F0FDF4":"#FAFAFA", color: userImg?"#15803D":"#9CA3AF", fontSize:13, fontWeight:600, cursor:"pointer", fontFamily:"inherit", minHeight:52 }}>
             {userImg ? "✅ Photo loaded — tap to change" : "📁 Choose photo from device"}
           </button>
           <input ref={fileRef} type="file" accept="image/*" hidden onChange={handleImage}/>
 
           {/* AI Brightness / Contrast */}
           {userImg && (
-            <div style={{ marginTop:12, display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+            <div className="is-cc6ea4f">
               <div>
-                <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-                  <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>☀️ Bright</span>
-                  <span style={{ fontSize:11, fontWeight:700, fontFamily:"monospace" }}>{brightness}%</span>
+                <div className="is-952640c">
+                  <span className="is-d0ccc10">☀️ Bright</span>
+                  <span className="is-c441868">{brightness}%</span>
                 </div>
                 <input type="range" min={50} max={150} step={5} value={brightness} onChange={e=>setBrightness(Number(e.target.value))}
-                  style={{ width:"100%", accentColor:"#f59e0b", height:4 }}/>
+                  className="is-667cd01"/>
               </div>
               <div>
-                <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-                  <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>🎨 Contrast</span>
-                  <span style={{ fontSize:11, fontWeight:700, fontFamily:"monospace" }}>{contrast}%</span>
+                <div className="is-952640c">
+                  <span className="is-d0ccc10">🎨 Contrast</span>
+                  <span className="is-c441868">{contrast}%</span>
                 </div>
                 <input type="range" min={50} max={150} step={5} value={contrast} onChange={e=>setContrast(Number(e.target.value))}
-                  style={{ width:"100%", accentColor:"#6366f1", height:4 }}/>
+                  className="is-556ac21"/>
               </div>
             </div>
           )}
         </div>
 
         {/* ── Text ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
-          <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>2 · Name / Text</p>
+        <div className="is-833a7d6">
+          <p className="is-08211db">2 · Name / Text</p>
           <input value={name} onChange={e=>setName(e.target.value)}
             dir={currentLang.dir}
             placeholder={currentLang.placeholder}
-            style={{ width:"100%", padding:"12px 14px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:16, outline:"none",
-              fontFamily:`'${font}','Noto Sans',sans-serif`, color:"#111", marginBottom:8, boxSizing:"border-box" }}
+            className="is-df10fbc" style={{ fontFamily:`'${font}','Noto Sans',sans-serif`, color:"#111", marginBottom:8, boxSizing:"border-box" }}
           />
           <input value={subText} onChange={e=>setSubText(e.target.value)}
             dir={currentLang.dir}
             placeholder="Sub text (optional — role, title...)"
-            style={{ width:"100%", padding:"10px 14px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, outline:"none",
-              fontFamily:`'${font}','Noto Sans',sans-serif`, color:"#111", boxSizing:"border-box" }}
+            className="is-88dd4b9" style={{ fontFamily:`'${font}','Noto Sans',sans-serif`, color:"#111", boxSizing:"border-box" }}
           />
         </div>
 
         {/* ── Font + Position ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
-          <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>3 · Font & Position</p>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+        <div className="is-833a7d6">
+          <p className="is-08211db">3 · Font & Position</p>
+          <div className="is-bb5ff47">
             <div>
-              <p style={{ fontSize:11, color:"#6B7280", fontWeight:600, margin:"0 0 6px 0" }}>Font</p>
+              <p className="is-81465d3">Font</p>
               <select value={font} onChange={e=>setFont(e.target.value)}
-                style={{ width:"100%", padding:"10px 10px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, fontFamily:`'${font}','Noto Sans',sans-serif`, background:"#fff", color:"#111", outline:"none" }}>
+                className="is-06b5af5" style={{ fontFamily:`'${font}','Noto Sans',sans-serif`, background:"#fff", color:"#111", outline:"none" }}>
                 {fonts.map(f=><option key={f} value={f} style={{fontFamily:f}}>{f}</option>)}
               </select>
             </div>
             <div>
-              <p style={{ fontSize:11, color:"#6B7280", fontWeight:600, margin:"0 0 6px 0" }}>Position</p>
+              <p className="is-81465d3">Position</p>
               <select value={pos} onChange={e=>setPos(e.target.value)}
-                style={{ width:"100%", padding:"10px 10px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, background:"#fff", color:"#111", outline:"none", fontFamily:"inherit" }}>
+                className="is-1d16566">
                 {POSITIONS.map(p=><option key={p.id} value={p.id}>{p.label}</option>)}
               </select>
             </div>
@@ -619,14 +611,12 @@ export default function AksharaNamaPage() {
         </div>
 
         {/* ── Frame style ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
-          <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>4 · Frame Style</p>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:8 }}>
+        <div className="is-833a7d6">
+          <p className="is-08211db">4 · Frame Style</p>
+          <div className="is-eea200f">
             {FRAMES.map(f=>(
               <button key={f.id} onClick={()=>{setFrameId(f.id); if(f.ringColor!=="gradient") setRingColor(f.ringColor);}}
-                style={{ padding:"10px 6px", borderRadius:10, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
-                  background: frameId===f.id?"#111":"#F9FAFB", color: frameId===f.id?"#fff":"#374151",
-                  border:`1.5px solid ${frameId===f.id?"#111":"#E5E7EB"}` }}>
+                className="is-3f3f980" style={{ background: frameId===f.id?"#111":"#F9FAFB", color: frameId===f.id?"#fff":"#374151", border:`1.5px solid ${frameId===f.id?"#111":"#E5E7EB"}` }}>
                 {f.label}
               </button>
             ))}
@@ -634,39 +624,37 @@ export default function AksharaNamaPage() {
         </div>
 
         {/* ── Colors ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
-          <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>5 · Colors</p>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:10 }}>
+        <div className="is-833a7d6">
+          <p className="is-08211db">5 · Colors</p>
+          <div className="is-98a2729">
             {[
               { label:"Text",  val:textColor, set:setTextColor  },
               { label:"Ring",  val:ringColor, set:setRingColor  },
               { label:"BG",    val:bgColor,   set:setBgColor    },
             ].map(c=>(
               <div key={c.label}>
-                <p style={{ fontSize:11, color:"#6B7280", fontWeight:600, margin:"0 0 6px 0" }}>{c.label}</p>
-                <label style={{ display:"flex", alignItems:"center", gap:8, padding:"9px 10px", borderRadius:10, border:"1.5px solid #E5E7EB", cursor:"pointer", position:"relative", overflow:"hidden", background:"#FAFAFA" }}>
-                  <div style={{ width:18, height:18, borderRadius:"50%", background:c.val, border:"1.5px solid #E5E7EB", flexShrink:0 }}/>
-                  <span style={{ fontSize:11, fontFamily:"monospace", color:"#374151" }}>{c.val.toUpperCase()}</span>
-                  <input type="color" value={c.val} onChange={e=>c.set(e.target.value)} style={{ position:"absolute", inset:0, opacity:0, cursor:"pointer", width:"100%", height:"100%" }}/>
+                <p className="is-81465d3">{c.label}</p>
+                <label className="is-7f417a0">
+                  <div className="is-7eb8927" style={{ background:c.val, border:"1.5px solid #E5E7EB", flexShrink:0 }}/>
+                  <span className="is-5e7716a">{c.val.toUpperCase()}</span>
+                  <input type="color" value={c.val} onChange={e=>c.set(e.target.value)} className="is-2de6e5e"/>
                 </label>
               </div>
             ))}
           </div>
           <button onClick={autoTextColor}
-            style={{ marginTop:10, width:"100%", padding:"9px", borderRadius:10, border:"1.5px solid #E5E7EB", background:"#F9FAFB", fontSize:12, fontWeight:600, color:"#374151", cursor:"pointer", fontFamily:"inherit" }}>
+            className="is-611350f">
             ✨ Auto Text Color
           </button>
         </div>
 
         {/* ── Stickers ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
-          <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>6 · Sticker Overlay</p>
-          <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+        <div className="is-833a7d6">
+          <p className="is-08211db">6 · Sticker Overlay</p>
+          <div className="is-e8afafb">
             {STICKERS.map(s=>(
               <button key={s||"none"} onClick={()=>setSticker(s)}
-                style={{ width:40, height:40, borderRadius:10, fontSize:s?20:12, border:`1.5px solid ${sticker===s?"#111":"#E5E7EB"}`,
-                  background: sticker===s?"#111":"#F9FAFB", cursor:"pointer",
-                  color: sticker===s&&!s?"#fff":"#374151", fontWeight:!s?600:400 }}>
+                className="is-c3cb108" style={{ fontSize:s?20:12, border:`1.5px solid ${sticker===s?"#111":"#E5E7EB"}`, background: sticker===s?"#111":"#F9FAFB", cursor:"pointer", color: sticker===s&&!s?"#fff":"#374151", fontWeight:!s?600:400 }}>
                 {s||"✕"}
               </button>
             ))}
@@ -674,50 +662,44 @@ export default function AksharaNamaPage() {
         </div>
 
         {/* ── Export size ── */}
-        <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:16 }}>
-          <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>7 · Export Size</p>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:8 }}>
+        <div className="is-3eae388">
+          <p className="is-08211db">7 · Export Size</p>
+          <div className="is-56d3042">
             {SIZES.map(s=>(
               <button key={s.id} onClick={()=>setSizeId(s.id)}
-                style={{ padding:"10px 4px", borderRadius:10, fontSize:11, fontWeight:700, cursor:"pointer", fontFamily:"inherit", textAlign:"center",
-                  background: sizeId===s.id?"#111":"#F9FAFB", color: sizeId===s.id?"#fff":"#374151",
-                  border:`1.5px solid ${sizeId===s.id?"#111":"#E5E7EB"}` }}>
-                <div style={{ fontSize:18, marginBottom:4 }}>{s.icon}</div>
+                className="is-dc0564c" style={{ background: sizeId===s.id?"#111":"#F9FAFB", color: sizeId===s.id?"#fff":"#374151", border:`1.5px solid ${sizeId===s.id?"#111":"#E5E7EB"}` }}>
+                <div className="is-eb8da30">{s.icon}</div>
                 <div>{s.label}</div>
-                <div style={{ fontSize:9, opacity:0.6, marginTop:2 }}>{s.w}×{s.h}</div>
+                <div className="is-7a489ba">{s.w}×{s.h}</div>
               </button>
             ))}
           </div>
         </div>
 
         {/* ── Actions ── */}
-        <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+        <div className="is-e4b1745">
           <button onClick={handleDownload}
-            style={{ width:"100%", padding:18, borderRadius:14, fontSize:16, fontWeight:800, cursor:"pointer", fontFamily:"inherit",
-              background: downloaded?"#16A34A":"#111", color:"#fff", border:"none", minHeight:56, transition:"all 0.2s",
-              boxShadow: downloaded?"0 4px 20px rgba(22,163,74,0.3)":"0 4px 20px rgba(0,0,0,0.2)" }}>
+            className="is-0699e6f" style={{ background: downloaded?"#16A34A":"#111", color:"#fff", border:"none", minHeight:56, transition:"all 0.2s", boxShadow: downloaded?"0 4px 20px rgba(22,163,74,0.3)":"0 4px 20px rgba(0,0,0,0.2)" }}>
             {downloaded ? "✅ Saved to device!" : "⬇️ Download PNG — " + exportSize.w + "×" + exportSize.h}
           </button>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+          <div className="is-bb5ff47">
             <button onClick={handleReset}
-              style={{ padding:14, borderRadius:12, fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
-                background:"#fff", color:"#374151", border:"1.5px solid #E5E7EB" }}>
+              className="is-fce90a2">
               🔄 Reset All
             </button>
             <button onClick={()=>alert("Download PNG first, then share to WhatsApp status!")}
-              style={{ padding:14, borderRadius:12, fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
-                background:"#F0FDF4", color:"#15803D", border:"1.5px solid #BBF7D0" }}>
+              className="is-11f5459">
               📲 WhatsApp
             </button>
           </div>
         </div>
 
-        <p style={{ textAlign:"center", fontSize:11, color:"#D1D5DB", marginTop:16, paddingBottom:32 }}>
+        <p className="is-0a88582">
           {currentLang.native} · {font} · {exportSize.w}×{exportSize.h} HD · 100% offline
         </p>
       </div>
 
-      <canvas ref={exportRef} width={exportSize.w} height={exportSize.h} style={{ display:"none" }}/>
+      <canvas ref={exportRef} width={exportSize.w} height={exportSize.h} className="is-224b51a"/>
     </div>
   );
 }

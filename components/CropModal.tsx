@@ -132,41 +132,22 @@ export function CropModal({
 
   return (
     <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.75)",
-        zIndex: 10000,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 16,
-      }}
+      className="is-acc9bb9"
       // Allow clicking backdrop to cancel
       onClick={(e) => { if (e.target === e.currentTarget) onCancel(); }}
     >
       <div
-        style={{
-          background: "#fff",
-          borderRadius: 14,
-          padding: 20,
-          width: "100%",
-          maxWidth: 560,
-          display: "flex",
-          flexDirection: "column",
-          gap: 14,
-          boxShadow: "0 8px 40px rgba(0,0,0,0.3)",
-        }}
+        className="is-a3f05bc"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h3 style={{ margin: 0, fontFamily: "Montserrat, sans-serif", fontSize: 16 }}>
+        <div className="is-948e6d6">
+          <h3 className="is-90ad8e9">
             ✂️ Crop Image
           </h3>
           <button
             onClick={onCancel}
-            style={{ background: "none", border: "none", fontSize: 18, cursor: "pointer", color: "#666" }}
+            className="is-1dac47d"
           >
             ✖
           </button>
@@ -174,25 +155,20 @@ export function CropModal({
 
         {/* Cropper container */}
         <div
-          style={{
-            maxHeight: "55vh",
-            overflow: "hidden",
-            borderRadius: 8,
-            background: "#111",
-          }}
+          className="is-aba8988"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             ref={imgRef}
             src={imageUrl}
             alt="Crop target"
-            style={{ display: "block", maxWidth: "100%" }}
+            className="is-8d28da2"
           />
         </div>
 
         {/* Brightness / Contrast sliders */}
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, fontFamily: "Montserrat, sans-serif", fontSize: 13 }}>
+        <div className="is-cffe664">
+          <label className="is-f0eca2c">
             ☀️ Brightness
             <input
               type="range"
@@ -202,7 +178,7 @@ export function CropModal({
               onChange={(e) => setBrightness(Number(e.target.value))}
             />
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, fontFamily: "Montserrat, sans-serif", fontSize: 13 }}>
+          <label className="is-f0eca2c">
             ◑ Contrast
             <input
               type="range"
@@ -216,16 +192,16 @@ export function CropModal({
         </div>
 
         {/* Action buttons */}
-        <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <div className="is-73a42a3">
           <button
             onClick={onCancel}
-            style={{ padding: "9px 18px", borderRadius: 8, border: "1.5px solid #ccc", background: "#fff", cursor: "pointer", fontFamily: "Montserrat, sans-serif" }}
+            className="is-58354fe"
           >
             Cancel
           </button>
           <button
             onClick={handleApply}
-            style={{ padding: "9px 22px", borderRadius: 8, border: "none", background: "#4CAF50", color: "#fff", cursor: "pointer", fontWeight: 700, fontFamily: "Montserrat, sans-serif" }}
+            className="is-7acae03"
           >
             ✅ Apply
           </button>

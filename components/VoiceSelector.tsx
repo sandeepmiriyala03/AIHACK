@@ -55,11 +55,7 @@ return(
 
 <span className="lbl">Step 2 — Voice Type</span>
 
-<div style={{
-display:"flex",
-gap:10,
-flexWrap:"wrap"
-}}>
+<div className="is-9551b6c">
 
 {voices.map(v=>{
 
@@ -72,40 +68,19 @@ key={v.id}
 disabled={disabled}
 onClick={()=>onChange(v.id as VoiceType)}
 
-style={{
-
-display:"flex",
-alignItems:"center",
-gap:6,
-
-padding:"10px 18px",
-borderRadius:10,
-
-border:active
+className="is-e7b6711" style={{ border:active
 ? "2px solid #4f46e5"
-: "1.5px solid #e5e7eb",
-
-background:active
+: "1.5px solid #e5e7eb", background:active
 ? "#eef2ff"
-: "#fff",
-
-color:active
+: "#fff", color:active
 ? "#4f46e5"
-: "#374151",
-
-fontWeight:600,
-fontSize:14,
-
-cursor:disabled
+: "#374151", fontWeight:600, fontSize:14, cursor:disabled
 ? "not-allowed"
-: "pointer",
-
-minHeight:44
-}}
+: "pointer", minHeight:44 }}
 
 >
 
-<span style={{fontSize:18}}>
+<span className="is-768e1f2">
 {v.icon}
 </span>
 

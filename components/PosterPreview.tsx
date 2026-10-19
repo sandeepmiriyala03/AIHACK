@@ -117,35 +117,21 @@ export const PosterPreview = forwardRef<HTMLDivElement, Props>(({ state }, ref) 
   return (
     <div
       ref={wrapperRef}
-      style={{
-        width: "100%",
-        aspectRatio: `${fmt.w} / ${fmt.h}`,
-        position: "relative",
-        borderRadius: br,
-        overflow: "hidden",
-      }}
+      className="is-199b6f0" style={{ aspectRatio: `${fmt.w} / ${fmt.h}`, position: "relative", borderRadius: br, overflow: "hidden" }}
     >
       <div
         ref={ref}
         data-poster-root="true"
         data-export-w={fmt.w}
         data-export-h={fmt.h}
-        style={{
-          position: "absolute", inset: 0,
-          background: posterBgColor || "#FFFFFF",
-          fontFamily: globalFont,
-          boxSizing: "border-box",
-          display: "flex",
-          flexDirection: isLandscape ? "row" : "column",
-          padding: pad, gap, overflow: "hidden",
-        }}
+        className="is-f62f861" style={{ background: posterBgColor || "#FFFFFF", fontFamily: globalFont, boxSizing: "border-box", display: "flex", flexDirection: isLandscape ? "row" : "column", padding: pad, gap, overflow: "hidden" }}
       >
         {isLandscape ? (
           /* ── Landscape layout ── */
           <>
-            <div style={{ display:"flex", flexDirection:"column", flex:"1 1 55%", gap, justifyContent:"center", overflow:"hidden" }}>
+            <div className="is-04d8f1b" style={{ gap, justifyContent:"center", overflow:"hidden" }}>
               {uploadedLogoData && (
-                <div style={{ flexShrink: 0 }}>
+                <div className="is-c99770f">
                   <img src={uploadedLogoData} alt="logo" style={{ height: logoH, maxWidth: s(fmt.w*0.22), objectFit:"contain", borderRadius: s(4), display:"block" }} />
                 </div>
               )}
@@ -157,14 +143,14 @@ export const PosterPreview = forwardRef<HTMLDivElement, Props>(({ state }, ref) 
                 </div>
               )}
               {qrText?.trim() && (
-                <div style={{ display:"flex", justifyContent: qrJustify, flexShrink:0, marginTop: s(6) }}>
+                <div className="is-e9ebe92" style={{ justifyContent: qrJustify, flexShrink:0, marginTop: s(6) }}>
                   <div ref={qrRef} />
                 </div>
               )}
             </div>
             {uploadedMainData && (
-              <div style={{ flex:"1 1 42%", overflow:"hidden", borderRadius: br, display:"flex", alignItems:"center" }}>
-                <img src={uploadedMainData} alt="main" style={{ width:"100%", height:"100%", objectFit:"cover", borderRadius: br, display:"block" }} />
+              <div className="is-0c62001" style={{ borderRadius: br, display:"flex", alignItems:"center" }}>
+                <img src={uploadedMainData} alt="main" className="is-7d1faed" style={{ borderRadius: br, display:"block" }} />
               </div>
             )}
           </>
@@ -179,8 +165,8 @@ export const PosterPreview = forwardRef<HTMLDivElement, Props>(({ state }, ref) 
             {title    && <div style={tx(titleBg,    titleColor,    titleSize,    titleAlign,    700, titleFont)}>{title}</div>}
             {subtitle && <div style={tx(subtitleBg, subtitleColor, subtitleSize, subtitleAlign, 500, subtitleFont)}>{subtitle}</div>}
             {uploadedMainData && (
-              <div style={{ flexShrink:0, display:"flex", justifyContent: imgJustify, overflow:"hidden" }}>
-                <img src={uploadedMainData} alt="main" style={{ maxWidth:"100%", maxHeight: mainImgMaxH, objectFit:"cover", borderRadius: br, display:"block" }} />
+              <div className="is-0bb8df7" style={{ justifyContent: imgJustify, overflow:"hidden" }}>
+                <img src={uploadedMainData} alt="main" className="is-c7f79b4" style={{ maxHeight: mainImgMaxH, objectFit:"cover", borderRadius: br, display:"block" }} />
               </div>
             )}
             {msgLines.length > 0 && (
@@ -189,7 +175,7 @@ export const PosterPreview = forwardRef<HTMLDivElement, Props>(({ state }, ref) 
               </div>
             )}
             {qrText?.trim() && (
-              <div style={{ display:"flex", justifyContent: qrJustify, flexShrink:0 }}>
+              <div className="is-e9ebe92" style={{ justifyContent: qrJustify, flexShrink:0 }}>
                 <div ref={qrRef} />
               </div>
             )}

@@ -1016,7 +1016,7 @@ export default function VaniSetu() {
                     <input
                       ref={fileRef} type="file"
                       accept=".txt,.pdf,.docx,.rtf,text/plain,application/pdf"
-                      style={{ display:"none" }}
+                      className="is-224b51a"
                       onChange={e => { const f = e.target.files?.[0]; if (f) handleTextFile(f); }}
                     />
                   </div>
@@ -1090,7 +1090,7 @@ export default function VaniSetu() {
                 </div>
               </div>
 
-              <div className="tip" style={{ marginBottom:14 }}>
+              <div className="tip is-761c6dc">
                 💡 <strong>Tip:</strong> Type a lullaby, bedtime story, morning greeting, or homework
                 instructions — anything you want your child to hear in your language.
               </div>
@@ -1105,7 +1105,7 @@ export default function VaniSetu() {
               </button>
 
               {!inputText.trim() && (
-                <p style={{ textAlign:"center", fontSize:12, color:"var(--muted)", marginTop:8 }}>
+                <p className="is-8ad0c6e">
                   Type your message or upload a document to get started
                 </p>
               )}
@@ -1138,7 +1138,7 @@ export default function VaniSetu() {
                           key={b.name}
                           className={`compat-row${browserInfo.name === b.name ? " you" : ""}`}
                         >
-                          <span style={{ fontSize:16 }}>{b.emoji}</span>
+                          <span className="is-beab583">{b.emoji}</span>
                           <span className="compat-browser">{b.label}</span>
                           <span className={`compat-badge ${b.level}`}>
                             {b.level === "full" ? "✅ Full" : b.level === "partial" ? "⚡ Partial" : "❌ None"}
@@ -1195,7 +1195,7 @@ export default function VaniSetu() {
                     </button>
                     <input
                       ref={audioFileRef} type="file" accept={AUDIO_ACCEPT}
-                      style={{ display:"none" }}
+                      className="is-224b51a"
                       onChange={e => { const f = e.target.files?.[0]; if (f) handleAudioFile(f); }}
                     />
                   </div>
@@ -1204,7 +1204,7 @@ export default function VaniSetu() {
                     {/* File header */}
                     <div className="audio-loaded-hdr">
                       <div className="audio-loaded-ico">🎵</div>
-                      <div style={{ flex:1 }}>
+                      <div className="is-49cdf87">
                         <div className="audio-loaded-name">{uploadedAudio.name}</div>
                         <div className="audio-loaded-meta">
                           {formatSize(uploadedAudio.size)}
@@ -1227,23 +1227,23 @@ export default function VaniSetu() {
                     {/* ── IDLE: choose method ── */}
                     {txState === "idle" && (
                       <>
-                        <div style={{ fontSize:12, color:"var(--muted)", marginBottom:10, lineHeight:1.6, fontWeight:600 }}>
+                        <div className="is-324d077">
                           How do you want to extract the text?
                         </div>
 
                         {/* Method A: Play & listen */}
-                        <div style={{ background:"var(--purple-light)", border:"2px solid var(--purple-mid)", borderRadius:"var(--radius-sm)", padding:"14px", marginBottom:10 }}>
-                          <div style={{ fontSize:13, fontWeight:800, color:"var(--purple)", marginBottom:4 }}>
+                        <div className="is-f04679b">
+                          <div className="is-978a551">
                             🔊 Method 1 — Play audio & let mic listen
                           </div>
-                          <div style={{ fontSize:12, color:"var(--muted)", lineHeight:1.6, marginBottom:10 }}>
+                          <div className="is-4ec18c6">
                             We play the audio through your speaker. Your microphone listens and
                             converts what it hears into text. <strong>Works best</strong> when the audio has clear speech.
                           </div>
-                          <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:10 }}>
-                            <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ No API key</span>
-                            <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ Free forever</span>
-                            <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ Chrome / Edge</span>
+                          <div className="is-06ac0be">
+                            <span className="is-95014f9">✅ No API key</span>
+                            <span className="is-95014f9">✅ Free forever</span>
+                            <span className="is-95014f9">✅ Chrome / Edge</span>
                           </div>
                           <button className="btn-go pb" onClick={handleTranscribePlay}>
                             🔊 Play Audio — Extract Text
@@ -1251,22 +1251,22 @@ export default function VaniSetu() {
                         </div>
 
                         {/* Method B: Live mic */}
-                        <div style={{ background:"var(--green-light)", border:"2px solid var(--green-mid)", borderRadius:"var(--radius-sm)", padding:"14px" }}>
-                          <div style={{ fontSize:13, fontWeight:800, color:"var(--green)", marginBottom:4 }}>
+                        <div className="is-f48bd38">
+                          <div className="is-a559b79">
                             🎤 Method 2 — Speak directly into mic
                           </div>
-                          <div style={{ fontSize:12, color:"var(--muted)", lineHeight:1.6, marginBottom:10 }}>
+                          <div className="is-4ec18c6">
                             Skip the file — just speak your message directly into the microphone.
                             Perfect if you want to record a new message right now.
                           </div>
-                          <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:10 }}>
-                            <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ No API key</span>
-                            <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ Free forever</span>
-                            <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"var(--amber-light)", color:"var(--amber)", border:"1px solid var(--amber-mid)" }}>⚠️ Ignores uploaded file</span>
+                          <div className="is-06ac0be">
+                            <span className="is-95014f9">✅ No API key</span>
+                            <span className="is-95014f9">✅ Free forever</span>
+                            <span className="is-07dc1ac">⚠️ Ignores uploaded file</span>
                           </div>
                           <button
-                            className="btn-go"
-                            style={{ background:"var(--green)", boxShadow:"0 6px 24px rgba(46,139,87,.2)" }}
+                            className="btn-go is-1c9ddba"
+
                             onClick={handleStartMic}
                           >
                             🎤 Start Recording
@@ -1279,19 +1279,19 @@ export default function VaniSetu() {
                     {txState === "transcribing" && txMethod === "play" && (
                       <>
                         {/* Status steps */}
-                        <div style={{ background:"var(--purple-light)", border:"1.5px solid var(--purple-mid)", borderRadius:"var(--radius-sm)", padding:"14px", marginBottom:10 }}>
+                        <div className="is-2e5ad98">
                           {[
                             { key:"waiting-for-mic", emoji:"🎤", label:"Requesting microphone permission…" },
                             { key:"playing",          emoji:"🔊", label:"Playing audio through speaker…" },
                             { key:"listening",        emoji:"👂", label:"Microphone listening — keep quiet around the device" },
                           ].map(s => (
-                            <div key={s.key} style={{ display:"flex", alignItems:"center", gap:10, padding:"6px 0", opacity: playState === s.key ? 1 : 0.35 }}>
-                              <span style={{ fontSize:18 }}>{playState === s.key ? s.emoji : "○"}</span>
-                              <span style={{ fontSize:13, fontWeight: playState === s.key ? 800 : 500, color: playState === s.key ? "var(--purple)" : "var(--muted)" }}>
+                            <div key={s.key} className="is-19b256c" style={{ opacity: playState === s.key ? 1 : 0.35 }}>
+                              <span className="is-768e1f2">{playState === s.key ? s.emoji : "○"}</span>
+                              <span className="is-7667453" style={{ fontWeight: playState === s.key ? 800 : 500, color: playState === s.key ? "var(--purple)" : "var(--muted)" }}>
                                 {s.label}
                               </span>
                               {playState === s.key && (
-                                <span className="spin" style={{ marginLeft:"auto", fontSize:14 }}>⏳</span>
+                                <span className="spin is-111e2e9">⏳</span>
                               )}
                             </div>
                           ))}
@@ -1314,7 +1314,7 @@ export default function VaniSetu() {
                           <div className="tx-text muted">{liveText || "Waiting for speech…"}</div>
                         </div>
 
-                        <div className="tip" style={{ marginTop:10 }}>
+                        <div className="tip is-07c308b">
                           💡 <strong>Tip:</strong> Keep the room quiet. Hold the device speaker close
                           to the microphone, or use headphones with a mic.
                         </div>
@@ -1332,14 +1332,14 @@ export default function VaniSetu() {
                           ))}
                         </div>
 
-                        <div className="tx-box live" style={{ borderColor:"var(--green-mid)", background:"var(--green-light)" }}>
-                          <div className="tx-lbl live" style={{ color:"var(--green)" }}>🎤 Recording — speak now…</div>
+                        <div className="tx-box live is-f15c2d6">
+                          <div className="tx-lbl live is-fd8403a">🎤 Recording — speak now…</div>
                           <div className="tx-text">{liveText || "Listening…"}</div>
                         </div>
 
                         <button
-                          className="btn-go"
-                          style={{ marginTop:10, background:"var(--red)", boxShadow:"0 6px 24px rgba(204,34,34,.2)" }}
+                          className="btn-go is-1b0c0b6"
+
                           onClick={handleStopMic}
                         >
                           ⏹ Stop Recording
@@ -1360,7 +1360,7 @@ export default function VaniSetu() {
                       <div className="tx-box err">
                         <div className="tx-lbl err">⚠️ Could not extract text</div>
                         <div className="tx-text muted">{txError}</div>
-                        <button className="btn-link" style={{ marginTop:8 }}
+                        <button className="btn-link is-68a09f7"
                           onClick={() => { setTxState("idle"); setTxError(""); }}>
                           🔄 Try again
                         </button>
@@ -1374,7 +1374,7 @@ export default function VaniSetu() {
               {uploadedAudio && (
                 <div className="card">
                   <div className="sec p">🌍 Step 2 — Language spoken in the audio</div>
-                  <p style={{ fontSize:12, color:"var(--muted)", marginBottom:10, lineHeight:1.6 }}>
+                  <p className="is-850f4a7">
                     Choose the language spoken in the audio — this improves transcription accuracy.
                   </p>
                   <div className="lang-search-wrap">
@@ -1412,11 +1412,11 @@ export default function VaniSetu() {
               {txState === "done" && txText && (
                 <div className="card">
                   <div className="sec p">🔊 Step 3 — Convert extracted text to voice</div>
-                  <p style={{ fontSize:13, color:"var(--muted)", lineHeight:1.6, marginBottom:14 }}>
+                  <p className="is-c5baa08">
                     The words above were extracted from your audio. Choose a voice and convert
                     them into a clear audio file your child can hear.
                   </p>
-                  <div className="voice-grid" style={{ marginBottom:14 }}>
+                  <div className="voice-grid is-761c6dc">
                     {VOICE_OPTIONS.map(v => (
                       <button
                         key={v.id}
@@ -1430,15 +1430,15 @@ export default function VaniSetu() {
                     ))}
                   </div>
                   <button
-                    className="btn-go pb"
-                    style={{ marginBottom:10 }}
+                    className="btn-go pb is-3301ea9"
+
                     onClick={() => handleGenerate(txText)}
                   >
                     🔊 Convert to Voice
                   </button>
                   <button
-                    className="btn-secondary"
-                    style={{ width:"100%" }}
+                    className="btn-secondary is-199b6f0"
+
                     onClick={useTranscribedText}
                   >
                     ✏️ Edit text first (switch to Text mode)
@@ -1470,7 +1470,7 @@ export default function VaniSetu() {
                 </div>
                 <div className="prog-pct">{progress}% done</div>
               </div>
-              <div className="tip" style={{ marginTop:16 }}>
+              <div className="tip is-a812934">
                 🔒 Your text never leaves your device. Everything is private.
               </div>
             </div>
@@ -1498,12 +1498,12 @@ export default function VaniSetu() {
 
 
               <div className="done-actions">
-                <button className="btn-secondary" onClick={reset} style={{ flex:1 }}>
+                <button className="btn-secondary is-49cdf87" onClick={reset}>
                   ✍️ Start Over
                 </button>
                 <button
-                  className="btn-secondary"
-                  style={{ flex:1 }}
+                  className="btn-secondary is-49cdf87"
+
                   onClick={() => { setStep("home"); setAudioUrl(""); setProgress(0); }}
                 >
                   ✏️ Change Settings

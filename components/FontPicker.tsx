@@ -138,10 +138,6 @@ const sample = (ff: string): React.CSSProperties => ({
   fontFamily:ff,fontSize:17,flex:1,color:"#222",
   overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",
 });
-const meta: React.CSSProperties = { fontSize:11,color:"#aaa",fontFamily:"Montserrat,sans-serif",flexShrink:0 };
-const empty: React.CSSProperties = { padding:"20px 0",textAlign:"center",color:"#bbb",fontSize:13,fontFamily:"Montserrat,sans-serif" };
-const badge: React.CSSProperties = { fontSize:10,background:"#EBF4FF",color:"#4A90E2",borderRadius:10,padding:"1px 7px",fontWeight:700 };
-const groupHead: React.CSSProperties = { padding:"5px 8px 1px",fontSize:10,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",color:"#bbb",fontFamily:"Montserrat,sans-serif" };
 
 export function FontPicker({ language, selectedFont, onSelect, placeholder = "Choose font…" }: FontPickerProps) {
   const [open, setOpen]   = useState(false);
@@ -193,69 +189,62 @@ export function FontPicker({ language, selectedFont, onSelect, placeholder = "Ch
       {/* ── Trigger ── */}
       <button
         onClick={() => setOpen(true)}
-        style={{
-          padding:"7px 10px",borderRadius:8,
-          border:`1.5px solid ${selectedFont?"#4A90E2":"#e0e0e0"}`,
-          background:selectedFont?"#EBF4FF":"#fafafa",cursor:"pointer",
-          fontFamily:"Montserrat,sans-serif",fontSize:12,fontWeight:600,
-          color:selectedFont?"#4A90E2":"#888",width:"100%",
-          textAlign:"left",display:"flex",alignItems:"center",gap:6,
-        }}
+        className="is-f3623bd" style={{ border:`1.5px solid ${selectedFont?"#4A90E2":"#e0e0e0"}`, background:selectedFont?"#EBF4FF":"#fafafa", cursor:"pointer", fontFamily:"Montserrat,sans-serif", fontSize:12, fontWeight:600, color:selectedFont?"#4A90E2":"#888", width:"100%", textAlign:"left", display:"flex", alignItems:"center", gap:6 }}
       >
-        <span style={{flex:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+        <span className="is-b77e04b">
           {selectedFont
             ? <span style={{fontFamily:selectedFont}}>{label}</span>
-            : <span style={{color:"#bbb"}}>{placeholder}</span>
+            : <span className="is-db7924e">{placeholder}</span>
           }
         </span>
-        {language==="tel" && !selectedFont && <span style={badge}>{TELUGU_FONTS.length}</span>}
+        {language==="tel" && !selectedFont && <span className="is-b26c63b">{TELUGU_FONTS.length}</span>}
         {selectedFont && (
           <span onClick={e=>{e.stopPropagation();onSelect("");}}
-            style={{color:"#bbb",fontSize:13,cursor:"pointer",lineHeight:1}} title="Clear">✕</span>
+            className="is-c7e65d5" title="Clear">✕</span>
         )}
-        <span style={{color:"#bbb",fontSize:11}}>▾</span>
+        <span className="is-369b41a">▾</span>
       </button>
 
       {/* ── Modal ── */}
       {open && (
-        <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.45)",zIndex:9998,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
-          <div ref={mRef} style={{background:"#fff",borderRadius:14,width:"100%",maxWidth:440,maxHeight:"82vh",display:"flex",flexDirection:"column",boxShadow:"0 8px 40px rgba(0,0,0,.22)",overflow:"hidden"}}>
+        <div className="is-5b8c1e8">
+          <div ref={mRef} className="is-0c83d81">
 
             {/* header */}
-            <div style={{padding:"14px 16px 10px",borderBottom:"1.5px solid #f0f0f0",display:"flex",flexDirection:"column",gap:8}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <span style={{fontFamily:"Montserrat,sans-serif",fontWeight:700,fontSize:14,color:"#333"}}>
+            <div className="is-3f0cdfa">
+              <div className="is-948e6d6">
+                <span className="is-bce050d">
                   🔤 {placeholder}
-                  {language==="tel" && <span style={{...badge,marginLeft:8}}>{TELUGU_FONTS.length} fonts</span>}
+                  {language==="tel" && <span className="is-e676127">{TELUGU_FONTS.length} fonts</span>}
                 </span>
-                <button onClick={()=>setOpen(false)} style={{background:"none",border:"none",fontSize:18,cursor:"pointer",color:"#888"}}>✕</button>
+                <button onClick={()=>setOpen(false)} className="is-0edabfe">✕</button>
               </div>
-              <div style={{display:"flex",gap:6}}>
+              <div className="is-4a5d9a1">
                 {(["curated","local"] as const).map(t => (
-                  <button key={t} onClick={()=>setTab(t)} style={{flex:1,padding:"7px 0",borderRadius:8,border:"1.5px solid",borderColor:tab===t?"#4A90E2":"#e0e0e0",background:tab===t?"#4A90E2":"#fff",color:tab===t?"#fff":"#555",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"Montserrat,sans-serif",transition:"all .15s"}}>
+                  <button key={t} onClick={()=>setTab(t)} className="is-8ebecb1" style={{ borderColor:tab===t?"#4A90E2":"#e0e0e0", background:tab===t?"#4A90E2":"#fff", color:tab===t?"#fff":"#555", fontWeight:700, fontSize:13, cursor:"pointer", fontFamily:"Montserrat,sans-serif", transition:"all .15s" }}>
                     {t==="curated"?"🌐 Curated":"💻 Local"}
                   </button>
                 ))}
               </div>
-              {tab==="curated" && <input style={{padding:"7px 12px",borderRadius:8,border:"1.5px solid #e0e0e0",fontSize:13,fontFamily:"Montserrat,sans-serif",width:"100%",boxSizing:"border-box",background:"#fafafa",outline:"none"}} placeholder="Search…" value={q} onChange={e=>setQ(e.target.value)} />}
-              {tab==="local" && lFonts.length>0 && <input style={{padding:"7px 12px",borderRadius:8,border:"1.5px solid #e0e0e0",fontSize:13,fontFamily:"Montserrat,sans-serif",width:"100%",boxSizing:"border-box",background:"#fafafa",outline:"none"}} placeholder="Search local…" value={lq} onChange={e=>setLq(e.target.value)} autoFocus />}
+              {tab==="curated" && <input className="is-74cb3ae" placeholder="Search…" value={q} onChange={e=>setQ(e.target.value)} />}
+              {tab==="local" && lFonts.length>0 && <input className="is-74cb3ae" placeholder="Search local…" value={lq} onChange={e=>setLq(e.target.value)} autoFocus />}
             </div>
 
             {/* curated list */}
             {tab==="curated" && (
-              <div style={{overflowY:"auto",flex:1,padding:"8px 10px",display:"flex",flexDirection:"column",gap:3}}>
-                {filt.length===0 ? <p style={empty}>No match for {q}</p>
+              <div className="is-e3a51cf">
+                {filt.length===0 ? <p className="is-0b376e9">No match for {q}</p>
                   : grouped
                     ? GROUPS.map(g => {
                         const gf = TELUGU_FONTS.filter(f => g.labels.includes(f.label));
                         if (!gf.length) return null;
                         return <div key={g.heading}>
-                          <div style={groupHead}>{g.heading}</div>
+                          <div className="is-743a607">{g.heading}</div>
                           {gf.map(f => (
                             <div key={f.name+f.label} style={row(selectedFont===f.name)} onClick={()=>pick(f.name)}>
                               <span style={sample(f.name)}>{f.sample}</span>
-                              <span style={meta}>{f.label}</span>
-                              {selectedFont===f.name && <span style={{color:"#4A90E2",fontSize:15}}>✓</span>}
+                              <span className="is-25ed2f3">{f.label}</span>
+                              {selectedFont===f.name && <span className="is-81729f1">✓</span>}
                             </div>
                           ))}
                         </div>;
@@ -263,8 +252,8 @@ export function FontPicker({ language, selectedFont, onSelect, placeholder = "Ch
                     : filt.map(f => (
                         <div key={f.name+f.label} style={row(selectedFont===f.name)} onClick={()=>pick(f.name)}>
                           <span style={sample(f.name)}>{f.sample}</span>
-                          <span style={meta}>{f.label}</span>
-                          {selectedFont===f.name && <span style={{color:"#4A90E2",fontSize:15}}>✓</span>}
+                          <span className="is-25ed2f3">{f.label}</span>
+                          {selectedFont===f.name && <span className="is-81729f1">✓</span>}
                         </div>
                       ))
                 }
@@ -274,22 +263,22 @@ export function FontPicker({ language, selectedFont, onSelect, placeholder = "Ch
             {/* local tab */}
             {tab==="local" && (
               <>
-                {lErr && <div style={{margin:"12px 16px",padding:"10px 14px",background:"#FFF3E0",border:"1.5px solid #FFB300",borderRadius:9,color:"#E65100",fontSize:13,fontFamily:"Montserrat,sans-serif"}}>⚠️ {lErr}</div>}
+                {lErr && <div className="is-1e7ade6">⚠️ {lErr}</div>}
                 {!perm && !lErr && !lLoad && (
-                  <div style={{...empty,padding:"24px 16px"}}>
-                    <p style={{marginBottom:12}}>Access device fonts.<br/><span style={{fontSize:11,color:"#bbb"}}>Chrome 103+ required</span></p>
-                    <button onClick={()=>{setPerm(true);doLoadLocal();}} style={{margin:"0 auto",display:"block",padding:"10px 20px",borderRadius:9,border:"none",background:"#4A90E2",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"Montserrat,sans-serif"}}>🔓 Grant Access</button>
+                  <div className="is-6772a44">
+                    <p className="is-7b754ee">Access device fonts.<br/><span className="is-1c37dd5">Chrome 103+ required</span></p>
+                    <button onClick={()=>{setPerm(true);doLoadLocal();}} className="is-f30f87c">🔓 Grant Access</button>
                   </div>
                 )}
-                {lLoad && <p style={{...empty,color:"#999",padding:"20px 0"}}>⏳ Loading…</p>}
+                {lLoad && <p className="is-b642432">⏳ Loading…</p>}
                 {!lLoad && lFonts.length>0 && (
-                  <div style={{overflowY:"auto",flex:1,padding:"8px 10px",display:"flex",flexDirection:"column",gap:3}}>
-                    {filtL.length===0 ? <p style={empty}>No match</p>
+                  <div className="is-e3a51cf">
+                    {filtL.length===0 ? <p className="is-0b376e9">No match</p>
                       : filtL.map(f => {
                           const ff = `'${f.family}', sans-serif`;
                           return <div key={f.family} style={row(selectedFont===ff)} onClick={()=>pick(ff)}>
                             <span style={{...sample(ff)}}>{f.family}</span>
-                            {selectedFont===ff && <span style={{color:"#4A90E2",fontSize:15}}>✓</span>}
+                            {selectedFont===ff && <span className="is-81729f1">✓</span>}
                           </div>;
                         })
                     }

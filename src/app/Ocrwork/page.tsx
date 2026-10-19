@@ -223,12 +223,12 @@ export default function OcrWorkPage() {
     <>
       <Navbar />
 
-      <Box sx={{ p: 4, background: "#f5f5f5", minHeight: "100vh" }}>
+      <Box className="is-869b893">
         <Typography variant="h4" fontWeight="bold" textAlign="center" mb={3}>
          RajaTantra OCR Engine
         </Typography>
 
-      <Card sx={{ p: 2, mb: 4 }}>
+      <Card className="is-fad9b5b">
   <Typography variant="h6" fontWeight="bold">
     About & How to Use
   </Typography>
@@ -238,7 +238,7 @@ export default function OcrWorkPage() {
             Supports 32+ languages including Telugu, Sanskrit, Hindi, English, and more.
           </Typography>
 
-          <Box mt={2} sx={{ lineHeight: 1.8 }}>
+          <Box mt={2} className="is-d5266e9">
             <Typography fontWeight="bold">✨ Key Features</Typography>
             <Typography color="gray">✔️ 100% in-browser OCR — nothing uploaded to any server</Typography>
             <Typography color="gray">✔️ Supports 32+ Indian & global languages</Typography>
@@ -251,7 +251,7 @@ export default function OcrWorkPage() {
             <Typography color="gray">✔️ Export as HTML, EPUB, or JSON</Typography>
           </Box>
 
-          <Box mt={2} sx={{ lineHeight: 1.8 }}>
+          <Box mt={2} className="is-d5266e9">
             <Typography fontWeight="bold">🪄 How to Use</Typography>
             <Typography color="gray">➤ Select the OCR language</Typography>
             <Typography color="gray">➤ Upload scanned images (drag & drop supported)</Typography>
@@ -264,7 +264,7 @@ export default function OcrWorkPage() {
 
 
         {/* BOOK META */}
-        <Card sx={{ p: 2, mb: 4 }}>
+        <Card className="is-fad9b5b">
           <Box display="flex" gap={2} flexWrap="wrap">
             <TextField
               label="Book Title"
@@ -283,9 +283,9 @@ export default function OcrWorkPage() {
         </Card>
 
         {/* LANGUAGE + UPLOAD */}
-        <Card sx={{ p: 2, mb: 4 }}>
-          <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 250 }}>
+        <Card className="is-fad9b5b">
+          <div className="is-3ca2b3d">
+            <div className="is-5df0a2c">
               <Typography fontWeight="bold">OCR Language</Typography>
 
               <Select
@@ -295,7 +295,7 @@ export default function OcrWorkPage() {
                 onChange={(e) => setLanguage(e.target.value as string)}
                 renderValue={(selected) => {
                   if (!selected)
-                    return <em style={{ color: "#888" }}>Select OCR Language</em>;
+                    return <em className="is-4671278">Select OCR Language</em>;
                   return ALL_LANGS.find((l) => l.value === selected)?.label;
                 }}
               >
@@ -313,7 +313,7 @@ export default function OcrWorkPage() {
             </div>
 
             {/* UPLOAD */}
-            <div style={{ flex: 1, minWidth: 250 }}>
+            <div className="is-5df0a2c">
               <Typography fontWeight="bold">Upload Images</Typography>
 
               <input
@@ -321,7 +321,7 @@ export default function OcrWorkPage() {
                 type="file"
                 multiple
                 accept="image/*"
-                style={{ display: "none" }}
+                className="is-224b51a"
                 onChange={handleFilesSelected}
               />
 
@@ -396,12 +396,12 @@ export default function OcrWorkPage() {
         </Card>
 
         {/* MAIN LAYOUT */}
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+        <div className="is-3ca2b3d">
           {/* LEFT: PAGE LIST */}
-          <div style={{ flex: 1, minWidth: 250, maxWidth: 320 }}>
-            <Card sx={{ p: 2 }}>
+          <div className="is-91343bb">
+            <Card className="is-04b57f5">
               <Typography fontWeight="bold">Pages ({pages.length})</Typography>
-              <Box sx={{ maxHeight: 450, overflowY: "auto" }}>
+              <Box className="is-7260aef">
                 {pages.map((p, i) => (
                   <Card
                     key={i}
@@ -422,8 +422,8 @@ export default function OcrWorkPage() {
           </div>
 
           {/* RIGHT: OCR + EDITOR */}
-          <div style={{ flex: 3, minWidth: 300 }}>
-            <Card sx={{ p: 2, mb: 2 }}>
+          <div className="is-b5b8460">
+            <Card className="is-43b4125">
               <Box display="flex" flexWrap="wrap" gap={2} mb={2}>
                 {/* OCR Processor */}
                 <BulkOcrProcessor
@@ -506,26 +506,13 @@ export default function OcrWorkPage() {
                 )}
               </Box>
 
-              <Divider sx={{ mb: 2 }} />
+              <Divider className="is-d327793" />
 
               <textarea
                 id="editor-box"
                 value={editorText}
                 onChange={(e) => setEditorText(e.target.value)}
-                style={{
-                  width: "100%",
-                  minHeight: "45vh",
-                  maxHeight: "70vh",
-                  padding: 16,
-                  borderRadius: 8,
-                  border: "1px solid #bbb",
-                  fontSize: "1rem",
-                  lineHeight: 1.6,
-                  resize: "vertical",
-                  fontFamily: "inherit",
-                  background: ocrRunning ? "#f5f5f5" : "white",
-                  overflowY: "auto",
-                }}
+                className="is-8512895" style={{ background: ocrRunning ? "#f5f5f5" : "white", overflowY: "auto" }}
                 disabled={ocrRunning || !ocrDone}
                 placeholder="Edit OCR text here..."
               />
@@ -533,7 +520,7 @@ export default function OcrWorkPage() {
 
             {/* EXPORT SECTION - only after OCR */}
             {ocrDone && (
-              <Card sx={{ p: 2 }}>
+              <Card className="is-04b57f5">
                 <Typography fontWeight="bold" mb={2}>
                   Export Options
                 </Typography>

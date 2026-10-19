@@ -147,20 +147,20 @@ export default function ImageOcr() {
   };
 
   return (
-    <div style={{ maxWidth: 800, margin: "auto", fontFamily: "sans-serif", padding: 20 }}>
+    <div className="is-2a615f8">
       <h1>Image OCR Reader</h1>
       <p>
         Upload an image and select the language to extract text. For handwritten/manual scripts, select &quot;Manual Script&quot;.
       </p>
 
-      <div style={{ marginBottom: 20, display: "flex", gap: 15, alignItems: "center" }}>
+      <div className="is-e61f605">
         <label htmlFor="lang-select">Select Language:</label>
         <select
           id="lang-select"
           value={selectedLang}
           onChange={handleLangChange}
           disabled={isProcessing}
-          style={{ padding: 8, borderRadius: 4 }}
+          className="is-bb2d8f3"
         >
           {LANG_GROUPS.map((group) => (
             <optgroup key={group.key} label={group.label}>
@@ -178,7 +178,7 @@ export default function ImageOcr() {
         </select>
       </div>
 
-      <div style={{ marginBottom: 20 }}>
+      <div className="is-7002f9c">
         <input
           type="file"
           accept="image/*"
@@ -189,32 +189,14 @@ export default function ImageOcr() {
         <button
           onClick={handleReadImage}
           disabled={!imagePath || isProcessing}
-          style={{
-            marginLeft: 10,
-            padding: "10px 20px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            borderRadius: 5,
-            cursor: isProcessing ? "not-allowed" : "pointer",
-            opacity: isProcessing ? 0.6 : 1,
-          }}
+          className="is-0efdf7d" style={{ cursor: isProcessing ? "not-allowed" : "pointer", opacity: isProcessing ? 0.6 : 1 }}
         >
           {isProcessing ? `Processing ${Math.round(progress * 100)}%` : "Extract Text"}
         </button>
         <button
           onClick={handleClear}
           disabled={isProcessing}
-          style={{
-            marginLeft: 10,
-            padding: "10px 20px",
-            backgroundColor: "#6c757d",
-            color: "#fff",
-            border: "none",
-            borderRadius: 5,
-            cursor: isProcessing ? "not-allowed" : "pointer",
-            opacity: isProcessing ? 0.6 : 1,
-          }}
+          className="is-9c36c44" style={{ cursor: isProcessing ? "not-allowed" : "pointer", opacity: isProcessing ? 0.6 : 1 }}
         >
           Clear
         </button>
@@ -222,41 +204,33 @@ export default function ImageOcr() {
 
       {progress > 0 && progress < 1 && (
         <div>
-          <progress value={progress} max={1} style={{ width: "100%" }} />
+          <progress value={progress} max={1} className="is-199b6f0" />
           <p>Processing image, please wait...</p>
         </div>
       )}
 
       {error && (
-        <div style={{ color: "red", marginBottom: 10 }}>
+        <div className="is-0129f7e">
           <strong>Error:</strong> {error}
         </div>
       )}
 
       {imagePath && (
-        <div style={{ marginTop: 20, textAlign: "center" }}>
+        <div className="is-3489336">
           <h2>Uploaded Image Preview</h2>
           <Image
             src={imagePath}
             alt="Uploaded"
             width={600}
             height={400}
-            style={{ maxWidth: "100%", borderRadius: 5, border: "1px solid #ccc", height: "auto" }}
+            className="is-15c42cf"
           />
         </div>
       )}
 
       {text && (
         <div
-          style={{
-            marginTop: 20,
-            backgroundColor: "#f4f4f4",
-            padding: 20,
-            borderRadius: 5,
-            border: "1px solid #ddd",
-            whiteSpace: "pre-wrap",
-            lineHeight: 1.6,
-          }}
+          className="is-f18703e"
         >
           <h2>Extracted Text</h2>
           <pre>{text}</pre>

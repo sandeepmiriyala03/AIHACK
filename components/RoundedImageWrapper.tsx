@@ -22,13 +22,7 @@ export function RoundedImageWrapper({
 }: RoundedImageWrapperProps) {
   return (
     <div
-      style={{
-        marginTop: "1rem",
-        textAlign: "center",
-        borderRadius: "12px",
-        overflow: "hidden",
-        display: "inline-block",
-      }}
+      className="is-db55374"
     >
       <Image
         src={src}

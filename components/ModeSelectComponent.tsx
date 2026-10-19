@@ -21,19 +21,14 @@ export function ModeSelectComponent({
 
   return (
     <div
-      className="mode-select-wrapper"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "12px",
-        maxWidth: 400,
-      }}
+      className="mode-select-wrapper is-5843fe1"
+
     >
       <label htmlFor={selectProps?.inputId || "mode-select"}
-        style={{ whiteSpace: "nowrap", fontWeight: 600 }}>
+        className="is-27e8d1b">
         Select OCR Mode:
       </label>
-      <div style={{ flexGrow: 1 }}>
+      <div className="is-a7667d4">
         <Select
           value={mode}
           onChange={handleChange}

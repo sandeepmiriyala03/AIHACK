@@ -570,136 +570,124 @@ export default function AksharaKYC() {
 
   // ── RENDER ──────────────────────────────────────────────────
   return (
-    <div style={S.page}>
+    <div className="is-42a58ca">
       <Navbar/>
-      <style>{`
-        @keyframes spin   {to{transform:rotate(360deg)}}
-        @keyframes fadeUp {from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-        .kf:focus{outline:none;border-color:#1565C0!important;box-shadow:0 0 0 3px rgba(21,101,192,.12)}
-        .kh:hover{opacity:.9;transform:scale(1.01)}
-        .kd:hover{transform:translateY(-1px)}
-        .kr:hover{background:#f0f4ff!important}
-      `}</style>
+
 
       {/* Header */}
-      <div style={S.hdr}>
+      <div className="is-120d917">
         <div>
-          <p style={S.hdrSub}>AKSHARATANTRA · BFSI SUITE</p>
-          <h1 style={S.hdrTitle}>🪪 AksharaKYC</h1>
-          <p style={{margin:0,fontSize:11,color:"rgba(255,255,255,.65)"}}>
+          <p className="is-850cd78">AKSHARATANTRA · BFSI SUITE</p>
+          <h1 className="is-6644d99">🪪 AksharaKYC</h1>
+          <p className="is-7536e18">
             3-Engine OCR · India-First · Free · Offline
           </p>
         </div>
-        <div style={{display:"flex",flexDirection:"column",gap:6,alignItems:"flex-end"}}>
-          <div style={S.privBadge}>🔒<span style={{fontSize:9,display:"block",fontWeight:700}}>ON-DEVICE</span></div>
-          <button style={S.resetBtn} onClick={resetAll}>🔄 Reset</button>
+        <div className="is-a5c21bb">
+          <div className="is-1736d18">🔒<span className="is-553fa71">ON-DEVICE</span></div>
+          <button className="is-d4ac18e" onClick={resetAll}>🔄 Reset</button>
         </div>
       </div>
 
       {/* Tab bar */}
-      <div style={S.tabBar}>
+      <div className="is-0d486a3">
         {([["scan","📷","Scan"],["result","📊","Result"],["history","📁","History"]] as ["scan"|"result"|"history",string,string][]).map(([key,icon,label])=>(
-          <button key={key} style={{...S.tabBtn,...(tab===key?S.tabActive:{})}} onClick={()=>setTab(key)}>
+          <button key={key} className="is-8c5a496" style={{ ...(tab===key?S.tabActive:{}) }} onClick={()=>setTab(key)}>
             {icon} {label}
-            {key==="history"&&docs.length>0&&<span style={S.badge}>{docs.length}</span>}
+            {key==="history"&&docs.length>0&&<span className="is-f771c3a">{docs.length}</span>}
           </button>
         ))}
       </div>
 
-      <div style={S.body}>
+      <div className="is-99cadd7">
 
         {/* ════ SCAN ════ */}
         {tab==="scan"&&(
           <>
-            <div style={S.card}>
-              <p style={S.cardTitle}>📋 Document Type</p>
-              <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+            <div className="is-4efe2da">
+              <p className="is-ac75cc8">📋 Document Type</p>
+              <div className="is-39b2332">
                 {DOC_CONFIGS.map(d=>(
-                  <button key={d.id} className="kd" onClick={()=>setDocType(d.id)}
-                    style={{...S.docChip,
-                      background: docType===d.id?d.color:"#f8f9fa",
-                      color:      docType===d.id?"#fff":"#444",
-                      borderColor:docType===d.id?d.color:"#e0e0e0",
-                      boxShadow:  docType===d.id?`0 4px 14px ${d.color}40`:"none",
-                    }}>
-                    <span style={{fontSize:22}}>{d.icon}</span>
-                    <span style={{fontSize:10,fontWeight:700,textAlign:"center",lineHeight:1.3}}>{d.label}</span>
+                  <button key={d.id} className="kd is-27fb0b8" onClick={()=>setDocType(d.id)}
+                    style={{ background: docType===d.id?d.color:"#f8f9fa", color:      docType===d.id?"#fff":"#444", borderColor:docType===d.id?d.color:"#e0e0e0", boxShadow:  docType===d.id?`0 4px 14px ${d.color}40`:"none" }}>
+                    <span className="is-249bf02">{d.icon}</span>
+                    <span className="is-c555934">{d.label}</span>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Engine info */}
-            <div style={S.card}>
-              <p style={S.cardTitle}>🔬 OCR Pipeline (Sequential · No Hang)</p>
+            <div className="is-4efe2da">
+              <p className="is-ac75cc8">🔬 OCR Pipeline (Sequential · No Hang)</p>
               {[
                 ["E1","PSM-6 — Uniform Block","Always runs first · 30s timeout","#1565C0"],
                 ["E2","PSM-3 — Auto Detect","Runs only if E1 score < 65% · 30s timeout","#6A1B9A"],
                 ["E3","PSM-11 — Sparse+Binarize","Runs only if E2 score < 50% · 30s timeout","#2E7D32"],
                 ["E4","Manual Entry","Always available — 100% accurate","#E65100"],
               ].map(([num,label,desc,color])=>(
-                <div key={num} style={{display:"flex",gap:10,alignItems:"center",padding:"8px 10px",background:"#f8f9fa",borderRadius:9,border:"1px solid #e0e0e0"}}>
+                <div key={num} className="is-c0e2dcd">
                   <span style={{background:color,color:"#fff",fontSize:9,fontWeight:800,padding:"2px 7px",borderRadius:6,flexShrink:0}}>{num}</span>
                   <div>
-                    <p style={{margin:0,fontSize:12,fontWeight:800,color:"#1a1a2e"}}>{label}</p>
-                    <p style={{margin:0,fontSize:10,color:"#888"}}>{desc}</p>
+                    <p className="is-0476e56">{label}</p>
+                    <p className="is-b500db8">{desc}</p>
                   </div>
                 </div>
               ))}
-              <p style={{margin:0,fontSize:11,color:"#1565C0",background:"#EBF3FD",borderRadius:8,padding:"8px 12px",fontWeight:600}}>
+              <p className="is-f766c9e">
                 💡 Each engine runs <strong>one at a time</strong>. If it hangs for 30s it is auto-skipped.
                 Best result per field is merged across all engines.
               </p>
             </div>
 
-            <div style={S.tipBox}>
-              <p style={{margin:"0 0 6px",fontSize:12,fontWeight:800,color:"#1565C0"}}>📷 {cfg.hint}</p>
+            <div className="is-d681e72">
+              <p className="is-237a2dd">📷 {cfg.hint}</p>
               {[
                 "⚠️ Place on WHITE paper — not wallet, bed, or dark surface",
                 "✅ Hold phone directly above at 90° — no tilt",
                 "✅ Natural window light — NO camera flash",
                 "✅ All 4 corners visible — card fills the frame",
                 "✅ Tap screen to focus before shooting",
-              ].map((t,i)=><p key={i} style={{margin:"2px 0",fontSize:11,color:i===0?"#C62828":"#444",fontWeight:i===0?700:400}}>{t}</p>)}
+              ].map((t,i)=><p key={i} className="is-6388606" style={{ color:i===0?"#C62828":"#444", fontWeight:i===0?700:400 }}>{t}</p>)}
             </div>
 
-            <div style={S.card}>
-              <p style={S.cardTitle}>📷 Scan {cfg.label}</p>
-              <div style={{display:"flex",gap:10}}>
-                <label className="kh" style={{...S.scanBtn,background:cfg.color,cursor:"pointer",transition:"all .18s"}}>
-                  <span style={{fontSize:28}}>📷</span>
-                  <span style={{fontSize:13,fontWeight:800}}>Camera</span>
-                  <span style={{fontSize:10,opacity:.8}}>Take Photo</span>
+            <div className="is-4efe2da">
+              <p className="is-ac75cc8">📷 Scan {cfg.label}</p>
+              <div className="is-0ed0e90">
+                <label className="kh is-014b8f1" style={{ background:cfg.color, cursor:"pointer", transition:"all .18s" }}>
+                  <span className="is-f861301">📷</span>
+                  <span className="is-f86a36e">Camera</span>
+                  <span className="is-f194fe1">Take Photo</span>
                   <input type="file" accept="image/*" capture="environment" hidden onChange={handleFile} ref={fileRef}/>
                 </label>
-                <label className="kh" style={{...S.scanBtn,background:"#37474F",cursor:"pointer",transition:"all .18s"}}>
-                  <span style={{fontSize:28}}>🖼️</span>
-                  <span style={{fontSize:13,fontWeight:800}}>Gallery</span>
-                  <span style={{fontSize:10,opacity:.8}}>Upload File</span>
+                <label className="kh is-f322721">
+                  <span className="is-f861301">🖼️</span>
+                  <span className="is-f86a36e">Gallery</span>
+                  <span className="is-f194fe1">Upload File</span>
                   <input type="file" accept="image/*" hidden onChange={handleFile}/>
                 </label>
-                <button style={{...S.scanBtn,background:"#E65100",border:"none",cursor:"pointer"}} onClick={startManual}>
-                  <span style={{fontSize:28}}>✏️</span>
-                  <span style={{fontSize:13,fontWeight:800}}>Manual</span>
-                  <span style={{fontSize:10,opacity:.8}}>Type fields</span>
+                <button className="is-da6487a" onClick={startManual}>
+                  <span className="is-f861301">✏️</span>
+                  <span className="is-f86a36e">Manual</span>
+                  <span className="is-f194fe1">Type fields</span>
                 </button>
               </div>
 
               {processing&&(
-                <div style={S.procBox}>
-                  <div style={S.spinner}/>
-                  <div style={{flex:1}}>
-                    <p style={{margin:0,fontSize:13,fontWeight:700,color:"#1565C0"}}>{step||"Processing…"}</p>
-                    <p style={{margin:"2px 0 0",fontSize:11,color:"#888"}}>Sequential · Auto-skips if hung · Do not close tab</p>
+                <div className="is-7dc8119">
+                  <div className="is-f50cf19"/>
+                  <div className="is-49cdf87">
+                    <p className="is-33b3298">{step||"Processing…"}</p>
+                    <p className="is-c69209e">Sequential · Auto-skips if hung · Do not close tab</p>
                   </div>
-                  <button style={S.cancelBtn} onClick={resetAll}>✕ Cancel</button>
+                  <button className="is-c6ff9e2" onClick={resetAll}>✕ Cancel</button>
                 </div>
               )}
 
-              <div style={S.hintBox}>
-                <p style={{margin:"0 0 5px",fontSize:11,fontWeight:700,color:"#888",textTransform:"uppercase",letterSpacing:".08em"}}>Fields to extract:</p>
-                <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
-                  {cfg.fields.map(f=><span key={f.key} style={S.hintChip}>{f.label}</span>)}
+              <div className="is-ed95859">
+                <p className="is-28188ad">Fields to extract:</p>
+                <div className="is-58f6d97">
+                  {cfg.fields.map(f=><span key={f.key} className="is-ef69441">{f.label}</span>)}
                 </div>
               </div>
             </div>
@@ -710,23 +698,23 @@ export default function AksharaKYC() {
         {tab==="result"&&(
           <>
             {!activeDoc?(
-              <div style={{textAlign:"center",padding:"48px 20px",display:"flex",flexDirection:"column",alignItems:"center",gap:12}}>
-                <p style={{fontSize:40,margin:0}}>🪪</p>
-                <p style={{color:"#aaa",fontSize:14,fontWeight:600}}>No document scanned yet</p>
-                <button style={S.primaryBtn} onClick={()=>setTab("scan")}>📷 Go to Scan</button>
+              <div className="is-da0c348">
+                <p className="is-0d1cfba">🪪</p>
+                <p className="is-adc492b">No document scanned yet</p>
+                <button className="is-0fc314d" onClick={()=>setTab("scan")}>📷 Go to Scan</button>
               </div>
             ):(
               <>
-                <div style={S.card}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+                <div className="is-4efe2da">
+                  <div className="is-695916a">
                     <div>
-                      <p style={S.cardTitle}>{getCfg(activeDoc.docType).icon} {getCfg(activeDoc.docType).label}</p>
-                      <p style={{margin:"3px 0 0",fontSize:11,color:"#888"}}>
+                      <p className="is-ac75cc8">{getCfg(activeDoc.docType).icon} {getCfg(activeDoc.docType).label}</p>
+                      <p className="is-0097de7">
                         {new Date(activeDoc.scannedAt).toLocaleTimeString()} ·&nbsp;
-                        <span style={{fontWeight:700,color:"#1565C0"}}>{ENGINE_LABELS[activeDoc.engineUsed]}</span>
+                        <span className="is-74b81f2">{ENGINE_LABELS[activeDoc.engineUsed]}</span>
                       </p>
                       {activeDoc.enginesTried.length>0&&(
-                        <p style={{margin:"2px 0 0",fontSize:10,color:"#aaa",lineHeight:1.6}}>
+                        <p className="is-f6e1422">
                           {activeDoc.enginesTried.map((t,i)=>(
                             <span key={i}>
                               {t}
@@ -738,50 +726,48 @@ export default function AksharaKYC() {
                     </div>
                     <ConfRing score={score} color={getCfg(activeDoc.docType).color}/>
                   </div>
-                  <div style={{display:"flex",gap:8}}>
+                  <div className="is-13262f5">
                     <StatCard label="Found"  value={`${activeDoc.fields.filter(f=>f.value).length}/${activeDoc.fields.length}`} color="#1565C0"/>
                     <StatCard label="High ✓" value={`${activeDoc.fields.filter(f=>f.confidence>=80).length}`}                    color="#2E7D32"/>
                     <StatCard label="Manual" value={`${activeDoc.fields.filter(f=>f.verified).length}`}                          color="#E65100"/>
                   </div>
-                  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-                    <button style={{...S.actionBtn,background:"#E65100"}} onClick={clearFields}>🔄 Clear</button>
-                    <button style={{...S.actionBtn,background:"#1565C0"}} onClick={()=>exportJSON(activeDoc)}>📄 JSON</button>
-                    <button style={{...S.actionBtn,background:"#6A1B9A"}} onClick={()=>exportPDF(activeDoc)}>🖨️ PDF</button>
-                    <button style={{...S.actionBtn,background:"#37474F"}} onClick={()=>setTab("scan")}>📷 New</button>
+                  <div className="is-39b2332">
+                    <button className="is-30a1114" onClick={clearFields}>🔄 Clear</button>
+                    <button className="is-358e15c" onClick={()=>exportJSON(activeDoc)}>📄 JSON</button>
+                    <button className="is-bc79e62" onClick={()=>exportPDF(activeDoc)}>🖨️ PDF</button>
+                    <button className="is-04038ba" onClick={()=>setTab("scan")}>📷 New</button>
                   </div>
                 </div>
 
                 {activeDoc.imageUrl&&(
-                  <div style={{position:"relative",borderRadius:14,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.1)"}}>
-                    <img src={activeDoc.imageUrl} alt="doc" style={{width:"100%",maxHeight:220,objectFit:"cover",display:"block"}}/>
-                    <div style={{...S.imgBadge,background:getCfg(activeDoc.docType).color}}>
+                  <div className="is-cd97667">
+                    <img src={activeDoc.imageUrl} alt="doc" className="is-a52ae83"/>
+                    <div className="is-8e35ef2" style={{ background:getCfg(activeDoc.docType).color }}>
                       {getCfg(activeDoc.docType).icon} {getCfg(activeDoc.docType).label}
                     </div>
                   </div>
                 )}
 
-                <div style={S.card}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                    <p style={S.cardTitle}>✏️ Extracted Fields</p>
-                    <button style={{...S.rawToggle,color:"#C62828",fontWeight:800}} onClick={clearFields}>🔄 Clear All</button>
+                <div className="is-4efe2da">
+                  <div className="is-948e6d6">
+                    <p className="is-ac75cc8">✏️ Extracted Fields</p>
+                    <button className="is-b5b4cbb" onClick={clearFields}>🔄 Clear All</button>
                   </div>
                   {activeDoc.fields.map(field=>(
-                    <div key={field.key} style={{display:"flex",flexDirection:"column",gap:4,padding:"10px 0",borderBottom:"1px solid #f5f5f5"}}>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                        <p style={{margin:0,fontSize:11,fontWeight:800,color:"#666",textTransform:"uppercase",letterSpacing:".06em"}}>{field.label}</p>
-                        <div style={{display:"flex",alignItems:"center",gap:6}}>
-                          {field.confidence>0&&<span style={{fontSize:10,fontWeight:700,color:confColor(field.confidence)}}>{confLabel(field.confidence)} {field.confidence}%</span>}
-                          {field.verified&&<span style={{fontSize:10,color:"#4CAF50",fontWeight:700}}>✓ Edited</span>}
+                    <div key={field.key} className="is-919829d">
+                      <div className="is-948e6d6">
+                        <p className="is-75b0f6d">{field.label}</p>
+                        <div className="is-650e123">
+                          {field.confidence>0&&<span className="is-6de8c4d" style={{ color:confColor(field.confidence) }}>{confLabel(field.confidence)} {field.confidence}%</span>}
+                          {field.verified&&<span className="is-3a25827">✓ Edited</span>}
                         </div>
                       </div>
-                      <div style={{display:"flex",gap:6}}>
-                        <div style={{width:4,borderRadius:2,background:field.value?confColor(field.confidence):"#e0e0e0",flexShrink:0,minHeight:36}}/>
-                        <input className="kf"
-                          style={{...S.fieldInput,
-                            borderColor:field.verified?"#4CAF50":
+                      <div className="is-4a5d9a1">
+                        <div className="is-5fbc17f" style={{ background:field.value?confColor(field.confidence):"#e0e0e0", flexShrink:0, minHeight:36 }}/>
+                        <input className="kf is-662aba9"
+                          style={{ borderColor:field.verified?"#4CAF50":
                               field.confidence>=80?getCfg(activeDoc.docType).color:
-                              field.confidence>=50?"#FF9800":"#e0e0e0"
-                          }}
+                              field.confidence>=50?"#FF9800":"#e0e0e0" }}
                           value={field.value}
                           placeholder={getCfg(activeDoc.docType).fields.find(f=>f.key===field.key)?.placeholder??"Enter value"}
                           onChange={e=>updateField(field.key,e.target.value)}
@@ -792,27 +778,27 @@ export default function AksharaKYC() {
                 </div>
 
                 {score>0&&score<50&&(
-                  <div style={{...S.card,background:"#FFF8E1",border:"1.5px solid #FFB300"}}>
-                    <p style={{margin:0,fontSize:13,fontWeight:800,color:"#E65100"}}>⚠️ Low confidence — try these fixes:</p>
-                    <p style={{margin:"6px 0 0",fontSize:12,color:"#555",lineHeight:1.8}}>
+                  <div className="is-520ffbb">
+                    <p className="is-794e911">⚠️ Low confidence — try these fixes:</p>
+                    <p className="is-ec88949">
                       1. Place card on <strong>plain white A4 paper</strong><br/>
                       2. Take photo in <strong>natural daylight</strong> — no flash<br/>
                       3. Hold phone <strong>flat above the card</strong> — no angle<br/>
                       4. Or tap ✏️ Manual and type the fields
                     </p>
-                    <div style={{display:"flex",gap:8}}>
-                      <button style={{...S.actionBtn,background:"#E65100"}} onClick={()=>setTab("scan")}>📷 Rescan</button>
-                      <button style={{...S.actionBtn,background:"#37474F"}} onClick={clearFields}>✏️ Manual</button>
+                    <div className="is-13262f5">
+                      <button className="is-30a1114" onClick={()=>setTab("scan")}>📷 Rescan</button>
+                      <button className="is-04038ba" onClick={clearFields}>✏️ Manual</button>
                     </div>
                   </div>
                 )}
 
                 {activeDoc.rawText&&(
-                  <div style={S.card}>
-                    <button style={S.rawToggle} onClick={()=>setShowRaw(!showRaw)}>
+                  <div className="is-4efe2da">
+                    <button className="is-e56bd05" onClick={()=>setShowRaw(!showRaw)}>
                       {showRaw?"▲ Hide":"▼ Show"} Raw OCR Output (debug)
                     </button>
-                    {showRaw&&<pre style={S.rawBox}>{activeDoc.rawText}</pre>}
+                    {showRaw&&<pre className="is-f1c514f">{activeDoc.rawText}</pre>}
                   </div>
                 )}
               </>
@@ -822,42 +808,42 @@ export default function AksharaKYC() {
 
         {/* ════ HISTORY ════ */}
         {tab==="history"&&(
-          <div style={S.card}>
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <p style={S.cardTitle}>📁 History ({docs.length})</p>
+          <div className="is-4efe2da">
+            <div className="is-948e6d6">
+              <p className="is-ac75cc8">📁 History ({docs.length})</p>
               {docs.length>0&&(
-                <button style={{...S.rawToggle,color:"#C62828",fontWeight:800}}
+                <button className="is-b5b4cbb"
                   onClick={()=>{setDocs([]);setActiveDoc(null);showToast("🗑️ Cleared","info");}}>
                   🗑️ Clear All
                 </button>
               )}
             </div>
             {docs.length===0?(
-              <div style={{textAlign:"center",padding:"32px 0",color:"#aaa"}}>
-                <p style={{fontSize:32,margin:0}}>📁</p>
-                <p style={{fontSize:13}}>No scans yet</p>
+              <div className="is-ffd2c96">
+                <p className="is-eb6af45">📁</p>
+                <p className="is-7667453">No scans yet</p>
               </div>
             ):docs.map(doc=>{
               const dc=getCfg(doc.docType), sc=overall(doc.fields);
               return(
-                <div key={doc.id} className="kr"
-                  style={{...S.histRow,borderLeft:`3px solid ${activeDoc?.id===doc.id?dc.color:"#e0e0e0"}`}}>
-                  <div style={{flex:1,cursor:"pointer"}} onClick={()=>{setActiveDoc(doc);setTab("result");}}>
-                    <div style={{display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{fontSize:20}}>{dc.icon}</span>
+                <div key={doc.id} className="kr is-19f88e1"
+                  style={{ borderLeft:`3px solid ${activeDoc?.id===doc.id?dc.color:"#e0e0e0"}` }}>
+                  <div className="is-b8a0b5e" onClick={()=>{setActiveDoc(doc);setTab("result");}}>
+                    <div className="is-bd9db1c">
+                      <span className="is-af18eac">{dc.icon}</span>
                       <div>
-                        <p style={{margin:0,fontSize:13,fontWeight:700,color:"#1a1a2e"}}>{dc.label}</p>
-                        <p style={{margin:0,fontSize:10,color:"#888"}}>
+                        <p className="is-0637897">{dc.label}</p>
+                        <p className="is-b500db8">
                           {new Date(doc.scannedAt).toLocaleTimeString()} · {ENGINE_LABELS[doc.engineUsed]} ·&nbsp;
                           <span style={{color:confColor(sc),fontWeight:700}}>{sc}%</span>
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div style={{display:"flex",gap:6}}>
-                    <button style={S.histBtn} onClick={()=>exportJSON(doc)}>📄</button>
-                    <button style={S.histBtn} onClick={()=>exportPDF(doc)}>🖨️</button>
-                    <button style={{...S.histBtn,color:"#C62828"}} onClick={()=>removeDoc(doc.id)}>🗑️</button>
+                  <div className="is-4a5d9a1">
+                    <button className="is-57348a5" onClick={()=>exportJSON(doc)}>📄</button>
+                    <button className="is-57348a5" onClick={()=>exportPDF(doc)}>🖨️</button>
+                    <button className="is-f54925b" onClick={()=>removeDoc(doc.id)}>🗑️</button>
                   </div>
                 </div>
               );
@@ -866,9 +852,9 @@ export default function AksharaKYC() {
         )}
 
         {/* Compliance */}
-        <div style={{...S.card,background:"#F8FBFF",border:"1px solid #E3F2FD"}}>
-          <p style={{...S.cardTitle,color:"#1565C0"}}>🔒 BFSI Compliance</p>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+        <div className="is-cebfe2e">
+          <p className="is-eb1ac61">🔒 BFSI Compliance</p>
+          <div className="is-5f22d50">
             {[
               ["✅","3-Engine OCR","Best field per engine"],
               ["✅","On-Device Only","No data leaves device"],
@@ -877,11 +863,11 @@ export default function AksharaKYC() {
               ["✅","Human Override","Edit any field"],
               ["✅","100% Free","No API key ever"],
             ].map(([i,t,d])=>(
-              <div key={t} style={{display:"flex",gap:6,alignItems:"flex-start"}}>
-                <span style={{fontSize:12,flexShrink:0}}>{i}</span>
+              <div key={t} className="is-f20e7b1">
+                <span className="is-e80927e">{i}</span>
                 <div>
-                  <p style={{margin:0,fontSize:11,fontWeight:800,color:"#1565C0"}}>{t}</p>
-                  <p style={{margin:0,fontSize:10,color:"#666"}}>{d}</p>
+                  <p className="is-9cc1d20">{t}</p>
+                  <p className="is-d1ac146">{d}</p>
                 </div>
               </div>
             ))}
@@ -890,7 +876,7 @@ export default function AksharaKYC() {
       </div>
 
       {toast&&(
-        <div style={{...S.toast,background:toast.type==="ok"?"#1B5E20":toast.type==="err"?"#B71C1C":"#1a1a2e"}}>
+        <div className="is-83d81e6" style={{ background:toast.type==="ok"?"#1B5E20":toast.type==="err"?"#B71C1C":"#1a1a2e" }}>
           {toast.msg}
         </div>
       )}
@@ -902,25 +888,25 @@ export default function AksharaKYC() {
 function ConfRing({score,color}:{score:number;color:string}){
   const r=26,c=2*Math.PI*r,d=(score/100)*c;
   return(
-    <div style={{position:"relative",width:64,height:64,flexShrink:0}}>
-      <svg width={64} height={64} style={{transform:"rotate(-90deg)"}}>
+    <div className="is-d43fdc0">
+      <svg width={64} height={64} className="is-4a8468d">
         <circle cx={32} cy={32} r={r} fill="none" stroke="#f0f0f0" strokeWidth={5}/>
         <circle cx={32} cy={32} r={r} fill="none" stroke={color} strokeWidth={5}
           strokeDasharray={`${d} ${c}`} strokeLinecap="round"
-          style={{transition:"stroke-dasharray .5s ease"}}/>
+          className="is-9f65a60"/>
       </svg>
-      <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
-        <span style={{fontSize:13,fontWeight:900,color,lineHeight:1}}>{score}%</span>
-        <span style={{fontSize:8,color:"#aaa",fontWeight:700}}>CONF</span>
+      <div className="is-d2bef6c">
+        <span className="is-80b5418" style={{ color, lineHeight:1 }}>{score}%</span>
+        <span className="is-e41875c">CONF</span>
       </div>
     </div>
   );
 }
 function StatCard({label,value,color}:{label:string;value:string;color:string}){
   return(
-    <div style={{flex:1,background:"#f8f9fa",borderRadius:10,padding:"10px 8px",textAlign:"center",border:"1px solid #e0e0e0"}}>
-      <p style={{margin:0,fontSize:18,fontWeight:900,color}}>{value}</p>
-      <p style={{margin:0,fontSize:10,color:"#888",fontWeight:700}}>{label}</p>
+    <div className="is-aa89e0b">
+      <p className="is-8540546" style={{ color }}>{value}</p>
+      <p className="is-080c230">{label}</p>
     </div>
   );
 }

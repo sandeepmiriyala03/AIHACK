@@ -147,30 +147,25 @@ export default function ShareSection({ selectedLanguage }: ShareSectionProps) {
   return (
     <>
       <Box
-        sx={{
-          py: 6,
-          px: 3,
-          background: "#ffffff",
-          borderTop: "1px solid #e5e7eb",
-        }}
+        className="is-25e99cd"
       >
-        <Box sx={{ maxWidth: "900px", mx: "auto" }}>
+        <Box className="is-2923b2a">
           <Typography
             variant="h5"
-            sx={{ fontWeight: 700, textAlign: "center", mb: 1 }}
+            className="is-41f99a8"
           >
             {translations.title}
           </Typography>
 
           <Typography
             variant="body2"
-            sx={{ textAlign: "center", color: "#6b7280", mb: 4 }}
+            className="is-300eb64"
           >
             {translations.description}
           </Typography>
 
           {deviceInfo && (
-            <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+            <Box className="is-ef3588a">
               <Chip label={`📱 ${deviceInfo}`} />
             </Box>
           )}

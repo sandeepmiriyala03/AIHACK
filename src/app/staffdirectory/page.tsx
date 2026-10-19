@@ -78,7 +78,6 @@ import ListAltIcon         from "@mui/icons-material/ListAltRounded";
 // ─────────────────────────────────────────────────────────────
 const STORAGE_KEY = "yuktai-grid-theme";
 const G = "#10b981";
-const TEXT_MAIN = "#0f172a";
 const BORDER    = "#e2e8f0";
 const YUKTAI_VERSION = "5.1.0";
 const PAGE_SIZES = [10, 20, 50, 100];
@@ -546,13 +545,13 @@ export default function StaffDirectory() {
       {/* Top padding clears the fixed navbar (60px mobile, ~68px desktop) */}
       <Container maxWidth="xl" sx={{ pt: { xs: "84px", lg: "96px" }, pb: 4, px: { xs: 2, sm: 3 } }}>
         {/* ─── HEADING ─── */}
-        <Box sx={{ mb: 3 }}>
-          <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: "center", flexWrap: "wrap" }}>
-            <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>Yuktai Grid Demo</Typography>
-            <Chip label={`v${YUKTAI_VERSION} · Agentic AI`} size="small" sx={{ bgcolor: G, color: "#fff", fontWeight: 700 }} />
+        <Box className="is-dc2cb2d">
+          <Stack direction="row" spacing={1} useFlexGap className="is-fd08d76">
+            <Typography variant="h4" component="h1" className="is-be8e63c">Yuktai Grid Demo</Typography>
+            <Chip label={`v${YUKTAI_VERSION} · Agentic AI`} size="small" className="is-8d83dc4" />
             <Chip icon={<StorageIcon />} label={loading && !page.total ? "Connecting…" : `${fmt(page.total)} employees in Neon`} size="small" variant="outlined" />
           </Stack>
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          <Typography variant="body2" color="text.secondary" className="is-68a09f7">
             Ask questions about every employee in the database · the server filters, sorts and summarises · your browser only loads one page
           </Typography>
         </Box>
@@ -560,21 +559,21 @@ export default function StaffDirectory() {
         {/* ─── ASK THE DATA ─── */}
         <Card sx={{ borderRadius: 4, mb: 2, p: { xs: 1.5, sm: 2 }, bgcolor: "#f0fdf4", border: "1px solid #86efac" }}>
           <Stack spacing={1.5}>
-            <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: "center", flexWrap: "wrap" }}>
-              <AutoAwesomeIcon sx={{ color: G }} fontSize="small" />
-              <Typography variant="body2" component="h2" color="#166534" sx={{ fontWeight: 600 }}>Ask the data</Typography>
-              {query.filters.map((f) => <Chip key={f.key} label={describeFilter(f)} size="small" variant="outlined" sx={{ fontSize: "0.7rem" }} />)}
-              {query.search && <Chip label={`search: ${query.search}`} size="small" variant="outlined" sx={{ fontSize: "0.7rem" }} />}
+            <Stack direction="row" spacing={1} useFlexGap className="is-fd08d76">
+              <AutoAwesomeIcon className="is-20bb596" fontSize="small" />
+              <Typography variant="body2" component="h2" color="#166534" className="is-db11729">Ask the data</Typography>
+              {query.filters.map((f) => <Chip key={f.key} label={describeFilter(f)} size="small" variant="outlined" className="is-dcab718" />)}
+              {query.search && <Chip label={`search: ${query.search}`} size="small" variant="outlined" className="is-dcab718" />}
               {highlightIds.length > 0 && <Chip label={`${highlightIds.length} highlighted`} size="small" sx={{ bgcolor: activeAction?.color ?? G, color: "#fff", fontSize: "0.7rem" }} />}
               {hasState && (
-                <Button size="small" onClick={clearAll} startIcon={<CloseIcon size={14} />} sx={{ textTransform: "none", fontSize: "0.75rem", color: "#64748b" }}>Clear</Button>
+                <Button size="small" onClick={clearAll} startIcon={<CloseIcon size={14} />} className="is-966c142">Clear</Button>
               )}
-              <Box sx={{ flexGrow: 1 }} />
+              <Box className="is-a7667d4" />
               <Chip
                 icon={<SmartToyRoundedIcon />}
                 label="Or use the yuktai assistant in the grid (chat + voice)"
                 size="small"
-                sx={{ bgcolor: "#fff", border: "1px solid #86efac" }}
+                className="is-07903ed"
               />
             </Stack>
 
@@ -583,14 +582,14 @@ export default function StaffDirectory() {
                 size="small" fullWidth value={question} onChange={(e) => setQuestion(e.target.value)}
                 label="Ask a question about all employees"
                 placeholder="e.g. salary over 1 lakh and age under 30"
-                sx={{ bgcolor: "#fff", borderRadius: 1 }}
+                className="is-af4660a"
               />
               <Button type="submit" variant="contained" disabled={busy || !question.trim()} sx={{ bgcolor: G, textTransform: "none", "&:hover": { bgcolor: "#059669" } }}>
                 {busy ? "…" : "Ask"}
               </Button>
             </Stack>
 
-            <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
+            <Stack direction="row" spacing={1} useFlexGap className="is-14c2360">
               {QUICK_ACTIONS.map((action) => {
                 const isActive = activeKey === action.key;
                 return (
@@ -607,21 +606,21 @@ export default function StaffDirectory() {
               })}
             </Stack>
 
-            <Typography variant="body2" aria-live="polite" sx={{ whiteSpace: "pre-line", color: TEXT_MAIN }}>{answer}</Typography>
+            <Typography variant="body2" aria-live="polite" className="is-4c981be">{answer}</Typography>
 
             {table.length > 0 && (
-              <Box sx={{ overflowX: "auto", bgcolor: "#fff", borderRadius: 2, border: `1px solid ${BORDER}` }}>
-                <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-                  <caption style={{ textAlign: "left", padding: "8px 12px", fontWeight: 600 }}>Results by department</caption>
+              <Box className="is-18fac1f">
+                <table className="is-0959bb4">
+                  <caption className="is-4729d2c">Results by department</caption>
                   <thead>
                     <tr>{["Department", "Value", "Employees"].map((h) => <th key={h} scope="col" style={{ textAlign: h === "Department" ? "left" : "right", padding: "6px 12px", borderBottom: `1px solid ${BORDER}` }}>{h}</th>)}</tr>
                   </thead>
                   <tbody>
                     {table.slice(0, 50).map((r) => (
                       <tr key={r.label}>
-                        <td style={{ padding: "6px 12px" }}>{r.label}</td>
-                        <td style={{ padding: "6px 12px", textAlign: "right" }}>{r.value}</td>
-                        <td style={{ padding: "6px 12px", textAlign: "right" }}>{fmt(r.count)}</td>
+                        <td className="is-f522118">{r.label}</td>
+                        <td className="is-cdebab9">{r.value}</td>
+                        <td className="is-cdebab9">{fmt(r.count)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -634,9 +633,9 @@ export default function StaffDirectory() {
         {/* ─── THEME ─── */}
         <Card sx={{ borderRadius: 4, mb: 2, p: { xs: 1.5, sm: 2 } }}>
           <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ alignItems: { xs: "stretch", sm: "center" }, justifyContent: "space-between" }}>
-            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+            <Stack direction="row" spacing={1} className="is-d0da858">
               <PaletteIcon color="primary" fontSize="small" />
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>Theme</Typography>
+              <Typography variant="body2" className="is-db11729">Theme</Typography>
               <Chip label={THEMES.find((t) => t.value === theme)?.label} size="small" color="primary" variant="outlined" />
             </Stack>
             <ToggleButtonGroup
@@ -645,7 +644,7 @@ export default function StaffDirectory() {
             >
               {THEMES.map((t) => (
                 <ToggleButton key={t.value} value={t.value} aria-label={`${t.label} theme`}>
-                  <Stack direction="row" spacing={0.7} sx={{ alignItems: "center" }}>
+                  <Stack direction="row" spacing={0.7} className="is-d0da858">
                     {t.icon}
                     <Box sx={{ display: { xs: "none", md: "inline" } }}>{t.label}</Box>
                   </Stack>
@@ -657,21 +656,21 @@ export default function StaffDirectory() {
 
         {/* ─── ERROR ─── */}
         {error && (
-          <Card role="alert" sx={{ borderRadius: 4, p: 3, mb: 2, textAlign: "center", border: "1px solid #fecaca" }}>
+          <Card role="alert" className="is-0d6958e">
             <CloseIcon size={32} color="#dc2626" />
-            <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>Could not load employee data</Typography>
-            <Typography color="text.secondary" sx={{ mt: 0.5 }}>{error}</Typography>
-            <Button sx={{ mt: 1.5, textTransform: "none" }} onClick={() => void load(query)}>Try again</Button>
+            <Typography variant="h6" className="is-930bf8a">Could not load employee data</Typography>
+            <Typography color="text.secondary" className="is-57eca19">{error}</Typography>
+            <Button className="is-3b07de8" onClick={() => void load(query)}>Try again</Button>
           </Card>
         )}
 
         {/* ─── GRID ─── */}
         <Card sx={{ borderRadius: 4, overflow: "hidden", p: { xs: 1, sm: 2 }, mb: 3 }}>
           {override && (
-            <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1, px: 1 }}>
-              <WarningIcon fontSize="small" sx={{ color: "#dc2626" }} />
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>Showing {override.label}</Typography>
-              <Button size="small" onClick={() => { setOverride(null); setHighlightIds([]); }} sx={{ textTransform: "none" }}>Back to all employees</Button>
+            <Stack direction="row" spacing={1} className="is-359ead3">
+              <WarningIcon fontSize="small" className="is-610bd2f" />
+              <Typography variant="body2" className="is-db11729">Showing {override.label}</Typography>
+              <Button size="small" onClick={() => { setOverride(null); setHighlightIds([]); }} className="is-33831cd">Back to all employees</Button>
             </Stack>
           )}
           <YuktaiGrid
@@ -694,20 +693,20 @@ export default function StaffDirectory() {
             customRules={agentRules}
             onSortChange={(s) => setQuery((q) => ({ ...q, sort: s && s.direction ? { key: s.key, direction: s.direction } : null, page: 1 }))}
             empty={
-              <Box sx={{ py: 4, textAlign: "center" }}>
+              <Box className="is-78cd38b">
                 <CloseIcon size={32} color="#94a3b8" />
-                <Typography color="text.secondary" sx={{ mt: 1 }}>No employees match. Try “clear” to reset.</Typography>
+                <Typography color="text.secondary" className="is-68a09f7">No employees match. Try “clear” to reset.</Typography>
               </Box>
             }
           />
 
           {/* Server-side pager */}
           {!override && (
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={1} sx={{ alignItems: "center", justifyContent: "space-between", mt: 1.5, px: 1 }}>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={1} className="is-3afa32d">
               <Typography variant="body2" color="text.secondary" aria-live="polite">
                 {fmt(page.total)} employee(s) · page {fmt(query.page)} of {fmt(page.totalPages)}
               </Typography>
-              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Stack direction="row" spacing={1} className="is-d0da858">
                 <Typography variant="body2" component="label" htmlFor="page-size">Rows per page</Typography>
                 <Select
                   size="small" value={query.pageSize} inputProps={{ id: "page-size" }}
@@ -727,12 +726,12 @@ export default function StaffDirectory() {
         </Card>
 
         {/* ─── WHAT YOU CAN ASK ─── */}
-        <Accordion sx={{ borderRadius: 4, mb: 2 }} defaultExpanded>
+        <Accordion className="is-4881ea9" defaultExpanded>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
-              <ListAltIcon fontSize="small" sx={{ color: G }} />
-              <Typography sx={{ fontWeight: 600 }}>What you can ask</Typography>
-              <Chip label="v5.1" size="small" sx={{ bgcolor: G, color: "#fff", fontWeight: 700, fontSize: "0.6rem", height: 18 }} />
+            <Stack direction="row" spacing={1.5} className="is-d0da858">
+              <ListAltIcon fontSize="small" className="is-20bb596" />
+              <Typography className="is-db11729">What you can ask</Typography>
+              <Chip label="v5.1" size="small" className="is-52c886b" />
             </Stack>
           </AccordionSummary>
           <AccordionDetails>
@@ -752,29 +751,29 @@ export default function StaffDirectory() {
           </AccordionDetails>
         </Accordion>
 
-        <Accordion sx={{ borderRadius: 4, mb: 2 }}>
+        <Accordion className="is-4881ea9">
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography sx={{ fontWeight: 600 }}>🎯 Grid controls (all 7 Yuktai icons)</Typography>
+            <Typography className="is-db11729">🎯 Grid controls (all 7 Yuktai icons)</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Stack spacing={2}>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><VolumeUpRoundedIcon sx={{ color: G, fontSize: 20 }} /><Typography variant="body2"><strong>yuktai assistant:</strong> open the AI assistant built into the grid, type or speak a question (English or Telugu, e.g. &quot;ఎంత మంది&quot;). Data questions are answered over all employees.</Typography></Stack>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in the question box.</Typography></Stack>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SortUpIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort ascending:</strong> click a column header; the server sorts all rows.</Typography></Stack>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SortDownIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort descending:</strong> click again.</Typography></Stack>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><ChevronLeftIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Previous page</strong></Typography></Stack>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><ChevronRightIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Next page</strong></Typography></Stack>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><CheckIcon size={20} color="#10b981" /><Typography variant="body2"><strong>WCAG 2.2:</strong> keyboard and screen-reader ready.</Typography></Stack>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><CloseIcon size={20} color="#dc2626" /><Typography variant="body2"><strong>Empty state:</strong> clear message when no rows match.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><VolumeUpRoundedIcon className="is-8925140" /><Typography variant="body2"><strong>yuktai assistant:</strong> open the AI assistant built into the grid, type or speak a question (English or Telugu, e.g. &quot;ఎంత మంది&quot;). Data questions are answered over all employees.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in the question box.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><SortUpIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort ascending:</strong> click a column header; the server sorts all rows.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><SortDownIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort descending:</strong> click again.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><ChevronLeftIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Previous page</strong></Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><ChevronRightIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Next page</strong></Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><CheckIcon size={20} color="#10b981" /><Typography variant="body2"><strong>WCAG 2.2:</strong> keyboard and screen-reader ready.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><CloseIcon size={20} color="#dc2626" /><Typography variant="body2"><strong>Empty state:</strong> clear message when no rows match.</Typography></Stack>
             </Stack>
           </AccordionDetails>
         </Accordion>
 
-        <Accordion sx={{ borderRadius: 4 }}>
+        <Accordion className="is-d850e37">
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+            <Stack direction="row" spacing={1.5} className="is-d0da858">
               <KeyboardIcon fontSize="small" color="primary" />
-              <Typography sx={{ fontWeight: 600 }}>Keyboard shortcuts</Typography>
+              <Typography className="is-db11729">Keyboard shortcuts</Typography>
             </Stack>
           </AccordionSummary>
           <AccordionDetails>
@@ -786,8 +785,8 @@ export default function StaffDirectory() {
           </AccordionDetails>
         </Accordion>
 
-        <Box sx={{ mt: 3, p: 2, textAlign: "center", bgcolor: "grey.50", borderRadius: 3 }}>
-          <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+        <Box className="is-5b18880">
+          <Stack direction="row" spacing={0.5} className="is-d866968">
             <CheckIcon size={14} color="#10b981" />
             <Typography variant="caption" color="text.secondary">
               Powered by{" "}

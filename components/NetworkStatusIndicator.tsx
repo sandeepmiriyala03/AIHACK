@@ -71,26 +71,7 @@ export default function NetworkStatusIndicator() {
 
   return (
     <div
-      style={{
-        position: "fixed",
-
-        top: isMobile ? `${MOBILE_TOPBAR_HEIGHT + 8}px` : "auto",
-        right: "16px",
-        bottom: isMobile ? "auto" : "16px",
-
-        zIndex: 1500,
-        padding: "6px 12px",
-        borderRadius: "999px",
-        fontSize: "12px",
-        fontWeight: 600,
-        color: "#fff",
-        backgroundColor: isOnline ? "#16a34a" : "#dc2626",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
-
-        pointerEvents: "none",
-        userSelect: "none",
-        transition: "opacity 0.3s ease, transform 0.3s ease",
-      }}
+      className="is-e97e417" style={{ top: isMobile ? `${MOBILE_TOPBAR_HEIGHT + 8}px` : "auto", right: "16px", bottom: isMobile ? "auto" : "16px", zIndex: 1500, padding: "6px 12px", borderRadius: "999px", fontSize: "12px", fontWeight: 600, color: "#fff", backgroundColor: isOnline ? "#16a34a" : "#dc2626", boxShadow: "0 4px 10px rgba(0,0,0,0.15)", pointerEvents: "none", userSelect: "none", transition: "opacity 0.3s ease, transform 0.3s ease" }}
       aria-live="polite"
     >
       {isOnline ? "🟢 Online" : "🔴 Offline"}

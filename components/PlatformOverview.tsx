@@ -93,11 +93,7 @@ export default function PlatformOverview() {
                 key={tech}
                 label={tech}
                 size="small"
-                sx={{
-                  bgcolor: "rgba(255,255,255,0.18)",
-                  color: "white",
-                  fontWeight: 500,
-                }}
+                className="is-74aa937"
               />
             ))}
           </Box>
@@ -135,15 +131,15 @@ export default function PlatformOverview() {
             alignItems="center"
             flexWrap="wrap"
             useFlexGap
-            sx={{ mt: 1 }}
+            className="is-68a09f7"
           >
             {architecture.map((step, i) => (
-              <Box key={step} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <Box key={step} className="is-bd9db1c">
                 <Chip
                   label={step}
                   variant="outlined"
                   color="primary"
-                  sx={{ fontWeight: 500 }}
+                  className="is-d2abfb7"
                 />
                 {i < architecture.length - 1 && (
                   <ArrowDownwardIcon
@@ -167,7 +163,7 @@ export default function PlatformOverview() {
             Current Features
           </Typography>
 
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+          <Box className="is-1818718">
             {features.map((item) => (
               <Chip key={item} label={item} color="primary" variant="outlined" size="small" />
             ))}
@@ -182,7 +178,7 @@ export default function PlatformOverview() {
             Future Roadmap
           </Typography>
 
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+          <Box className="is-1818718">
             {roadmap.map((item) => (
               <Chip key={item} label={item} size="small" variant="filled" color="secondary" />
             ))}

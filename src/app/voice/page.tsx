@@ -648,28 +648,28 @@ export default function IndicAudioVideoPage() {
       `}</style>
 
       <Navbar />
-      <canvas ref={canvasRef} style={{ position:"fixed", top:"-9999px", left:"-9999px" }} />
+      <canvas ref={canvasRef} className="is-9355ddf" />
 
-      <div style={{ minHeight:"100dvh", background:"#f5f6fa", fontFamily:"'Inter',sans-serif", padding:"20px 16px 72px" }}>
-        <div style={{ maxWidth:660, margin:"0 auto" }}>
+      <div className="is-40fd81c">
+        <div className="is-8ba8fea">
 
           {/* Header */}
-          <div style={{ textAlign:"center", marginBottom:20 }}>
-            <div style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", width:58, height:58, borderRadius:"50%", background:"#eef2ff", border:"2px solid #c7d2fe", fontSize:28, marginBottom:10 }}>🎙️</div>
-            <h1 style={{ fontSize:23, fontWeight:700, color:"#4f46e5", marginBottom:4 }}>AksharaTantra Voice</h1>
-            <p style={{ color:"#9ca3af", fontSize:13 }}>33 Languages · Real Indic Audio in Video · Download Audio + Video + Image Slide</p>
+          <div className="is-86c4350">
+            <div className="is-f1723ab">🎙️</div>
+            <h1 className="is-42bb9b2">AksharaTantra Voice</h1>
+            <p className="is-7e96596">33 Languages · Real Indic Audio in Video · Download Audio + Video + Image Slide</p>
           </div>
 
           {/* Indic banner */}
           {isIndic && (
-            <div style={{ background:"linear-gradient(135deg,#f0fdf4,#ecfdf5)", border:"1.5px solid #6ee7b7", borderRadius:14, padding:"14px 16px", marginBottom:14 }}>
-              <div style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                <span style={{ fontSize:26, flexShrink:0 }}>🇮🇳</span>
+            <div className="is-167c6b1">
+              <div className="is-e26a77a">
+                <span className="is-40cc181">🇮🇳</span>
                 <div>
-                  <div style={{ fontWeight:700, fontSize:14, color:"#065f46", marginBottom:4 }}>
+                  <div className="is-ba81f9f">
                     {L.label} · Real Audio in Video!
                   </div>
-                  <div style={{ fontSize:12, color:"#047857", lineHeight:1.8 }}>
+                  <div className="is-d66d7f0">
                     Your {L.label} text will be spoken by Google TTS and <strong>embedded directly inside the MP4 video</strong>. Download the audio separately as MP3 too. Requires internet connection.
                   </div>
                 </div>
@@ -678,13 +678,13 @@ export default function IndicAudioVideoPage() {
           )}
 
           {/* How to use */}
-          <div className="card" style={{ padding:0, overflow:"hidden", marginBottom:14 }}>
-            <button onClick={() => setHowOpen(v => !v)} style={{ width:"100%", padding:"13px 18px", background:"none", border:"none", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", fontFamily:"inherit" }}>
-              <span style={{ fontWeight:600, fontSize:13, color:"#4f46e5" }}>💡 How to use</span>
-              <span style={{ fontSize:11, color:"#9ca3af" }}>{howOpen ? "▲ Hide" : "▼ Show"}</span>
+          <div className="card is-5a4efee">
+            <button onClick={() => setHowOpen(v => !v)} className="is-6f3158e">
+              <span className="is-9dcf73c">💡 How to use</span>
+              <span className="is-d7fc9ed">{howOpen ? "▲ Hide" : "▼ Show"}</span>
             </button>
             {howOpen && (
-              <div style={{ borderTop:"1px solid #f3f4f6", padding:"16px 18px", display:"flex", flexDirection:"column", gap:12 }}>
+              <div className="is-52fa935">
                 {[
                   ["1","Choose language","Indic = real Google TTS audio embedded in video + downloadable MP3. Global with ✅ = offline WASM WAV."],
                   ["2","Speak or type","Tap 🎙️ and speak — words appear live in your script. Or type/paste."],
@@ -692,11 +692,11 @@ export default function IndicAudioVideoPage() {
                   ["4","Generate","Audio fetched, rendered into MP4. For Indic, real voice is in the video."],
                   ["5","Download all 3","⬇️ MP3/WAV audio · ⬇️ MP4 video (with audio) · 🖼️ PNG image slide"],
                 ].map(([n, title, desc]) => (
-                  <div key={n} style={{ display:"flex", gap:12 }}>
-                    <div style={{ width:26, height:26, borderRadius:"50%", background:"#eef2ff", color:"#4f46e5", fontSize:12, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{n}</div>
+                  <div key={n} className="is-800a82f">
+                    <div className="is-901ffae">{n}</div>
                     <div>
-                      <div style={{ fontWeight:600, fontSize:13, color:"#111827", marginBottom:2 }}>{title}</div>
-                      <div style={{ fontSize:12, color:"#6b7280", lineHeight:1.75 }}>{desc}</div>
+                      <div className="is-da63601">{title}</div>
+                      <div className="is-8d4e28f">{desc}</div>
                     </div>
                   </div>
                 ))}
@@ -707,7 +707,7 @@ export default function IndicAudioVideoPage() {
           {/* Step 1 */}
           <div className="card">
             <span className="lbl">Step 1 — Language</span>
-            <div style={{ position:"relative" }}>
+            <div className="is-d85c4e6">
               <select className="sel" value={lang} onChange={e => changeLang(e.target.value)} disabled={loading}>
                 <optgroup label="🇮🇳 Indic Languages (Real Audio in Video)">
                   {sorted.filter(([c]) => INDIC_CODES.includes(c)).map(([c, l]) => (
@@ -720,9 +720,9 @@ export default function IndicAudioVideoPage() {
                   ))}
                 </optgroup>
               </select>
-              <span style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", color:"#9ca3af" }}>▼</span>
+              <span className="is-9fc6906">▼</span>
             </div>
-            <div style={{ marginTop:8, display:"flex", gap:8, flexWrap:"wrap" }}>
+            <div className="is-2c578c6">
               {isIndic
                 ? <span className="badge-indic">🎵 Google TTS · Real voice in video</span>
                 : L.voiceId
@@ -734,51 +734,42 @@ export default function IndicAudioVideoPage() {
 
           {/* Step 2 */}
           <div className="card">
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
-              <span className="lbl" style={{ margin:0 }}>Step 2 — Speak or Type</span>
-              <button onClick={clearText} disabled={loading || !text} style={{
-                padding:"4px 12px", borderRadius:6, border:"1px solid", fontFamily:"inherit", fontWeight:500, fontSize:11,
-                cursor:(!loading && text)?"pointer":"not-allowed",
-                borderColor:(!loading && text)?"#fca5a5":"#e5e7eb",
-                background:(!loading && text)?"#fff5f5":"transparent",
-                color:(!loading && text)?"#dc2626":"#d1d5db",
-              }}>✕ Clear</button>
+            <div className="is-68b0c31">
+              <span className="lbl is-e2b74ba">Step 2 — Speak or Type</span>
+              <button onClick={clearText} disabled={loading || !text} className="is-a4c912c" style={{ cursor:(!loading && text)?"pointer":"not-allowed", borderColor:(!loading && text)?"#fca5a5":"#e5e7eb", background:(!loading && text)?"#fff5f5":"transparent", color:(!loading && text)?"#dc2626":"#d1d5db" }}>✕ Clear</button>
             </div>
 
             <button className={`mic-btn${listening?" on":""}`} onClick={toggleMic} disabled={loading}
               aria-label={listening ? "Stop microphone" : `Speak in ${L.label}`}>
               {listening
                 ? <><div className="dot"/><span>Listening in {L.flag} {L.label} — tap to stop</span></>
-                : <><span style={{ fontSize:22 }}>🎙️</span><span>Tap to Speak in {L.flag} {L.label}</span></>
+                : <><span className="is-249bf02">🎙️</span><span>Tap to Speak in {L.flag} {L.label}</span></>
               }
             </button>
 
-            {micMsg && <div style={{ fontSize:12, color:micMsg.startsWith("❌")?"#dc2626":"#6b7280", margin:"4px 0 8px" }}>{micMsg}</div>}
-            {interim && <div className="interim" style={{ fontFamily:INDIC_FONTS }}>💬 {interim}</div>}
+            {micMsg && <div className="is-345895d" style={{ color:micMsg.startsWith("❌")?"#dc2626":"#6b7280", margin:"4px 0 8px" }}>{micMsg}</div>}
+            {interim && <div className="interim is-cb8148e">💬 {interim}</div>}
 
             <VoiceSelector value={voiceType} onChange={setVoiceType} disabled={loading} />
 
-            <div style={{ position:"relative", marginTop:10 }}>
+            <div className="is-e1fb6fe">
               <textarea
-                className={`ta${over?" over":""}`}
-                style={{ fontFamily:INDIC_FONTS }}
+                className={`ta${over?" over":""} is-cb8148e`}
+
                 value={text}
                 onChange={e => { if (e.target.value.length <= MAX_CHARS) setText(e.target.value); }}
                 rows={4} disabled={loading}
                 placeholder="Speak using the mic above, or type / paste text here…"
               />
-              <span style={{
-                position:"absolute", bottom:10, right:12, fontSize:11, pointerEvents:"none",
-                color:MAX_CHARS-text.length<=50?(MAX_CHARS-text.length<=0?"#ef4444":"#f59e0b"):"#d1d5db",
-              }}>{text.length}/{MAX_CHARS}</span>
+              <span className="is-1ad6576" style={{ color:MAX_CHARS-text.length<=50?(MAX_CHARS-text.length<=0?"#ef4444":"#f59e0b"):"#d1d5db" }}>{text.length}/{MAX_CHARS}</span>
             </div>
-            {over && <p style={{ fontSize:12, color:"#ef4444", marginTop:4 }}>Character limit reached</p>}
+            {over && <p className="is-a87a100">Character limit reached</p>}
           </div>
 
           {/* Step 3 */}
           <div className="card">
             <span className="lbl">Step 3 — Video Format</span>
-            <div style={{ position:"relative" }}>
+            <div className="is-d85c4e6">
               <select className="sel" value={profile} onChange={e => setProfile(e.target.value as any)} disabled={loading}>
                 <option value="mobile">📱 Mobile (540×960) — Fastest</option>
                 <option value="whatsapp">🟢 WhatsApp Status (720×1280)</option>
@@ -786,47 +777,45 @@ export default function IndicAudioVideoPage() {
                 <option value="youtube">▶️ YouTube Shorts (1080×1920)</option>
                 <option value="twitter">🐦 X / Twitter (720×1280)</option>
               </select>
-              <span style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", color:"#9ca3af" }}>▼</span>
+              <span className="is-9fc6906">▼</span>
             </div>
           </div>
 
           {/* Generate button */}
           <button
-            className="btn btn-primary"
+            className="btn btn-primary is-7436e3a"
             onClick={generate} disabled={!canGo}
-            style={{ width:"100%", fontSize:16, borderRadius:14, padding:"17px 0", marginBottom:14, minHeight:54,
-              background:canGo?"linear-gradient(135deg,#4f46e5,#7c3aed)":"",
-              boxShadow:canGo?"0 4px 24px rgba(79,70,229,.3)":"none" }}
+            style={{ background:canGo?"linear-gradient(135deg,#4f46e5,#7c3aed)":"", boxShadow:canGo?"0 4px 24px rgba(79,70,229,.3)":"none" }}
           >
             {loading ? `⏳ ${status}` : `🎙️ Generate ${L.flag} ${L.label} Audio + Video + Slide`}
           </button>
 
           {/* Download progress */}
           {dlProgress && loading && (
-            <div style={{ background:"#fffbeb", border:"1px solid #fde68a", borderRadius:8, padding:"9px 14px", fontSize:12, marginBottom:12, fontFamily:"monospace", color:"#92400e" }}>
+            <div className="is-882145e">
               {dlProgress}
             </div>
           )}
 
           {/* Status */}
           {status !== "Ready" && !loading && (
-            <div style={{ background:"#f0fdf4", border:"1px solid #6ee7b7", borderRadius:8, padding:"10px 14px", fontSize:13, marginBottom:14, color:"#065f46", fontWeight:500 }}>
+            <div className="is-569d8b3">
               {status}
             </div>
           )}
 
           {/* Downloads */}
           {(audioUrl || vidUrl || slideReady) && (
-            <div className="card" style={{ background:"linear-gradient(135deg,#fafafe,#f0f4ff)", border:"1.5px solid #c7d2fe" }}>
-              <div style={{ fontWeight:700, fontSize:15, color:"#4f46e5", marginBottom:16 }}>
+            <div className="card is-253c280">
+              <div className="is-8783fbb">
                 📥 Downloads — {L.flag} {L.label}
               </div>
 
               {/* Audio */}
               {audioUrl && (
-                <div style={{ marginBottom:18 }}>
-                  <div style={{ fontWeight:600, fontSize:13, color:"#374151", marginBottom:8 }}>🎵 Audio</div>
-                  <audio controls src={audioUrl} style={{ width:"100%", marginBottom:10, borderRadius:8 }} preload="auto" />
+                <div className="is-96ff272">
+                  <div className="is-9eae165">🎵 Audio</div>
+                  <audio controls src={audioUrl} className="is-02b333d" preload="auto" />
                   <div className="row">
                     <button className="btn btn-primary" onClick={() => af && playF32(af, sr)}>▶️ Play</button>
                     <button className="btn btn-outline" onClick={() => {
@@ -840,10 +829,10 @@ export default function IndicAudioVideoPage() {
 
               {/* Video */}
               {vidUrl && (
-                <div style={{ marginBottom:18 }}>
-                  <div style={{ fontWeight:600, fontSize:13, color:"#374151", marginBottom:8 }}>🎬 Video (with audio)</div>
-                  <video controls playsInline src={vidUrl} style={{ width:"100%", borderRadius:10, marginBottom:10 }} />
-                  <button className="btn btn-green" style={{ width:"100%" }} onClick={() => {
+                <div className="is-96ff272">
+                  <div className="is-9eae165">🎬 Video (with audio)</div>
+                  <video controls playsInline src={vidUrl} className="is-7182ccf" />
+                  <button className="btn btn-green is-199b6f0" onClick={() => {
                     const a = document.createElement("a");
                     a.href = vidUrl!; a.download = `aksharatantra_${lang}_${Date.now()}.mp4`;
                     document.body.appendChild(a); a.click(); document.body.removeChild(a);
@@ -854,8 +843,8 @@ export default function IndicAudioVideoPage() {
               {/* Image Slide */}
               {slideReady && (
                 <div>
-                  <div style={{ fontWeight:600, fontSize:13, color:"#374151", marginBottom:8 }}>🖼️ Image Slide (PNG)</div>
-                  <div style={{ background:"#f3f4f6", borderRadius:10, padding:8, marginBottom:10, textAlign:"center" }}>
+                  <div className="is-9eae165">🖼️ Image Slide (PNG)</div>
+                  <div className="is-9f3999a">
                     <canvas
                       ref={node => {
                         if (!node || !text) return;
@@ -864,13 +853,13 @@ export default function IndicAudioVideoPage() {
                         const ctx = node.getContext("2d")!;
                         drawSlide(ctx, PW, PH, text, L);
                       }}
-                      style={{ width:"100%", maxWidth:200, borderRadius:8, display:"inline-block", border:"1px solid #e5e7eb" }}
+                      className="is-f7da170"
                     />
                   </div>
-                  <button className="btn btn-indigo" style={{ width:"100%" }} onClick={downloadSlide}>
+                  <button className="btn btn-indigo is-199b6f0" onClick={downloadSlide}>
                     🖼️ Download PNG Slide ({VIDEO_PROFILES[profile].W}×{VIDEO_PROFILES[profile].H})
                   </button>
-                  <p style={{ fontSize:11, color:"#9ca3af", marginTop:6, textAlign:"center" }}>
+                  <p className="is-62251b9">
                     Full resolution · same size as selected video format
                   </p>
                 </div>

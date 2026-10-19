@@ -1,0 +1,1303 @@
+﻿INLINE STYLE REPORT - 2026-10-19 17:45
+Folder: C:\Users\vanis\Github\AIHACK
+Total: 1242 lines in 49 files
+
+=== FILES (most first) ===
+  121  .\src\app\kosha\page.tsx
+   99  .\src\app\kyc\page.tsx
+   97  .\src\app\badge\page.tsx
+   96  .\src\app\yuktai\page.tsx
+   81  .\src\app\onecrdb\page.tsx
+   70  .\src\app\staffdirectory\page.tsx
+   62  .\src\app\posters\page.tsx
+   60  .\src\app\calendarpage\page.tsx
+   59  .\src\app\smsparser\page.tsx
+   54  .\src\app\voice\page.tsx
+   44  .\src\app\ebook\page.tsx
+   41  .\src\app\vedha\page.tsx
+   35  .\src\app\ipl\page.tsx
+   28  .\src\app\user\page.tsx
+   28  .\components\FontPicker.tsx
+   24  .\components\sliders\Gallery.tsx
+   22  .\src\app\Ocrwork\page.tsx
+   21  .\components\PlatformOverview.tsx
+   21  .\src\app\whatsapp-bot\page.tsx
+   19  .\components\SanskritOcrPage.tsx
+   19  .\components\installapp.tsx
+   15  .\components\PosterPreview.tsx
+   14  .\src\app\aksharadrishti\page.tsx
+   13  .\components\CropModal.tsx
+   12  .\src\app\ocreng\page.tsx
+   11  .\components\PanchangaCard.tsx
+   11  .\components\ImageReader.tsx
+    8  .\src\app\codeagent\page.tsx
+    6  .\components\SocailMedia\ShareSection.tsx
+    6  .\components\ui\OcrPreviewList.tsx
+    5  .\components\AnalysisSummary.tsx
+    4  .\src\app\chess\page.tsx
+    4  .\components\ExtractedTextSectionComponent.tsx
+    3  .\components\RagWorkflow.tsx
+    3  .\components\ModeSelectComponent.tsx
+    3  .\components\sliders\Toast.tsx
+    3  .\components\ui\OcrUploader.tsx
+    3  .\components\VoiceSelector.tsx
+    3  .\components\SanskritOcrExplanation.tsx
+    2  .\components\FileLanguageAnalyzer.tsx
+    2  .\components\ui\OcrEditor.tsx
+    2  .\components\RupantarCode\CodePanel.tsx
+    2  .\components\ocrEngine\LiveVedicPreview.tsx
+    1  .\components\bookEngine\HtmlBookBuilder.tsx
+    1  .\components\AccordionChunk.tsx
+    1  .\components\ocrEngine\BulkOcrProcessor.tsx
+    1  .\components\NetworkStatusIndicator.tsx
+    1  .\components\WorkflowViewer.tsx
+    1  .\components\RoundedImageWrapper.tsx
+
+=== BY TYPE ===
+style={{   : 999
+sx={{      : 224
+<style>     : 19
+
+=== DETAILS ===
+.\components\bookEngine\HtmlBookBuilder.tsx:16  <style>
+.\components\ocrEngine\BulkOcrProcessor.tsx:143  sx={{ mt: 1 }}
+.\components\ocrEngine\LiveVedicPreview.tsx:12  <style jsx>{`
+.\components\ocrEngine\LiveVedicPreview.tsx:39  style={{
+.\components\RupantarCode\CodePanel.tsx:28  style={{ background: meta.color }}
+.\components\RupantarCode\CodePanel.tsx:54  style={{ background: '#3776ab' }}
+.\components\sliders\Gallery.tsx:82  <div style={{ padding: "16px 0" }}>
+.\components\sliders\Gallery.tsx:84  <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 20, alignItems: "center" }}>
+.\components\sliders\Gallery.tsx:85  <span style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 600 }}>
+.\components\sliders\Gallery.tsx:103  style={{ ...selectStyle, minWidth: 160 }}
+.\components\sliders\Gallery.tsx:106  <button onClick={handleClearAll} style={{ ...ghostBtnStyle, color: "#E53935", borderColor: "#E53935" }}>
+.\components\sliders\Gallery.tsx:113  <p style={{ fontFamily: "Montserrat, sans-serif", color: "#888" }}>Loading…</p>
+.\components\sliders\Gallery.tsx:115  <p style={{ fontFamily: "Montserrat, sans-serif", color: "#888" }}>
+.\components\sliders\Gallery.tsx:120  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+.\components\sliders\Gallery.tsx:122  <div key={item.id} style={{ borderRadius: 10, overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.10)", background: "#fff", display: "flex", flexDirection: "column" }}>
+.\components\sliders\Gallery.tsx:128  style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", cursor: "pointer" }}
+.\components\sliders\Gallery.tsx:131  <div style={{ padding: "10px 12px 12px" }}>
+.\components\sliders\Gallery.tsx:132  <div style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 700, fontSize: 13, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+.\components\sliders\Gallery.tsx:135  <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#888", marginBottom: 8 }}>
+.\components\sliders\Gallery.tsx:138  <div style={{ display: "flex", gap: 6 }}>
+.\components\sliders\Gallery.tsx:141  <button onClick={() => handleDelete(item.id!)} style={{ ...smallBtnStyle, color: "#E53935" }}>🗑</button>
+.\components\sliders\Gallery.tsx:149  <div style={{ display: "flex", gap: 10, marginTop: 20, alignItems: "center", fontFamily: "Montserrat, sans-serif" }}>
+.\components\sliders\Gallery.tsx:164  style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", zIndex: 10001, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+.\components\sliders\Gallery.tsx:168  style={{ background: "#fff", borderRadius: 14, padding: 20, maxWidth: 560, width: "100%", boxShadow: "0 8px 40px rgba(0,0,0,0.3)" }}
+.\components\sliders\Gallery.tsx:171  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12, fontFamily: "Montserrat, sans-serif" }}>
+.\components\sliders\Gallery.tsx:173  <div style={{ fontWeight: 700 }}>{previewItem.title || "Untitled"}</div>
+.\components\sliders\Gallery.tsx:174  <div style={{ fontSize: 12, color: "#888" }}>{new Date(previewItem.ts).toLocaleString()}</div>
+.\components\sliders\Gallery.tsx:176  <button onClick={() => setPreviewItem(null)} style={{ background: "none", border: "none", fontSize: 18, cursor: "pointer" }}>✖</button>
+.\components\sliders\Gallery.tsx:179  <img src={previewItem.dataUrl} alt="Poster preview" style={{ width: "100%", borderRadius: 8 }} />
+.\components\sliders\Gallery.tsx:182  style={{ ...primaryBtnStyle, width: "100%", marginTop: 12 }}
+.\components\sliders\Toast.tsx:51  style={{
+.\components\sliders\Toast.tsx:67  style={{
+.\components\sliders\Toast.tsx:84  <style>{`
+.\components\SocailMedia\ShareSection.tsx:150  sx={{
+.\components\SocailMedia\ShareSection.tsx:157  <Box sx={{ maxWidth: "900px", mx: "auto" }}>
+.\components\SocailMedia\ShareSection.tsx:160  sx={{ fontWeight: 700, textAlign: "center", mb: 1 }}
+.\components\SocailMedia\ShareSection.tsx:167  sx={{ textAlign: "center", color: "#6b7280", mb: 4 }}
+.\components\SocailMedia\ShareSection.tsx:173  <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+.\components\SocailMedia\ShareSection.tsx:180  sx={{
+.\components\ui\OcrEditor.tsx:10  <div style={{ padding: "16px" }}>
+.\components\ui\OcrEditor.tsx:16  style={{
+.\components\ui\OcrPreviewList.tsx:15  <div style={{ padding: "16px" }}>
+.\components\ui\OcrPreviewList.tsx:23  style={{
+.\components\ui\OcrPreviewList.tsx:30  <p style={{ whiteSpace: "pre-wrap" }}>
+.\components\ui\OcrPreviewList.tsx:34  <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
+.\components\ui\OcrPreviewList.tsx:37  style={{
+.\components\ui\OcrPreviewList.tsx:51  style={{
+.\components\ui\OcrUploader.tsx:18  <div style={{ padding: "16px" }}>
+.\components\ui\OcrUploader.tsx:23  style={{
+.\components\ui\OcrUploader.tsx:41  style={{ display: "none" }}
+.\components\AccordionChunk.tsx:44  <h4 style={{ marginTop: 16 }}>Highlights</h4>
+.\components\AnalysisSummary.tsx:208  style={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}
+.\components\AnalysisSummary.tsx:214  <div style={{ marginTop: 30 }}>
+.\components\AnalysisSummary.tsx:219  <div key={i} style={{ marginBottom: 10 }}>
+.\components\AnalysisSummary.tsx:226  <div style={{ display: "flex", gap: 10 }}>
+.\components\AnalysisSummary.tsx:232  style={{ flex: 1 }}
+.\components\CropModal.tsx:135  style={{
+.\components\CropModal.tsx:149  style={{
+.\components\CropModal.tsx:163  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+.\components\CropModal.tsx:164  <h3 style={{ margin: 0, fontFamily: "Montserrat, sans-serif", fontSize: 16 }}>
+.\components\CropModal.tsx:169  style={{ background: "none", border: "none", fontSize: 18, cursor: "pointer", color: "#666" }}
+.\components\CropModal.tsx:177  style={{
+.\components\CropModal.tsx:189  style={{ display: "block", maxWidth: "100%" }}
+.\components\CropModal.tsx:194  <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+.\components\CropModal.tsx:195  <label style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, fontFamily: "Montserrat, sans-serif", fontSize: 13 }}>
+.\components\CropModal.tsx:205  <label style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, fontFamily: "Montserrat, sans-serif", fontSize: 13 }}>
+.\components\CropModal.tsx:219  <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+.\components\CropModal.tsx:222  style={{ padding: "9px 18px", borderRadius: 8, border: "1.5px solid #ccc", background: "#fff", cursor: "pointer", fontFamily: "Montserrat, sans-serif" }}
+.\components\CropModal.tsx:228  style={{ padding: "9px 22px", borderRadius: 8, border: "none", background: "#4CAF50", color: "#fff", cursor: "pointer", fontWeight: 700, fontFamily: "Montserrat, sans-serif" }}
+.\components\ExtractedTextSectionComponent.tsx:39  <div style={{ marginTop: 30 }}>
+.\components\ExtractedTextSectionComponent.tsx:47  style={{
+.\components\ExtractedTextSectionComponent.tsx:57  style={{
+.\components\ExtractedTextSectionComponent.tsx:66  <div style={{ marginTop: "15px" }}>
+.\components\FileLanguageAnalyzer.tsx:690  style={{ width: "100%", height: "auto" }}
+.\components\FileLanguageAnalyzer.tsx:705  <div style={{ marginTop: 10 }}>
+.\components\FontPicker.tsx:196  style={{
+.\components\FontPicker.tsx:205  <span style={{flex:1,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
+.\components\FontPicker.tsx:207  ? <span style={{fontFamily:selectedFont}}>{label}</span>
+.\components\FontPicker.tsx:208  : <span style={{color:"#bbb"}}>{placeholder}</span>
+.\components\FontPicker.tsx:214  style={{color:"#bbb",fontSize:13,cursor:"pointer",lineHeight:1}} title="Clear">✕</span>
+.\components\FontPicker.tsx:216  <span style={{color:"#bbb",fontSize:11}}>▾</span>
+.\components\FontPicker.tsx:221  <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.45)",zIndex:9998,display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
+.\components\FontPicker.tsx:222  <div ref={mRef} style={{background:"#fff",borderRadius:14,width:"100%",maxWidth:440,maxHeight:"82vh",display:"flex",flexDirection:"column",boxShadow:"0 8px 40px rgba(0,0,0,.22)",overflow:"hidden"}}>
+.\components\FontPicker.tsx:225  <div style={{padding:"14px 16px 10px",borderBottom:"1.5px solid #f0f0f0",display:"flex",flexDirection:"column",gap:8}}>
+.\components\FontPicker.tsx:226  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+.\components\FontPicker.tsx:227  <span style={{fontFamily:"Montserrat,sans-serif",fontWeight:700,fontSize:14,color:"#333"}}>
+.\components\FontPicker.tsx:229  {language==="tel" && <span style={{...badge,marginLeft:8}}>{TELUGU_FONTS.length} fonts</span>}
+.\components\FontPicker.tsx:231  <button onClick={()=>setOpen(false)} style={{background:"none",border:"none",fontSize:18,cursor:"pointer",color:"#888"}}>✕</button>
+.\components\FontPicker.tsx:233  <div style={{display:"flex",gap:6}}>
+.\components\FontPicker.tsx:235  <button key={t} onClick={()=>setTab(t)} style={{flex:1,padding:"7px 0",borderRadius:8,border:"1.5px solid",borderColor:tab===t?"#4A90E2":"#e0e0e0",background:tab===t?"#4A90E2":"#fff",color:tab===t?"#fff":"#555",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"Montserrat,sans-serif",transition:"all .15s"}}>
+.\components\FontPicker.tsx:240  {tab==="curated" && <input style={{padding:"7px 12px",borderRadius:8,border:"1.5px solid #e0e0e0",fontSize:13,fontFamily:"Montserrat,sans-serif",width:"100%",boxSizing:"border-box",background:"#fafafa",outline:"none"}} placeholder="Search…" value={q} onChange={e=>setQ(e.target.value)} />}
+.\components\FontPicker.tsx:241  {tab==="local" && lFonts.length>0 && <input style={{padding:"7px 12px",borderRadius:8,border:"1.5px solid #e0e0e0",fontSize:13,fontFamily:"Montserrat,sans-serif",width:"100%",boxSizing:"border-box",background:"#fafafa",outline:"none"}} placeholder="Search local…" value={lq} onChange={e=>setLq(e.target.value)} autoFocus />}
+.\components\FontPicker.tsx:246  <div style={{overflowY:"auto",flex:1,padding:"8px 10px",display:"flex",flexDirection:"column",gap:3}}>
+.\components\FontPicker.tsx:258  {selectedFont===f.name && <span style={{color:"#4A90E2",fontSize:15}}>✓</span>}
+.\components\FontPicker.tsx:267  {selectedFont===f.name && <span style={{color:"#4A90E2",fontSize:15}}>✓</span>}
+.\components\FontPicker.tsx:277  {lErr && <div style={{margin:"12px 16px",padding:"10px 14px",background:"#FFF3E0",border:"1.5px solid #FFB300",borderRadius:9,color:"#E65100",fontSize:13,fontFamily:"Montserrat,sans-serif"}}>⚠️ {lErr}</div>}
+.\components\FontPicker.tsx:279  <div style={{...empty,padding:"24px 16px"}}>
+.\components\FontPicker.tsx:280  <p style={{marginBottom:12}}>Access device fonts.<br/><span style={{fontSize:11,color:"#bbb"}}>Chrome 103+ required</span></p>
+.\components\FontPicker.tsx:281  <button onClick={()=>{setPerm(true);doLoadLocal();}} style={{margin:"0 auto",display:"block",padding:"10px 20px",borderRadius:9,border:"none",background:"#4A90E2",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"Montserrat,sans-serif"}}>🔓 Grant Access</button>
+.\components\FontPicker.tsx:284  {lLoad && <p style={{...empty,color:"#999",padding:"20px 0"}}>⏳ Loading…</p>}
+.\components\FontPicker.tsx:286  <div style={{overflowY:"auto",flex:1,padding:"8px 10px",display:"flex",flexDirection:"column",gap:3}}>
+.\components\FontPicker.tsx:291  <span style={{...sample(ff)}}>{f.family}</span>
+.\components\FontPicker.tsx:292  {selectedFont===ff && <span style={{color:"#4A90E2",fontSize:15}}>✓</span>}
+.\components\ImageReader.tsx:150  <div style={{ maxWidth: 800, margin: "auto", fontFamily: "sans-serif", padding: 20 }}>
+.\components\ImageReader.tsx:156  <div style={{ marginBottom: 20, display: "flex", gap: 15, alignItems: "center" }}>
+.\components\ImageReader.tsx:163  style={{ padding: 8, borderRadius: 4 }}
+.\components\ImageReader.tsx:181  <div style={{ marginBottom: 20 }}>
+.\components\ImageReader.tsx:192  style={{
+.\components\ImageReader.tsx:208  style={{
+.\components\ImageReader.tsx:225  <progress value={progress} max={1} style={{ width: "100%" }} />
+.\components\ImageReader.tsx:231  <div style={{ color: "red", marginBottom: 10 }}>
+.\components\ImageReader.tsx:237  <div style={{ marginTop: 20, textAlign: "center" }}>
+.\components\ImageReader.tsx:244  style={{ maxWidth: "100%", borderRadius: 5, border: "1px solid #ccc", height: "auto" }}
+.\components\ImageReader.tsx:251  style={{
+.\components\installapp.tsx:44  style={{
+.\components\installapp.tsx:57  style={{
+.\components\installapp.tsx:76  style={{
+.\components\installapp.tsx:86  <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+.\components\installapp.tsx:88  style={{
+.\components\installapp.tsx:104  <div style={{ color: "#fff", fontWeight: 700, fontSize: 17, letterSpacing: "-0.3px" }}>
+.\components\installapp.tsx:107  <div style={{ color: "rgba(255,255,255,0.45)", fontSize: 13, marginTop: 2 }}>
+.\components\installapp.tsx:121  style={{
+.\components\installapp.tsx:131  style={{
+.\components\installapp.tsx:146  <span style={{ color: "rgba(255,255,255,0.75)", fontSize: 14, lineHeight: 1.4 }}>
+.\components\installapp.tsx:154  style={{
+.\components\installapp.tsx:202  style={{
+.\components\installapp.tsx:226  style={{
+.\components\installapp.tsx:239  style={{
+.\components\installapp.tsx:256  <div style={{ flex: 1, minWidth: 0 }}>
+.\components\installapp.tsx:258  style={{
+.\components\installapp.tsx:270  <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, marginTop: 2 }}>
+.\components\installapp.tsx:278  style={{
+.\components\installapp.tsx:311  style={{
+.\components\ModeSelectComponent.tsx:25  style={{
+.\components\ModeSelectComponent.tsx:33  style={{ whiteSpace: "nowrap", fontWeight: 600 }}>
+.\components\ModeSelectComponent.tsx:36  <div style={{ flexGrow: 1 }}>
+.\components\NetworkStatusIndicator.tsx:74  style={{
+.\components\PanchangaCard.tsx:414  <style>
+.\components\PanchangaCard.tsx:513  style={{background:"rgba(0,0,0,0.55)"}} onClick={onClose}>
+.\components\PanchangaCard.tsx:517  style={{background:"linear-gradient(135deg,#7c2d12,#c2410c,#d97706)"}}>
+.\components\PanchangaCard.tsx:585  <div key={v} className="text-center py-1.5 text-xs font-black rounded-lg" style={{color:VARA_CLR[i]}}>{v}</div>
+.\components\PanchangaCard.tsx:591  if(!day) return <div key={di} style={{minHeight:"60px"}}/>;
+.\components\PanchangaCard.tsx:607  style={{minHeight:"60px"}}>
+.\components\PanchangaCard.tsx:612  <div className="text-sm font-black leading-none mb-0.5" style={{color:VARA_CLR[di]}}>{day}</div>
+.\components\PanchangaCard.tsx:614  style={{fontSize:"9px",color:p.pakshaS===L.shuklaSuffix?"#1e40af":"#6b21a8"}}>
+.\components\PanchangaCard.tsx:617  <div className="text-gray-400 truncate" style={{fontSize:"8px"}}>{p.nak}</div>
+.\components\PanchangaCard.tsx:618  {isUgadi&&<div className="truncate font-bold" style={{fontSize:"8px",color:"#92400e"}}>🌸 {L.labels.ugadi}</div>}
+.\components\PanchangaCard.tsx:655  style={{background:"linear-gradient(135deg,#7c2d12,#c2410c,#d97706)"}}>
+.\components\PlatformOverview.tsx:61  sx={{
+.\components\PlatformOverview.tsx:68  <CardContent sx={{ py: { xs: 3, sm: 4 }, px: { xs: 2.5, sm: 3 } }}>
+.\components\PlatformOverview.tsx:73  sx={{ fontSize: { xs: "1.5rem", sm: "2rem", md: "2.125rem" } }}
+.\components\PlatformOverview.tsx:78  <Typography sx={{ fontSize: { xs: "0.9rem", sm: "1rem" }, opacity: 0.95, maxWidth: 640 }}>
+.\components\PlatformOverview.tsx:84  sx={{
+.\components\PlatformOverview.tsx:96  sx={{
+.\components\PlatformOverview.tsx:108  <Card sx={{ mb: { xs: 2.5, md: 4 }, borderRadius: 4 }}>
+.\components\PlatformOverview.tsx:109  <CardContent sx={{ px: { xs: 2.5, sm: 3 } }}>
+.\components\PlatformOverview.tsx:114  <Typography color="text.secondary" sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+.\components\PlatformOverview.tsx:125  <Card sx={{ mb: { xs: 2.5, md: 4 }, borderRadius: 4 }}>
+.\components\PlatformOverview.tsx:126  <CardContent sx={{ px: { xs: 2.5, sm: 3 } }}>
+.\components\PlatformOverview.tsx:138  sx={{ mt: 1 }}
+.\components\PlatformOverview.tsx:141  <Box key={step} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+.\components\PlatformOverview.tsx:146  sx={{ fontWeight: 500 }}
+.\components\PlatformOverview.tsx:152  sx={{
+.\components\PlatformOverview.tsx:164  <Card sx={{ mb: { xs: 2.5, md: 4 }, borderRadius: 4 }}>
+.\components\PlatformOverview.tsx:165  <CardContent sx={{ px: { xs: 2.5, sm: 3 } }}>
+.\components\PlatformOverview.tsx:170  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+.\components\PlatformOverview.tsx:179  <Card sx={{ mb: { xs: 2.5, md: 4 }, borderRadius: 4 }}>
+.\components\PlatformOverview.tsx:180  <CardContent sx={{ px: { xs: 2.5, sm: 3 } }}>
+.\components\PlatformOverview.tsx:185  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+.\components\PosterPreview.tsx:120  style={{
+.\components\PosterPreview.tsx:133  style={{
+.\components\PosterPreview.tsx:146  <div style={{ display:"flex", flexDirection:"column", flex:"1 1 55%", gap, justifyContent:"center", overflow:"hidden" }}>
+.\components\PosterPreview.tsx:148  <div style={{ flexShrink: 0 }}>
+.\components\PosterPreview.tsx:149  <img src={uploadedLogoData} alt="logo" style={{ height: logoH, maxWidth: s(fmt.w*0.22), objectFit:"contain", borderRadius: s(4), display:"block" }} />
+.\components\PosterPreview.tsx:155  <div style={{ ...tx(messageBg, messageColor, messageSize, contentAlign, 400, messageFont), lineHeight:1.6, flex:"1 1 auto", overflow:"hidden" }}>
+.\components\PosterPreview.tsx:160  <div style={{ display:"flex", justifyContent: qrJustify, flexShrink:0, marginTop: s(6) }}>
+.\components\PosterPreview.tsx:166  <div style={{ flex:"1 1 42%", overflow:"hidden", borderRadius: br, display:"flex", alignItems:"center" }}>
+.\components\PosterPreview.tsx:167  <img src={uploadedMainData} alt="main" style={{ width:"100%", height:"100%", objectFit:"cover", borderRadius: br, display:"block" }} />
+.\components\PosterPreview.tsx:175  <div style={{ textAlign: titleAlign as any, flexShrink: 0 }}>
+.\components\PosterPreview.tsx:176  <img src={uploadedLogoData} alt="logo" style={{ height: logoH, maxWidth: s(fmt.w*0.25), objectFit:"contain", borderRadius: s(6), display:"inline-block" }} />
+.\components\PosterPreview.tsx:182  <div style={{ flexShrink:0, display:"flex", justifyContent: imgJustify, overflow:"hidden" }}>
+.\components\PosterPreview.tsx:183  <img src={uploadedMainData} alt="main" style={{ maxWidth:"100%", maxHeight: mainImgMaxH, objectFit:"cover", borderRadius: br, display:"block" }} />
+.\components\PosterPreview.tsx:187  <div style={{ ...tx(messageBg, messageColor, messageSize, contentAlign, 400, messageFont), lineHeight:1.65, flex:"1 1 auto", overflow:"hidden" }}>
+.\components\PosterPreview.tsx:192  <div style={{ display:"flex", justifyContent: qrJustify, flexShrink:0 }}>
+.\components\RagWorkflow.tsx:94  <style>{`
+.\components\RagWorkflow.tsx:151  <div key={k} style={{ display: "contents" }}>
+.\components\RagWorkflow.tsx:178  <div style={{ width: `${Math.max(0, Math.min(1, item.score)) * 100}%` }} />
+.\components\RoundedImageWrapper.tsx:25  style={{
+.\components\SanskritOcrExplanation.tsx:7  <p className="mb-4 leading-relaxed text-gray-800 dark:text-gray-300" style={{ whiteSpace: "pre-line" }}>
+.\components\SanskritOcrExplanation.tsx:16  <ul className="list-disc list-inside text-gray-800 dark:text-gray-300 leading-relaxed" style={{ whiteSpace: "pre-line" }}>
+.\components\SanskritOcrExplanation.tsx:23  <li style={{ fontSize: "0.875rem", marginTop: "0.5rem" }}>
+.\components\SanskritOcrPage.tsx:471  <div style={{ padding: 20, maxWidth: 760, margin: "auto" }}>
+.\components\SanskritOcrPage.tsx:472  <h1 style={{ textAlign: "center" }}>यथाक्षरं पठनम्</h1>
+.\components\SanskritOcrPage.tsx:473  <p style={{ textAlign: "center", color: "#555", fontSize: 14 }}>
+.\components\SanskritOcrPage.tsx:480  <div style={{
+.\components\SanskritOcrPage.tsx:485  <ol style={{ margin: "8px 0 0 0", paddingLeft: 20 }}>
+.\components\SanskritOcrPage.tsx:504  <p style={{ margin: "8px 0 0 0", color: "#6b7280" }}>
+.\components\SanskritOcrPage.tsx:514  <div style={{ display: "inline-flex", marginBottom: 20 }}>
+.\components\SanskritOcrPage.tsx:519  style={{
+.\components\SanskritOcrPage.tsx:543  <p style={{ color: "#4f46e5", fontWeight: "bold" }}>⚙️ {progress}</p>
+.\components\SanskritOcrPage.tsx:546  <p style={{ color: "#059669", fontSize: 13 }}>
+.\components\SanskritOcrPage.tsx:559  style={{ width: "100%", borderRadius: 12, marginTop: 12 }}
+.\components\SanskritOcrPage.tsx:578  <div style={{ marginTop: 16 }}>
+.\components\SanskritOcrPage.tsx:583  style={{ width: "100%", marginBottom: 8, padding: 6 }}
+.\components\SanskritOcrPage.tsx:594  style={{ width: "100%" }}
+.\components\SanskritOcrPage.tsx:601  style={{ width: "100%" }}
+.\components\SanskritOcrPage.tsx:609  style={{
+.\components\SanskritOcrPage.tsx:617  <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
+.\components\SanskritOcrPage.tsx:620  style={{ padding: "8px 16px", background: "#4f46e5", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer" }}
+.\components\SanskritOcrPage.tsx:626  style={{ padding: "8px 16px", background: "#059669", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer" }}
+.\components\VoiceSelector.tsx:58  <div style={{
+.\components\VoiceSelector.tsx:75  style={{
+.\components\VoiceSelector.tsx:108  <span style={{fontSize:18}}>
+.\components\WorkflowViewer.tsx:91  style={{
+.\src\app\aksharadrishti\page.tsx:259  <style>{`
+.\src\app\aksharadrishti\page.tsx:360  <span style={{fontSize:16}}>💡</span>
+.\src\app\aksharadrishti\page.tsx:388  <button style={{fontSize:11,color:"var(--muted)",cursor:"pointer",background:"none",border:"none",textDecoration:"underline"}}
+.\src\app\aksharadrishti\page.tsx:412  <div style={{borderTop:"1px solid var(--border)",margin:"14px 0"}} />
+.\src\app\aksharadrishti\page.tsx:413  <div style={{fontSize:11,fontWeight:600,color:"var(--muted)",textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:8}}>Image</div>
+.\src\app\aksharadrishti\page.tsx:422  <Image src={preview} alt="Preview" width={400} height={300} style={{maxWidth:"100%",height:"auto"}} />
+.\src\app\aksharadrishti\page.tsx:428  <div className="ad-track"><div className="ad-fill" style={{width:`${progress}%`}} /></div>
+.\src\app\aksharadrishti\page.tsx:443  {result && <span style={{fontSize:11,color:"var(--success)",fontWeight:600}}>✓ {langLabel}</span>}
+.\src\app\aksharadrishti\page.tsx:447  <div style={{marginBottom:10}}>
+.\src\app\aksharadrishti\page.tsx:448  <div className="ad-font-lbl" style={{marginBottom:6}}>Font size for download</div>
+.\src\app\aksharadrishti\page.tsx:464  style={{fontSize:`${fontSize}px`, fontFamily:`"${activeFont.family}", "Noto Sans", sans-serif`}}
+.\src\app\aksharadrishti\page.tsx:482  <span className="ad-spin" style={{display:"inline-block",marginRight:8,verticalAlign:"middle"}} />
+.\src\app\aksharadrishti\page.tsx:488  then click <strong style={{color:"var(--text)"}}>Extract Text</strong>.<br/>
+.\src\app\aksharadrishti\page.tsx:489  <span style={{fontSize:12,marginTop:6,display:"block"}}>Output can be copied or downloaded as PNG.</span>
+.\src\app\badge\page.tsx:438  <div style={{ minHeight:"100vh", background:"#F7F7F5", fontFamily:"'DM Sans',system-ui,sans-serif" }}>
+.\src\app\badge\page.tsx:442  <div style={{ maxWidth:520, margin:"0 auto", padding:"clamp(12px,4vw,24px)" }}>
+.\src\app\badge\page.tsx:445  <div style={{ marginBottom:20 }}>
+.\src\app\badge\page.tsx:446  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+.\src\app\badge\page.tsx:448  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.12em", color:"#9CA3AF", textTransform:"uppercase", marginBottom:2 }}>AKSHARANAMA</p>
+.\src\app\badge\page.tsx:449  <h1 style={{ fontSize:22, fontWeight:800, color:"#111", margin:0, letterSpacing:"-0.02em" }}>Round Badge Studio</h1>
+.\src\app\badge\page.tsx:451  <div style={{ display:"flex", gap:6, alignItems:"center" }}>
+.\src\app\badge\page.tsx:452  <span style={{ fontSize:10, fontWeight:600, padding:"4px 10px", borderRadius:50, background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#15803D" }}>🔒 Offline</span>
+.\src\app\badge\page.tsx:453  <span style={{ fontSize:10, fontWeight:600, padding:"4px 10px", borderRadius:50, background:"#EFF6FF", border:"1px solid #BFDBFE", color:"#1D4ED8" }}>{LANGUAGES.length}+ langs</span>
+.\src\app\badge\page.tsx:459  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
+.\src\app\badge\page.tsx:460  <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:10 }}>
+.\src\app\badge\page.tsx:461  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:0 }}>Language</p>
+.\src\app\badge\page.tsx:463  style={{ fontSize:12, fontWeight:700, color:"#2563EB", background:"none", border:"none", cursor:"pointer", padding:"4px 8px" }}>
+.\src\app\badge\page.tsx:469  <div style={{ display:"flex", alignItems:"center", gap:10, padding:"10px 12px", borderRadius:12, background:"#F9FAFB", border:"1px solid #E5E7EB" }}>
+.\src\app\badge\page.tsx:470  <span style={{ fontSize:22 }}>{currentLang.flag}</span>
+.\src\app\badge\page.tsx:472  <div style={{ fontWeight:800, fontSize:15, color:"#111" }}>{currentLang.native}</div>
+.\src\app\badge\page.tsx:473  <div style={{ fontSize:11, color:"#9CA3AF" }}>{currentLang.label}</div>
+.\src\app\badge\page.tsx:482  style={{ width:"100%", padding:"8px 12px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, outline:"none", marginBottom:10, boxSizing:"border-box", fontFamily:"inherit" }}
+.\src\app\badge\page.tsx:484  <div style={{ display:"flex", gap:4, marginBottom:10 }}>
+.\src\app\badge\page.tsx:487  style={{ flex:1, padding:"7px 0", borderRadius:8, border:"1.5px solid", fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
+.\src\app\badge\page.tsx:494  <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:6, maxHeight:220, overflowY:"auto" }}>
+.\src\app\badge\page.tsx:497  style={{ padding:"10px 6px", borderRadius:10, border:"1.5px solid", textAlign:"left", cursor:"pointer", fontFamily:"inherit", transition:"all 0.15s",
+.\src\app\badge\page.tsx:500  <div style={{ fontSize:16, marginBottom:2 }}>{l.flag}</div>
+.\src\app\badge\page.tsx:501  <div style={{ fontSize:12, fontWeight:700, color: langCode===l.code?"#1D4ED8":"#111", lineHeight:1.2 }}>{l.native}</div>
+.\src\app\badge\page.tsx:502  <div style={{ fontSize:10, color:"#9CA3AF" }}>{l.label}</div>
+.\src\app\badge\page.tsx:511  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:20, marginBottom:12, display:"flex", flexDirection:"column", alignItems:"center", gap:16 }}>
+.\src\app\badge\page.tsx:512  <div style={{ width:260, height:260, borderRadius:"50%", overflow:"hidden", position:"relative", flexShrink:0, boxShadow:"0 4px 24px rgba(0,0,0,0.10)" }}>
+.\src\app\badge\page.tsx:513  <canvas ref={previewRef} width={320} height={320} style={{ width:"100%", height:"100%", display:"block" }}/>
+.\src\app\badge\page.tsx:515  <div style={{ position:"absolute", inset:0, background:"rgba(255,255,255,0.8)", display:"flex", alignItems:"center", justifyContent:"center", borderRadius:"50%", fontSize:28 }}>⏳</div>
+.\src\app\badge\page.tsx:520  <div style={{ width:"100%" }}>
+.\src\app\badge\page.tsx:521  <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+.\src\app\badge\page.tsx:522  <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>Zoom</span>
+.\src\app\badge\page.tsx:523  <span style={{ fontSize:11, fontWeight:700, color:"#111", fontFamily:"monospace" }}>{zoom.toFixed(2)}×</span>
+.\src\app\badge\page.tsx:526  style={{ width:"100%", accentColor:"#111", height:4 }}/>
+.\src\app\badge\page.tsx:529  <div style={{ width:"100%", display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+.\src\app\badge\page.tsx:531  <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+.\src\app\badge\page.tsx:532  <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>Pan X</span>
+.\src\app\badge\page.tsx:533  <span style={{ fontSize:11, fontWeight:700, color:"#111", fontFamily:"monospace" }}>{panX.toFixed(1)}</span>
+.\src\app\badge\page.tsx:536  style={{ width:"100%", accentColor:"#111", height:4 }}/>
+.\src\app\badge\page.tsx:539  <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+.\src\app\badge\page.tsx:540  <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>Pan Y</span>
+.\src\app\badge\page.tsx:541  <span style={{ fontSize:11, fontWeight:700, color:"#111", fontFamily:"monospace" }}>{panY.toFixed(1)}</span>
+.\src\app\badge\page.tsx:544  style={{ width:"100%", accentColor:"#111", height:4 }}/>
+.\src\app\badge\page.tsx:550  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
+.\src\app\badge\page.tsx:551  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", marginBottom:8, margin:"0 0 8px 0" }}>1 · Photo</p>
+.\src\app\badge\page.tsx:553  style={{ width:"100%", padding:"16px", borderRadius:12, border:`1.5px dashed ${userImg?"#22C55E":"#D1D5DB"}`,
+.\src\app\badge\page.tsx:562  <div style={{ marginTop:12, display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+.\src\app\badge\page.tsx:564  <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+.\src\app\badge\page.tsx:565  <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>☀️ Bright</span>
+.\src\app\badge\page.tsx:566  <span style={{ fontSize:11, fontWeight:700, fontFamily:"monospace" }}>{brightness}%</span>
+.\src\app\badge\page.tsx:569  style={{ width:"100%", accentColor:"#f59e0b", height:4 }}/>
+.\src\app\badge\page.tsx:572  <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
+.\src\app\badge\page.tsx:573  <span style={{ fontSize:11, fontWeight:600, color:"#9CA3AF", textTransform:"uppercase", letterSpacing:"0.08em" }}>🎨 Contrast</span>
+.\src\app\badge\page.tsx:574  <span style={{ fontSize:11, fontWeight:700, fontFamily:"monospace" }}>{contrast}%</span>
+.\src\app\badge\page.tsx:577  style={{ width:"100%", accentColor:"#6366f1", height:4 }}/>
+.\src\app\badge\page.tsx:584  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
+.\src\app\badge\page.tsx:585  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>2 · Name / Text</p>
+.\src\app\badge\page.tsx:589  style={{ width:"100%", padding:"12px 14px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:16, outline:"none",
+.\src\app\badge\page.tsx:595  style={{ width:"100%", padding:"10px 14px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, outline:"none",
+.\src\app\badge\page.tsx:601  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
+.\src\app\badge\page.tsx:602  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>3 · Font & Position</p>
+.\src\app\badge\page.tsx:603  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+.\src\app\badge\page.tsx:605  <p style={{ fontSize:11, color:"#6B7280", fontWeight:600, margin:"0 0 6px 0" }}>Font</p>
+.\src\app\badge\page.tsx:607  style={{ width:"100%", padding:"10px 10px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, fontFamily:`'${font}','Noto Sans',sans-serif`, background:"#fff", color:"#111", outline:"none" }}>
+.\src\app\badge\page.tsx:608  {fonts.map(f=><option key={f} value={f} style={{fontFamily:f}}>{f}</option>)}
+.\src\app\badge\page.tsx:612  <p style={{ fontSize:11, color:"#6B7280", fontWeight:600, margin:"0 0 6px 0" }}>Position</p>
+.\src\app\badge\page.tsx:614  style={{ width:"100%", padding:"10px 10px", borderRadius:10, border:"1.5px solid #E5E7EB", fontSize:13, background:"#fff", color:"#111", outline:"none", fontFamily:"inherit" }}>
+.\src\app\badge\page.tsx:622  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
+.\src\app\badge\page.tsx:623  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>4 · Frame Style</p>
+.\src\app\badge\page.tsx:624  <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:8 }}>
+.\src\app\badge\page.tsx:627  style={{ padding:"10px 6px", borderRadius:10, fontSize:12, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
+.\src\app\badge\page.tsx:637  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
+.\src\app\badge\page.tsx:638  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>5 · Colors</p>
+.\src\app\badge\page.tsx:639  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:10 }}>
+.\src\app\badge\page.tsx:646  <p style={{ fontSize:11, color:"#6B7280", fontWeight:600, margin:"0 0 6px 0" }}>{c.label}</p>
+.\src\app\badge\page.tsx:647  <label style={{ display:"flex", alignItems:"center", gap:8, padding:"9px 10px", borderRadius:10, border:"1.5px solid #E5E7EB", cursor:"pointer", position:"relative", overflow:"hidden", background:"#FAFAFA" }}>
+.\src\app\badge\page.tsx:648  <div style={{ width:18, height:18, borderRadius:"50%", background:c.val, border:"1.5px solid #E5E7EB", flexShrink:0 }}/>
+.\src\app\badge\page.tsx:649  <span style={{ fontSize:11, fontFamily:"monospace", color:"#374151" }}>{c.val.toUpperCase()}</span>
+.\src\app\badge\page.tsx:650  <input type="color" value={c.val} onChange={e=>c.set(e.target.value)} style={{ position:"absolute", inset:0, opacity:0, cursor:"pointer", width:"100%", height:"100%" }}/>
+.\src\app\badge\page.tsx:656  style={{ marginTop:10, width:"100%", padding:"9px", borderRadius:10, border:"1.5px solid #E5E7EB", background:"#F9FAFB", fontSize:12, fontWeight:600, color:"#374151", cursor:"pointer", fontFamily:"inherit" }}>
+.\src\app\badge\page.tsx:662  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:12 }}>
+.\src\app\badge\page.tsx:663  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>6 · Sticker Overlay</p>
+.\src\app\badge\page.tsx:664  <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
+.\src\app\badge\page.tsx:667  style={{ width:40, height:40, borderRadius:10, fontSize:s?20:12, border:`1.5px solid ${sticker===s?"#111":"#E5E7EB"}`,
+.\src\app\badge\page.tsx:677  <div style={{ background:"#fff", borderRadius:16, border:"1.5px solid #E5E7EB", padding:16, marginBottom:16 }}>
+.\src\app\badge\page.tsx:678  <p style={{ fontSize:10, fontWeight:700, letterSpacing:"0.1em", color:"#9CA3AF", textTransform:"uppercase", margin:"0 0 10px 0" }}>7 · Export Size</p>
+.\src\app\badge\page.tsx:679  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:8 }}>
+.\src\app\badge\page.tsx:682  style={{ padding:"10px 4px", borderRadius:10, fontSize:11, fontWeight:700, cursor:"pointer", fontFamily:"inherit", textAlign:"center",
+.\src\app\badge\page.tsx:685  <div style={{ fontSize:18, marginBottom:4 }}>{s.icon}</div>
+.\src\app\badge\page.tsx:687  <div style={{ fontSize:9, opacity:0.6, marginTop:2 }}>{s.w}×{s.h}</div>
+.\src\app\badge\page.tsx:694  <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
+.\src\app\badge\page.tsx:696  style={{ width:"100%", padding:18, borderRadius:14, fontSize:16, fontWeight:800, cursor:"pointer", fontFamily:"inherit",
+.\src\app\badge\page.tsx:701  <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10 }}>
+.\src\app\badge\page.tsx:703  style={{ padding:14, borderRadius:12, fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
+.\src\app\badge\page.tsx:708  style={{ padding:14, borderRadius:12, fontSize:13, fontWeight:700, cursor:"pointer", fontFamily:"inherit",
+.\src\app\badge\page.tsx:715  <p style={{ textAlign:"center", fontSize:11, color:"#D1D5DB", marginTop:16, paddingBottom:32 }}>
+.\src\app\badge\page.tsx:720  <canvas ref={exportRef} width={exportSize.w} height={exportSize.h} style={{ display:"none" }}/>
+.\src\app\calendarpage\page.tsx:145  <div style={{
+.\src\app\calendarpage\page.tsx:150  <div style={{
+.\src\app\calendarpage\page.tsx:155  <div style={{
+.\src\app\calendarpage\page.tsx:160  <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+.\src\app\calendarpage\page.tsx:163  <button onClick={onClose} style={{
+.\src\app\calendarpage\page.tsx:167  <CloseIcon style={{ fontSize: 16, color: "#64748b" }} />
+.\src\app\calendarpage\page.tsx:171  <div style={{ padding: "20px 22px", display: "flex", flexDirection: "column", gap: 14 }}>
+.\src\app\calendarpage\page.tsx:174  <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 6 }}>
+.\src\app\calendarpage\page.tsx:180  style={{
+.\src\app\calendarpage\page.tsx:192  <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 5, marginBottom: 6 }}>
+.\src\app\calendarpage\page.tsx:193  <AccessTimeIcon style={{ fontSize: 13 }} /> Time (optional)
+.\src\app\calendarpage\page.tsx:196  style={{
+.\src\app\calendarpage\page.tsx:205  <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 6 }}>
+.\src\app\calendarpage\page.tsx:211  style={{
+.\src\app\calendarpage\page.tsx:220  <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 5, marginBottom: 8 }}>
+.\src\app\calendarpage\page.tsx:221  <LabelIcon style={{ fontSize: 13 }} /> Color
+.\src\app\calendarpage\page.tsx:223  <div style={{ display: "flex", gap: 8 }}>
+.\src\app\calendarpage\page.tsx:225  <button key={c} onClick={() => setColor(c)} style={{
+.\src\app\calendarpage\page.tsx:236  <button onClick={save} style={{
+.\src\app\calendarpage\page.tsx:245  <SaveIcon style={{ fontSize: 18 }} /> Save event
+.\src\app\calendarpage\page.tsx:305  <style>{`
+.\src\app\calendarpage\page.tsx:433  <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(16px,4vw,40px) 0" }}>
+.\src\app\calendarpage\page.tsx:434  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
+.\src\app\calendarpage\page.tsx:435  <CalendarMonthIcon style={{ fontSize: 28, color: "#10b981" }} />
+.\src\app\calendarpage\page.tsx:436  <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(24px,4vw,36px)", fontWeight: 800, color: "#0f172a" }}>
+.\src\app\calendarpage\page.tsx:440  <p style={{ fontSize: 14, color: "#64748b", marginBottom: 0 }}>
+.\src\app\calendarpage\page.tsx:453  <ChevronLeftIcon style={{ fontSize: 20, color: "#64748b" }} />
+.\src\app\calendarpage\page.tsx:458  <div style={{ display: "flex", gap: 6 }}>
+.\src\app\calendarpage\page.tsx:462  style={{ fontSize: 11, fontWeight: 700, color: "#10b981", width: "auto", padding: "0 12px", gap: 4 }}>
+.\src\app\calendarpage\page.tsx:463  <TodayIcon style={{ fontSize: 15, color: "#10b981" }} />
+.\src\app\calendarpage\page.tsx:468  <ChevronRightIcon style={{ fontSize: 20, color: "#64748b" }} />
+.\src\app\calendarpage\page.tsx:474  <div className="cal-grid" style={{ marginBottom: 4 }}>
+.\src\app\calendarpage\page.tsx:497  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+.\src\app\calendarpage\page.tsx:500  <span style={{ fontSize: 12 }}>
+.\src\app\calendarpage\page.tsx:506  <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2, lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+.\src\app\calendarpage\page.tsx:512  style={{ background: ev.color + "18", color: ev.color }}>
+.\src\app\calendarpage\page.tsx:513  <span style={{ width: 5, height: 5, borderRadius: "50%", background: ev.color, display: "inline-block", flexShrink: 0 }} />
+.\src\app\calendarpage\page.tsx:518  <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>+{dayEvents.length - 2} more</div>
+.\src\app\calendarpage\page.tsx:530  <div className="panel-section" style={{ background: "#f0fdf4" }}>
+.\src\app\calendarpage\page.tsx:531  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+.\src\app\calendarpage\page.tsx:533  <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+.\src\app\calendarpage\page.tsx:536  <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
+.\src\app\calendarpage\page.tsx:541  <span style={{ fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 99, background: "#10b981", color: "#fff" }}>
+.\src\app\calendarpage\page.tsx:547  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+.\src\app\calendarpage\page.tsx:549  <span className="special-badge" style={{ background: "rgba(245,158,11,0.1)", color: "#d97706" }}>🌕 Pūrṇimā</span>
+.\src\app\calendarpage\page.tsx:552  <span className="special-badge" style={{ background: "rgba(100,116,139,0.1)", color: "#475569" }}>🌑 Amāvāsyā</span>
+.\src\app\calendarpage\page.tsx:555  <span className="special-badge" style={{ background: "rgba(139,92,246,0.1)", color: "#7c3aed" }}>🪔 Ekādaśī</span>
+.\src\app\calendarpage\page.tsx:578  <p style={{ fontSize: 10, color: "#94a3b8", marginTop: 8, fontStyle: "italic" }}>
+.\src\app\calendarpage\page.tsx:586  <CalendarMonthIcon style={{ fontSize: 16, color: "#10b981" }} />
+.\src\app\calendarpage\page.tsx:588  <span style={{ marginLeft: "auto", fontSize: 12, color: "#94a3b8", fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
+.\src\app\calendarpage\page.tsx:594  <p style={{ fontSize: 13, color: "#94a3b8", marginBottom: 12, textAlign: "center", padding: "8px 0" }}>
+.\src\app\calendarpage\page.tsx:601  <div className="event-color-bar" style={{ background: ev.color }} />
+.\src\app\calendarpage\page.tsx:602  <div style={{ flex: 1, minWidth: 0 }}>
+.\src\app\calendarpage\page.tsx:603  <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+.\src\app\calendarpage\page.tsx:607  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2, display: "flex", alignItems: "center", gap: 4 }}>
+.\src\app\calendarpage\page.tsx:608  <AccessTimeIcon style={{ fontSize: 11 }} /> {ev.time}
+.\src\app\calendarpage\page.tsx:612  <div style={{ fontSize: 11, color: "#64748b", marginTop: 3, lineHeight: 1.4 }}>{ev.note}</div>
+.\src\app\calendarpage\page.tsx:617  <EditIcon style={{ fontSize: 14, color: "#64748b" }} />
+.\src\app\calendarpage\page.tsx:620  <DeleteIcon style={{ fontSize: 14, color: "#ef4444" }} />
+.\src\app\calendarpage\page.tsx:627  <AddIcon style={{ fontSize: 18 }} /> Add event for {new Date(selectedDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+.\src\app\chess\page.tsx:443  <style>{`
+.\src\app\chess\page.tsx:637  <h1 className="chess-title" style={{marginBottom:4}}>Chess<span>.</span></h1>
+.\src\app\chess\page.tsx:638  <p style={{fontSize:13,color:"var(--muted)",marginBottom:16}}>Full rules · en passant · castling · promotion</p>
+.\src\app\chess\page.tsx:681  <span key={i} style={{color:"#888"}}>{GLYPHS.white[p.type]}</span>
+.\src\app\codeagent\page.tsx:178  <div style={{ maxWidth: 900, margin: "30px auto", padding: "0 20px", fontFamily: "Consolas, Arial, sans-serif" }}>
+.\src\app\codeagent\page.tsx:179  <h1 style={{ fontSize: 20, color: "#1e3a8a" }}>🧪 .NET Code Review — Local Rules Only</h1>
+.\src\app\codeagent\page.tsx:182  style={{
+.\src\app\codeagent\page.tsx:199  style={{
+.\src\app\codeagent\page.tsx:215  style={{
+.\src\app\codeagent\page.tsx:230  <div style={{ marginTop: 16, fontStyle: "italic", color: "#333" }}>{summary}</div>
+.\src\app\codeagent\page.tsx:238  style={{
+.\src\app\codeagent\page.tsx:248  style={{
+.\src\app\ebook\page.tsx:558  <style>{`
+.\src\app\ebook\page.tsx:1019  style={{ display:"none" }}
+.\src\app\ebook\page.tsx:1093  <div className="tip" style={{ marginBottom:14 }}>
+.\src\app\ebook\page.tsx:1108  <p style={{ textAlign:"center", fontSize:12, color:"var(--muted)", marginTop:8 }}>
+.\src\app\ebook\page.tsx:1141  <span style={{ fontSize:16 }}>{b.emoji}</span>
+.\src\app\ebook\page.tsx:1198  style={{ display:"none" }}
+.\src\app\ebook\page.tsx:1207  <div style={{ flex:1 }}>
+.\src\app\ebook\page.tsx:1230  <div style={{ fontSize:12, color:"var(--muted)", marginBottom:10, lineHeight:1.6, fontWeight:600 }}>
+.\src\app\ebook\page.tsx:1235  <div style={{ background:"var(--purple-light)", border:"2px solid var(--purple-mid)", borderRadius:"var(--radius-sm)", padding:"14px", marginBottom:10 }}>
+.\src\app\ebook\page.tsx:1236  <div style={{ fontSize:13, fontWeight:800, color:"var(--purple)", marginBottom:4 }}>
+.\src\app\ebook\page.tsx:1239  <div style={{ fontSize:12, color:"var(--muted)", lineHeight:1.6, marginBottom:10 }}>
+.\src\app\ebook\page.tsx:1243  <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:10 }}>
+.\src\app\ebook\page.tsx:1244  <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ No API key</span>
+.\src\app\ebook\page.tsx:1245  <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ Free forever</span>
+.\src\app\ebook\page.tsx:1246  <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ Chrome / Edge</span>
+.\src\app\ebook\page.tsx:1254  <div style={{ background:"var(--green-light)", border:"2px solid var(--green-mid)", borderRadius:"var(--radius-sm)", padding:"14px" }}>
+.\src\app\ebook\page.tsx:1255  <div style={{ fontSize:13, fontWeight:800, color:"var(--green)", marginBottom:4 }}>
+.\src\app\ebook\page.tsx:1258  <div style={{ fontSize:12, color:"var(--muted)", lineHeight:1.6, marginBottom:10 }}>
+.\src\app\ebook\page.tsx:1262  <div style={{ display:"flex", gap:6, flexWrap:"wrap", marginBottom:10 }}>
+.\src\app\ebook\page.tsx:1263  <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ No API key</span>
+.\src\app\ebook\page.tsx:1264  <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"#DCFCE7", color:"#166534", border:"1px solid #BBF7D0" }}>✅ Free forever</span>
+.\src\app\ebook\page.tsx:1265  <span style={{ fontSize:11, fontWeight:700, padding:"2px 8px", borderRadius:99, background:"var(--amber-light)", color:"var(--amber)", border:"1px solid var(--amber-mid)" }}>⚠️ Ignores uploaded file</span>
+.\src\app\ebook\page.tsx:1269  style={{ background:"var(--green)", boxShadow:"0 6px 24px rgba(46,139,87,.2)" }}
+.\src\app\ebook\page.tsx:1282  <div style={{ background:"var(--purple-light)", border:"1.5px solid var(--purple-mid)", borderRadius:"var(--radius-sm)", padding:"14px", marginBottom:10 }}>
+.\src\app\ebook\page.tsx:1288  <div key={s.key} style={{ display:"flex", alignItems:"center", gap:10, padding:"6px 0", opacity: playState === s.key ? 1 : 0.35 }}>
+.\src\app\ebook\page.tsx:1289  <span style={{ fontSize:18 }}>{playState === s.key ? s.emoji : "○"}</span>
+.\src\app\ebook\page.tsx:1290  <span style={{ fontSize:13, fontWeight: playState === s.key ? 800 : 500, color: playState === s.key ? "var(--purple)" : "var(--muted)" }}>
+.\src\app\ebook\page.tsx:1294  <span className="spin" style={{ marginLeft:"auto", fontSize:14 }}>⏳</span>
+.\src\app\ebook\page.tsx:1305  style={{ animationDelay:`${(i%5)*0.12}s`, animationDuration:`${0.8+(i%4)*0.15}s` }} />
+.\src\app\ebook\page.tsx:1317  <div className="tip" style={{ marginTop:10 }}>
+.\src\app\ebook\page.tsx:1331  style={{ animationDelay:`${(i%5)*0.12}s`, animationDuration:`${0.8+(i%4)*0.15}s`, background:"var(--green)" }} />
+.\src\app\ebook\page.tsx:1335  <div className="tx-box live" style={{ borderColor:"var(--green-mid)", background:"var(--green-light)" }}>
+.\src\app\ebook\page.tsx:1336  <div className="tx-lbl live" style={{ color:"var(--green)" }}>🎤 Recording — speak now…</div>
+.\src\app\ebook\page.tsx:1342  style={{ marginTop:10, background:"var(--red)", boxShadow:"0 6px 24px rgba(204,34,34,.2)" }}
+.\src\app\ebook\page.tsx:1363  <button className="btn-link" style={{ marginTop:8 }}
+.\src\app\ebook\page.tsx:1377  <p style={{ fontSize:12, color:"var(--muted)", marginBottom:10, lineHeight:1.6 }}>
+.\src\app\ebook\page.tsx:1415  <p style={{ fontSize:13, color:"var(--muted)", lineHeight:1.6, marginBottom:14 }}>
+.\src\app\ebook\page.tsx:1419  <div className="voice-grid" style={{ marginBottom:14 }}>
+.\src\app\ebook\page.tsx:1434  style={{ marginBottom:10 }}
+.\src\app\ebook\page.tsx:1441  style={{ width:"100%" }}
+.\src\app\ebook\page.tsx:1469  <div className="prog-fill" style={{ width:`${progress}%` }} />
+.\src\app\ebook\page.tsx:1473  <div className="tip" style={{ marginTop:16 }}>
+.\src\app\ebook\page.tsx:1501  <button className="btn-secondary" onClick={reset} style={{ flex:1 }}>
+.\src\app\ebook\page.tsx:1506  style={{ flex:1 }}
+.\src\app\ipl\page.tsx:1019  <style>{`
+.\src\app\ipl\page.tsx:1118  <p className="sec-head" style={{marginBottom:10}}>Choose Your Team</p>
+.\src\app\ipl\page.tsx:1122  style={{background:team.primary,color:team.text}}
+.\src\app\ipl\page.tsx:1129  <span className="team-short" style={{color:team.text}}>{team.short}</span>
+.\src\app\ipl\page.tsx:1130  <span className="team-full" style={{color:team.text}}>{team.name}</span>
+.\src\app\ipl\page.tsx:1140  <div style={{display:"flex",gap:16,alignItems:"center",flexWrap:"wrap",justifyContent:"center"}}>
+.\src\app\ipl\page.tsx:1141  <div style={{textAlign:"center"}}>
+.\src\app\ipl\page.tsx:1142  <div style={{background:playerTeam.primary,color:playerTeam.text,padding:"8px 18px",borderRadius:8,fontFamily:"Oswald",fontSize:18,fontWeight:700}}>{playerTeam.short}</div>
+.\src\app\ipl\page.tsx:1143  <div style={{fontSize:11,color:"var(--gray)",marginTop:4}}>You</div>
+.\src\app\ipl\page.tsx:1145  <div style={{fontFamily:"Oswald",fontSize:20,color:"var(--gray)"}}>vs</div>
+.\src\app\ipl\page.tsx:1146  <div style={{textAlign:"center"}}>
+.\src\app\ipl\page.tsx:1147  <div style={{background:aiTeam.primary,color:aiTeam.text,padding:"8px 18px",borderRadius:8,fontFamily:"Oswald",fontSize:18,fontWeight:700}}>{aiTeam.short}</div>
+.\src\app\ipl\page.tsx:1148  <div style={{fontSize:11,color:"var(--gray)",marginTop:4}}>AI</div>
+.\src\app\ipl\page.tsx:1155  <div style={{textAlign:"center"}}>
+.\src\app\ipl\page.tsx:1156  <div style={{fontFamily:"Oswald",fontSize:20,fontWeight:700,color:tossWon?"var(--green)":"#ef4444",marginBottom:12}}>
+.\src\app\ipl\page.tsx:1161  <div style={{fontSize:13,color:"var(--gray)",marginBottom:14}}>Choose to bat or bowl first:</div>
+.\src\app\ipl\page.tsx:1169  <div style={{fontSize:13,color:"var(--gray)",marginBottom:14}}>AI chose to bat first. You will chase.</div>
+.\src\app\ipl\page.tsx:1198  style={{background:s.bg,color:s.text}}
+.\src\app\ipl\page.tsx:1215  <div style={{marginTop:10}}>
+.\src\app\ipl\page.tsx:1216  <button onClick={reset} style={{padding:"6px 18px",borderRadius:99,background:"#fff",border:"1.5px solid #ddd",fontSize:12,cursor:"pointer",fontFamily:"Poppins"}}>⟳ New Match</button>
+.\src\app\ipl\page.tsx:1224  <div style={{fontSize:13,color:"var(--gray)",marginBottom:6}}>1st Innings Complete</div>
+.\src\app\ipl\page.tsx:1226  <div style={{fontSize:13,color:"var(--gray)",marginTop:4}}>{playerTeam.short} · {oversStr(playerInn.legalBalls)} overs</div>
+.\src\app\ipl\page.tsx:1227  <div style={{height:1,background:"#e5e7eb",margin:"16px 0"}}/>
+.\src\app\ipl\page.tsx:1229  <div style={{fontSize:12,color:"var(--gray)"}}>in 20 overs · 10 wickets in hand</div>
+.\src\app\ipl\page.tsx:1230  <div style={{height:20}}/>
+.\src\app\ipl\page.tsx:1236  <div style={{marginTop:10}}>
+.\src\app\ipl\page.tsx:1237  <button onClick={reset} style={{fontSize:12,color:"var(--gray)",background:"none",border:"none",cursor:"pointer"}}>New Match</button>
+.\src\app\ipl\page.tsx:1246  <div className="result-title" style={{color:playerWon?"var(--green)":"#ef4444"}}>
+.\src\app\ipl\page.tsx:1249  <div style={{fontSize:13,color:"var(--gray)",marginBottom:4}}>
+.\src\app\ipl\page.tsx:1255  <div style={{fontSize:13,fontWeight:600}}>{playerTeam.short} <span style={{fontSize:10,color:"var(--gray)"}}>1st Inn</span></div>
+.\src\app\ipl\page.tsx:1256  <div style={{fontSize:11,color:"var(--gray)"}}>{oversStr(playerInn.legalBalls)} ov · Extras: {playerInn.extras}</div>
+.\src\app\ipl\page.tsx:1258  <div className="sc-score" style={{color:playerTeam.primary}}>{playerInn.runs}/{playerInn.wickets}</div>
+.\src\app\ipl\page.tsx:1262  <div style={{fontSize:13,fontWeight:600}}>{aiTeam.short} <span style={{fontSize:10,color:"var(--gray)"}}>2nd Inn</span></div>
+.\src\app\ipl\page.tsx:1263  <div style={{fontSize:11,color:"var(--gray)"}}>{oversStr(aiInn.legalBalls)} ov · Extras: {aiInn.extras}</div>
+.\src\app\ipl\page.tsx:1265  <div className="sc-score" style={{color:aiTeam.primary}}>{aiInn.runs}/{aiInn.wickets}</div>
+.\src\app\kosha\page.tsx:414  <div style={{display:"flex",gap:8,alignItems:"center"}}>
+.\src\app\kosha\page.tsx:433  <button key={c.code} style={{...S.currOption,background:currency.code===c.code?"#E8F5E9":"#fff",fontWeight:currency.code===c.code?800:600}}
+.\src\app\kosha\page.tsx:435  {c.flag} {c.country} <span style={{color:"#888",fontWeight:400}}>{c.symbol} {c.code}</span>
+.\src\app\kosha\page.tsx:453  <button key={key} style={{...S.tab,...(activeTab===key?S.tabActive:{})}} onClick={()=>setActiveTab(key)}>
+.\src\app\kosha\page.tsx:454  <span style={{fontSize:14}}>{icon}</span>
+.\src\app\kosha\page.tsx:455  <span style={{fontSize:9,fontWeight:800,color:activeTab===key?"#fff":"#888"}}>{label}</span>
+.\src\app\kosha\page.tsx:465  <div style={{...S.card,border:`1.5px solid ${budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50"}`}}>
+.\src\app\kosha\page.tsx:466  <div style={{display:"flex",justifyContent:"space-between"}}>
+.\src\app\kosha\page.tsx:468  <p style={{margin:0,fontSize:12,fontWeight:800,color:budgetAnalysis.status==="over"?"#C62828":budgetAnalysis.status==="warn"?"#E65100":"#2E7D32"}}>
+.\src\app\kosha\page.tsx:472  <div style={{height:8,background:"#f0f4f8",borderRadius:4,overflow:"hidden"}}>
+.\src\app\kosha\page.tsx:473  <div style={{height:"100%",width:`${budgetAnalysis.pct}%`,background:budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50",borderRadius:4,transition:"width 0.4s"}}/>
+.\src\app\kosha\page.tsx:475  <div style={{display:"flex",justifyContent:"space-between"}}>
+.\src\app\kosha\page.tsx:476  <span style={{fontSize:11,color:"#666"}}>Spent: {fmt(budgetAnalysis.spent,currency)}</span>
+.\src\app\kosha\page.tsx:477  <span style={{fontSize:11,color:"#666"}}>Left: {fmt(budgetAnalysis.remain,currency)}</span>
+.\src\app\kosha\page.tsx:480  <p style={{margin:0,fontSize:12,color:"#1565C0",fontWeight:700}}>
+.\src\app\kosha\page.tsx:495  <span style={{fontSize:18}}>📷</span>
+.\src\app\kosha\page.tsx:497  <p style={{margin:0,fontSize:12,fontWeight:800,color:"#1565C0"}}>AI Bill Scanner</p>
+.\src\app\kosha\page.tsx:498  <p style={{margin:0,fontSize:11,color:"#555"}}>Tap the 📷 button in the header to scan any receipt — amount auto-fills!</p>
+.\src\app\kosha\page.tsx:508  <button style={{...S.actionBtn,color:"#C62828",borderColor:"#EF9A9A"}} onClick={()=>setShowDeleteAll(true)}>🗑️ Clear All</button>
+.\src\app\kosha\page.tsx:536  <div style={{display:"flex",gap:16,justifyContent:"center",alignItems:"flex-end",height:160,paddingBottom:8}}>
+.\src\app\kosha\page.tsx:539  return(<div key={bar.label} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:6}}>
+.\src\app\kosha\page.tsx:540  <p style={{margin:0,fontSize:11,fontWeight:700,color:bar.color}}>{fmt(bar.val,currency)}</p>
+.\src\app\kosha\page.tsx:541  <div style={{width:52,height:h,background:bar.color,borderRadius:"6px 6px 0 0"}}/>
+.\src\app\kosha\page.tsx:542  <p style={{margin:0,fontSize:11,color:"#666",fontWeight:700}}>{bar.label}</p>
+.\src\app\kosha\page.tsx:546  {monthIn>0&&(<div style={{background:"#f0f4f8",borderRadius:10,padding:"10px 14px",display:"flex",justifyContent:"space-between"}}>
+.\src\app\kosha\page.tsx:547  <p style={{margin:0,fontSize:12,color:"#666"}}>Savings Rate</p>
+.\src\app\kosha\page.tsx:548  <p style={{margin:0,fontSize:18,fontWeight:900,color:monthIn-monthOut>=0?"#2E7D32":"#C62828"}}>{Math.round(((monthIn-monthOut)/monthIn)*100)}%</p>
+.\src\app\kosha\page.tsx:553  {catBreakdown.length===0?<p style={{color:"#aaa",fontSize:12,textAlign:"center",padding:"16px 0"}}>No expenses this month</p>
+.\src\app\kosha\page.tsx:555  <div key={cat.id} style={{display:"flex",alignItems:"center",gap:10}}>
+.\src\app\kosha\page.tsx:556  <span style={{fontSize:18,width:26,textAlign:"center"}}>{cat.icon}</span>
+.\src\app\kosha\page.tsx:557  <div style={{flex:1}}>
+.\src\app\kosha\page.tsx:558  <div style={{display:"flex",justifyContent:"space-between",marginBottom:3}}>
+.\src\app\kosha\page.tsx:559  <span style={{fontSize:12,fontWeight:700,color:"#333"}}>{cat.label}</span>
+.\src\app\kosha\page.tsx:560  <span style={{fontSize:12,fontWeight:800,color:"#555"}}>{fmt(total,currency)}</span>
+.\src\app\kosha\page.tsx:562  <div style={{height:7,background:"#f0f4f8",borderRadius:4,overflow:"hidden"}}>
+.\src\app\kosha\page.tsx:563  <div style={{height:"100%",width:`${(total/maxCatAmt)*100}%`,background:"#4A90E2",borderRadius:4}}/>
+.\src\app\kosha\page.tsx:586  <div style={{display:"flex",alignItems:"flex-end",gap:3,height:110,overflowX:"auto",paddingBottom:4}}>
+.\src\app\kosha\page.tsx:588  <div key={i} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:3,flex:1,minWidth:20}}>
+.\src\app\kosha\page.tsx:589  <div style={{display:"flex",gap:2,alignItems:"flex-end",height:84}}>
+.\src\app\kosha\page.tsx:590  <div style={{width:9,height:Math.max(2,(d.income/maxYearAmt)*84),background:"#4CAF50",borderRadius:"3px 3px 0 0"}}/>
+.\src\app\kosha\page.tsx:591  <div style={{width:9,height:Math.max(2,(d.expense/maxYearAmt)*84),background:"#EF5350",borderRadius:"3px 3px 0 0"}}/>
+.\src\app\kosha\page.tsx:593  <p style={{margin:0,fontSize:8,color:"#888",fontWeight:700}}>{d.month}</p>
+.\src\app\kosha\page.tsx:597  <div style={{display:"flex",gap:14,justifyContent:"center"}}>
+.\src\app\kosha\page.tsx:606  return(<div key={i} style={{display:"flex",alignItems:"center",gap:4,padding:"7px 0",borderBottom:i<11?"1px solid #f8f8f8":"none",opacity:has?1:0.35}}>
+.\src\app\kosha\page.tsx:608  <span style={{flex:1,fontSize:11,color:"#2E7D32"}}>{d.income>0?fmt(d.income,currency):"—"}</span>
+.\src\app\kosha\page.tsx:609  <span style={{flex:1,fontSize:11,color:"#C62828"}}>{d.expense>0?fmt(d.expense,currency):"—"}</span>
+.\src\app\kosha\page.tsx:610  <span style={{minWidth:70,fontSize:11,fontWeight:800,color:net>=0?"#1565C0":"#C62828",textAlign:"right"}}>{has?(net>=0?"+":"")+fmt(net,currency):"—"}</span>
+.\src\app\kosha\page.tsx:624  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+.\src\app\kosha\page.tsx:632  ? <p style={{color:"#aaa",fontSize:13,textAlign:"center",padding:"20px 0"}}>🧠 Analyzing your spending...</p>
+.\src\app\kosha\page.tsx:634  ? <p style={{color:"#aaa",fontSize:13,textAlign:"center",padding:"20px 0"}}>Add transactions to see insights</p>
+.\src\app\kosha\page.tsx:636  <div key={i} style={{...S.insightRow,background:ins.type==="good"?"#E8F5E9":ins.type==="warn"?"#FFF3E0":"#EBF3FD",borderColor:ins.type==="good"?"#A5D6A7":ins.type==="warn"?"#FFCC80":"#BBDEFB"}}>
+.\src\app\kosha\page.tsx:637  <span style={{fontSize:22,flexShrink:0}}>{ins.icon}</span>
+.\src\app\kosha\page.tsx:639  <p style={{margin:0,fontSize:13,fontWeight:800,color:"#1a1a2e"}}>{ins.title}</p>
+.\src\app\kosha\page.tsx:640  <p style={{margin:"3px 0 0",fontSize:12,color:"#555",lineHeight:1.5}}>{ins.desc}</p>
+.\src\app\kosha\page.tsx:645  <p style={{margin:0,fontSize:10,color:"#bbb",textAlign:"center"}}>
+.\src\app\kosha\page.tsx:655  <p style={{margin:0,fontSize:13,color:"#555"}}>Set a monthly spending budget and get daily limit alerts.</p>
+.\src\app\kosha\page.tsx:656  <div style={{display:"flex",gap:8}}>
+.\src\app\kosha\page.tsx:659  style={{...S.input,flex:1}}/>
+.\src\app\kosha\page.tsx:660  <button style={{...S.fullBtn,width:"auto",padding:"0 20px"}} onClick={handleSaveBudget}>Set</button>
+.\src\app\kosha\page.tsx:665  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+.\src\app\kosha\page.tsx:666  <span style={{fontSize:13,color:"#555"}}>Budget: {fmt(budgetGoal.amount,currency)}</span>
+.\src\app\kosha\page.tsx:667  <button style={{background:"none",border:"none",fontSize:12,color:"#EF5350",cursor:"pointer",fontWeight:700}} onClick={()=>{setBudgetGoal(null);localStorage.removeItem("aksharakosha_budget");}}>Remove</button>
+.\src\app\kosha\page.tsx:669  <div style={{height:12,background:"#f0f4f8",borderRadius:6,overflow:"hidden"}}>
+.\src\app\kosha\page.tsx:670  <div style={{height:"100%",width:`${budgetAnalysis.pct}%`,background:budgetAnalysis.status==="over"?"#EF5350":budgetAnalysis.status==="warn"?"#FF9800":"#4CAF50",borderRadius:6,transition:"width 0.4s"}}/>
+.\src\app\kosha\page.tsx:672  <div style={{display:"flex",justifyContent:"space-between",fontSize:12}}>
+.\src\app\kosha\page.tsx:673  <span style={{color:"#C62828",fontWeight:700}}>Spent: {fmt(budgetAnalysis.spent,currency)}</span>
+.\src\app\kosha\page.tsx:674  <span style={{color:"#2E7D32",fontWeight:700}}>Left: {fmt(budgetAnalysis.remain,currency)}</span>
+.\src\app\kosha\page.tsx:677  ? <div style={{...S.insightRow,background:"#FFEBEE",borderColor:"#EF9A9A"}}><span>🚨</span><p style={{margin:0,fontSize:12,fontWeight:700,color:"#C62828"}}>Over budget by {fmt(budgetAnalysis.spent-budgetGoal.amount,currency)}!</p></div>
+.\src\app\kosha\page.tsx:678  : <div style={{...S.insightRow,background:"#EBF3FD",borderColor:"#BBDEFB"}}><span>💡</span><p style={{margin:0,fontSize:12,color:"#1565C0"}}>Spend max <strong>{fmt(budgetAnalysis.dailyLimit,currency)}/day</strong> for the next {budgetAnalysis.daysLeft} days to stay on track.</p></div>
+.\src\app\kosha\page.tsx:687  <p style={{margin:0,fontSize:13,color:"#555",lineHeight:1.6}}>
+.\src\app\kosha\page.tsx:690  <label style={{...S.fullBtn,display:"flex",alignItems:"center",justifyContent:"center",gap:8,cursor:"pointer",background:"#1565C0"}}>
+.\src\app\kosha\page.tsx:695  <div style={{...S.insightRow,background:scanResult.amount?"#E8F5E9":"#FFF3E0",borderColor:scanResult.amount?"#A5D6A7":"#FFCC80"}}>
+.\src\app\kosha\page.tsx:696  <span style={{fontSize:22}}>{scanResult.amount?"✅":"⚠️"}</span>
+.\src\app\kosha\page.tsx:698  <p style={{margin:0,fontSize:13,fontWeight:800,color:"#1a1a2e"}}>
+.\src\app\kosha\page.tsx:701  <p style={{margin:"2px 0 0",fontSize:12,color:"#555"}}>{scanResult.note}</p>
+.\src\app\kosha\page.tsx:705  <p style={{margin:0,fontSize:11,color:"#aaa",textAlign:"center"}}>
+.\src\app\kosha\page.tsx:713  <p style={{margin:0,fontSize:13,color:"#555",lineHeight:1.6}}>
+.\src\app\kosha\page.tsx:716  <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+.\src\app\kosha\page.tsx:718  <div key={ex} style={{background:"#f0f4f8",borderRadius:8,padding:"6px 10px",fontSize:11}}>
+.\src\app\kosha\page.tsx:719  <span style={{color:"#888"}}>{`"${ex}"`}</span> → <strong style={{color:"#4CAF50"}}>{cat}</strong>
+.\src\app\kosha\page.tsx:751  <div style={{...S.card,border:"1.5px solid #FFCDD2"}}>
+.\src\app\kosha\page.tsx:752  <p style={{...S.cardTitle,color:"#C62828"}}>⚠️ Danger Zone</p>
+.\src\app\kosha\page.tsx:753  <p style={{margin:0,fontSize:13,color:"#666"}}>Permanently delete all transactions. Cannot be undone.</p>
+.\src\app\kosha\page.tsx:754  <button style={{...S.fullBtn,background:"#EF5350",marginTop:4}} onClick={()=>setShowDeleteAll(true)}>🗑️ Delete All My Data</button>
+.\src\app\kosha\page.tsx:770  <div style={{display:"flex",gap:8}}>
+.\src\app\kosha\page.tsx:772  <button key={type} style={{...S.typeBtn,background:form.type===type?(type==="income"?"#4CAF50":"#EF5350"):"#f0f4f8",color:form.type===type?"#fff":"#666"}}
+.\src\app\kosha\page.tsx:782  style={{...S.input,fontSize:22,fontWeight:800,textAlign:"center"}} autoFocus/>
+.\src\app\kosha\page.tsx:790  <p style={{margin:0,fontSize:11,color:"#4CAF50",fontWeight:700}}>
+.\src\app\kosha\page.tsx:797  <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+.\src\app\kosha\page.tsx:799  <button key={cat.id} style={{...S.catChip,background:form.categoryId===cat.id?"#EBF3FD":"#f8f9fa",borderColor:form.categoryId===cat.id?"#4A90E2":"#e0e0e0",fontWeight:form.categoryId===cat.id?800:600}}
+.\src\app\kosha\page.tsx:811  <button style={{...S.saveBtn,background:form.type==="income"?"#4CAF50":"#4A90E2"}} onClick={handleSave}>
+.\src\app\kosha\page.tsx:821  <div style={{...S.modal,gap:16}}>
+.\src\app\kosha\page.tsx:822  <p style={{...S.modalTitle,color:"#C62828"}}>⚠️ Delete All Data?</p>
+.\src\app\kosha\page.tsx:823  <p style={{margin:0,fontSize:13,color:"#555",lineHeight:1.7}}>This will permanently delete <strong>all {transactions.length} transactions</strong>. Cannot be undone.</p>
+.\src\app\kosha\page.tsx:824  <div style={{display:"flex",gap:10}}>
+.\src\app\kosha\page.tsx:825  <button style={{...S.typeBtn,flex:1,background:"#f0f4f8",color:"#555"}} onClick={()=>setShowDeleteAll(false)}>Cancel</button>
+.\src\app\kosha\page.tsx:826  <button style={{...S.typeBtn,flex:1,background:"#EF5350",color:"#fff"}} onClick={handleDeleteAll}>Yes, Delete All</button>
+.\src\app\kosha\page.tsx:839  return(<div style={{flex:1,background:"#fff",borderRadius:12,padding:"12px 14px",border:`1.5px solid ${border}`,boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
+.\src\app\kosha\page.tsx:840  <p style={{margin:"0 0 4px",fontSize:11,fontWeight:700,color:"#888",textTransform:"uppercase",letterSpacing:"0.05em"}}>{label}</p>
+.\src\app\kosha\page.tsx:841  <p style={{margin:0,fontSize:small?13:16,fontWeight:800,color}}>{value}</p>
+.\src\app\kosha\page.tsx:845  return(<div style={{background:"#fff",borderRadius:12,padding:"14px 16px",border:`2px solid ${positive?"#4A90E2":"#EF5350"}`,boxShadow:"0 2px 8px rgba(0,0,0,0.06)",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+.\src\app\kosha\page.tsx:846  <p style={{margin:0,fontSize:12,fontWeight:700,color:"#666"}}>{label}</p>
+.\src\app\kosha\page.tsx:847  <p style={{margin:0,fontSize:20,fontWeight:900,color:positive?"#1565C0":"#C62828"}}>{positive?"+":""}{value}</p>
+.\src\app\kosha\page.tsx:852  return(<div style={{background:"#fff",borderRadius:12,padding:"12px 14px",display:"flex",alignItems:"center",gap:10,boxShadow:"0 1px 6px rgba(0,0,0,0.05)"}}>
+.\src\app\kosha\page.tsx:853  <div style={{width:36,height:36,borderRadius:10,background:"#f0f4f8",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{cat.icon}</div>
+.\src\app\kosha\page.tsx:854  <div style={{flex:1}}>
+.\src\app\kosha\page.tsx:855  <p style={{margin:0,fontSize:13,fontWeight:700,color:"#1a1a2e"}}>{cat.label}</p>
+.\src\app\kosha\page.tsx:856  {tx.note&&<p style={{margin:"1px 0 0",fontSize:11,color:"#888"}}>{tx.note}</p>}
+.\src\app\kosha\page.tsx:857  <p style={{margin:"2px 0 0",fontSize:10,color:"#bbb"}}>{tx.date}</p>
+.\src\app\kosha\page.tsx:859  <p style={{margin:0,fontSize:14,fontWeight:800,color:tx.type==="income"?"#2E7D32":"#C62828",flexShrink:0}}>{tx.type==="income"?"+":"-"}{fmt(tx.amount,currency)}</p>
+.\src\app\kosha\page.tsx:860  <button style={{background:"none",border:"none",cursor:"pointer",fontSize:14,padding:"4px",flexShrink:0}} onClick={()=>onDelete(tx.id)}>🗑️</button>
+.\src\app\kosha\page.tsx:864  return(<div style={{background:"#fff",borderRadius:12,padding:"10px 14px",display:"flex",alignItems:"center",justifyContent:"space-between",boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
+.\src\app\kosha\page.tsx:871  return(<div style={{textAlign:"center",padding:"36px 20px",display:"flex",flexDirection:"column",alignItems:"center",gap:8}}>
+.\src\app\kosha\page.tsx:872  <p style={{fontSize:32,margin:0}}>{icon}</p>
+.\src\app\kosha\page.tsx:873  <p style={{color:"#aaa",fontSize:13,margin:0}}>{text}</p>
+.\src\app\kosha\page.tsx:874  {sub&&<p style={{color:"#bbb",fontSize:12,margin:0}}>{sub}</p>}
+.\src\app\kosha\page.tsx:878  return(<div style={{display:"flex",flexDirection:"column",gap:6}}>
+.\src\app\kosha\page.tsx:879  <p style={{margin:0,fontSize:11,fontWeight:800,color:"#888",textTransform:"uppercase",letterSpacing:"0.08em"}}>{label}</p>
+.\src\app\kosha\page.tsx:884  return(<div style={{display:"flex",alignItems:"center",gap:5}}>
+.\src\app\kosha\page.tsx:885  <div style={{width:12,height:12,background:color,borderRadius:2}}/>
+.\src\app\kosha\page.tsx:886  <span style={{fontSize:11,color:"#666"}}>{label}</span>
+.\src\app\kyc\page.tsx:359  <style>*{box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;padding:40px;color:#1a1a2e;max-width:700px;margin:0 auto}
+.\src\app\kyc\page.tsx:575  <style>{`
+.\src\app\kyc\page.tsx:589  <p style={{margin:0,fontSize:11,color:"rgba(255,255,255,.65)"}}>
+.\src\app\kyc\page.tsx:593  <div style={{display:"flex",flexDirection:"column",gap:6,alignItems:"flex-end"}}>
+.\src\app\kyc\page.tsx:594  <div style={S.privBadge}>🔒<span style={{fontSize:9,display:"block",fontWeight:700}}>ON-DEVICE</span></div>
+.\src\app\kyc\page.tsx:602  <button key={key} style={{...S.tabBtn,...(tab===key?S.tabActive:{})}} onClick={()=>setTab(key)}>
+.\src\app\kyc\page.tsx:616  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+.\src\app\kyc\page.tsx:619  style={{...S.docChip,
+.\src\app\kyc\page.tsx:625  <span style={{fontSize:22}}>{d.icon}</span>
+.\src\app\kyc\page.tsx:626  <span style={{fontSize:10,fontWeight:700,textAlign:"center",lineHeight:1.3}}>{d.label}</span>
+.\src\app\kyc\page.tsx:641  <div key={num} style={{display:"flex",gap:10,alignItems:"center",padding:"8px 10px",background:"#f8f9fa",borderRadius:9,border:"1px solid #e0e0e0"}}>
+.\src\app\kyc\page.tsx:642  <span style={{background:color,color:"#fff",fontSize:9,fontWeight:800,padding:"2px 7px",borderRadius:6,flexShrink:0}}>{num}</span>
+.\src\app\kyc\page.tsx:644  <p style={{margin:0,fontSize:12,fontWeight:800,color:"#1a1a2e"}}>{label}</p>
+.\src\app\kyc\page.tsx:645  <p style={{margin:0,fontSize:10,color:"#888"}}>{desc}</p>
+.\src\app\kyc\page.tsx:649  <p style={{margin:0,fontSize:11,color:"#1565C0",background:"#EBF3FD",borderRadius:8,padding:"8px 12px",fontWeight:600}}>
+.\src\app\kyc\page.tsx:656  <p style={{margin:"0 0 6px",fontSize:12,fontWeight:800,color:"#1565C0"}}>📷 {cfg.hint}</p>
+.\src\app\kyc\page.tsx:663  ].map((t,i)=><p key={i} style={{margin:"2px 0",fontSize:11,color:i===0?"#C62828":"#444",fontWeight:i===0?700:400}}>{t}</p>)}
+.\src\app\kyc\page.tsx:668  <div style={{display:"flex",gap:10}}>
+.\src\app\kyc\page.tsx:669  <label className="kh" style={{...S.scanBtn,background:cfg.color,cursor:"pointer",transition:"all .18s"}}>
+.\src\app\kyc\page.tsx:670  <span style={{fontSize:28}}>📷</span>
+.\src\app\kyc\page.tsx:671  <span style={{fontSize:13,fontWeight:800}}>Camera</span>
+.\src\app\kyc\page.tsx:672  <span style={{fontSize:10,opacity:.8}}>Take Photo</span>
+.\src\app\kyc\page.tsx:675  <label className="kh" style={{...S.scanBtn,background:"#37474F",cursor:"pointer",transition:"all .18s"}}>
+.\src\app\kyc\page.tsx:676  <span style={{fontSize:28}}>🖼️</span>
+.\src\app\kyc\page.tsx:677  <span style={{fontSize:13,fontWeight:800}}>Gallery</span>
+.\src\app\kyc\page.tsx:678  <span style={{fontSize:10,opacity:.8}}>Upload File</span>
+.\src\app\kyc\page.tsx:681  <button style={{...S.scanBtn,background:"#E65100",border:"none",cursor:"pointer"}} onClick={startManual}>
+.\src\app\kyc\page.tsx:682  <span style={{fontSize:28}}>✏️</span>
+.\src\app\kyc\page.tsx:683  <span style={{fontSize:13,fontWeight:800}}>Manual</span>
+.\src\app\kyc\page.tsx:684  <span style={{fontSize:10,opacity:.8}}>Type fields</span>
+.\src\app\kyc\page.tsx:691  <div style={{flex:1}}>
+.\src\app\kyc\page.tsx:692  <p style={{margin:0,fontSize:13,fontWeight:700,color:"#1565C0"}}>{step||"Processing…"}</p>
+.\src\app\kyc\page.tsx:693  <p style={{margin:"2px 0 0",fontSize:11,color:"#888"}}>Sequential · Auto-skips if hung · Do not close tab</p>
+.\src\app\kyc\page.tsx:700  <p style={{margin:"0 0 5px",fontSize:11,fontWeight:700,color:"#888",textTransform:"uppercase",letterSpacing:".08em"}}>Fields to extract:</p>
+.\src\app\kyc\page.tsx:701  <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+.\src\app\kyc\page.tsx:713  <div style={{textAlign:"center",padding:"48px 20px",display:"flex",flexDirection:"column",alignItems:"center",gap:12}}>
+.\src\app\kyc\page.tsx:714  <p style={{fontSize:40,margin:0}}>🪪</p>
+.\src\app\kyc\page.tsx:715  <p style={{color:"#aaa",fontSize:14,fontWeight:600}}>No document scanned yet</p>
+.\src\app\kyc\page.tsx:721  <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+.\src\app\kyc\page.tsx:724  <p style={{margin:"3px 0 0",fontSize:11,color:"#888"}}>
+.\src\app\kyc\page.tsx:726  <span style={{fontWeight:700,color:"#1565C0"}}>{ENGINE_LABELS[activeDoc.engineUsed]}</span>
+.\src\app\kyc\page.tsx:729  <p style={{margin:"2px 0 0",fontSize:10,color:"#aaa",lineHeight:1.6}}>
+.\src\app\kyc\page.tsx:741  <div style={{display:"flex",gap:8}}>
+.\src\app\kyc\page.tsx:746  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+.\src\app\kyc\page.tsx:747  <button style={{...S.actionBtn,background:"#E65100"}} onClick={clearFields}>🔄 Clear</button>
+.\src\app\kyc\page.tsx:748  <button style={{...S.actionBtn,background:"#1565C0"}} onClick={()=>exportJSON(activeDoc)}>📄 JSON</button>
+.\src\app\kyc\page.tsx:749  <button style={{...S.actionBtn,background:"#6A1B9A"}} onClick={()=>exportPDF(activeDoc)}>🖨️ PDF</button>
+.\src\app\kyc\page.tsx:750  <button style={{...S.actionBtn,background:"#37474F"}} onClick={()=>setTab("scan")}>📷 New</button>
+.\src\app\kyc\page.tsx:755  <div style={{position:"relative",borderRadius:14,overflow:"hidden",boxShadow:"0 2px 12px rgba(0,0,0,.1)"}}>
+.\src\app\kyc\page.tsx:756  <img src={activeDoc.imageUrl} alt="doc" style={{width:"100%",maxHeight:220,objectFit:"cover",display:"block"}}/>
+.\src\app\kyc\page.tsx:757  <div style={{...S.imgBadge,background:getCfg(activeDoc.docType).color}}>
+.\src\app\kyc\page.tsx:764  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+.\src\app\kyc\page.tsx:766  <button style={{...S.rawToggle,color:"#C62828",fontWeight:800}} onClick={clearFields}>🔄 Clear All</button>
+.\src\app\kyc\page.tsx:769  <div key={field.key} style={{display:"flex",flexDirection:"column",gap:4,padding:"10px 0",borderBottom:"1px solid #f5f5f5"}}>
+.\src\app\kyc\page.tsx:770  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+.\src\app\kyc\page.tsx:771  <p style={{margin:0,fontSize:11,fontWeight:800,color:"#666",textTransform:"uppercase",letterSpacing:".06em"}}>{field.label}</p>
+.\src\app\kyc\page.tsx:772  <div style={{display:"flex",alignItems:"center",gap:6}}>
+.\src\app\kyc\page.tsx:773  {field.confidence>0&&<span style={{fontSize:10,fontWeight:700,color:confColor(field.confidence)}}>{confLabel(field.confidence)} {field.confidence}%</span>}
+.\src\app\kyc\page.tsx:774  {field.verified&&<span style={{fontSize:10,color:"#4CAF50",fontWeight:700}}>✓ Edited</span>}
+.\src\app\kyc\page.tsx:777  <div style={{display:"flex",gap:6}}>
+.\src\app\kyc\page.tsx:778  <div style={{width:4,borderRadius:2,background:field.value?confColor(field.confidence):"#e0e0e0",flexShrink:0,minHeight:36}}/>
+.\src\app\kyc\page.tsx:780  style={{...S.fieldInput,
+.\src\app\kyc\page.tsx:795  <div style={{...S.card,background:"#FFF8E1",border:"1.5px solid #FFB300"}}>
+.\src\app\kyc\page.tsx:796  <p style={{margin:0,fontSize:13,fontWeight:800,color:"#E65100"}}>⚠️ Low confidence — try these fixes:</p>
+.\src\app\kyc\page.tsx:797  <p style={{margin:"6px 0 0",fontSize:12,color:"#555",lineHeight:1.8}}>
+.\src\app\kyc\page.tsx:803  <div style={{display:"flex",gap:8}}>
+.\src\app\kyc\page.tsx:804  <button style={{...S.actionBtn,background:"#E65100"}} onClick={()=>setTab("scan")}>📷 Rescan</button>
+.\src\app\kyc\page.tsx:805  <button style={{...S.actionBtn,background:"#37474F"}} onClick={clearFields}>✏️ Manual</button>
+.\src\app\kyc\page.tsx:826  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+.\src\app\kyc\page.tsx:829  <button style={{...S.rawToggle,color:"#C62828",fontWeight:800}}
+.\src\app\kyc\page.tsx:836  <div style={{textAlign:"center",padding:"32px 0",color:"#aaa"}}>
+.\src\app\kyc\page.tsx:837  <p style={{fontSize:32,margin:0}}>📁</p>
+.\src\app\kyc\page.tsx:838  <p style={{fontSize:13}}>No scans yet</p>
+.\src\app\kyc\page.tsx:844  style={{...S.histRow,borderLeft:`3px solid ${activeDoc?.id===doc.id?dc.color:"#e0e0e0"}`}}>
+.\src\app\kyc\page.tsx:845  <div style={{flex:1,cursor:"pointer"}} onClick={()=>{setActiveDoc(doc);setTab("result");}}>
+.\src\app\kyc\page.tsx:846  <div style={{display:"flex",alignItems:"center",gap:8}}>
+.\src\app\kyc\page.tsx:847  <span style={{fontSize:20}}>{dc.icon}</span>
+.\src\app\kyc\page.tsx:849  <p style={{margin:0,fontSize:13,fontWeight:700,color:"#1a1a2e"}}>{dc.label}</p>
+.\src\app\kyc\page.tsx:850  <p style={{margin:0,fontSize:10,color:"#888"}}>
+.\src\app\kyc\page.tsx:852  <span style={{color:confColor(sc),fontWeight:700}}>{sc}%</span>
+.\src\app\kyc\page.tsx:857  <div style={{display:"flex",gap:6}}>
+.\src\app\kyc\page.tsx:860  <button style={{...S.histBtn,color:"#C62828"}} onClick={()=>removeDoc(doc.id)}>🗑️</button>
+.\src\app\kyc\page.tsx:869  <div style={{...S.card,background:"#F8FBFF",border:"1px solid #E3F2FD"}}>
+.\src\app\kyc\page.tsx:870  <p style={{...S.cardTitle,color:"#1565C0"}}>🔒 BFSI Compliance</p>
+.\src\app\kyc\page.tsx:871  <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+.\src\app\kyc\page.tsx:880  <div key={t} style={{display:"flex",gap:6,alignItems:"flex-start"}}>
+.\src\app\kyc\page.tsx:881  <span style={{fontSize:12,flexShrink:0}}>{i}</span>
+.\src\app\kyc\page.tsx:883  <p style={{margin:0,fontSize:11,fontWeight:800,color:"#1565C0"}}>{t}</p>
+.\src\app\kyc\page.tsx:884  <p style={{margin:0,fontSize:10,color:"#666"}}>{d}</p>
+.\src\app\kyc\page.tsx:893  <div style={{...S.toast,background:toast.type==="ok"?"#1B5E20":toast.type==="err"?"#B71C1C":"#1a1a2e"}}>
+.\src\app\kyc\page.tsx:905  <div style={{position:"relative",width:64,height:64,flexShrink:0}}>
+.\src\app\kyc\page.tsx:906  <svg width={64} height={64} style={{transform:"rotate(-90deg)"}}>
+.\src\app\kyc\page.tsx:910  style={{transition:"stroke-dasharray .5s ease"}}/>
+.\src\app\kyc\page.tsx:912  <div style={{position:"absolute",inset:0,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+.\src\app\kyc\page.tsx:913  <span style={{fontSize:13,fontWeight:900,color,lineHeight:1}}>{score}%</span>
+.\src\app\kyc\page.tsx:914  <span style={{fontSize:8,color:"#aaa",fontWeight:700}}>CONF</span>
+.\src\app\kyc\page.tsx:921  <div style={{flex:1,background:"#f8f9fa",borderRadius:10,padding:"10px 8px",textAlign:"center",border:"1px solid #e0e0e0"}}>
+.\src\app\kyc\page.tsx:922  <p style={{margin:0,fontSize:18,fontWeight:900,color}}>{value}</p>
+.\src\app\kyc\page.tsx:923  <p style={{margin:0,fontSize:10,color:"#888",fontWeight:700}}>{label}</p>
+.\src\app\ocreng\page.tsx:623  <style>body{font-family:serif;padding:30px;direction:${
+.\src\app\ocreng\page.tsx:749  <Box sx={{ maxWidth: 900, mx: "auto", p: 3 }}>
+.\src\app\ocreng\page.tsx:755  <Typography variant="body2" textAlign="center" sx={{ mb: 1 }}>
+.\src\app\ocreng\page.tsx:758  <Typography variant="caption" display="block" textAlign="center" sx={{ mb: 2 }}>
+.\src\app\ocreng\page.tsx:766  <Paper sx={{ p: 2, mb: 2 }}>
+.\src\app\ocreng\page.tsx:779  <MenuItem key={`group-${group}`} disabled sx={{ fontWeight: "bold", opacity: 1, color: "#555" }}>
+.\src\app\ocreng\page.tsx:792  <Alert severity="info" sx={{ mt: 2 }}>
+.\src\app\ocreng\page.tsx:808  <Alert severity="info" sx={{ mb: 2 }}>
+.\src\app\ocreng\page.tsx:813  <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
+.\src\app\ocreng\page.tsx:821  <Alert severity="info" sx={{ mb: 1 }}>
+.\src\app\ocreng\page.tsx:827  <Paper sx={{ p: 3 }}>
+.\src\app\ocreng\page.tsx:884  <Stack direction="row" flexWrap="wrap" sx={{ gap: 2 }}>
+.\src\app\Ocrwork\page.tsx:226  <Box sx={{ p: 4, background: "#f5f5f5", minHeight: "100vh" }}>
+.\src\app\Ocrwork\page.tsx:231  <Card sx={{ p: 2, mb: 4 }}>
+.\src\app\Ocrwork\page.tsx:241  <Box mt={2} sx={{ lineHeight: 1.8 }}>
+.\src\app\Ocrwork\page.tsx:254  <Box mt={2} sx={{ lineHeight: 1.8 }}>
+.\src\app\Ocrwork\page.tsx:267  <Card sx={{ p: 2, mb: 4 }}>
+.\src\app\Ocrwork\page.tsx:286  <Card sx={{ p: 2, mb: 4 }}>
+.\src\app\Ocrwork\page.tsx:287  <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+.\src\app\Ocrwork\page.tsx:288  <div style={{ flex: 1, minWidth: 250 }}>
+.\src\app\Ocrwork\page.tsx:298  return <em style={{ color: "#888" }}>Select OCR Language</em>;
+.\src\app\Ocrwork\page.tsx:316  <div style={{ flex: 1, minWidth: 250 }}>
+.\src\app\Ocrwork\page.tsx:324  style={{ display: "none" }}
+.\src\app\Ocrwork\page.tsx:329  sx={{
+.\src\app\Ocrwork\page.tsx:399  <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+.\src\app\Ocrwork\page.tsx:401  <div style={{ flex: 1, minWidth: 250, maxWidth: 320 }}>
+.\src\app\Ocrwork\page.tsx:402  <Card sx={{ p: 2 }}>
+.\src\app\Ocrwork\page.tsx:404  <Box sx={{ maxHeight: 450, overflowY: "auto" }}>
+.\src\app\Ocrwork\page.tsx:408  sx={{
+.\src\app\Ocrwork\page.tsx:425  <div style={{ flex: 3, minWidth: 300 }}>
+.\src\app\Ocrwork\page.tsx:426  <Card sx={{ p: 2, mb: 2 }}>
+.\src\app\Ocrwork\page.tsx:509  <Divider sx={{ mb: 2 }} />
+.\src\app\Ocrwork\page.tsx:515  style={{
+.\src\app\Ocrwork\page.tsx:536  <Card sx={{ p: 2 }}>
+.\src\app\onecrdb\page.tsx:613  <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh", pb: 8 }}>
+.\src\app\onecrdb\page.tsx:616  sx={{
+.\src\app\onecrdb\page.tsx:627  <StorageIcon sx={{ fontSize: { xs: 28, sm: 36 }, color: "#000" }} />
+.\src\app\onecrdb\page.tsx:649  sx={{ fontWeight: 700, color: "#000", borderColor: "#000" }}
+.\src\app\onecrdb\page.tsx:655  <Container maxWidth="xl" sx={{ pt: 3, px: { xs: 1, sm: 2, md: 3 } }}>
+.\src\app\onecrdb\page.tsx:661  sx={{ border: "1.5px solid #000", borderRadius: 2, overflow: "hidden" }}
+.\src\app\onecrdb\page.tsx:664  sx={{
+.\src\app\onecrdb\page.tsx:674  <TuneIcon sx={{ color: "#fff", mr: 1.5 }} />
+.\src\app\onecrdb\page.tsx:679  <KeyboardArrowUp sx={{ color: "#fff" }} />
+.\src\app\onecrdb\page.tsx:681  <KeyboardArrowDown sx={{ color: "#fff" }} />
+.\src\app\onecrdb\page.tsx:686  <Box sx={{ p: { xs: 2, sm: 3 } }}>
+.\src\app\onecrdb\page.tsx:700  sx={{ borderColor: "#000", color: "#000", fontWeight: 600, mb: 0.5 }}
+.\src\app\onecrdb\page.tsx:715  sx={{
+.\src\app\onecrdb\page.tsx:745  sx={{ flex: 2, "& .MuiOutlinedInput-root": { borderRadius: 1 } }}
+.\src\app\onecrdb\page.tsx:749  <FormControl size="small" sx={{ flex: 1, minWidth: 130 }}>
+.\src\app\onecrdb\page.tsx:750  <InputLabel sx={{ color: "#555" }}>Type</InputLabel>
+.\src\app\onecrdb\page.tsx:755  sx={{ color: "#000" }}
+.\src\app\onecrdb\page.tsx:767  sx={{
+.\src\app\onecrdb\page.tsx:788  sx={{ border: "1.5px solid #000", borderRadius: 2, overflow: "hidden" }}
+.\src\app\onecrdb\page.tsx:790  <Box sx={{ bgcolor: "#000", px: 3, py: 2 }}>
+.\src\app\onecrdb\page.tsx:795  <Box sx={{ p: { xs: 2, sm: 3 } }}>
+.\src\app\onecrdb\page.tsx:803  <CircularProgress size={18} sx={{ color: "#fff" }} />
+.\src\app\onecrdb\page.tsx:812  sx={{
+.\src\app\onecrdb\page.tsx:841  sx={{
+.\src\app\onecrdb\page.tsx:870  sx={{
+.\src\app\onecrdb\page.tsx:898  sx={{
+.\src\app\onecrdb\page.tsx:909  sx={{
+.\src\app\onecrdb\page.tsx:939  sx={{
+.\src\app\onecrdb\page.tsx:959  sx={{ bgcolor: "#f9f9f9", border: "1px solid #e0e0e0", borderRadius: 1.5, p: 2, mb: 2 }}
+.\src\app\onecrdb\page.tsx:980  sx={{
+.\src\app\onecrdb\page.tsx:991  <Box key={l.id} sx={{ fontSize: 12, color: "#000", lineHeight: 1.7 }}>
+.\src\app\onecrdb\page.tsx:993  <Box component="span" sx={{ color: "#999", mr: 1 }}>
+.\src\app\onecrdb\page.tsx:1010  sx={{ border: "1.5px solid #000", borderRadius: 2, overflow: "hidden" }}
+.\src\app\onecrdb\page.tsx:1012  <Box sx={{ bgcolor: "#000", px: 3, py: 2 }}>
+.\src\app\onecrdb\page.tsx:1021  sx={{ borderBottom: "1.5px solid #000" }}
+.\src\app\onecrdb\page.tsx:1027  sx={{
+.\src\app\onecrdb\page.tsx:1039  {op === "SELECT" && <SearchIcon sx={{ mr: 0.5, fontSize: 18 }} />}
+.\src\app\onecrdb\page.tsx:1040  {op === "UPDATE" && <EditIcon sx={{ mr: 0.5, fontSize: 18 }} />}
+.\src\app\onecrdb\page.tsx:1041  {op === "DELETE" && <DeleteIcon sx={{ mr: 0.5, fontSize: 18 }} />}
+.\src\app\onecrdb\page.tsx:1047  <Box sx={{ p: { xs: 2, sm: 3 } }}>
+.\src\app\onecrdb\page.tsx:1063  sx={{ width: isMobile ? "100%" : 130 }}
+.\src\app\onecrdb\page.tsx:1073  sx={{ width: isMobile ? "100%" : 130 }}
+.\src\app\onecrdb\page.tsx:1081  sx={{
+.\src\app\onecrdb\page.tsx:1095  sx={{ borderColor: "#000", color: "#000", fontWeight: 700, borderRadius: 1 }}
+.\src\app\onecrdb\page.tsx:1099  <Typography variant="body2" color="text.secondary" sx={{ ml: "auto" }}>
+.\src\app\onecrdb\page.tsx:1120  sx={{ width: isMd ? "100%" : 140 }}
+.\src\app\onecrdb\page.tsx:1124  <FormControl size="small" sx={{ minWidth: 160 }}>
+.\src\app\onecrdb\page.tsx:1125  <InputLabel sx={{ color: "#555" }}>Field</InputLabel>
+.\src\app\onecrdb\page.tsx:1130  sx={{ color: "#000" }}
+.\src\app\onecrdb\page.tsx:1144  sx={{ flex: 1 }}
+.\src\app\onecrdb\page.tsx:1152  sx={{
+.\src\app\onecrdb\page.tsx:1179  sx={{ width: isMobile ? "100%" : 220 }}
+.\src\app\onecrdb\page.tsx:1187  sx={{
+.\src\app\onecrdb\page.tsx:1200  <Divider sx={{ my: 2 }} />
+.\src\app\onecrdb\page.tsx:1204  <Box sx={{ textAlign: "center", py: 4 }}>
+.\src\app\onecrdb\page.tsx:1205  <CircularProgress sx={{ color: "#000" }} />
+.\src\app\onecrdb\page.tsx:1212  sx={{
+.\src\app\onecrdb\page.tsx:1226  sx={{
+.\src\app\onecrdb\page.tsx:1237  sx={{
+.\src\app\onecrdb\page.tsx:1250  sx={{
+.\src\app\onecrdb\page.tsx:1263  sx={{
+.\src\app\onecrdb\page.tsx:1281  sx={{ "&:hover": { bgcolor: "#f9f9f9" } }}
+.\src\app\onecrdb\page.tsx:1283  <TableCell sx={{ color: "#000", fontWeight: 600, fontSize: 13 }}>
+.\src\app\onecrdb\page.tsx:1289  sx={{
+.\src\app\onecrdb\page.tsx:1307  sx={{ color: "#000" }}
+.\src\app\onecrdb\page.tsx:1316  sx={{ color: "#d32f2f" }}
+.\src\app\onecrdb\page.tsx:1341  sx={{ color: "#000" }}
+.\src\app\onecrdb\page.tsx:1348  sx={{ color: "#000" }}
+.\src\app\onecrdb\page.tsx:1358  sx={{ color: "#000" }}
+.\src\app\onecrdb\page.tsx:1365  sx={{ color: "#000" }}
+.\src\app\onecrdb\page.tsx:1388  <DialogTitle sx={{ fontWeight: 800, color: "#000", borderBottom: "1px solid #e0e0e0" }}>
+.\src\app\onecrdb\page.tsx:1391  <DialogContent sx={{ pt: 3 }}>
+.\src\app\onecrdb\page.tsx:1410  <DialogActions sx={{ p: 2, borderTop: "1px solid #e0e0e0" }}>
+.\src\app\onecrdb\page.tsx:1411  <Button onClick={() => setEditRow(null)} sx={{ color: "#000", fontWeight: 700 }}>
+.\src\app\onecrdb\page.tsx:1417  sx={{ bgcolor: "#000", color: "#fff", fontWeight: 700, borderRadius: 1, "&:hover": { bgcolor: "#222" } }}
+.\src\app\onecrdb\page.tsx:1430  <DialogTitle sx={{ fontWeight: 800, color: "#000" }}>Confirm Action</DialogTitle>
+.\src\app\onecrdb\page.tsx:1432  <DialogContentText sx={{ color: "#000" }}>{confirmMsg}</DialogContentText>
+.\src\app\onecrdb\page.tsx:1434  <DialogActions sx={{ p: 2 }}>
+.\src\app\onecrdb\page.tsx:1435  <Button onClick={() => setConfirmOpen(false)} sx={{ color: "#000", fontWeight: 700 }}>
+.\src\app\onecrdb\page.tsx:1441  sx={{ bgcolor: "#d32f2f", color: "#fff", fontWeight: 700, borderRadius: 1, "&:hover": { bgcolor: "#b71c1c" } }}
+.\src\app\onecrdb\page.tsx:1458  sx={{ fontWeight: 700, color: "#000", fontSize: 14, border: "1px solid #ccc" }}
+.\src\app\posters\page.tsx:13  <div style={{ width:"100%", aspectRatio:"1/1", background:"linear-gradient(135deg,#f0f4f8,#e8edf2)", borderRadius:14, display:"flex", alignItems:"center", justifyContent:"center", color:"#aaa", fontSize:13, fontFamily:"Montserrat,sans-serif" }}>
+.\src\app\posters\page.tsx:151  <div style={{ marginBottom:10, display:"flex", alignItems:"center", gap:8, flexWrap:"wrap" }}>
+.\src\app\posters\page.tsx:152  <div style={{ display:"flex", alignItems:"center", gap:5, background:"#EBF4FF", border:"1.5px solid #4A90E2", borderRadius:20, padding:"4px 10px", fontSize:11, fontWeight:700, color:"#4A90E2", fontFamily:"Montserrat,sans-serif" }}>
+.\src\app\posters\page.tsx:155  <span style={{ color:"#888", fontWeight:400 }}>{fmt.w}×{fmt.h}</span>
+.\src\app\posters\page.tsx:157  <div style={{ display:"flex", alignItems:"center", gap:5, marginLeft:"auto" }}>
+.\src\app\posters\page.tsx:158  <span style={{ fontSize:11, fontWeight:600, color:"#555", fontFamily:"Montserrat,sans-serif" }}>🎨 BG</span>
+.\src\app\posters\page.tsx:159  <select value={(state as any).posterBgColor||"#FFFFFF"} onChange={e=>set("posterBgColor",e.target.value)} style={{ ...IS, width:"auto", fontSize:11 }}>
+.\src\app\posters\page.tsx:170  <input type="color" value={(state as any).posterBgColor||"#FFFFFF"} onChange={e=>set("posterBgColor",e.target.value)} style={{ width:30, height:26, border:"1.5px solid #ddd", borderRadius:5, cursor:"pointer", padding:2 }} />
+.\src\app\posters\page.tsx:173  <div ref={previewRef} style={{ boxShadow:"0 6px 28px rgba(0,0,0,.13)", borderRadius:14, overflow:"hidden" }}>
+.\src\app\posters\page.tsx:176  <p style={{ marginTop:7, fontSize:11, color:"#bbb", textAlign:"center", fontFamily:"Montserrat,sans-serif" }}>
+.\src\app\posters\page.tsx:187  <style>{`
+.\src\app\posters\page.tsx:201  <div style={{ fontFamily:"Montserrat,sans-serif", minHeight:"100vh", background:"#f5f7fa", marginTop:70 }} suppressHydrationWarning>
+.\src\app\posters\page.tsx:202  <div style={{ background:"#fff", borderBottom:"1.5px solid #eee", padding:"12px 20px", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:10 }}>
+.\src\app\posters\page.tsx:203  <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+.\src\app\posters\page.tsx:204  <span style={{ fontSize:18, fontWeight:800, color:"#4A90E2", fontFamily:"Montserrat,sans-serif" }}>🌸 AksharaChitra</span>
+.\src\app\posters\page.tsx:205  <span style={{ color:"#bbb", fontSize:12 }}>Multilingual Poster Maker</span>
+.\src\app\posters\page.tsx:207  <div style={{ display:"flex", gap:0, background:"#f0f4f8", borderRadius:10, padding:3, border:"1.5px solid #e0e0e0" }}>
+.\src\app\posters\page.tsx:210  return <button key={tab} onClick={()=>handleTabSwitch(tab)} style={{ padding:"8px 20px", borderRadius:8, border:"none", background:on?"#4A90E2":"transparent", color:on?"#fff":"#666", fontWeight:700, cursor:"pointer", fontFamily:"Montserrat,sans-serif", fontSize:13, transition:"all .15s", whiteSpace:"nowrap", boxShadow:on?"0 2px 8px rgba(74,144,226,.3)":"none" }}>
+.\src\app\posters\page.tsx:217  <main style={{ maxWidth:1200, margin:"0 auto", padding:"20px 12px" }}>
+.\src\app\posters\page.tsx:220  <div className="pl" style={{ display:"flex", flexDirection:"column", gap:14 }}>
+.\src\app\posters\page.tsx:224  <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:6 }}>
+.\src\app\posters\page.tsx:232  style={{ display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4, padding:"8px 4px", borderRadius:9, border:`2px solid ${on?"#4A90E2":"#e0e0e0"}`, background:on?"#EBF4FF":"#fafafa", cursor:"pointer", transition:"all .12s", minHeight:64 }}>
+.\src\app\posters\page.tsx:233  <div style={{ width:bw, height:bh, border:`2px solid ${on?"#4A90E2":"#bbb"}`, borderRadius:2, background:on?"rgba(74,144,226,.12)":"transparent" }} />
+.\src\app\posters\page.tsx:234  <span style={{ fontSize:9, fontWeight:600, color:on?"#4A90E2":"#777", textAlign:"center", lineHeight:1.2 }}>{f.label}</span>
+.\src\app\posters\page.tsx:257  <div style={{ display:"flex", flexDirection:"column", gap:4 }}>
+.\src\app\posters\page.tsx:262  <div style={{ padding:"8px 12px", borderRadius:8, border:"1.5px solid #e0e0e0", background:"#fafafa", fontFamily:state.posterFont, fontSize:15, color:"#333" }}>
+.\src\app\posters\page.tsx:271  <input type="file" accept="image/*" onChange={e=>{ const f=e.target.files?.[0]; if(f) handleImageUpload(f,"logo"); }} style={{ fontSize:12 }} />
+.\src\app\posters\page.tsx:274  style={{ ...IS, fontWeight:700, fontFamily:titleFont||state.posterFont||"Montserrat,sans-serif" }} />
+.\src\app\posters\page.tsx:275  <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
+.\src\app\posters\page.tsx:276  <span style={{ fontSize:11, color:"#888", fontWeight:600 }}>🔤 Title Font</span>
+.\src\app\posters\page.tsx:280  <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+.\src\app\posters\page.tsx:290  style={{ ...IS, fontFamily:subtitleFont||state.posterFont||"Montserrat,sans-serif" }} />
+.\src\app\posters\page.tsx:291  <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
+.\src\app\posters\page.tsx:292  <span style={{ fontSize:11, color:"#888", fontWeight:600 }}>🔤 Subtitle Font</span>
+.\src\app\posters\page.tsx:296  <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+.\src\app\posters\page.tsx:306  style={{ ...IS, resize:"vertical", fontFamily:messageFont||state.posterFont||"Montserrat,sans-serif" }} />
+.\src\app\posters\page.tsx:307  <div style={{ display:"flex", flexDirection:"column", gap:3 }}>
+.\src\app\posters\page.tsx:308  <span style={{ fontSize:11, color:"#888", fontWeight:600 }}>🔤 Message Font</span>
+.\src\app\posters\page.tsx:312  <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+.\src\app\posters\page.tsx:318  <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+.\src\app\posters\page.tsx:319  <button onClick={startListening} disabled={!voiceSupported||isListening} style={{ ...GB, background:isListening?"#E53935":"#fff", color:isListening?"#fff":"#333" }}>{isListening?"🔴 Listening…":"🎤 Speak"}</button>
+.\src\app\posters\page.tsx:326  <p style={{ margin:0, fontSize:11, color:"#888" }}>Auto-resized to fit {fmt.w}×{fmt.h} before crop</p>
+.\src\app\posters\page.tsx:327  <input type="file" accept="image/*" onChange={e=>{ const f=e.target.files?.[0]; if(f) handleImageUpload(f,"main"); }} style={{ fontSize:12 }} />
+.\src\app\posters\page.tsx:329  <button onClick={()=>set("uploadedMainData","")} style={{ ...GB, fontSize:11, padding:"4px 10px", alignSelf:"flex-start" }}>✕ Remove</button>
+.\src\app\posters\page.tsx:331  <label style={{ ...LS, marginTop:4 }}>
+.\src\app\posters\page.tsx:340  {!qrReady && <p style={{ margin:0, fontSize:11, color:"#F59E0B" }}>⏳ Loading QR library…</p>}
+.\src\app\posters\page.tsx:342  <label style={{ ...LS, marginTop:6 }}>
+.\src\app\posters\page.tsx:344  <div style={{ display:"flex", gap:6 }}>
+.\src\app\posters\page.tsx:346  <button key={a} onClick={()=>set("qrAlign",a)} style={{ flex:1, padding:"6px 0", borderRadius:7, border:`2px solid ${state.qrAlign===a?"#4A90E2":"#e0e0e0"}`, background:state.qrAlign===a?"#EBF4FF":"#fafafa", color:state.qrAlign===a?"#4A90E2":"#666", fontWeight:700, cursor:"pointer", fontFamily:"Montserrat,sans-serif", fontSize:12 }}>
+.\src\app\posters\page.tsx:355  <div style={{ display:"flex", alignItems:"center", gap:6, background:"#F0F7FF", borderRadius:8, padding:"8px 12px", fontSize:12, color:"#4A90E2", fontWeight:600 }}>
+.\src\app\posters\page.tsx:358  <span style={{ color:"#888", fontWeight:400 }}>· {fmt.w}×{fmt.h}px</span>
+.\src\app\posters\page.tsx:360  <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+.\src\app\posters\page.tsx:363  <button onClick={handleGenerate} disabled={isGenerating} style={{ ...PB, flex:1 }}>
+.\src\app\posters\page.tsx:367  <div style={{ display:"flex", gap:8, marginTop:4 }}>
+.\src\app\posters\page.tsx:368  <button onClick={handleDownload} disabled={isGenerating} style={{ ...GB, flex:1 }}>⬇ Download</button>
+.\src\app\posters\page.tsx:369  <button onClick={handleShare} disabled={isGenerating} style={{ ...GB, flex:1 }}>📤 Share</button>
+.\src\app\posters\page.tsx:389  <div style={{ background:"#fff", borderRadius:12, padding:"14px 16px", boxShadow:"0 2px 10px rgba(0,0,0,.06)", display:"flex", flexDirection:"column", gap:8 }}>
+.\src\app\posters\page.tsx:390  <h3 style={{ margin:0, fontSize:13, fontWeight:700, color:"#4A90E2", fontFamily:"Montserrat,sans-serif" }}>{title}</h3>
+.\src\app\posters\page.tsx:400  <label style={{ ...LS, flex:"1 1 100px" }}>
+.\src\app\posters\page.tsx:401  <span style={{ display:"flex", justifyContent:"space-between" }}>
+.\src\app\posters\page.tsx:403  <span style={{ background:"#EBF4FF", color:"#4A90E2", borderRadius:10, padding:"1px 7px", fontSize:11, fontWeight:700 }}>{value}px</span>
+.\src\app\posters\page.tsx:405  <input type="range" min={min} max={max} step={1} value={value} onChange={e=>onChange(Number(e.target.value))} style={{ width:"100%", marginTop:2 }} />
+.\src\app\smsparser\page.tsx:235  <div style={{
+.\src\app\smsparser\page.tsx:242  style={{
+.\src\app\smsparser\page.tsx:248  <div style={{
+.\src\app\smsparser\page.tsx:257  <div style={{
+.\src\app\smsparser\page.tsx:265  <div style={{flex:1,minWidth:0}}>
+.\src\app\smsparser\page.tsx:266  <div style={{fontSize:14,fontWeight:600,color:"#111827",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+.\src\app\smsparser\page.tsx:269  <div style={{display:"flex",alignItems:"center",gap:6,marginTop:3}}>
+.\src\app\smsparser\page.tsx:270  <span style={{
+.\src\app\smsparser\page.tsx:274  <span style={{fontSize:12,color:"#6b7280"}}>{t.category}</span>
+.\src\app\smsparser\page.tsx:275  <span style={{fontSize:12,color:"#9ca3af"}}>·</span>
+.\src\app\smsparser\page.tsx:276  <span style={{fontSize:12,color:"#9ca3af"}}>{t.paymentMode}</span>
+.\src\app\smsparser\page.tsx:281  <div style={{textAlign:"right",flexShrink:0}}>
+.\src\app\smsparser\page.tsx:282  <div style={{fontSize:12,color:"#6b7280"}}>{t.bank}</div>
+.\src\app\smsparser\page.tsx:283  <div style={{fontSize:12,color:"#9ca3af",marginTop:2}}>{t.date}</div>
+.\src\app\smsparser\page.tsx:288  style={{flexShrink:0,transform:expanded?"rotate(180deg)":"rotate(0)",transition:"transform .2s"}}>
+.\src\app\smsparser\page.tsx:295  <div style={{borderTop:"1px solid #f3f4f6",padding:"12px 16px",background:"#fafafa"}}>
+.\src\app\smsparser\page.tsx:296  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:"8px 16px",marginBottom:12}}>
+.\src\app\smsparser\page.tsx:304  <div style={{fontSize:11,color:"#9ca3af",fontWeight:600,letterSpacing:".05em",textTransform:"uppercase"}}>{lbl}</div>
+.\src\app\smsparser\page.tsx:305  <div style={{fontSize:13,color:"#374151",fontWeight:600,marginTop:2,fontFamily:"monospace"}}>{val}</div>
+.\src\app\smsparser\page.tsx:310  <div style={{
+.\src\app\smsparser\page.tsx:319  style={{
+.\src\app\smsparser\page.tsx:348  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}>
+.\src\app\smsparser\page.tsx:350  <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:20}}>
+.\src\app\smsparser\page.tsx:351  <div style={{fontSize:12,fontWeight:700,color:"#9ca3af",letterSpacing:".08em",textTransform:"uppercase",marginBottom:16}}>
+.\src\app\smsparser\page.tsx:360  <div key={label} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:"1px solid #f3f4f6"}}>
+.\src\app\smsparser\page.tsx:361  <span style={{fontSize:13,color:"#6b7280",fontWeight:500}}>{label}</span>
+.\src\app\smsparser\page.tsx:362  <span style={{fontSize:16,fontWeight:800,color:clr,fontVariantNumeric:"tabular-nums"}}>
+.\src\app\smsparser\page.tsx:371  <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:20}}>
+.\src\app\smsparser\page.tsx:372  <div style={{fontSize:12,fontWeight:700,color:"#9ca3af",letterSpacing:".08em",textTransform:"uppercase",marginBottom:16}}>
+.\src\app\smsparser\page.tsx:376  <div key={cat} style={{marginBottom:10}}>
+.\src\app\smsparser\page.tsx:377  <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
+.\src\app\smsparser\page.tsx:378  <div style={{display:"flex",alignItems:"center",gap:6}}>
+.\src\app\smsparser\page.tsx:379  <span style={{width:8,height:8,borderRadius:"50%",background:CAT_PALETTE[cat]??"#737373",display:"inline-block"}}/>
+.\src\app\smsparser\page.tsx:380  <span style={{fontSize:13,color:"#374151",fontWeight:500}}>{cat}</span>
+.\src\app\smsparser\page.tsx:382  <span style={{fontSize:13,fontWeight:700,color:"#111827",fontVariantNumeric:"tabular-nums"}}>
+.\src\app\smsparser\page.tsx:386  <div style={{height:6,background:"#f3f4f6",borderRadius:99,overflow:"hidden"}}>
+.\src\app\smsparser\page.tsx:387  <div style={{
+.\src\app\smsparser\page.tsx:444  <style>{`
+.\src\app\smsparser\page.tsx:482  <main style={{minHeight:"100vh",background:"#f9fafb",padding:"32px 16px 80px"}}>
+.\src\app\smsparser\page.tsx:483  <div style={{maxWidth:860,margin:"0 auto",display:"flex",flexDirection:"column",gap:24}}>
+.\src\app\smsparser\page.tsx:487  <h1 style={{fontSize:28,fontWeight:800,color:"#111827",letterSpacing:"-.5px"}}>
+.\src\app\smsparser\page.tsx:490  <p style={{fontSize:14,color:"#6b7280",marginTop:6,lineHeight:1.6}}>
+.\src\app\smsparser\page.tsx:497  <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:14,padding:20}}>
+.\src\app\smsparser\page.tsx:498  <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:8}}>
+.\src\app\smsparser\page.tsx:508  <div style={{display:"flex",alignItems:"center",gap:10,marginTop:12,flexWrap:"wrap"}}>
+.\src\app\smsparser\page.tsx:516  <span style={{fontSize:12,color:"#9ca3af"}}>or Ctrl+Enter</span>
+.\src\app\smsparser\page.tsx:527  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
+.\src\app\smsparser\page.tsx:528  <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+.\src\app\smsparser\page.tsx:536  <span style={{
+.\src\app\smsparser\page.tsx:546  <div style={{display:"flex",gap:8}}>
+.\src\app\smsparser\page.tsx:557  <div style={{display:"flex",flexDirection:"column",gap:8}}>
+.\src\app\smsparser\page.tsx:559  <div style={{textAlign:"center",padding:40,color:"#9ca3af",fontSize:14}}>
+.\src\app\smsparser\page.tsx:569  <div style={{textAlign:"center",paddingTop:8}}>
+.\src\app\smsparser\page.tsx:570  <button className="csv-btn" style={{padding:"12px 40px",fontSize:14}}
+.\src\app\smsparser\page.tsx:574  <p style={{fontSize:12,color:"#9ca3af",marginTop:8}}>
+.\src\app\smsparser\page.tsx:582  <div style={{
+.\src\app\smsparser\page.tsx:586  <div style={{fontSize:40,marginBottom:12}}>📱</div>
+.\src\app\smsparser\page.tsx:587  <p style={{fontSize:15,fontWeight:600,color:"#374151"}}>No transactions yet</p>
+.\src\app\smsparser\page.tsx:588  <p style={{fontSize:13,color:"#9ca3af",marginTop:6}}>
+.\src\app\staffdirectory\page.tsx:547  <Container maxWidth="xl" sx={{ pt: { xs: "84px", lg: "96px" }, pb: 4, px: { xs: 2, sm: 3 } }}>
+.\src\app\staffdirectory\page.tsx:549  <Box sx={{ mb: 3 }}>
+.\src\app\staffdirectory\page.tsx:550  <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: "center", flexWrap: "wrap" }}>
+.\src\app\staffdirectory\page.tsx:551  <Typography variant="h4" component="h1" sx={{ fontWeight: "bold" }}>Yuktai Grid Demo</Typography>
+.\src\app\staffdirectory\page.tsx:552  <Chip label={`v${YUKTAI_VERSION} · Agentic AI`} size="small" sx={{ bgcolor: G, color: "#fff", fontWeight: 700 }} />
+.\src\app\staffdirectory\page.tsx:555  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+.\src\app\staffdirectory\page.tsx:561  <Card sx={{ borderRadius: 4, mb: 2, p: { xs: 1.5, sm: 2 }, bgcolor: "#f0fdf4", border: "1px solid #86efac" }}>
+.\src\app\staffdirectory\page.tsx:563  <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: "center", flexWrap: "wrap" }}>
+.\src\app\staffdirectory\page.tsx:564  <AutoAwesomeIcon sx={{ color: G }} fontSize="small" />
+.\src\app\staffdirectory\page.tsx:565  <Typography variant="body2" component="h2" color="#166534" sx={{ fontWeight: 600 }}>Ask the data</Typography>
+.\src\app\staffdirectory\page.tsx:566  {query.filters.map((f) => <Chip key={f.key} label={describeFilter(f)} size="small" variant="outlined" sx={{ fontSize: "0.7rem" }} />)}
+.\src\app\staffdirectory\page.tsx:567  {query.search && <Chip label={`search: ${query.search}`} size="small" variant="outlined" sx={{ fontSize: "0.7rem" }} />}
+.\src\app\staffdirectory\page.tsx:568  {highlightIds.length > 0 && <Chip label={`${highlightIds.length} highlighted`} size="small" sx={{ bgcolor: activeAction?.color ?? G, color: "#fff", fontSize: "0.7rem" }} />}
+.\src\app\staffdirectory\page.tsx:570  <Button size="small" onClick={clearAll} startIcon={<CloseIcon size={14} />} sx={{ textTransform: "none", fontSize: "0.75rem", color: "#64748b" }}>Clear</Button>
+.\src\app\staffdirectory\page.tsx:572  <Box sx={{ flexGrow: 1 }} />
+.\src\app\staffdirectory\page.tsx:577  sx={{ bgcolor: "#fff", border: "1px solid #86efac" }}
+.\src\app\staffdirectory\page.tsx:586  sx={{ bgcolor: "#fff", borderRadius: 1 }}
+.\src\app\staffdirectory\page.tsx:588  <Button type="submit" variant="contained" disabled={busy || !question.trim()} sx={{ bgcolor: G, textTransform: "none", "&:hover": { bgcolor: "#059669" } }}>
+.\src\app\staffdirectory\page.tsx:593  <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
+.\src\app\staffdirectory\page.tsx:601  sx={{ textTransform: "none", fontSize: "0.8rem", bgcolor: isActive ? action.color : "transparent", color: isActive ? "#fff" : action.color, borderColor: action.color, "&:hover": { bgcolor: isActive ? action.color : `${action.color}15`, borderColor: action.color } }}
+.\src\app\staffdirectory\page.tsx:610  <Typography variant="body2" aria-live="polite" sx={{ whiteSpace: "pre-line", color: TEXT_MAIN }}>{answer}</Typography>
+.\src\app\staffdirectory\page.tsx:613  <Box sx={{ overflowX: "auto", bgcolor: "#fff", borderRadius: 2, border: `1px solid ${BORDER}` }}>
+.\src\app\staffdirectory\page.tsx:614  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+.\src\app\staffdirectory\page.tsx:615  <caption style={{ textAlign: "left", padding: "8px 12px", fontWeight: 600 }}>Results by department</caption>
+.\src\app\staffdirectory\page.tsx:617  <tr>{["Department", "Value", "Employees"].map((h) => <th key={h} scope="col" style={{ textAlign: h === "Department" ? "left" : "right", padding: "6px 12px", borderBottom: `1px solid ${BORDER}` }}>{h}</th>)}</tr>
+.\src\app\staffdirectory\page.tsx:622  <td style={{ padding: "6px 12px" }}>{r.label}</td>
+.\src\app\staffdirectory\page.tsx:623  <td style={{ padding: "6px 12px", textAlign: "right" }}>{r.value}</td>
+.\src\app\staffdirectory\page.tsx:624  <td style={{ padding: "6px 12px", textAlign: "right" }}>{fmt(r.count)}</td>
+.\src\app\staffdirectory\page.tsx:635  <Card sx={{ borderRadius: 4, mb: 2, p: { xs: 1.5, sm: 2 } }}>
+.\src\app\staffdirectory\page.tsx:636  <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ alignItems: { xs: "stretch", sm: "center" }, justifyContent: "space-between" }}>
+.\src\app\staffdirectory\page.tsx:637  <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+.\src\app\staffdirectory\page.tsx:639  <Typography variant="body2" sx={{ fontWeight: 600 }}>Theme</Typography>
+.\src\app\staffdirectory\page.tsx:644  sx={{ flexWrap: "wrap", "& .MuiToggleButton-root": { px: 1.5, py: 0.5, textTransform: "none", fontSize: "0.8rem" } }}
+.\src\app\staffdirectory\page.tsx:648  <Stack direction="row" spacing={0.7} sx={{ alignItems: "center" }}>
+.\src\app\staffdirectory\page.tsx:650  <Box sx={{ display: { xs: "none", md: "inline" } }}>{t.label}</Box>
+.\src\app\staffdirectory\page.tsx:660  <Card role="alert" sx={{ borderRadius: 4, p: 3, mb: 2, textAlign: "center", border: "1px solid #fecaca" }}>
+.\src\app\staffdirectory\page.tsx:662  <Typography variant="h6" sx={{ fontWeight: "bold", mt: 1 }}>Could not load employee data</Typography>
+.\src\app\staffdirectory\page.tsx:663  <Typography color="text.secondary" sx={{ mt: 0.5 }}>{error}</Typography>
+.\src\app\staffdirectory\page.tsx:664  <Button sx={{ mt: 1.5, textTransform: "none" }} onClick={() => void load(query)}>Try again</Button>
+.\src\app\staffdirectory\page.tsx:669  <Card sx={{ borderRadius: 4, overflow: "hidden", p: { xs: 1, sm: 2 }, mb: 3 }}>
+.\src\app\staffdirectory\page.tsx:671  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1, px: 1 }}>
+.\src\app\staffdirectory\page.tsx:672  <WarningIcon fontSize="small" sx={{ color: "#dc2626" }} />
+.\src\app\staffdirectory\page.tsx:673  <Typography variant="body2" sx={{ fontWeight: 600 }}>Showing {override.label}</Typography>
+.\src\app\staffdirectory\page.tsx:674  <Button size="small" onClick={() => { setOverride(null); setHighlightIds([]); }} sx={{ textTransform: "none" }}>Back to all employees</Button>
+.\src\app\staffdirectory\page.tsx:697  <Box sx={{ py: 4, textAlign: "center" }}>
+.\src\app\staffdirectory\page.tsx:699  <Typography color="text.secondary" sx={{ mt: 1 }}>No employees match. Try “clear” to reset.</Typography>
+.\src\app\staffdirectory\page.tsx:706  <Stack direction={{ xs: "column", sm: "row" }} spacing={1} sx={{ alignItems: "center", justifyContent: "space-between", mt: 1.5, px: 1 }}>
+.\src\app\staffdirectory\page.tsx:710  <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+.\src\app\staffdirectory\page.tsx:730  <Accordion sx={{ borderRadius: 4, mb: 2 }} defaultExpanded>
+.\src\app\staffdirectory\page.tsx:732  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+.\src\app\staffdirectory\page.tsx:733  <ListAltIcon fontSize="small" sx={{ color: G }} />
+.\src\app\staffdirectory\page.tsx:734  <Typography sx={{ fontWeight: 600 }}>What you can ask</Typography>
+.\src\app\staffdirectory\page.tsx:735  <Chip label="v5.1" size="small" sx={{ bgcolor: G, color: "#fff", fontWeight: 700, fontSize: "0.6rem", height: 18 }} />
+.\src\app\staffdirectory\page.tsx:755  <Accordion sx={{ borderRadius: 4, mb: 2 }}>
+.\src\app\staffdirectory\page.tsx:757  <Typography sx={{ fontWeight: 600 }}>🎯 Grid controls (all 7 Yuktai icons)</Typography>
+.\src\app\staffdirectory\page.tsx:761  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><VolumeUpRoundedIcon sx={{ color: G, fontSize: 20 }} /><Typography variant="body2"><strong>yuktai assistant:</strong> open the AI assistant built into the grid, type or speak a question (English or Telugu, e.g. &quot;ఎంత మంది&quot;). Data questions are answered over all employees.</Typography></Stack>
+.\src\app\staffdirectory\page.tsx:762  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in the question box.</Typography></Stack>
+.\src\app\staffdirectory\page.tsx:763  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SortUpIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort ascending:</strong> click a column header; the server sorts all rows.</Typography></Stack>
+.\src\app\staffdirectory\page.tsx:764  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SortDownIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort descending:</strong> click again.</Typography></Stack>
+.\src\app\staffdirectory\page.tsx:765  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><ChevronLeftIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Previous page</strong></Typography></Stack>
+.\src\app\staffdirectory\page.tsx:766  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><ChevronRightIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Next page</strong></Typography></Stack>
+.\src\app\staffdirectory\page.tsx:767  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><CheckIcon size={20} color="#10b981" /><Typography variant="body2"><strong>WCAG 2.2:</strong> keyboard and screen-reader ready.</Typography></Stack>
+.\src\app\staffdirectory\page.tsx:768  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><CloseIcon size={20} color="#dc2626" /><Typography variant="body2"><strong>Empty state:</strong> clear message when no rows match.</Typography></Stack>
+.\src\app\staffdirectory\page.tsx:773  <Accordion sx={{ borderRadius: 4 }}>
+.\src\app\staffdirectory\page.tsx:775  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}>
+.\src\app\staffdirectory\page.tsx:777  <Typography sx={{ fontWeight: 600 }}>Keyboard shortcuts</Typography>
+.\src\app\staffdirectory\page.tsx:789  <Box sx={{ mt: 3, p: 2, textAlign: "center", bgcolor: "grey.50", borderRadius: 3 }}>
+.\src\app\staffdirectory\page.tsx:790  <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", justifyContent: "center", flexWrap: "wrap" }}>
+.\src\app\staffdirectory\page.tsx:794  <Typography component="a" href="https://www.npmjs.com/package/@yuktishaalaa/yuktai" target="_blank" rel="noopener noreferrer" variant="caption" sx={{ color: "primary.main", fontWeight: 600, textDecoration: "none" }}>@yuktishaalaa/yuktai</Typography>
+.\src\app\staffdirectory\page.tsx:801  <style>{`
+.\src\app\user\page.tsx:90  <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh", pb: 6, color: "#0f172a" }}>
+.\src\app\user\page.tsx:95  <Box sx={{ height: { xs: "56px", sm: "64px", md: "72px" } }} />
+.\src\app\user\page.tsx:99  sx={{
+.\src\app\user\page.tsx:108  <Typography variant="h4" fontWeight="800" sx={{ color: "#0f172a", letterSpacing: "-0.025em" }}>
+.\src\app\user\page.tsx:111  <Typography variant="body2" sx={{ color: "#64748b", mt: 0.5 }}>
+.\src\app\user\page.tsx:116  <Card sx={{ borderRadius: 3, bgcolor: "#f8fafc", boxShadow: "none", border: "1px solid #e2e8f0" }}>
+.\src\app\user\page.tsx:117  <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: "16px !important" }}>
+.\src\app\user\page.tsx:118  <Avatar sx={{ bgcolor: "#eff6ff", color: "#2563eb", width: 40, height: 40 }}>
+.\src\app\user\page.tsx:122  <Typography sx={{ color: "#64748b", fontWeight: 500 }} variant="caption">Total Members</Typography>
+.\src\app\user\page.tsx:123  <Typography variant="h5" fontWeight="700" sx={{ color: "#0f172a" }}>
+.\src\app\user\page.tsx:133  <Card sx={{ mb: 4, borderRadius: 3, boxShadow: "none", border: "1px solid #e2e8f0", bgcolor: "#ffffff" }}>
+.\src\app\user\page.tsx:142  sx={{
+.\src\app\user\page.tsx:155  <SearchIcon fontSize="small" sx={{ color: "#94a3b8" }} />
+.\src\app\user\page.tsx:175  <Skeleton variant="rounded" height={160} sx={{ borderRadius: 3 }} />
+.\src\app\user\page.tsx:188  sx={{
+.\src\app\user\page.tsx:201  <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2.5, p: 3 }}>
+.\src\app\user\page.tsx:203  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+.\src\app\user\page.tsx:205  sx={{
+.\src\app\user\page.tsx:217  <Typography variant="caption" sx={{ color: "#94a3b8", fontFamily: "monospace", fontWeight: 600 }}>
+.\src\app\user\page.tsx:224  <Typography variant="h6" fontWeight="700" noWrap sx={{ color: "#0f172a", letterSpacing: "-0.01em" }}>
+.\src\app\user\page.tsx:230  <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pt: 2, borderTop: "1px solid #f1f5f9" }}>
+.\src\app\user\page.tsx:235  sx={{
+.\src\app\user\page.tsx:246  sx={{
+.\src\app\user\page.tsx:273  <Card sx={{ borderRadius: 3, bgcolor: "#f8fafc", border: "1px solid #e2e8f0", boxShadow: "none", mt: 2 }}>
+.\src\app\user\page.tsx:274  <CardContent sx={{ textAlign: "center", py: 6 }}>
+.\src\app\user\page.tsx:275  <SentimentDissatisfiedIcon sx={{ fontSize: 40, color: "#94a3b8", mb: 1.5 }} />
+.\src\app\user\page.tsx:276  <Typography variant="subtitle1" fontWeight="700" sx={{ color: "#0f172a" }} gutterBottom>{title}</Typography>
+.\src\app\user\page.tsx:277  <Typography variant="body2" sx={{ color: "#64748b", maxWidth: 380, mx: "auto" }}>{subtitle}</Typography>
+.\src\app\vedha\page.tsx:280  <style>
+.\src\app\vedha\page.tsx:319  <div style={{ fontSize: 20, lineHeight: 2.8, whiteSpace: "pre-wrap", fontFamily: "'Noto Sans Telugu', serif" }}>
+.\src\app\vedha\page.tsx:323  <span key={si} style={{ position: "relative", display: "inline-flex", flexDirection: "column", alignItems: "center", padding: "0.3em 0.1em" }}>
+.\src\app\vedha\page.tsx:324  {s.pitch === "high" && <span style={{ position: "absolute", top: "-0.8em", fontSize: "0.7em", color: PITCH_COLOR.high }}>▲</span>}
+.\src\app\vedha\page.tsx:325  {s.pitch === "svarita" && <span style={{ position: "absolute", top: "-0.8em", fontSize: "0.7em", color: PITCH_COLOR.svarita }}>⌒</span>}
+.\src\app\vedha\page.tsx:326  {s.pitch === "dirgha" && <span style={{ position: "absolute", top: "-0.8em", fontSize: "0.7em", color: PITCH_COLOR.dirgha }}>〰</span>}
+.\src\app\vedha\page.tsx:328  {s.pitch === "low" && <span style={{ position: "absolute", bottom: "-0.6em", fontSize: "0.7em", color: PITCH_COLOR.low }}>▼</span>}
+.\src\app\vedha\page.tsx:361  <style>{`
+.\src\app\vedha\page.tsx:425  <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 16px 40px" }}>
+.\src\app\vedha\page.tsx:434  <span style={{ fontSize: 18 }}>{s.emoji}</span>
+.\src\app\vedha\page.tsx:446  <button className="btn btn-secondary" style={{ marginBottom: 12, fontSize: 13 }} onClick={() => setHelperOpen(o => !o)}>
+.\src\app\vedha\page.tsx:465  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>కొత్త పుస్తకం పేరు:</label>
+.\src\app\vedha\page.tsx:474  <div className="section-divider" style={{ marginTop: 20 }} />
+.\src\app\vedha\page.tsx:475  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>ఉన్న పుస్తకం ఎంచుకోండి:</label>
+.\src\app\vedha\page.tsx:497  {currentBook && <span style={{ fontWeight: 400, fontSize: 13, color: "#888", marginLeft: 8 }}>({books[currentBook]?.title})</span>}
+.\src\app\vedha\page.tsx:500  <p style={{ color: "#e74c3c", fontSize: 14 }}>మొదట పుస్తకాన్ని ఎంచుకోండి.</p>
+.\src\app\vedha\page.tsx:503  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>కొత్త భాగం పేరు:</label>
+.\src\app\vedha\page.tsx:512  <div className="section-divider" style={{ marginTop: 20 }} />
+.\src\app\vedha\page.tsx:513  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>ఉన్న భాగం ఎంచుకోండి:</label>
+.\src\app\vedha\page.tsx:537  <span style={{ fontWeight: 400, fontSize: 13, color: "#888", marginLeft: 8 }}>
+.\src\app\vedha\page.tsx:544  <p style={{ color: "#e74c3c", fontSize: 14 }}>పుస్తకం మరియు భాగాన్ని ఎంచుకోండి.</p>
+.\src\app\vedha\page.tsx:548  <div className="flex-wrap" style={{ marginBottom: 12 }}>
+.\src\app\vedha\page.tsx:549  <label className="btn btn-secondary" style={{ cursor: "pointer" }}>
+.\src\app\vedha\page.tsx:551  <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handleFileChange} />
+.\src\app\vedha\page.tsx:561  <label style={{ fontSize: 13, color: "#555", fontWeight: 600, display: "block", marginBottom: 6 }}>
+.\src\app\vedha\page.tsx:569  <div className="flex-wrap" style={{ marginTop: 10 }}>
+.\src\app\vedha\page.tsx:574  <button className="btn btn-danger" style={{ fontSize: 13, padding: "8px 14px" }} onClick={clearAll}>🗑 తొలగించు</button>
+.\src\app\vedha\page.tsx:578  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 8, fontSize: 12, color: "#888" }}>
+.\src\app\vedha\page.tsx:580  <span key={k} style={{ color: PITCH_COLOR[k] }}>{v} = {k}</span>
+.\src\app\vedha\page.tsx:584  <div className="section-divider" style={{ marginTop: 16 }} />
+.\src\app\vedha\page.tsx:587  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>మంత్రం పేరు:</label>
+.\src\app\vedha\page.tsx:590  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>వివరణ:</label>
+.\src\app\vedha\page.tsx:594  <div className="flex-wrap" style={{ marginTop: 12 }}>
+.\src\app\vedha\page.tsx:611  <p style={{ color: "#e74c3c", fontSize: 14 }}>పుస్తకం మరియు భాగాన్ని ఎంచుకోండి.</p>
+.\src\app\vedha\page.tsx:613  <p style={{ color: "#888", fontSize: 14 }}>ఈ భాగంలో మంత్రాలు లేవు. OCR ట్యాబ్‌లో జోడించండి.</p>
+.\src\app\vedha\page.tsx:617  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+.\src\app\vedha\page.tsx:629  <h3 style={{ color: "#1f3674", margin: "0 0 6px", fontFamily: "'Noto Sans Telugu', serif" }}>
+.\src\app\vedha\page.tsx:633  <p style={{ color: "#6b7280", fontSize: 14, margin: "0 0 12px", fontFamily: "'Noto Sans Telugu', serif" }}>
+.\src\app\vedha\page.tsx:639  <div className="flex-wrap" style={{ marginTop: 16 }}>
+.\src\app\vedha\page.tsx:651  <p style={{ color: "#888", fontSize: 14 }}>పైన ఒక మంత్రాన్ని ఎంచుకోండి.</p>
+.\src\app\vedha\page.tsx:659  <div className="section-divider" style={{ marginTop: 20 }} />
+.\src\app\voice\page.tsx:610  <style>{`
+.\src\app\voice\page.tsx:651  <canvas ref={canvasRef} style={{ position:"fixed", top:"-9999px", left:"-9999px" }} />
+.\src\app\voice\page.tsx:653  <div style={{ minHeight:"100dvh", background:"#f5f6fa", fontFamily:"'Inter',sans-serif", padding:"20px 16px 72px" }}>
+.\src\app\voice\page.tsx:654  <div style={{ maxWidth:660, margin:"0 auto" }}>
+.\src\app\voice\page.tsx:657  <div style={{ textAlign:"center", marginBottom:20 }}>
+.\src\app\voice\page.tsx:658  <div style={{ display:"inline-flex", alignItems:"center", justifyContent:"center", width:58, height:58, borderRadius:"50%", background:"#eef2ff", border:"2px solid #c7d2fe", fontSize:28, marginBottom:10 }}>🎙️</div>
+.\src\app\voice\page.tsx:659  <h1 style={{ fontSize:23, fontWeight:700, color:"#4f46e5", marginBottom:4 }}>AksharaTantra Voice</h1>
+.\src\app\voice\page.tsx:660  <p style={{ color:"#9ca3af", fontSize:13 }}>33 Languages · Real Indic Audio in Video · Download Audio + Video + Image Slide</p>
+.\src\app\voice\page.tsx:665  <div style={{ background:"linear-gradient(135deg,#f0fdf4,#ecfdf5)", border:"1.5px solid #6ee7b7", borderRadius:14, padding:"14px 16px", marginBottom:14 }}>
+.\src\app\voice\page.tsx:666  <div style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
+.\src\app\voice\page.tsx:667  <span style={{ fontSize:26, flexShrink:0 }}>🇮🇳</span>
+.\src\app\voice\page.tsx:669  <div style={{ fontWeight:700, fontSize:14, color:"#065f46", marginBottom:4 }}>
+.\src\app\voice\page.tsx:672  <div style={{ fontSize:12, color:"#047857", lineHeight:1.8 }}>
+.\src\app\voice\page.tsx:681  <div className="card" style={{ padding:0, overflow:"hidden", marginBottom:14 }}>
+.\src\app\voice\page.tsx:682  <button onClick={() => setHowOpen(v => !v)} style={{ width:"100%", padding:"13px 18px", background:"none", border:"none", cursor:"pointer", display:"flex", justifyContent:"space-between", alignItems:"center", fontFamily:"inherit" }}>
+.\src\app\voice\page.tsx:683  <span style={{ fontWeight:600, fontSize:13, color:"#4f46e5" }}>💡 How to use</span>
+.\src\app\voice\page.tsx:684  <span style={{ fontSize:11, color:"#9ca3af" }}>{howOpen ? "▲ Hide" : "▼ Show"}</span>
+.\src\app\voice\page.tsx:687  <div style={{ borderTop:"1px solid #f3f4f6", padding:"16px 18px", display:"flex", flexDirection:"column", gap:12 }}>
+.\src\app\voice\page.tsx:695  <div key={n} style={{ display:"flex", gap:12 }}>
+.\src\app\voice\page.tsx:696  <div style={{ width:26, height:26, borderRadius:"50%", background:"#eef2ff", color:"#4f46e5", fontSize:12, fontWeight:700, display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>{n}</div>
+.\src\app\voice\page.tsx:698  <div style={{ fontWeight:600, fontSize:13, color:"#111827", marginBottom:2 }}>{title}</div>
+.\src\app\voice\page.tsx:699  <div style={{ fontSize:12, color:"#6b7280", lineHeight:1.75 }}>{desc}</div>
+.\src\app\voice\page.tsx:710  <div style={{ position:"relative" }}>
+.\src\app\voice\page.tsx:723  <span style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", color:"#9ca3af" }}>▼</span>
+.\src\app\voice\page.tsx:725  <div style={{ marginTop:8, display:"flex", gap:8, flexWrap:"wrap" }}>
+.\src\app\voice\page.tsx:737  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:10 }}>
+.\src\app\voice\page.tsx:738  <span className="lbl" style={{ margin:0 }}>Step 2 — Speak or Type</span>
+.\src\app\voice\page.tsx:739  <button onClick={clearText} disabled={loading || !text} style={{
+.\src\app\voice\page.tsx:752  : <><span style={{ fontSize:22 }}>🎙️</span><span>Tap to Speak in {L.flag} {L.label}</span></>
+.\src\app\voice\page.tsx:756  {micMsg && <div style={{ fontSize:12, color:micMsg.startsWith("❌")?"#dc2626":"#6b7280", margin:"4px 0 8px" }}>{micMsg}</div>}
+.\src\app\voice\page.tsx:757  {interim && <div className="interim" style={{ fontFamily:INDIC_FONTS }}>💬 {interim}</div>}
+.\src\app\voice\page.tsx:761  <div style={{ position:"relative", marginTop:10 }}>
+.\src\app\voice\page.tsx:764  style={{ fontFamily:INDIC_FONTS }}
+.\src\app\voice\page.tsx:770  <span style={{
+.\src\app\voice\page.tsx:775  {over && <p style={{ fontSize:12, color:"#ef4444", marginTop:4 }}>Character limit reached</p>}
+.\src\app\voice\page.tsx:781  <div style={{ position:"relative" }}>
+.\src\app\voice\page.tsx:789  <span style={{ position:"absolute", right:12, top:"50%", transform:"translateY(-50%)", pointerEvents:"none", color:"#9ca3af" }}>▼</span>
+.\src\app\voice\page.tsx:797  style={{ width:"100%", fontSize:16, borderRadius:14, padding:"17px 0", marginBottom:14, minHeight:54,
+.\src\app\voice\page.tsx:806  <div style={{ background:"#fffbeb", border:"1px solid #fde68a", borderRadius:8, padding:"9px 14px", fontSize:12, marginBottom:12, fontFamily:"monospace", color:"#92400e" }}>
+.\src\app\voice\page.tsx:813  <div style={{ background:"#f0fdf4", border:"1px solid #6ee7b7", borderRadius:8, padding:"10px 14px", fontSize:13, marginBottom:14, color:"#065f46", fontWeight:500 }}>
+.\src\app\voice\page.tsx:820  <div className="card" style={{ background:"linear-gradient(135deg,#fafafe,#f0f4ff)", border:"1.5px solid #c7d2fe" }}>
+.\src\app\voice\page.tsx:821  <div style={{ fontWeight:700, fontSize:15, color:"#4f46e5", marginBottom:16 }}>
+.\src\app\voice\page.tsx:827  <div style={{ marginBottom:18 }}>
+.\src\app\voice\page.tsx:828  <div style={{ fontWeight:600, fontSize:13, color:"#374151", marginBottom:8 }}>🎵 Audio</div>
+.\src\app\voice\page.tsx:829  <audio controls src={audioUrl} style={{ width:"100%", marginBottom:10, borderRadius:8 }} preload="auto" />
+.\src\app\voice\page.tsx:843  <div style={{ marginBottom:18 }}>
+.\src\app\voice\page.tsx:844  <div style={{ fontWeight:600, fontSize:13, color:"#374151", marginBottom:8 }}>🎬 Video (with audio)</div>
+.\src\app\voice\page.tsx:845  <video controls playsInline src={vidUrl} style={{ width:"100%", borderRadius:10, marginBottom:10 }} />
+.\src\app\voice\page.tsx:846  <button className="btn btn-green" style={{ width:"100%" }} onClick={() => {
+.\src\app\voice\page.tsx:857  <div style={{ fontWeight:600, fontSize:13, color:"#374151", marginBottom:8 }}>🖼️ Image Slide (PNG)</div>
+.\src\app\voice\page.tsx:858  <div style={{ background:"#f3f4f6", borderRadius:10, padding:8, marginBottom:10, textAlign:"center" }}>
+.\src\app\voice\page.tsx:867  style={{ width:"100%", maxWidth:200, borderRadius:8, display:"inline-block", border:"1px solid #e5e7eb" }}
+.\src\app\voice\page.tsx:870  <button className="btn btn-indigo" style={{ width:"100%" }} onClick={downloadSlide}>
+.\src\app\voice\page.tsx:873  <p style={{ fontSize:11, color:"#9ca3af", marginTop:6, textAlign:"center" }}>
+.\src\app\whatsapp-bot\page.tsx:52  <div style={{ minHeight: "100vh", background: "#f8fafc", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, fontFamily: "system-ui,sans-serif" }}>
+.\src\app\whatsapp-bot\page.tsx:53  <div style={{ width: "100%", maxWidth: 420, display: "flex", flexDirection: "column", gap: 20 }}>
+.\src\app\whatsapp-bot\page.tsx:56  <div style={{ textAlign: "center" }}>
+.\src\app\whatsapp-bot\page.tsx:57  <div style={{ fontSize: 48, marginBottom: 8 }}>📱</div>
+.\src\app\whatsapp-bot\page.tsx:58  <h1 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 6px", color: "#0f172a" }}>AksharaTantra Greetings</h1>
+.\src\app\whatsapp-bot\page.tsx:59  <p style={{ fontSize: 14, color: "#64748b", margin: 0 }}>Send a WhatsApp greeting instantly</p>
+.\src\app\whatsapp-bot\page.tsx:65  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+.\src\app\whatsapp-bot\page.tsx:66  <span style={{ padding: "10px 12px", background: "#f1f5f9", borderRadius: 8, border: "0.5px solid #cbd5e1", fontSize: 13, color: "#475569", flexShrink: 0 }}>+91</span>
+.\src\app\whatsapp-bot\page.tsx:73  style={{ flex: 1, padding: "10px 12px", borderRadius: 8, border: "0.5px solid #cbd5e1", fontFamily: "inherit", fontSize: 14, outline: "none", color: "#0f172a" }}
+.\src\app\whatsapp-bot\page.tsx:76  <p style={{ fontSize: 11, color: "#94a3b8", margin: 0 }}>Enter number with country code — e.g. 919876543210</p>
+.\src\app\whatsapp-bot\page.tsx:82  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+.\src\app\whatsapp-bot\page.tsx:87  style={{
+.\src\app\whatsapp-bot\page.tsx:98  <span style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>{g.label}</span>
+.\src\app\whatsapp-bot\page.tsx:99  <span style={{ fontSize: 11, color: "#64748b", lineHeight: 1.4 }}>{g.text}</span>
+.\src\app\whatsapp-bot\page.tsx:106  style={{
+.\src\app\whatsapp-bot\page.tsx:114  <span style={{ fontSize: 13, fontWeight: 600, color: "#0f172a" }}>✏️ Custom Message</span>
+.\src\app\whatsapp-bot\page.tsx:123  style={{ display: "block", width: "100%", marginTop: 8, padding: "8px 10px", borderRadius: 8, border: "0.5px solid #cbd5e1", fontFamily: "inherit", fontSize: 13, resize: "none", boxSizing: "border-box", outline: "none" }}
+.\src\app\whatsapp-bot\page.tsx:132  <div style={{ background: "#d1fae5", color: "#065f46", padding: "12px 16px", borderRadius: 10, fontSize: 14, textAlign: "center" }}>
+.\src\app\whatsapp-bot\page.tsx:137  <div style={{ background: "#fee2e2", color: "#991b1b", padding: "12px 16px", borderRadius: 10, fontSize: 14, textAlign: "center" }}>
+.\src\app\whatsapp-bot\page.tsx:146  style={{
+.\src\app\whatsapp-bot\page.tsx:161  <p style={{ fontSize: 11, color: "#94a3b8", textAlign: "center", margin: 0 }}>
+.\src\app\yuktai\page.tsx:232  style={{
+.\src\app\yuktai\page.tsx:243  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, marginBottom: 30 }}>
+.\src\app\yuktai\page.tsx:244  <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: G_DARK, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
+.\src\app\yuktai\page.tsx:248  <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#f1f5f9", padding: "6px 12px", borderRadius: 30, border: "1px solid #e2e8f0" }}>
+.\src\app\yuktai\page.tsx:249  <span style={{ fontSize: 12, fontWeight: 600, color: TEXT_SUB, marginRight: 4 }}>Listen to page:</span>
+.\src\app\yuktai\page.tsx:250  <TtsButton label="Play"  active={isSpeaking && !isPaused} activeBg={G_DARK}   onClick={() => handleTTS("play")}><PlayArrowRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
+.\src\app\yuktai\page.tsx:251  <TtsButton label="Pause" active={isPaused}                activeBg="#be123c"  onClick={() => handleTTS("pause")}><PauseRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
+.\src\app\yuktai\page.tsx:252  <TtsButton label="Stop"  active={false}                   activeBg={TEXT_MAIN} onClick={() => handleTTS("stop")}><StopRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
+.\src\app\yuktai\page.tsx:258  <header style={{ borderBottom: "1px solid #e2e8f0", paddingBottom: 24, marginBottom: 32 }}>
+.\src\app\yuktai\page.tsx:259  <span style={{ color: G_DARK, fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+.\src\app\yuktai\page.tsx:262  <h1 style={{ fontSize: "clamp(26px, 5vw, 34px)", fontWeight: 700, letterSpacing: "-0.03em", marginTop: 6, marginBottom: 12, borderBottom: "none", paddingBottom: 0 }}>
+.\src\app\yuktai\page.tsx:263  <code style={{ fontSize: "0.85em" }}>yuktai</code>: accessible, agentic AI that runs in the browser
+.\src\app\yuktai\page.tsx:265  <p style={{ fontSize: 16, color: TEXT_SUB }}>
+.\src\app\yuktai\page.tsx:269  <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
+.\src\app\yuktai\page.tsx:279  <section style={{ marginBottom: 40 }}>
+.\src\app\yuktai\page.tsx:280  <p style={{ fontSize: 16.5, marginBottom: 16 }}>
+.\src\app\yuktai\page.tsx:290  <h2 style={sectionH2Style}><AutoAwesomeRoundedIcon style={{ color: G_DARK }} /> What&apos;s new in v5: 10 agentic features</h2>
+.\src\app\yuktai\page.tsx:291  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
+.\src\app\yuktai\page.tsx:304  <div key={t} style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: "12px 14px", background: "#fff" }}>
+.\src\app\yuktai\page.tsx:305  <div style={{ fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}><CheckIcon size={14} color={G_DARK} /> {t}</div>
+.\src\app\yuktai\page.tsx:306  <div style={{ fontSize: 14, color: TEXT_SUB }}>{d}</div>
+.\src\app\yuktai\page.tsx:314  <h2 style={sectionH2Style}><GridViewRoundedIcon style={{ color: G_DARK }} /> Live demo: talk to a grid</h2>
+.\src\app\yuktai\page.tsx:317  For 10 lakh rows on a real database, open the <Link href="/staffdirectory" style={{ color: G_DARK, fontWeight: 600 }}>Yuktai Grid demo</Link>.
+.\src\app\yuktai\page.tsx:331  <div style={{ marginTop: 12, overflowX: "auto" }}>
+.\src\app\yuktai\page.tsx:358  <h2 style={sectionH2Style}><FactCheckRoundedIcon style={{ color: G_DARK }} /> Live demo: test this page</h2>
+.\src\app\yuktai\page.tsx:363  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+.\src\app\yuktai\page.tsx:371  <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+.\src\app\yuktai\page.tsx:372  <span style={{ fontSize: 28, fontWeight: 700, color: audit.score >= 90 ? G_DARK : audit.score >= 70 ? "#b45309" : "#be123c" }}>{audit.score}/100</span>
+.\src\app\yuktai\page.tsx:373  <span style={{ color: TEXT_SUB }}>{audit.checks.filter((c) => c.passed).length} of {audit.checks.length} checks passed</span>
+.\src\app\yuktai\page.tsx:375  <p style={{ margin: "6px 0 10px", fontSize: 14 }}>{audit.summary}</p>
+.\src\app\yuktai\page.tsx:377  <div key={i.id} style={{ borderTop: "1px solid #e2e8f0", padding: "8px 0", fontSize: 14 }}>
+.\src\app\yuktai\page.tsx:378  <strong>{i.message}</strong> <span style={{ color: TEXT_SUB }}>· WCAG {i.wcag} · {i.severity}</span>
+.\src\app\yuktai\page.tsx:379  <div style={{ color: TEXT_SUB }}>Fix: {i.fix}</div>
+.\src\app\yuktai\page.tsx:382  {audit.issues.length > 5 && <div style={{ fontSize: 13, color: TEXT_SUB }}>+ {audit.issues.length - 5} more in the downloaded report</div>}
+.\src\app\yuktai\page.tsx:388  <div style={{ fontWeight: 600 }}>Design score: {design.score}/100</div>
+.\src\app\yuktai\page.tsx:389  <p style={{ margin: "4px 0 8px", fontSize: 14 }}>{design.summary}</p>
+.\src\app\yuktai\page.tsx:391  <div key={idx} style={{ fontSize: 14, borderTop: "1px solid #e2e8f0", padding: "6px 0" }}>
+.\src\app\yuktai\page.tsx:392  <strong style={{ textTransform: "capitalize" }}>{f.category}:</strong> {f.message} <span style={{ color: TEXT_SUB }}>→ {f.suggestion}</span>
+.\src\app\yuktai\page.tsx:397  <div style={{ marginTop: 16 }}>
+.\src\app\yuktai\page.tsx:404  <h2 style={sectionH2Style}><PsychologyRoundedIcon style={{ color: G_DARK }} /> Live demo: ask this page</h2>
+.\src\app\yuktai\page.tsx:409  <form onSubmit={(e) => { e.preventDefault(); askPage(); }} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+.\src\app\yuktai\page.tsx:415  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+.\src\app\yuktai\page.tsx:422  <div style={{ fontSize: 15, whiteSpace: "pre-line" }}>{pageAns.answer}</div>
+.\src\app\yuktai\page.tsx:424  <div style={{ fontSize: 13, color: TEXT_SUB, marginTop: 6 }}>Try next: {pageAns.suggestions.join(" · ")}</div>
+.\src\app\yuktai\page.tsx:432  <h2 style={sectionH2Style}><AutoAwesomeRoundedIcon style={{ color: G_DARK }} /> Live demo: multi-step tasks and voice commands</h2>
+.\src\app\yuktai\page.tsx:433  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+.\src\app\yuktai\page.tsx:438  rows={3} style={{ ...inputStyle, width: "100%", marginTop: 8, resize: "vertical" }} />
+.\src\app\yuktai\page.tsx:439  <button type="button" onClick={runPlanner} style={{ ...btnPrimary, marginTop: 8 }}>Plan steps</button>
+.\src\app\yuktai\page.tsx:441  <ol style={{ ...resultBox, paddingLeft: 32 }} aria-live="polite">
+.\src\app\yuktai\page.tsx:443  <li key={i} style={{ fontSize: 14 }}><strong>{s.action}</strong> <span style={{ color: TEXT_SUB }}>— “{s.text}”</span></li>
+.\src\app\yuktai\page.tsx:452  style={{ ...inputStyle, width: "100%", marginTop: 8 }} />
+.\src\app\yuktai\page.tsx:453  <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+.\src\app\yuktai\page.tsx:458  <button type="button" onClick={runVoice} style={{ ...btnPrimary, marginTop: 8 }}>Understand</button>
+.\src\app\yuktai\page.tsx:459  {voiceOut && <pre style={{ ...outputBoxStyle, whiteSpace: "pre-wrap" }} aria-live="polite">{voiceOut}</pre>}
+.\src\app\yuktai\page.tsx:466  <h2 style={sectionH2Style}><AccessibilityNewRoundedIcon style={{ color: G_DARK }} /> All-in-one: AgenticPanel</h2>
+.\src\app\yuktai\page.tsx:474  <div style={{ marginTop: 12 }}>
+.\src\app\yuktai\page.tsx:482  <h2 style={sectionH2Style}><AccessibilityNewRoundedIcon style={{ color: G_DARK }} /> Core: accessibility engine</h2>
+.\src\app\yuktai\page.tsx:489  <p style={{ fontSize: 14, color: TEXT_SUB, margin: 0 }}>Open it from the ♿ button in the yuktai tools (bottom-left).</p>
+.\src\app\yuktai\page.tsx:499  <p style={{ fontSize: 14, color: TEXT_SUB, margin: 0 }}>Try it from the 💬 button in the yuktai tools.</p>
+.\src\app\yuktai\page.tsx:503  <h2 style={sectionH2Style}><IntegrationInstructionsRoundedIcon style={{ color: G_DARK }} /> Core: Vibe Coder</h2>
+.\src\app\yuktai\page.tsx:504  <p style={{ fontSize: 15, color: TEXT_SUB, margin: 0 }}>
+.\src\app\yuktai\page.tsx:512  <h2 style={sectionH2Style}><CodeRoundedIcon style={{ color: G_DARK }} /> Use it in your Next.js app</h2>
+.\src\app\yuktai\page.tsx:515  <h3 style={{ ...h3Style, marginTop: 20 }}>2. Or the grid&apos;s built-in assistant with your own rules</h3>
+.\src\app\yuktai\page.tsx:517  <p style={{ fontSize: 14, color: TEXT_SUB, marginTop: 12, marginBottom: 0 }}>
+.\src\app\yuktai\page.tsx:524  <h2 style={sectionH2Style}><ComputerRoundedIcon style={{ color: G_DARK }} /> Technical compatibility</h2>
+.\src\app\yuktai\page.tsx:525  <div style={{ overflowX: "auto" }}>
+.\src\app\yuktai\page.tsx:526  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14.5, textAlign: "left", minWidth: 480 }}>
+.\src\app\yuktai\page.tsx:528  <tr style={{ borderBottom: "2px solid #cbd5e1" }}>
+.\src\app\yuktai\page.tsx:529  <th scope="col" style={{ padding: 8 }}>Area</th>
+.\src\app\yuktai\page.tsx:530  <th scope="col" style={{ padding: 8 }}>Support</th>
+.\src\app\yuktai\page.tsx:549  <div style={{ background: "#0f172a", color: "white", borderRadius: 16, padding: 24, marginBottom: 40, display: "flex", flexDirection: "column", gap: 12 }}>
+.\src\app\yuktai\page.tsx:550  <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 600, color: FG_CODE }}>
+.\src\app\yuktai\page.tsx:553  <p style={{ fontSize: 14, color: "#cbd5e1", margin: 0 }}>Add yuktai to any React or Next.js project:</p>
+.\src\app\yuktai\page.tsx:554  <div style={{ position: "relative" }}>
+.\src\app\yuktai\page.tsx:555  <code style={{ background: "#1e293b", color: FG_CODE, padding: "12px 48px 12px 16px", borderRadius: 8, fontFamily: "monospace", fontSize: 14, display: "block" }}>
+.\src\app\yuktai\page.tsx:559  style={{ position: "absolute", top: 4, right: 4, width: 44, height: 44, background: "transparent", border: "none", cursor: "pointer", color: copiedCode === "install" ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+.\src\app\yuktai\page.tsx:560  {copiedCode === "install" ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
+.\src\app\yuktai\page.tsx:566  <footer style={{ borderTop: "1px solid #e2e8f0", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontSize: 14 }}>
+.\src\app\yuktai\page.tsx:567  <span style={{ color: TEXT_SUB }}>Built in public, with help from Claude, GPT and Gemini.</span>
+.\src\app\yuktai\page.tsx:568  <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+.\src\app\yuktai\page.tsx:570  style={{ color: G_DARK, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+.\src\app\yuktai\page.tsx:574  style={{ color: G_DARK, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+.\src\app\yuktai\page.tsx:577  <Link href="/staffdirectory" style={{ color: TEXT_MAIN, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+.\src\app\yuktai\page.tsx:592  <section style={{ marginBottom: 32, border: "1px solid #e2e8f0", borderRadius: 16, padding: "clamp(16px, 4vw, 24px)", background: "#ffffff" }}>
+.\src\app\yuktai\page.tsx:603  style={{ background: active ? activeBg : "#ffffff", color: active ? "#ffffff" : TEXT_MAIN, border: "none", borderRadius: "50%",
+.\src\app\yuktai\page.tsx:612  <div style={{ background: "#f0fdf4", border: "1px solid #86efac", padding: "6px 12px", borderRadius: 20, display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
+.\src\app\yuktai\page.tsx:613  <span style={{ color: "#166534", fontWeight: 700 }}>{value}</span>
+.\src\app\yuktai\page.tsx:614  <span style={{ color: TEXT_SUB }}>{label}</span>
+.\src\app\yuktai\page.tsx:621  <div style={{ background: "#f8fafc", padding: 14, borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13.5, marginTop: 16 }}>
+.\src\app\yuktai\page.tsx:629  <div style={{ position: "relative" }}>
+.\src\app\yuktai\page.tsx:630  <pre style={{ background: BG_CODE, color: FG_CODE, padding: "16px 52px 16px 16px", borderRadius: 10, overflowX: "auto", fontSize: 12.5, fontFamily: "monospace", lineHeight: 1.6, margin: 0 }}>
+.\src\app\yuktai\page.tsx:634  style={{ position: "absolute", top: 4, right: 4, width: 44, height: 44, background: "transparent", border: "none", cursor: "pointer", color: copied ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+.\src\app\yuktai\page.tsx:635  {copied ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
+.\src\app\yuktai\page.tsx:643  <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
+.\src\app\yuktai\page.tsx:644  <th scope="row" style={{ padding: 8, fontWeight: 600 }}>{k}</th>
+.\src\app\yuktai\page.tsx:645  <td style={{ padding: 8 }}>{v}</td>

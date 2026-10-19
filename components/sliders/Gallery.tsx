@@ -79,19 +79,19 @@ export function Gallery() {
   };
 
   return (
-    <div style={{ padding: "16px 0" }}>
+    <div className="is-e41b563">
       {/* Controls */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 20, alignItems: "center" }}>
-        <span style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 600 }}>
+      <div className="is-270ac1d">
+        <span className="is-d7d261b">
           Total: {posters.length}
         </span>
-        <select value={sortBy} onChange={(e) => { setSortBy(e.target.value as SortOrder); setPage(1); }} style={selectStyle}>
+        <select value={sortBy} onChange={(e) => { setSortBy(e.target.value as SortOrder); setPage(1); }} className="is-f2b3bd0">
           <option value="newest">Newest First</option>
           <option value="oldest">Oldest First</option>
           <option value="name-asc">A → Z</option>
           <option value="name-desc">Z → A</option>
         </select>
-        <select value={pageSize} onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }} style={selectStyle}>
+        <select value={pageSize} onChange={(e) => { setPageSize(Number(e.target.value)); setPage(1); }} className="is-f2b3bd0">
           {PAGE_SIZE_OPTIONS.map((n) => (
             <option key={n} value={n}>{n} per page</option>
           ))}
@@ -100,45 +100,45 @@ export function Gallery() {
           placeholder="Filter by title…"
           value={filter}
           onChange={(e) => { setFilter(e.target.value); setPage(1); }}
-          style={{ ...selectStyle, minWidth: 160 }}
+          className="is-4ee012e"
         />
-        <button onClick={load} style={ghostBtnStyle}>🔄 Refresh</button>
-        <button onClick={handleClearAll} style={{ ...ghostBtnStyle, color: "#E53935", borderColor: "#E53935" }}>
+        <button onClick={load} className="is-c4c8996">🔄 Refresh</button>
+        <button onClick={handleClearAll} className="is-214a115">
           🗑 Clear All
         </button>
       </div>
 
       {/* Grid */}
       {loading ? (
-        <p style={{ fontFamily: "Montserrat, sans-serif", color: "#888" }}>Loading…</p>
+        <p className="is-73f809e">Loading…</p>
       ) : items.length === 0 ? (
-        <p style={{ fontFamily: "Montserrat, sans-serif", color: "#888" }}>
+        <p className="is-73f809e">
           No posters found. Create one in the Create tab!
         </p>
       ) : (
         <>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+          <div className="is-4813ae5">
             {items.map((item) => (
-              <div key={item.id} style={{ borderRadius: 10, overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.10)", background: "#fff", display: "flex", flexDirection: "column" }}>
+              <div key={item.id} className="is-28d3d23">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.dataUrl}
                   alt={item.title}
                   loading="lazy"
-                  style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", cursor: "pointer" }}
+                  className="is-5970110"
                   onClick={() => setPreviewItem(item)}
                 />
-                <div style={{ padding: "10px 12px 12px" }}>
-                  <div style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 700, fontSize: 13, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <div className="is-a5e9c96">
+                  <div className="is-0195665">
                     {item.title || "Untitled"}
                   </div>
-                  <div style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "#888", marginBottom: 8 }}>
+                  <div className="is-ca9af91">
                     {new Date(item.ts).toLocaleDateString()}
                   </div>
-                  <div style={{ display: "flex", gap: 6 }}>
-                    <button onClick={() => setPreviewItem(item)} style={smallBtnStyle}>🔍</button>
-                    <button onClick={() => downloadDataUrl(item.dataUrl, `${(item.title || "poster").replace(/[^\w\- ]/g, "")}.png`)} style={smallBtnStyle}>⬇</button>
-                    <button onClick={() => handleDelete(item.id!)} style={{ ...smallBtnStyle, color: "#E53935" }}>🗑</button>
+                  <div className="is-4a5d9a1">
+                    <button onClick={() => setPreviewItem(item)} className="is-1a54b55">🔍</button>
+                    <button onClick={() => downloadDataUrl(item.dataUrl, `${(item.title || "poster").replace(/[^\w\- ]/g, "")}.png`)} className="is-1a54b55">⬇</button>
+                    <button onClick={() => handleDelete(item.id!)} className="is-2348b70">🗑</button>
                   </div>
                 </div>
               </div>
@@ -146,13 +146,13 @@ export function Gallery() {
           </div>
 
           {/* Pagination */}
-          <div style={{ display: "flex", gap: 10, marginTop: 20, alignItems: "center", fontFamily: "Montserrat, sans-serif" }}>
+          <div className="is-85274bd">
             {currentPage > 1 && (
-              <button onClick={() => setPage(currentPage - 1)} style={ghostBtnStyle}>◀ Prev</button>
+              <button onClick={() => setPage(currentPage - 1)} className="is-c4c8996">◀ Prev</button>
             )}
             <span>{currentPage} / {totalPages}</span>
             {currentPage < totalPages && (
-              <button onClick={() => setPage(currentPage + 1)} style={ghostBtnStyle}>Next ▶</button>
+              <button onClick={() => setPage(currentPage + 1)} className="is-c4c8996">Next ▶</button>
             )}
           </div>
         </>
@@ -161,25 +161,25 @@ export function Gallery() {
       {/* Preview Modal */}
       {previewItem && (
         <div
-          style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)", zIndex: 10001, display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+          className="is-2476138"
           onClick={() => setPreviewItem(null)}
         >
           <div
-            style={{ background: "#fff", borderRadius: 14, padding: 20, maxWidth: 560, width: "100%", boxShadow: "0 8px 40px rgba(0,0,0,0.3)" }}
+            className="is-be84b1d"
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12, fontFamily: "Montserrat, sans-serif" }}>
+            <div className="is-cf960dc">
               <div>
-                <div style={{ fontWeight: 700 }}>{previewItem.title || "Untitled"}</div>
-                <div style={{ fontSize: 12, color: "#888" }}>{new Date(previewItem.ts).toLocaleString()}</div>
+                <div className="is-be8e63c">{previewItem.title || "Untitled"}</div>
+                <div className="is-41d412c">{new Date(previewItem.ts).toLocaleString()}</div>
               </div>
-              <button onClick={() => setPreviewItem(null)} style={{ background: "none", border: "none", fontSize: 18, cursor: "pointer" }}>✖</button>
+              <button onClick={() => setPreviewItem(null)} className="is-f0e294d">✖</button>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={previewItem.dataUrl} alt="Poster preview" style={{ width: "100%", borderRadius: 8 }} />
+            <img src={previewItem.dataUrl} alt="Poster preview" className="is-dfaf437" />
             <button
               onClick={() => downloadDataUrl(previewItem.dataUrl, `${(previewItem.title || "poster").replace(/[^\w\- ]/g, "")}.png`)}
-              style={{ ...primaryBtnStyle, width: "100%", marginTop: 12 }}
+              className="is-b010254"
             >
               ⬇ Download
             </button>
@@ -189,21 +189,3 @@ export function Gallery() {
     </div>
   );
 }
-
-const selectStyle: React.CSSProperties = {
-  padding: "6px 10px", borderRadius: 7, border: "1.5px solid #ddd",
-  fontFamily: "Montserrat, sans-serif", fontSize: 13, background: "#fff", cursor: "pointer",
-};
-const ghostBtnStyle: React.CSSProperties = {
-  padding: "6px 14px", borderRadius: 7, border: "1.5px solid #ccc",
-  background: "#fff", cursor: "pointer", fontFamily: "Montserrat, sans-serif", fontSize: 13,
-};
-const primaryBtnStyle: React.CSSProperties = {
-  padding: "10px 20px", borderRadius: 8, border: "none",
-  background: "#4A90E2", color: "#fff", fontWeight: 700,
-  cursor: "pointer", fontFamily: "Montserrat, sans-serif",
-};
-const smallBtnStyle: React.CSSProperties = {
-  padding: "4px 10px", borderRadius: 6, border: "1.5px solid #eee",
-  background: "#fff", cursor: "pointer", fontSize: 14,
-};

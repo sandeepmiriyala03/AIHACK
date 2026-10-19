@@ -232,68 +232,52 @@ function TxnCard({ t, onRemove }: { t: Transaction; onRemove: () => void }) {
   const cc = CAT_PALETTE[t.category] ?? "#737373";
 
   return (
-    <div style={{
-      background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,
-      overflow:"hidden",transition:"box-shadow .15s",
-    }}>
+    <div className="is-e24204b">
       {/* Main row */}
       <div
         onClick={() => setExpanded(x => !x)}
-        style={{
-          display:"flex",alignItems:"center",gap:12,padding:"14px 16px",
-          cursor:"pointer",userSelect:"none",
-        }}
+        className="is-367ec4d"
       >
         {/* Type badge */}
-        <div style={{
-          minWidth:64,textAlign:"center",padding:"3px 8px",borderRadius:6,
-          background:tc.bg,color:tc.text,border:`1px solid ${tc.border}`,
-          fontSize:11,fontWeight:700,letterSpacing:".06em",flexShrink:0,
-        }}>
+        <div className="is-76afcbc" style={{ background:tc.bg, color:tc.text, border:`1px solid ${tc.border}`, fontSize:11, fontWeight:700, letterSpacing:".06em", flexShrink:0 }}>
           {tc.label}
         </div>
 
         {/* Amount */}
-        <div style={{
-          fontSize:20,fontWeight:800,color:t.type==="credit"?"#15803d":t.type==="debit"?"#dc2626":"#1d4ed8",
-          minWidth:110,fontVariantNumeric:"tabular-nums",flexShrink:0,
-        }}>
+        <div className="is-c5ce2bd" style={{ color:t.type==="credit"?"#15803d":t.type==="debit"?"#dc2626":"#1d4ed8", minWidth:110, fontVariantNumeric:"tabular-nums", flexShrink:0 }}>
           {t.type==="credit"?"+":"−"}₹{t.amount.toLocaleString("en-IN",{minimumFractionDigits:0})}
         </div>
 
         {/* Merchant + category */}
-        <div style={{flex:1,minWidth:0}}>
-          <div style={{fontSize:14,fontWeight:600,color:"#111827",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+        <div className="is-ec2eba2">
+          <div className="is-3abefc3">
             {t.merchant !== "—" ? t.merchant : t.bank}
           </div>
-          <div style={{display:"flex",alignItems:"center",gap:6,marginTop:3}}>
-            <span style={{
-              display:"inline-block",width:8,height:8,borderRadius:"50%",
-              background:cc,flexShrink:0,
-            }}/>
-            <span style={{fontSize:12,color:"#6b7280"}}>{t.category}</span>
-            <span style={{fontSize:12,color:"#9ca3af"}}>·</span>
-            <span style={{fontSize:12,color:"#9ca3af"}}>{t.paymentMode}</span>
+          <div className="is-923ec98">
+            <span className="is-007791b" style={{ background:cc, flexShrink:0 }}/>
+            <span className="is-e8fb409">{t.category}</span>
+            <span className="is-3ae0be4">·</span>
+            <span className="is-3ae0be4">{t.paymentMode}</span>
           </div>
         </div>
 
         {/* Right side */}
-        <div style={{textAlign:"right",flexShrink:0}}>
-          <div style={{fontSize:12,color:"#6b7280"}}>{t.bank}</div>
-          <div style={{fontSize:12,color:"#9ca3af",marginTop:2}}>{t.date}</div>
+        <div className="is-fb31052">
+          <div className="is-e8fb409">{t.bank}</div>
+          <div className="is-b84bffb">{t.date}</div>
         </div>
 
         {/* Chevron */}
         <svg width={16} height={16} viewBox="0 0 16 16" fill="none"
-          style={{flexShrink:0,transform:expanded?"rotate(180deg)":"rotate(0)",transition:"transform .2s"}}>
+          className="is-c99770f" style={{ transform:expanded?"rotate(180deg)":"rotate(0)", transition:"transform .2s" }}>
           <path d="M4 6l4 4 4-4" stroke="#9ca3af" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </div>
 
       {/* Expanded detail */}
       {expanded && (
-        <div style={{borderTop:"1px solid #f3f4f6",padding:"12px 16px",background:"#fafafa"}}>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(160px,1fr))",gap:"8px 16px",marginBottom:12}}>
+        <div className="is-8cc5a4c">
+          <div className="is-21e11e8">
             {[
               ["Account",  t.account],
               ["Balance",  t.balanceAfter !== null ? `₹${t.balanceAfter.toLocaleString("en-IN")}` : "—"],
@@ -301,25 +285,18 @@ function TxnCard({ t, onRemove }: { t: Transaction; onRemove: () => void }) {
               ["Mode",     t.paymentMode],
             ].map(([lbl,val]) => (
               <div key={lbl}>
-                <div style={{fontSize:11,color:"#9ca3af",fontWeight:600,letterSpacing:".05em",textTransform:"uppercase"}}>{lbl}</div>
-                <div style={{fontSize:13,color:"#374151",fontWeight:600,marginTop:2,fontFamily:"monospace"}}>{val}</div>
+                <div className="is-dbcfa05">{lbl}</div>
+                <div className="is-9fa891c">{val}</div>
               </div>
             ))}
           </div>
           {/* Raw SMS */}
-          <div style={{
-            fontSize:12,color:"#6b7280",lineHeight:1.6,padding:"8px 10px",
-            background:"#f3f4f6",borderRadius:6,fontFamily:"monospace",
-            wordBreak:"break-word",
-          }}>
+          <div className="is-c996667">
             {t.raw}
           </div>
           <button
             onClick={e => { e.stopPropagation(); onRemove(); }}
-            style={{
-              marginTop:8,padding:"4px 12px",borderRadius:6,border:"1px solid #fecaca",
-              background:"#fef2f2",color:"#dc2626",fontSize:12,fontWeight:600,cursor:"pointer",
-            }}>
+            className="is-a66ac20">
             Remove
           </button>
         </div>
@@ -345,10 +322,10 @@ function Summary({ txns }: { txns: Transaction[] }) {
   const maxCat  = topCats[0]?.[1] || 1;
 
   return (
-    <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:16}}>
+    <div className="is-5ff6809">
       {/* Totals */}
-      <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:20}}>
-        <div style={{fontSize:12,fontWeight:700,color:"#9ca3af",letterSpacing:".08em",textTransform:"uppercase",marginBottom:16}}>
+      <div className="is-06c1d6f">
+        <div className="is-e00f193">
           Summary
         </div>
         {[
@@ -357,9 +334,9 @@ function Summary({ txns }: { txns: Transaction[] }) {
           {label:"Net Flow",       val:net,           clr:net>=0?"#15803d":"#dc2626"},
           {label:"Transactions",   val:txns.length,  clr:"#1d4ed8", isCount:true},
         ].map(({label,val,clr,isCount})=>(
-          <div key={label} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"8px 0",borderBottom:"1px solid #f3f4f6"}}>
-            <span style={{fontSize:13,color:"#6b7280",fontWeight:500}}>{label}</span>
-            <span style={{fontSize:16,fontWeight:800,color:clr,fontVariantNumeric:"tabular-nums"}}>
+          <div key={label} className="is-1a78ba0">
+            <span className="is-9cc0104">{label}</span>
+            <span className="is-525cab9" style={{ color:clr, fontVariantNumeric:"tabular-nums" }}>
               {isCount ? val : `${val>=0?"+":"-"}₹${Math.abs(val as number).toLocaleString("en-IN")}`}
             </span>
           </div>
@@ -368,28 +345,23 @@ function Summary({ txns }: { txns: Transaction[] }) {
 
       {/* Category breakdown */}
       {topCats.length > 0 && (
-        <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:12,padding:20}}>
-          <div style={{fontSize:12,fontWeight:700,color:"#9ca3af",letterSpacing:".08em",textTransform:"uppercase",marginBottom:16}}>
+        <div className="is-06c1d6f">
+          <div className="is-e00f193">
             Top Spending Categories
           </div>
           {topCats.map(([cat,total])=>(
-            <div key={cat} style={{marginBottom:10}}>
-              <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                <div style={{display:"flex",alignItems:"center",gap:6}}>
-                  <span style={{width:8,height:8,borderRadius:"50%",background:CAT_PALETTE[cat]??"#737373",display:"inline-block"}}/>
-                  <span style={{fontSize:13,color:"#374151",fontWeight:500}}>{cat}</span>
+            <div key={cat} className="is-3301ea9">
+              <div className="is-952640c">
+                <div className="is-650e123">
+                  <span className="is-07173db" style={{ background:CAT_PALETTE[cat]??"#737373", display:"inline-block" }}/>
+                  <span className="is-8121e65">{cat}</span>
                 </div>
-                <span style={{fontSize:13,fontWeight:700,color:"#111827",fontVariantNumeric:"tabular-nums"}}>
+                <span className="is-27ca8fc">
                   ₹{total.toLocaleString("en-IN")}
                 </span>
               </div>
-              <div style={{height:6,background:"#f3f4f6",borderRadius:99,overflow:"hidden"}}>
-                <div style={{
-                  height:"100%",borderRadius:99,
-                  width:`${(total/maxCat)*100}%`,
-                  background:CAT_PALETTE[cat]??"#737373",
-                  transition:"width .6s cubic-bezier(.34,1.56,.64,1)",
-                }}/>
+              <div className="is-093059f">
+                <div className="is-95fbef2" style={{ width:`${(total/maxCat)*100}%`, background:CAT_PALETTE[cat]??"#737373", transition:"width .6s cubic-bezier(.34,1.56,.64,1)" }}/>
               </div>
             </div>
           ))}
@@ -479,23 +451,23 @@ export default function SMSParserPage() {
         textarea:focus { border-color:#6b7280; }
       `}</style>
 
-      <main style={{minHeight:"100vh",background:"#f9fafb",padding:"32px 16px 80px"}}>
-        <div style={{maxWidth:860,margin:"0 auto",display:"flex",flexDirection:"column",gap:24}}>
+      <main className="is-0dba36c">
+        <div className="is-887aebb">
 
           {/* ── Header ─────────────────────────────── */}
           <header>
-            <h1 style={{fontSize:28,fontWeight:800,color:"#111827",letterSpacing:"-.5px"}}>
+            <h1 className="is-f140c9b">
               SMS Transaction Parser
             </h1>
-            <p style={{fontSize:14,color:"#6b7280",marginTop:6,lineHeight:1.6}}>
+            <p className="is-ec08bd1">
               Paste any bank SMS — HDFC, SBI, ICICI, Axis, UPI apps and more.
               Instantly categorised. Export to CSV for your records.
             </p>
           </header>
 
           {/* ── Input box ──────────────────────────── */}
-          <div style={{background:"#fff",border:"1px solid #e5e7eb",borderRadius:14,padding:20}}>
-            <label style={{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:8}}>
+          <div className="is-313d3c0">
+            <label className="is-74e69c3">
               Paste SMS here — one or many (separate with a blank line)
             </label>
             <textarea
@@ -505,7 +477,7 @@ export default function SMSParserPage() {
               onKeyDown={e => { if (e.key==="Enter" && (e.ctrlKey||e.metaKey)) handleParse(); }}
               placeholder={`INR 2,350 debited from A/c XX4821 at AMAZON on 22-03-26. Avl Bal: Rs.18,420. -HDFC Bank\n\nRs.15,000 credited to your a/c XX8823 by NEFT from EMPLOYER on 01-03-26. Avl Bal: Rs.22,450.\n\nPhonePe: Rs.450 paid to Swiggy on 21-03-26. UPI Ref: PP928471236.`}
             />
-            <div style={{display:"flex",alignItems:"center",gap:10,marginTop:12,flexWrap:"wrap"}}>
+            <div className="is-f864de9">
               <button
                 className="parse-btn"
                 onClick={handleParse}
@@ -513,7 +485,7 @@ export default function SMSParserPage() {
               >
                 Parse SMS
               </button>
-              <span style={{fontSize:12,color:"#9ca3af"}}>or Ctrl+Enter</span>
+              <span className="is-3ae0be4">or Ctrl+Enter</span>
             </div>
           </div>
 
@@ -524,8 +496,8 @@ export default function SMSParserPage() {
               <Summary txns={txns} />
 
               {/* Toolbar */}
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12}}>
-                <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              <div className="is-1017cf5">
+                <div className="is-39b2332">
                   {(["all","credit","debit","transfer"] as const).map(f => (
                     <button
                       key={f}
@@ -533,17 +505,13 @@ export default function SMSParserPage() {
                       onClick={() => setFilter(f)}
                     >
                       {f.charAt(0).toUpperCase()+f.slice(1)}
-                      <span style={{
-                        marginLeft:6,background:filter===f?"#374151":"#f3f4f6",
-                        color:filter===f?"#fff":"#6b7280",
-                        borderRadius:99,padding:"1px 7px",fontSize:11,fontWeight:700,
-                      }}>
+                      <span className="is-6ec01be" style={{ background:filter===f?"#374151":"#f3f4f6", color:filter===f?"#fff":"#6b7280", borderRadius:99, padding:"1px 7px", fontSize:11, fontWeight:700 }}>
                         {counts[f as keyof typeof counts] ?? txns.length}
                       </span>
                     </button>
                   ))}
                 </div>
-                <div style={{display:"flex",gap:8}}>
+                <div className="is-13262f5">
                   <button className="csv-btn" onClick={() => exportCSV(txns)}>
                     ↓ Export CSV
                   </button>
@@ -554,9 +522,9 @@ export default function SMSParserPage() {
               </div>
 
               {/* Transaction list */}
-              <div style={{display:"flex",flexDirection:"column",gap:8}}>
+              <div className="is-d7bb5fd">
                 {filtered.length === 0 && (
-                  <div style={{textAlign:"center",padding:40,color:"#9ca3af",fontSize:14}}>
+                  <div className="is-4db0633">
                     No {filter} transactions
                   </div>
                 )}
@@ -566,12 +534,12 @@ export default function SMSParserPage() {
               </div>
 
               {/* Bottom export */}
-              <div style={{textAlign:"center",paddingTop:8}}>
-                <button className="csv-btn" style={{padding:"12px 40px",fontSize:14}}
+              <div className="is-5b02e3a">
+                <button className="csv-btn is-4ab5b84"
                   onClick={() => exportCSV(txns)}>
                   ↓ Download Full CSV Report ({txns.length} transactions)
                 </button>
-                <p style={{fontSize:12,color:"#9ca3af",marginTop:8}}>
+                <p className="is-575362b">
                   Includes: Date · Type · Amount · Bank · Account · Merchant · Category · Mode · Balance · Ref No
                 </p>
               </div>
@@ -579,13 +547,10 @@ export default function SMSParserPage() {
           )}
 
           {txns.length === 0 && (
-            <div style={{
-              border:"2px dashed #e5e7eb",borderRadius:14,padding:"48px 24px",
-              textAlign:"center",background:"#fff",
-            }}>
-              <div style={{fontSize:40,marginBottom:12}}>📱</div>
-              <p style={{fontSize:15,fontWeight:600,color:"#374151"}}>No transactions yet</p>
-              <p style={{fontSize:13,color:"#9ca3af",marginTop:6}}>
+            <div className="is-155a13c">
+              <div className="is-67e4068">📱</div>
+              <p className="is-2f7a929">No transactions yet</p>
+              <p className="is-f8480b6">
                 Paste a bank SMS above and click Parse
               </p>
             </div>

@@ -21,8 +21,7 @@ const SANSKRIT_LANG: LangOption = {
   group: "indic",
 };
 
-const MAX_OCR_TIME_MS = 45000; // 45s — Vedic texts need more processing time
-const MIN_IMAGE_WIDTH = 100;
+const MAX_OCR_TIME_MS = 45000;
 
 const DEVANAGARI_FONTS = [
   { label: "Noto Serif Devanagari", value: "'Noto Serif Devanagari', serif" },
@@ -468,21 +467,18 @@ export default function SanskritOcrPage() {
      UI
   ================================================================ */
   return (
-    <div style={{ padding: 20, maxWidth: 760, margin: "auto" }}>
-      <h1 style={{ textAlign: "center" }}>यथाक्षरं पठनम्</h1>
-      <p style={{ textAlign: "center", color: "#555", fontSize: 14 }}>
+    <div className="is-fe96b06">
+      <h1 className="is-cdd8ca0">यथाक्षरं पठनम्</h1>
+      <p className="is-2d72abf">
         AksharaTantra — Open Source Sanskrit OCR · 100% Offline · No API Keys
       </p>
 
       <SanskritOcrExplanation />
 
       {/* Engine Info Banner */}
-      <div style={{
-        background: "#f0f4ff", border: "1px solid #c7d2fe",
-        borderRadius: 8, padding: "12px 16px", marginBottom: 16, fontSize: 13
-      }}>
+      <div className="is-620043b">
         <strong>🔬 Active HTR Engines (Sanskrit / Devanagari):</strong>
-        <ol style={{ margin: "8px 0 0 0", paddingLeft: 20 }}>
+        <ol className="is-f16c480">
           <li>
             <strong>Tesseract.js &quot;san&quot;</strong> — Sanskrit language pack · Apache 2.0 ·
             Best for clear printed Devanagari
@@ -501,7 +497,7 @@ export default function SanskritOcrPage() {
             Apache 2.0 · Best for academic mixed-script documents
           </li>
         </ol>
-        <p style={{ margin: "8px 0 0 0", color: "#6b7280" }}>
+        <p className="is-f551919">
           📌 For Vedic accent marks:{" "}
           <a href="https://huggingface.co/yzk/trocr-large-printed-vedic" target="_blank" rel="noreferrer">
             yzk/trocr-large-printed-vedic
@@ -511,17 +507,12 @@ export default function SanskritOcrPage() {
       </div>
 
       {/* Tabs */}
-      <div style={{ display: "inline-flex", marginBottom: 20 }}>
+      <div className="is-4f44628">
         {(["document", "image"] as ActiveTab[]).map((t) => (
           <button
             key={t}
             onClick={() => setActiveTab(t)}
-            style={{
-              padding: "10px 20px",
-              background: activeTab === t ? "#4f46e5" : "#eee",
-              color: activeTab === t ? "#fff" : "#333",
-              border: "none", fontWeight: "bold", cursor: "pointer",
-            }}
+            className="is-5a53f8c" style={{ background: activeTab === t ? "#4f46e5" : "#eee", color: activeTab === t ? "#fff" : "#333", border: "none", fontWeight: "bold", cursor: "pointer" }}
           >
             {t === "document" ? "प्रलेखान्वासः" : "अक्षराङ्कनम्"}
           </button>
@@ -540,10 +531,10 @@ export default function SanskritOcrPage() {
 
           {/* Status */}
           {progress && (
-            <p style={{ color: "#4f46e5", fontWeight: "bold" }}>⚙️ {progress}</p>
+            <p className="is-4883c6a">⚙️ {progress}</p>
           )}
           {activeEngine && !loading && (
-            <p style={{ color: "#059669", fontSize: 13 }}>
+            <p className="is-5d6b02a">
               ✅ Detected by: {activeEngine}
             </p>
           )}
@@ -556,7 +547,7 @@ export default function SanskritOcrPage() {
               alt="Preview"
               width={600}
               height={400}
-              style={{ width: "100%", borderRadius: 12, marginTop: 12 }}
+              className="is-61e1b2e"
             />
           )}
 
@@ -575,12 +566,12 @@ export default function SanskritOcrPage() {
           {ocrText && (
             <>
               {/* Font Controls */}
-              <div style={{ marginTop: 16 }}>
+              <div className="is-a812934">
                 <label><strong>Font Family</strong></label>
                 <select
                   value={fontFamily}
                   onChange={(e) => setFontFamily(e.target.value)}
-                  style={{ width: "100%", marginBottom: 8, padding: 6 }}
+                  className="is-f714c78"
                 >
                   {DEVANAGARI_FONTS.map((f) => (
                     <option key={f.value} value={f.value}>{f.label}</option>
@@ -591,14 +582,14 @@ export default function SanskritOcrPage() {
                 <input
                   type="range" min={16} max={36} value={fontSize}
                   onChange={(e) => setFontSize(Number(e.target.value))}
-                  style={{ width: "100%" }}
+                  className="is-199b6f0"
                 />
 
                 <label><strong>Line Spacing: {lineSpacing.toFixed(1)}</strong></label>
                 <input
                   type="range" min={1.3} max={2.4} step={0.1} value={lineSpacing}
                   onChange={(e) => setLineSpacing(Number(e.target.value))}
-                  style={{ width: "100%" }}
+                  className="is-199b6f0"
                 />
               </div>
 
@@ -606,24 +597,20 @@ export default function SanskritOcrPage() {
               <textarea
                 value={ocrText}
                 onChange={(e) => setOcrText(e.target.value)}
-                style={{
-                  width: "100%", height: 260, marginTop: 12,
-                  fontFamily, fontSize, lineHeight: lineSpacing,
-                  border: "1px solid #d1d5db", borderRadius: 8, padding: 12,
-                }}
+                className="is-ca67b9a" style={{ fontFamily, fontSize, lineHeight: lineSpacing, border: "1px solid #d1d5db", borderRadius: 8, padding: 12 }}
               />
 
               {/* Export Buttons */}
-              <div style={{ marginTop: 12, display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <div className="is-d572818">
                 <button
                   onClick={copyText}
-                  style={{ padding: "8px 16px", background: "#4f46e5", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer" }}
+                  className="is-ac1d644"
                 >
                   📋 Copy Text
                 </button>
                 <button
                   onClick={downloadAsImage}
-                  style={{ padding: "8px 16px", background: "#059669", color: "#fff", border: "none", borderRadius: 6, cursor: "pointer" }}
+                  className="is-737479f"
                 >
                   🖼️ Download Pamphlet
                 </button>

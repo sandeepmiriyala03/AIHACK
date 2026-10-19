@@ -142,46 +142,28 @@ function EventModal({
   };
 
   return (
-    <div style={{
-      position: "fixed", inset: 0, zIndex: 9000,
-      background: "rgba(15,23,42,0.5)", backdropFilter: "blur(6px)",
-      display: "flex", alignItems: "center", justifyContent: "center", padding: 16,
-    }} onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div style={{
-        background: "#fff", borderRadius: 20, width: "100%", maxWidth: 440,
-        boxShadow: "0 24px 80px rgba(0,0,0,0.2)", overflow: "hidden",
-      }}>
+    <div className="is-d12e224" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="is-a608522">
         {/* Header */}
-        <div style={{
-          padding: "18px 22px", borderBottom: "1px solid #f1f5f9",
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          background: "#fafaf9",
-        }}>
-          <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 16, fontWeight: 700, color: "#0f172a" }}>
+        <div className="is-ed79f36">
+          <div className="is-8f2594c">
             {initial ? "Edit event" : "Add event"} — {dateStr}
           </div>
-          <button onClick={onClose} style={{
-            background: "#f1f5f9", border: "none", borderRadius: 8,
-            width: 32, height: 32, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-          }}>
-            <CloseIcon style={{ fontSize: 16, color: "#64748b" }} />
+          <button onClick={onClose} className="is-1741743">
+            <CloseIcon className="is-60585d5" />
           </button>
         </div>
 
-        <div style={{ padding: "20px 22px", display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="is-9726693">
           {/* Title */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 6 }}>
+            <label className="is-de3e938">
               Event title *
             </label>
             <input
               autoFocus value={title} onChange={e => setTitle(e.target.value)}
               placeholder="e.g. Puja, Meeting, Birthday..."
-              style={{
-                width: "100%", padding: "10px 14px", borderRadius: 10,
-                border: "1.5px solid #e5e7eb", fontSize: 14, fontFamily: "'DM Sans',sans-serif",
-                outline: "none", color: "#0f172a", background: "#fafaf9",
-              }}
+              className="is-0a4ce9b"
               onFocus={e => e.target.style.borderColor = "#10b981"}
               onBlur={e => e.target.style.borderColor = "#e5e7eb"}
             />
@@ -189,60 +171,42 @@ function EventModal({
 
           {/* Time */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 5, marginBottom: 6 }}>
-              <AccessTimeIcon style={{ fontSize: 13 }} /> Time (optional)
+            <label className="is-adecdc3">
+              <AccessTimeIcon className="is-7667453" /> Time (optional)
             </label>
             <input type="time" value={time} onChange={e => setTime(e.target.value)}
-              style={{
-                padding: "10px 14px", borderRadius: 10, border: "1.5px solid #e5e7eb",
-                fontSize: 14, fontFamily: "'DM Sans',sans-serif", outline: "none",
-                color: "#0f172a", background: "#fafaf9",
-              }} />
+              className="is-5d2c711" />
           </div>
 
           {/* Note */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "block", marginBottom: 6 }}>
+            <label className="is-de3e938">
               Note (optional)
             </label>
             <textarea value={note} onChange={e => setNote(e.target.value)}
               placeholder="Add details..."
               rows={2}
-              style={{
-                width: "100%", padding: "10px 14px", borderRadius: 10,
-                border: "1.5px solid #e5e7eb", fontSize: 13, fontFamily: "'DM Sans',sans-serif",
-                outline: "none", color: "#0f172a", background: "#fafaf9", resize: "vertical",
-              }} />
+              className="is-7750eda" />
           </div>
 
           {/* Color */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 700, color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.08em", display: "flex", alignItems: "center", gap: 5, marginBottom: 8 }}>
-              <LabelIcon style={{ fontSize: 13 }} /> Color
+            <label className="is-8dc16b2">
+              <LabelIcon className="is-7667453" /> Color
             </label>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="is-13262f5">
               {EVENT_COLORS.map(c => (
-                <button key={c} onClick={() => setColor(c)} style={{
-                  width: 28, height: 28, borderRadius: "50%", background: c, border: "none",
-                  cursor: "pointer", outline: color === c ? `3px solid ${c}` : "none",
-                  outlineOffset: 2, transition: "transform 0.15s",
-                  transform: color === c ? "scale(1.2)" : "scale(1)",
-                }} />
+                <button key={c} onClick={() => setColor(c)} className="is-16473de" style={{ background: c, border: "none", cursor: "pointer", outline: color === c ? `3px solid ${c}` : "none", outlineOffset: 2, transition: "transform 0.15s", transform: color === c ? "scale(1.2)" : "scale(1)" }} />
               ))}
             </div>
           </div>
 
           {/* Save */}
-          <button onClick={save} style={{
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-            padding: "12px 24px", background: "#10b981", color: "#fff", border: "none",
-            borderRadius: 12, fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 700,
-            cursor: "pointer", marginTop: 4, transition: "all 0.18s",
-          }}
+          <button onClick={save} className="is-72becc0"
             onMouseEnter={e => (e.currentTarget.style.background = "#059669")}
             onMouseLeave={e => (e.currentTarget.style.background = "#10b981")}
           >
-            <SaveIcon style={{ fontSize: 18 }} /> Save event
+            <SaveIcon className="is-768e1f2" /> Save event
           </button>
         </div>
       </div>
@@ -430,14 +394,14 @@ export default function CalendarPage() {
 
       <div className="cal-wrap">
         {/* Page header */}
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 clamp(16px,4vw,40px) 0" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 6 }}>
-            <CalendarMonthIcon style={{ fontSize: 28, color: "#10b981" }} />
-            <h1 style={{ fontFamily: "'Syne',sans-serif", fontSize: "clamp(24px,4vw,36px)", fontWeight: 800, color: "#0f172a" }}>
+        <div className="is-0a8c77e">
+          <div className="is-9bb79fb">
+            <CalendarMonthIcon className="is-a55610d" />
+            <h1 className="is-471df5d">
               Personal Calendar
             </h1>
           </div>
-          <p style={{ fontSize: 14, color: "#64748b", marginBottom: 0 }}>
+          <p className="is-055d956">
             Your events alongside Panchanga data — Tithi, Nakshatra & Rahu Kaal. All data stays on your device.
           </p>
         </div>
@@ -450,28 +414,28 @@ export default function CalendarPage() {
             <div className="cal-header">
               <button className="nav-btn"
                 onClick={() => setViewDate(new Date(year, month - 1, 1))}>
-                <ChevronLeftIcon style={{ fontSize: 20, color: "#64748b" }} />
+                <ChevronLeftIcon className="is-ba5643e" />
               </button>
               <div>
                 <div className="cal-month">{MONTHS[month]} {year}</div>
               </div>
-              <div style={{ display: "flex", gap: 6 }}>
-                <button className="nav-btn"
+              <div className="is-4a5d9a1">
+                <button className="nav-btn is-884c160"
                   onClick={() => { setViewDate(new Date()); setSelectedDate(toKey(today)); }}
                   title="Go to today"
-                  style={{ fontSize: 11, fontWeight: 700, color: "#10b981", width: "auto", padding: "0 12px", gap: 4 }}>
-                  <TodayIcon style={{ fontSize: 15, color: "#10b981" }} />
+>
+                  <TodayIcon className="is-ce83129" />
                   Today
                 </button>
                 <button className="nav-btn"
                   onClick={() => setViewDate(new Date(year, month + 1, 1))}>
-                  <ChevronRightIcon style={{ fontSize: 20, color: "#64748b" }} />
+                  <ChevronRightIcon className="is-ba5643e" />
                 </button>
               </div>
             </div>
 
             {/* Day headers */}
-            <div className="cal-grid" style={{ marginBottom: 4 }}>
+            <div className="cal-grid is-56c00b6">
               {DAYS.map(d => (
                 <div key={d} className="day-header">{d}</div>
               ))}
@@ -494,28 +458,28 @@ export default function CalendarPage() {
                 return (
                   <div key={key} className={cls}
                     onClick={() => setSelectedDate(key)}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                    <div className="is-695916a">
                       <div className="day-num">{day}</div>
                       {(panch.isFullMoon || panch.isNewMoon || panch.isEkadashi) && (
-                        <span style={{ fontSize: 12 }}>
+                        <span className="is-345895d">
                           {panch.isFullMoon ? "🌕" : panch.isNewMoon ? "🌑" : "🪔"}
                         </span>
                       )}
                     </div>
                     {/* Tithi (tiny) */}
-                    <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2, lineHeight: 1.2, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    <div className="is-1a7dff0">
                       {panch.tithi}
                     </div>
                     {/* Event dots */}
                     {dayEvents.slice(0, 2).map(ev => (
                       <div key={ev.id} className="event-dot"
                         style={{ background: ev.color + "18", color: ev.color }}>
-                        <span style={{ width: 5, height: 5, borderRadius: "50%", background: ev.color, display: "inline-block", flexShrink: 0 }} />
+                        <span className="is-e6b0c9d" style={{ background: ev.color, display: "inline-block", flexShrink: 0 }} />
                         {ev.time ? `${ev.time} ` : ""}{ev.title}
                       </div>
                     ))}
                     {dayEvents.length > 2 && (
-                      <div style={{ fontSize: 9, color: "#94a3b8", marginTop: 2 }}>+{dayEvents.length - 2} more</div>
+                      <div className="is-48cd742">+{dayEvents.length - 2} more</div>
                     )}
                   </div>
                 );
@@ -527,32 +491,32 @@ export default function CalendarPage() {
           <div className="side-panel">
 
             {/* Selected date heading */}
-            <div className="panel-section" style={{ background: "#f0fdf4" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div className="panel-section is-75400da">
+              <div className="is-651ca08">
                 <div>
-                  <div style={{ fontFamily: "'Syne',sans-serif", fontSize: 20, fontWeight: 800, color: "#0f172a" }}>
+                  <div className="is-30bc1b5">
                     {new Date(selectedDate).toLocaleDateString("en-IN", { day: "numeric", month: "long" })}
                   </div>
-                  <div style={{ fontSize: 12, color: "#64748b", marginTop: 2 }}>
+                  <div className="is-1406953">
                     {new Date(selectedDate).toLocaleDateString("en-IN", { weekday: "long", year: "numeric" })}
                   </div>
                 </div>
                 {selectedDate === toKey(today) && (
-                  <span style={{ fontSize: 10, fontWeight: 800, padding: "4px 10px", borderRadius: 99, background: "#10b981", color: "#fff" }}>
+                  <span className="is-0d77f66">
                     TODAY
                   </span>
                 )}
               </div>
               {/* Special day badges */}
-              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 10 }}>
+              <div className="is-d543bc0">
                 {selectedPanchanga.isFullMoon && (
-                  <span className="special-badge" style={{ background: "rgba(245,158,11,0.1)", color: "#d97706" }}>🌕 Pūrṇimā</span>
+                  <span className="special-badge is-8841979">🌕 Pūrṇimā</span>
                 )}
                 {selectedPanchanga.isNewMoon && (
-                  <span className="special-badge" style={{ background: "rgba(100,116,139,0.1)", color: "#475569" }}>🌑 Amāvāsyā</span>
+                  <span className="special-badge is-67c87bf">🌑 Amāvāsyā</span>
                 )}
                 {selectedPanchanga.isEkadashi && (
-                  <span className="special-badge" style={{ background: "rgba(139,92,246,0.1)", color: "#7c3aed" }}>🪔 Ekādaśī</span>
+                  <span className="special-badge is-e8990c4">🪔 Ekādaśī</span>
                 )}
               </div>
             </div>
@@ -575,7 +539,7 @@ export default function CalendarPage() {
                   <span className="p-val">{v}</span>
                 </div>
               ))}
-              <p style={{ fontSize: 10, color: "#94a3b8", marginTop: 8, fontStyle: "italic" }}>
+              <p className="is-3fb1f34">
                 * Approximate — verify with DrikPanchang
               </p>
             </div>
@@ -583,15 +547,15 @@ export default function CalendarPage() {
             {/* Events for selected day */}
             <div className="panel-section">
               <div className="panel-title">
-                <CalendarMonthIcon style={{ fontSize: 16, color: "#10b981" }} />
+                <CalendarMonthIcon className="is-8c98ab0" />
                 Events
-                <span style={{ marginLeft: "auto", fontSize: 12, color: "#94a3b8", fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}>
+                <span className="is-5fd592f">
                   {selectedEvents.length} event{selectedEvents.length !== 1 ? "s" : ""}
                 </span>
               </div>
 
               {selectedEvents.length === 0 && (
-                <p style={{ fontSize: 13, color: "#94a3b8", marginBottom: 12, textAlign: "center", padding: "8px 0" }}>
+                <p className="is-179e356">
                   No events — add one below.
                 </p>
               )}
@@ -599,32 +563,32 @@ export default function CalendarPage() {
               {selectedEvents.map(ev => (
                 <div key={ev.id} className="event-item">
                   <div className="event-color-bar" style={{ background: ev.color }} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div className="is-ec2eba2">
+                    <div className="is-5f8a4c4">
                       {ev.title}
                     </div>
                     {ev.time && (
-                      <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2, display: "flex", alignItems: "center", gap: 4 }}>
-                        <AccessTimeIcon style={{ fontSize: 11 }} /> {ev.time}
+                      <div className="is-23c4499">
+                        <AccessTimeIcon className="is-6ec7081" /> {ev.time}
                       </div>
                     )}
                     {ev.note && (
-                      <div style={{ fontSize: 11, color: "#64748b", marginTop: 3, lineHeight: 1.4 }}>{ev.note}</div>
+                      <div className="is-ddc78ae">{ev.note}</div>
                     )}
                   </div>
                   <div className="event-actions">
                     <button className="act-btn" onClick={() => setModal({ open: true, edit: ev })} title="Edit">
-                      <EditIcon style={{ fontSize: 14, color: "#64748b" }} />
+                      <EditIcon className="is-41aec17" />
                     </button>
                     <button className="act-btn" onClick={() => deleteEvent(ev.id)} title="Delete">
-                      <DeleteIcon style={{ fontSize: 14, color: "#ef4444" }} />
+                      <DeleteIcon className="is-684d369" />
                     </button>
                   </div>
                 </div>
               ))}
 
               <button className="add-btn" onClick={() => setModal({ open: true })}>
-                <AddIcon style={{ fontSize: 18 }} /> Add event for {new Date(selectedDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                <AddIcon className="is-768e1f2" /> Add event for {new Date(selectedDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
               </button>
             </div>
 

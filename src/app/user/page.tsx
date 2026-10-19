@@ -87,7 +87,7 @@ export default function UsersPage() {
   };
 
   return (
-    <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh", pb: 6, color: "#0f172a" }}>
+    <Box className="is-3a7decf">
       {/* Platform Navigation */}
       <Navbar />
       
@@ -105,22 +105,22 @@ export default function UsersPage() {
         {/* --- Header & Analytics Block --- */}
         <Grid container spacing={3} mb={5} alignItems="center">
           <Grid item xs={12} md={8}>
-            <Typography variant="h4" fontWeight="800" sx={{ color: "#0f172a", letterSpacing: "-0.025em" }}>
+            <Typography variant="h4" fontWeight="800" className="is-6cdbe26">
               Team Workspace Contributors
             </Typography>
-            <Typography variant="body2" sx={{ color: "#64748b", mt: 0.5 }}>
+            <Typography variant="body2" className="is-34c99a7">
               Manage access control policies, audit platform accounts, and handle developer roles.
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Card sx={{ borderRadius: 3, bgcolor: "#f8fafc", boxShadow: "none", border: "1px solid #e2e8f0" }}>
-              <CardContent sx={{ display: "flex", alignItems: "center", gap: 2, py: "16px !important" }}>
-                <Avatar sx={{ bgcolor: "#eff6ff", color: "#2563eb", width: 40, height: 40 }}>
+            <Card className="is-3722d53">
+              <CardContent className="is-4349b6a">
+                <Avatar className="is-13c5fe4">
                   <GroupsIcon />
                 </Avatar>
                 <Box>
-                  <Typography sx={{ color: "#64748b", fontWeight: 500 }} variant="caption">Total Members</Typography>
-                  <Typography variant="h5" fontWeight="700" sx={{ color: "#0f172a" }}>
+                  <Typography className="is-3882234" variant="caption">Total Members</Typography>
+                  <Typography variant="h5" fontWeight="700" className="is-743d48d">
                     {loading ? <Skeleton width={40} /> : rows.length}
                   </Typography>
                 </Box>
@@ -130,7 +130,7 @@ export default function UsersPage() {
         </Grid>
 
         {/* --- Minimal Search Configuration --- */}
-        <Card sx={{ mb: 4, borderRadius: 3, boxShadow: "none", border: "1px solid #e2e8f0", bgcolor: "#ffffff" }}>
+        <Card className="is-52c8214">
           <CardContent>
             <TextField
               fullWidth
@@ -152,7 +152,7 @@ export default function UsersPage() {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon fontSize="small" sx={{ color: "#94a3b8" }} />
+                    <SearchIcon fontSize="small" className="is-28e6a79" />
                   </InputAdornment>
                 ),
               }}
@@ -172,7 +172,7 @@ export default function UsersPage() {
               <Grid container spacing={3}>
                 {[1, 2, 3, 4].map((n) => (
                   <Grid item xs={12} sm={6} md={4} lg={3} key={n}>
-                    <Skeleton variant="rounded" height={160} sx={{ borderRadius: 3 }} />
+                    <Skeleton variant="rounded" height={160} className="is-838095d" />
                   </Grid>
                 ))}
               </Grid>
@@ -198,9 +198,9 @@ export default function UsersPage() {
                           },
                         }}
                       >
-                        <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2.5, p: 3 }}>
+                        <CardContent className="is-b049c15">
                           {/* Top: Avatar and Entity Identifier */}
-                          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <Box className="is-948e6d6">
                             <Avatar
                               sx={{
                                 bgcolor: roleConfig.bg,
@@ -214,20 +214,20 @@ export default function UsersPage() {
                             >
                               {user.username.charAt(0).toUpperCase()}
                             </Avatar>
-                            <Typography variant="caption" sx={{ color: "#94a3b8", fontFamily: "monospace", fontWeight: 600 }}>
+                            <Typography variant="caption" className="is-550e119">
                               UID_{user.id}
                             </Typography>
                           </Box>
 
                           {/* Middle: Clear Typography */}
                           <Box>
-                            <Typography variant="h6" fontWeight="700" noWrap sx={{ color: "#0f172a", letterSpacing: "-0.01em" }}>
+                            <Typography variant="h6" fontWeight="700" noWrap className="is-02d70a3">
                               {user.username}
                             </Typography>
                           </Box>
 
                           {/* Bottom: Refined Flat Badges */}
-                          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", pt: 2, borderTop: "1px solid #f1f5f9" }}>
+                          <Box className="is-dfe7ac3">
                             <Chip
                               icon={roleConfig.icon}
                               label={user.role}
@@ -270,11 +270,11 @@ export default function UsersPage() {
 
 function EmptyState({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <Card sx={{ borderRadius: 3, bgcolor: "#f8fafc", border: "1px solid #e2e8f0", boxShadow: "none", mt: 2 }}>
-      <CardContent sx={{ textAlign: "center", py: 6 }}>
-        <SentimentDissatisfiedIcon sx={{ fontSize: 40, color: "#94a3b8", mb: 1.5 }} />
-        <Typography variant="subtitle1" fontWeight="700" sx={{ color: "#0f172a" }} gutterBottom>{title}</Typography>
-        <Typography variant="body2" sx={{ color: "#64748b", maxWidth: 380, mx: "auto" }}>{subtitle}</Typography>
+    <Card className="is-8612595">
+      <CardContent className="is-b9599b2">
+        <SentimentDissatisfiedIcon className="is-d4a45c9" />
+        <Typography variant="subtitle1" fontWeight="700" className="is-743d48d" gutterBottom>{title}</Typography>
+        <Typography variant="body2" className="is-aa6e401">{subtitle}</Typography>
       </CardContent>
     </Card>
   );

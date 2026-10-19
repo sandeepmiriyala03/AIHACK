@@ -746,16 +746,16 @@ export default function IndicHTRPage() {
   return (
     <>
       <Navbar />
-      <Box sx={{ maxWidth: 900, mx: "auto", p: 3 }}>
+      <Box className="is-877fc44">
 
         {/* Header */}
         <Typography variant="h4" textAlign="center" fontWeight="bold" gutterBottom>
           ✍️ AksharaTantra — Indic &amp; World Language HTR
         </Typography>
-        <Typography variant="body2" textAlign="center" sx={{ mb: 1 }}>
+        <Typography variant="body2" textAlign="center" className="is-ccd7dd3">
           100% Open Source · No API Keys · Fully Offline · No Data Leaves Your Device
         </Typography>
-        <Typography variant="caption" display="block" textAlign="center" sx={{ mb: 2 }}>
+        <Typography variant="caption" display="block" textAlign="center" className="is-d327793">
           📂 Max {MAX_FILES} images &nbsp;|&nbsp;
           📦 Max {MAX_FILE_SIZE_MB}MB/image &nbsp;|&nbsp;
           💾 RAM: {deviceMemory}GB &nbsp;|&nbsp;
@@ -763,7 +763,7 @@ export default function IndicHTRPage() {
         </Typography>
 
         {/* ── LANGUAGE SELECTOR ── */}
-        <Paper sx={{ p: 2, mb: 2 }}>
+        <Paper className="is-43b4125">
           <Typography variant="h6" gutterBottom>
             🌐 Step 1 — Choose Language
           </Typography>
@@ -776,7 +776,7 @@ export default function IndicHTRPage() {
               onChange={handleLangChange}
             >
               {groups.map((group) => [
-                <MenuItem key={`group-${group}`} disabled sx={{ fontWeight: "bold", opacity: 1, color: "#555" }}>
+                <MenuItem key={`group-${group}`} disabled className="is-1904fa4">
                   {GROUP_LABELS[group]}
                 </MenuItem>,
                 ...ALL_LANGS.filter((l) => l.group === group).map((lang) => (
@@ -789,7 +789,7 @@ export default function IndicHTRPage() {
           </FormControl>
 
           {/* Selected language model info */}
-          <Alert severity="info" sx={{ mt: 2 }}>
+          <Alert severity="info" className="is-a812934">
             <strong>Selected: {selectedLang.label}</strong>
             <br />
             🔬 <strong>Engine 1:</strong> Tesseract.js — language: <code>{selectedLang.tesseractLang}</code> (Apache 2.0, ~10MB, offline)
@@ -805,12 +805,12 @@ export default function IndicHTRPage() {
         </Paper>
 
         {/* ── PREPROCESSING INFO ── */}
-        <Alert severity="info" sx={{ mb: 2 }}>
+        <Alert severity="info" className="is-d327793">
           🔧 <strong>Auto Preprocessing:</strong> Otsu Binarization + Grayscale + Resize
           — removes gray backgrounds, uneven lighting, mobile camera noise
         </Alert>
 
-        <Stack direction="row" justifyContent="center" sx={{ mb: 2 }}>
+        <Stack direction="row" justifyContent="center" className="is-d327793">
           <Chip
             label={isSupported ? "Device Supported ✅" : "Device Not Supported ❌"}
             color={isSupported ? "success" : "error"}
@@ -818,13 +818,13 @@ export default function IndicHTRPage() {
         </Stack>
 
         {activeEngine && (
-          <Alert severity="info" sx={{ mb: 1 }}>
+          <Alert severity="info" className="is-ccd7dd3">
             ⚙️ <strong>Running:</strong> {activeEngine}
           </Alert>
         )}
 
         {/* ── MAIN CARD ── */}
-        <Paper sx={{ p: 3 }}>
+        <Paper className="is-663a195">
           <Stack spacing={2}>
             <Typography variant="h6">📂 Step 2 — Upload Image(s)</Typography>
 
@@ -881,7 +881,7 @@ export default function IndicHTRPage() {
                 />
 
                 <Typography variant="h6">⬇ Export</Typography>
-                <Stack direction="row" flexWrap="wrap" sx={{ gap: 2 }}>
+                <Stack direction="row" flexWrap="wrap" className="is-86c90fb">
                   <Button variant="outlined" onClick={() => downloadFile(text, `output_${selectedLang.value}_${Date.now()}.txt`, "text/plain")}>TXT</Button>
                   <Button variant="outlined" onClick={exportPDF}>PDF</Button>
                   <Button variant="outlined" onClick={exportImage}>Poster</Button>

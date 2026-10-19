@@ -316,16 +316,16 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
   // ── Render mantra content ─────────────────────────────────
   function renderMantra(mantra: Mantra) {
     return (
-      <div style={{ fontSize: 20, lineHeight: 2.8, whiteSpace: "pre-wrap", fontFamily: "'Noto Sans Telugu', serif" }}>
+      <div className="is-4110cf7">
         {mantra.lines.map((line, li) => (
           <span key={li}>
             {line.syllables.map((s, si) => (
-              <span key={si} style={{ position: "relative", display: "inline-flex", flexDirection: "column", alignItems: "center", padding: "0.3em 0.1em" }}>
-                {s.pitch === "high" && <span style={{ position: "absolute", top: "-0.8em", fontSize: "0.7em", color: PITCH_COLOR.high }}>▲</span>}
-                {s.pitch === "svarita" && <span style={{ position: "absolute", top: "-0.8em", fontSize: "0.7em", color: PITCH_COLOR.svarita }}>⌒</span>}
-                {s.pitch === "dirgha" && <span style={{ position: "absolute", top: "-0.8em", fontSize: "0.7em", color: PITCH_COLOR.dirgha }}>〰</span>}
+              <span key={si} className="is-9553d4f">
+                {s.pitch === "high" && <span className="is-d080a10" style={{ color: PITCH_COLOR.high }}>▲</span>}
+                {s.pitch === "svarita" && <span className="is-d080a10" style={{ color: PITCH_COLOR.svarita }}>⌒</span>}
+                {s.pitch === "dirgha" && <span className="is-d080a10" style={{ color: PITCH_COLOR.dirgha }}>〰</span>}
                 {s.char}
-                {s.pitch === "low" && <span style={{ position: "absolute", bottom: "-0.6em", fontSize: "0.7em", color: PITCH_COLOR.low }}>▼</span>}
+                {s.pitch === "low" && <span className="is-962a69a" style={{ color: PITCH_COLOR.low }}>▼</span>}
               </span>
             ))}
             <br />
@@ -422,7 +422,7 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
           <p className="page-subtitle">తెలుగు వేద గ్రంథాలను డిజిటలైజ్ చేయండి — స్వర మార్కులతో</p>
         </div>
 
-        <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 16px 40px" }}>
+        <div className="is-dd2cc20">
 
           {/* Status bar */}
           <div className={`status-bar status-${status.type}`}>{status.msg}</div>
@@ -431,7 +431,7 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
           <div className="step-nav">
             {steps.map(s => (
               <button key={s.id} className={`step-nav-btn ${activeStep === s.id ? "active" : ""}`} onClick={() => setActiveStep(s.id)}>
-                <span style={{ fontSize: 18 }}>{s.emoji}</span>
+                <span className="is-768e1f2">{s.emoji}</span>
                 <span>{s.label}</span>
               </button>
             ))}
@@ -443,7 +443,7 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
               <div className="step-title">📚 1. పుస్తకాన్ని సృష్టించండి</div>
 
               {/* Helper */}
-              <button className="btn btn-secondary" style={{ marginBottom: 12, fontSize: 13 }} onClick={() => setHelperOpen(o => !o)}>
+              <button className="btn btn-secondary is-22d501a" onClick={() => setHelperOpen(o => !o)}>
                 {helperOpen ? "▲" : "▼"} ఎలా ఉపయోగించాలి?
               </button>
               {helperOpen && (
@@ -462,7 +462,7 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
 
               <div className="section-divider" />
 
-              <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>కొత్త పుస్తకం పేరు:</label>
+              <label className="is-6957f0e">కొత్త పుస్తకం పేరు:</label>
               <input className="inp" value={newBookTitle} onChange={e => setNewBookTitle(e.target.value)}
                 placeholder="ఉదా: శుక్ల యజుర్వేదం" onKeyDown={e => e.key === "Enter" && createBook()} />
               <div className="flex-wrap">
@@ -471,8 +471,8 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
 
               {bookKeys.length > 0 && (
                 <>
-                  <div className="section-divider" style={{ marginTop: 20 }} />
-                  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>ఉన్న పుస్తకం ఎంచుకోండి:</label>
+                  <div className="section-divider is-194b571" />
+                  <label className="is-6957f0e">ఉన్న పుస్తకం ఎంచుకోండి:</label>
                   <select className="inp" value={currentBook} onChange={e => {
                     setCurrentBook(e.target.value); setCurrentSection(""); setCurrentMantra("");
                     setStatus({ msg: `పుస్తకం ఎంపిక చేయబడింది.`, type: "info" });
@@ -494,13 +494,13 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
           {activeStep === "section" && (
             <div className="step-card active">
               <div className="step-title">📖 2. భాగాన్ని జోడించండి
-                {currentBook && <span style={{ fontWeight: 400, fontSize: 13, color: "#888", marginLeft: 8 }}>({books[currentBook]?.title})</span>}
+                {currentBook && <span className="is-fbab378">({books[currentBook]?.title})</span>}
               </div>
               {!currentBook ? (
-                <p style={{ color: "#e74c3c", fontSize: 14 }}>మొదట పుస్తకాన్ని ఎంచుకోండి.</p>
+                <p className="is-04c9c1a">మొదట పుస్తకాన్ని ఎంచుకోండి.</p>
               ) : (
                 <>
-                  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>కొత్త భాగం పేరు:</label>
+                  <label className="is-6957f0e">కొత్త భాగం పేరు:</label>
                   <input className="inp" value={newSectionTitle} onChange={e => setNewSectionTitle(e.target.value)}
                     placeholder="ఉదా: పూర్వ పీఠిక" onKeyDown={e => e.key === "Enter" && createSection()} />
                   <div className="flex-wrap">
@@ -509,8 +509,8 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
 
                   {sectionKeys.length > 0 && (
                     <>
-                      <div className="section-divider" style={{ marginTop: 20 }} />
-                      <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>ఉన్న భాగం ఎంచుకోండి:</label>
+                      <div className="section-divider is-194b571" />
+                      <label className="is-6957f0e">ఉన్న భాగం ఎంచుకోండి:</label>
                       <select className="inp" value={currentSection} onChange={e => {
                         setCurrentSection(e.target.value); setCurrentMantra("");
                         setStatus({ msg: "భాగం ఎంపిక చేయబడింది.", type: "info" });
@@ -534,21 +534,21 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
             <div className="step-card active">
               <div className="step-title">🔍 3. చిత్రం నుండి మంత్రం తీయండి
                 {currentSection && currentBook && (
-                  <span style={{ fontWeight: 400, fontSize: 13, color: "#888", marginLeft: 8 }}>
+                  <span className="is-fbab378">
                     ({books[currentBook]?.sections[currentSection]?.title})
                   </span>
                 )}
               </div>
 
               {!currentBook || !currentSection ? (
-                <p style={{ color: "#e74c3c", fontSize: 14 }}>పుస్తకం మరియు భాగాన్ని ఎంచుకోండి.</p>
+                <p className="is-04c9c1a">పుస్తకం మరియు భాగాన్ని ఎంచుకోండి.</p>
               ) : (
                 <>
                   {/* File upload */}
-                  <div className="flex-wrap" style={{ marginBottom: 12 }}>
-                    <label className="btn btn-secondary" style={{ cursor: "pointer" }}>
+                  <div className="flex-wrap is-7b754ee">
+                    <label className="btn btn-secondary is-24b531c">
                       📷 చిత్రాన్ని అప్‌లోడ్ చేయండి
-                      <input ref={fileRef} type="file" accept="image/*" style={{ display: "none" }} onChange={handleFileChange} />
+                      <input ref={fileRef} type="file" accept="image/*" className="is-224b51a" onChange={handleFileChange} />
                     </label>
                     <button className="btn btn-primary" disabled={!previewUrl || !workerReady || ocrLoading} onClick={runOcr}>
                       {ocrLoading ? "⏳ OCR చేస్తోంది..." : "🔍 OCR ప్రారంభించండి"}
@@ -558,7 +558,7 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
                   {previewUrl && <img src={previewUrl} className="preview-img" alt="uploaded" />}
 
                   {/* OCR Textarea */}
-                  <label style={{ fontSize: 13, color: "#555", fontWeight: 600, display: "block", marginBottom: 6 }}>
+                  <label className="is-5a1ac2c">
                     OCR అవుట్‌పుట్ — వచనం ఎంచుకుని స్వరం గుర్తించండి:
                   </label>
                   <textarea ref={ocrRef} className="textarea" rows={5} value={ocrText}
@@ -566,32 +566,32 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
                     placeholder="OCR ఫలితం ఇక్కడ కనిపిస్తుంది — మీరు కూడా టైప్ చేయవచ్చు" />
 
                   {/* Pitch buttons */}
-                  <div className="flex-wrap" style={{ marginTop: 10 }}>
+                  <div className="flex-wrap is-07c308b">
                     <button className="btn-pitch btn-pitch-high" onClick={() => applyPitch("high")}>▲ స్వరితం (High)</button>
                     <button className="btn-pitch btn-pitch-low" onClick={() => applyPitch("low")}>▼ అనుదాత్తం (Low)</button>
                     <button className="btn-pitch btn-pitch-svarita" onClick={() => applyPitch("svarita")}>⌒ స్వరితం</button>
                     <button className="btn-pitch btn-pitch-dirgha" onClick={() => applyPitch("dirgha")}>〰 దీర్ఘ స్వరితం</button>
-                    <button className="btn btn-danger" style={{ fontSize: 13, padding: "8px 14px" }} onClick={clearAll}>🗑 తొలగించు</button>
+                    <button className="btn btn-danger is-2c3460f" onClick={clearAll}>🗑 తొలగించు</button>
                   </div>
 
                   {/* Pitch legend */}
-                  <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 8, fontSize: 12, color: "#888" }}>
+                  <div className="is-321e734">
                     {Object.entries(PITCH_SYMBOL).map(([k, v]) => (
                       <span key={k} style={{ color: PITCH_COLOR[k] }}>{v} = {k}</span>
                     ))}
                   </div>
 
-                  <div className="section-divider" style={{ marginTop: 16 }} />
+                  <div className="section-divider is-a812934" />
 
                   {/* Mantra title + desc */}
-                  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>మంత్రం పేరు:</label>
+                  <label className="is-6957f0e">మంత్రం పేరు:</label>
                   <input className="inp" value={mantraTitle} onChange={e => setMantraTitle(e.target.value)}
                     placeholder="ఉదా: శ్రీ గాయత్రీ మంత్రం" />
-                  <label style={{ fontSize: 13, color: "#555", fontWeight: 600 }}>వివరణ:</label>
+                  <label className="is-6957f0e">వివరణ:</label>
                   <textarea className="textarea" rows={2} value={mantraDesc}
                     onChange={e => setMantraDesc(e.target.value)} placeholder="మంత్రం గురించి సంక్షిప్త వివరణ" />
 
-                  <div className="flex-wrap" style={{ marginTop: 12 }}>
+                  <div className="flex-wrap is-65c1c01">
                     <button className="btn btn-primary" onClick={saveMantra}>
                       {isEditing ? "✏️ మంత్రం అప్‌డేట్ చేయండి" : "✨ మంత్రం సేవ్ చేయండి"}
                     </button>
@@ -608,13 +608,13 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
               <div className="step-title">🪔 4. మంత్రాలను చూడండి & నిర్వహించండి</div>
 
               {!currentBook || !currentSection ? (
-                <p style={{ color: "#e74c3c", fontSize: 14 }}>పుస్తకం మరియు భాగాన్ని ఎంచుకోండి.</p>
+                <p className="is-04c9c1a">పుస్తకం మరియు భాగాన్ని ఎంచుకోండి.</p>
               ) : mantraKeys.length === 0 ? (
-                <p style={{ color: "#888", fontSize: 14 }}>ఈ భాగంలో మంత్రాలు లేవు. OCR ట్యాబ్‌లో జోడించండి.</p>
+                <p className="is-5c91722">ఈ భాగంలో మంత్రాలు లేవు. OCR ట్యాబ్‌లో జోడించండి.</p>
               ) : (
                 <>
                   {/* Mantra tabs */}
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 16 }}>
+                  <div className="is-1888f4a">
                     {mantraKeys.map(k => (
                       <button key={k} className={`tab-btn ${currentMantra === k ? "active" : ""}`}
                         onClick={() => setCurrentMantra(k)}>
@@ -626,17 +626,17 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
                   {/* Mantra display */}
                   {currentMantraData ? (
                     <div className="mantra-card">
-                      <h3 style={{ color: "#1f3674", margin: "0 0 6px", fontFamily: "'Noto Sans Telugu', serif" }}>
+                      <h3 className="is-05acf13">
                         {currentMantraData.title}
                       </h3>
                       {currentMantraData.description && (
-                        <p style={{ color: "#6b7280", fontSize: 14, margin: "0 0 12px", fontFamily: "'Noto Sans Telugu', serif" }}>
+                        <p className="is-c3ccd28">
                           {currentMantraData.description}
                         </p>
                       )}
                       <div className="section-divider" />
                       {renderMantra(currentMantraData)}
-                      <div className="flex-wrap" style={{ marginTop: 16 }}>
+                      <div className="flex-wrap is-a812934">
                         <button className="btn btn-secondary" onClick={() => startEdit(currentMantra)}>✏️ సవరించండి</button>
                         <button className="btn btn-danger" onClick={() => {
                           if (!confirm("మంత్రం తొలగించాలా?")) return;
@@ -648,7 +648,7 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
                       </div>
                     </div>
                   ) : (
-                    <p style={{ color: "#888", fontSize: 14 }}>పైన ఒక మంత్రాన్ని ఎంచుకోండి.</p>
+                    <p className="is-5c91722">పైన ఒక మంత్రాన్ని ఎంచుకోండి.</p>
                   )}
                 </>
               )}
@@ -656,7 +656,7 @@ footer{text-align:center;padding:20px;border-top:1px solid #e0e0e0;color:#777;fo
               {/* Download */}
               {currentBook && (
                 <>
-                  <div className="section-divider" style={{ marginTop: 20 }} />
+                  <div className="section-divider is-194b571" />
                   <div className="flex-wrap">
                     <button className="btn btn-primary" onClick={downloadBook}>
                       ⬇ పుస్తకాన్ని డౌన్‌లోడ్ చేయండి (HTML)

@@ -48,18 +48,7 @@ interface ToastContainerProps {
 export function ToastContainer({ toasts }: ToastContainerProps) {
   return (
     <div
-      style={{
-        position: "fixed",
-        bottom: 24,
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 9999,
-        display: "flex",
-        flexDirection: "column",
-        gap: 8,
-        alignItems: "center",
-        pointerEvents: "none",
-      }}
+      className="is-301f9d3"
     >
       {toasts.map((t) => (
         <div
@@ -81,12 +70,7 @@ export function ToastContainer({ toasts }: ToastContainerProps) {
         </div>
       ))}
 
-      <style>{`
-        @keyframes ak-toast-in {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+
     </div>
   );
 }

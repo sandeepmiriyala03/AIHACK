@@ -175,19 +175,11 @@ export default function DotnetCodeReviewPage() {
     <>
    
     <Navbar />
-    <div style={{ maxWidth: 900, margin: "30px auto", padding: "0 20px", fontFamily: "Consolas, Arial, sans-serif" }}>
-      <h1 style={{ fontSize: 20, color: "#1e3a8a" }}>🧪 .NET Code Review — Local Rules Only</h1>
+    <div className="is-072d81c">
+      <h1 className="is-fead68d">🧪 .NET Code Review — Local Rules Only</h1>
 
       <div
-        style={{
-          fontSize: 13,
-          color: "#16a34a",
-          background: "#ecfdf5",
-          border: "1px solid #a7f3d0",
-          padding: "8px 12px",
-          borderRadius: 6,
-          marginBottom: 14,
-        }}
+        className="is-b478ce1"
       >
         🔒 Everything runs in this browser tab. Nothing is uploaded, sent to any API, or saved anywhere.
       </div>
@@ -196,38 +188,20 @@ export default function DotnetCodeReviewPage() {
         value={code}
         onChange={(e) => setCode(e.target.value)}
         placeholder="Paste your C# code here..."
-        style={{
-          width: "100%",
-          height: 320,
-          boxSizing: "border-box",
-          fontFamily: "Consolas, monospace",
-          fontSize: 13,
-          padding: 10,
-          border: "1px solid #ccc",
-          borderRadius: 6,
-        }}
+        className="is-4dca500"
       />
 
       <br />
 
       <button
         onClick={handleReview}
-        style={{
-          marginTop: 10,
-          padding: "10px 20px",
-          background: "#1e3a8a",
-          color: "white",
-          border: "none",
-          borderRadius: 6,
-          fontWeight: 600,
-          cursor: "pointer",
-        }}
+        className="is-a22382b"
       >
         Review Code
       </button>
 
       {summary && (
-        <div style={{ marginTop: 16, fontStyle: "italic", color: "#333" }}>{summary}</div>
+        <div className="is-b8f420e">{summary}</div>
       )}
 
       {issues?.map((issue, i) => {
@@ -235,26 +209,10 @@ export default function DotnetCodeReviewPage() {
         return (
           <div
             key={i}
-            style={{
-              marginTop: 8,
-              padding: 10,
-              borderLeft: `4px solid ${color}`,
-              background: "white",
-              borderRadius: "0 6px 6px 0",
-              fontSize: 13,
-            }}
+            className="is-b27ac48" style={{ borderLeft: `4px solid ${color}`, background: "white", borderRadius: "0 6px 6px 0", fontSize: 13 }}
           >
             <span
-              style={{
-                fontWeight: 700,
-                textTransform: "uppercase",
-                fontSize: 10,
-                marginRight: 8,
-                padding: "2px 6px",
-                borderRadius: 4,
-                color: "white",
-                background: color,
-              }}
+              className="is-7e0435c" style={{ background: color }}
             >
               {issue.severity}
             </span>

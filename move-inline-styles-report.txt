@@ -1,0 +1,1450 @@
+MOVE INLINE STYLES — 10/19/2026, 5:51:43 PM  (dry run, nothing changed)
+globals.css: styles/globals.css   new classes: 682   files touched: 42
+
+=== MOVED fully to globals.css (810) ===
+src/app/aksharadrishti/page.tsx:360  <span>  → .is-beab583
+src/app/aksharadrishti/page.tsx:388  <button>  → .is-b2488f5
+src/app/aksharadrishti/page.tsx:412  <div>  → .is-ddd3c8b
+src/app/aksharadrishti/page.tsx:413  <div>  → .is-cb1cee4
+src/app/aksharadrishti/page.tsx:422  <Image>  → .is-36746cb
+src/app/aksharadrishti/page.tsx:443  <span>  → .is-ec8c677
+src/app/aksharadrishti/page.tsx:447  <div>  → .is-3301ea9
+src/app/aksharadrishti/page.tsx:448  <div>  → .is-1015caf
+src/app/aksharadrishti/page.tsx:482  <span>  → .is-1830c9d
+src/app/aksharadrishti/page.tsx:488  <strong>  → .is-495da58
+src/app/aksharadrishti/page.tsx:489  <span>  → .is-e732eb8
+src/app/badge/page.tsx:438  <div>  → .is-f431735
+src/app/badge/page.tsx:442  <div>  → .is-b8bc244
+src/app/badge/page.tsx:445  <div>  → .is-7002f9c
+src/app/badge/page.tsx:446  <div>  → .is-651ca08
+src/app/badge/page.tsx:448  <p>  → .is-cc18001
+src/app/badge/page.tsx:449  <h1>  → .is-19891f7
+src/app/badge/page.tsx:451  <div>  → .is-3e22b63
+src/app/badge/page.tsx:452  <span>  → .is-c813cd4
+src/app/badge/page.tsx:453  <span>  → .is-ae4aac3
+src/app/badge/page.tsx:459  <div>  → .is-833a7d6
+src/app/badge/page.tsx:460  <div>  → .is-dccc7be
+src/app/badge/page.tsx:461  <p>  → .is-0e99142
+src/app/badge/page.tsx:463  <button>  → .is-33fbb76
+src/app/badge/page.tsx:469  <div>  → .is-6881752
+src/app/badge/page.tsx:470  <span>  → .is-249bf02
+src/app/badge/page.tsx:472  <div>  → .is-a7c264a
+src/app/badge/page.tsx:473  <div>  → .is-93a6e04
+src/app/badge/page.tsx:482  <input>  → .is-c29154a
+src/app/badge/page.tsx:484  <div>  → .is-60f439a
+src/app/badge/page.tsx:494  <div>  → .is-6810f38
+src/app/badge/page.tsx:500  <div>  → .is-b757129
+src/app/badge/page.tsx:502  <div>  → .is-b96e8ef
+src/app/badge/page.tsx:511  <div>  → .is-65ab07d
+src/app/badge/page.tsx:512  <div>  → .is-a3f98c3
+src/app/badge/page.tsx:513  <canvas>  → .is-bc1c853
+src/app/badge/page.tsx:515  <div>  → .is-a040ff0
+src/app/badge/page.tsx:520  <div>  → .is-199b6f0
+src/app/badge/page.tsx:521  <div>  → .is-952640c
+src/app/badge/page.tsx:522  <span>  → .is-d0ccc10
+src/app/badge/page.tsx:523  <span>  → .is-6c209a7
+src/app/badge/page.tsx:526  <input>  → .is-19268ef
+src/app/badge/page.tsx:529  <div>  → .is-299ed7f
+src/app/badge/page.tsx:531  <div>  → .is-952640c
+src/app/badge/page.tsx:532  <span>  → .is-d0ccc10
+src/app/badge/page.tsx:533  <span>  → .is-6c209a7
+src/app/badge/page.tsx:536  <input>  → .is-19268ef
+src/app/badge/page.tsx:539  <div>  → .is-952640c
+src/app/badge/page.tsx:540  <span>  → .is-d0ccc10
+src/app/badge/page.tsx:541  <span>  → .is-6c209a7
+src/app/badge/page.tsx:544  <input>  → .is-19268ef
+src/app/badge/page.tsx:550  <div>  → .is-833a7d6
+src/app/badge/page.tsx:551  <p>  → .is-ba325c9
+src/app/badge/page.tsx:562  <div>  → .is-cc6ea4f
+src/app/badge/page.tsx:564  <div>  → .is-952640c
+src/app/badge/page.tsx:565  <span>  → .is-d0ccc10
+src/app/badge/page.tsx:566  <span>  → .is-c441868
+src/app/badge/page.tsx:569  <input>  → .is-667cd01
+src/app/badge/page.tsx:572  <div>  → .is-952640c
+src/app/badge/page.tsx:573  <span>  → .is-d0ccc10
+src/app/badge/page.tsx:574  <span>  → .is-c441868
+src/app/badge/page.tsx:577  <input>  → .is-556ac21
+src/app/badge/page.tsx:584  <div>  → .is-833a7d6
+src/app/badge/page.tsx:585  <p>  → .is-08211db
+src/app/badge/page.tsx:601  <div>  → .is-833a7d6
+src/app/badge/page.tsx:602  <p>  → .is-08211db
+src/app/badge/page.tsx:603  <div>  → .is-bb5ff47
+src/app/badge/page.tsx:605  <p>  → .is-81465d3
+src/app/badge/page.tsx:612  <p>  → .is-81465d3
+src/app/badge/page.tsx:614  <select>  → .is-1d16566
+src/app/badge/page.tsx:622  <div>  → .is-833a7d6
+src/app/badge/page.tsx:623  <p>  → .is-08211db
+src/app/badge/page.tsx:624  <div>  → .is-eea200f
+src/app/badge/page.tsx:637  <div>  → .is-833a7d6
+src/app/badge/page.tsx:638  <p>  → .is-08211db
+src/app/badge/page.tsx:639  <div>  → .is-98a2729
+src/app/badge/page.tsx:646  <p>  → .is-81465d3
+src/app/badge/page.tsx:647  <label>  → .is-7f417a0
+src/app/badge/page.tsx:649  <span>  → .is-5e7716a
+src/app/badge/page.tsx:650  <input>  → .is-2de6e5e
+src/app/badge/page.tsx:656  <button>  → .is-611350f
+src/app/badge/page.tsx:662  <div>  → .is-833a7d6
+src/app/badge/page.tsx:663  <p>  → .is-08211db
+src/app/badge/page.tsx:664  <div>  → .is-e8afafb
+src/app/badge/page.tsx:677  <div>  → .is-3eae388
+src/app/badge/page.tsx:678  <p>  → .is-08211db
+src/app/badge/page.tsx:679  <div>  → .is-56d3042
+src/app/badge/page.tsx:685  <div>  → .is-eb8da30
+src/app/badge/page.tsx:687  <div>  → .is-7a489ba
+src/app/badge/page.tsx:694  <div>  → .is-e4b1745
+src/app/badge/page.tsx:701  <div>  → .is-bb5ff47
+src/app/badge/page.tsx:703  <button>  → .is-fce90a2
+src/app/badge/page.tsx:708  <button>  → .is-11f5459
+src/app/badge/page.tsx:715  <p>  → .is-0a88582
+src/app/badge/page.tsx:720  <canvas>  → .is-224b51a
+src/app/calendarpage/page.tsx:145  <div>  → .is-d12e224
+src/app/calendarpage/page.tsx:150  <div>  → .is-a608522
+src/app/calendarpage/page.tsx:155  <div>  → .is-ed79f36
+src/app/calendarpage/page.tsx:160  <div>  → .is-8f2594c
+src/app/calendarpage/page.tsx:163  <button>  → .is-1741743
+src/app/calendarpage/page.tsx:167  <CloseIcon>  → .is-60585d5
+src/app/calendarpage/page.tsx:171  <div>  → .is-9726693
+src/app/calendarpage/page.tsx:174  <label>  → .is-de3e938
+src/app/calendarpage/page.tsx:180  <input>  → .is-0a4ce9b
+src/app/calendarpage/page.tsx:192  <label>  → .is-adecdc3
+src/app/calendarpage/page.tsx:193  <AccessTimeIcon>  → .is-7667453
+src/app/calendarpage/page.tsx:196  <input>  → .is-5d2c711
+src/app/calendarpage/page.tsx:205  <label>  → .is-de3e938
+src/app/calendarpage/page.tsx:211  <textarea>  → .is-7750eda
+src/app/calendarpage/page.tsx:220  <label>  → .is-8dc16b2
+src/app/calendarpage/page.tsx:221  <LabelIcon>  → .is-7667453
+src/app/calendarpage/page.tsx:223  <div>  → .is-13262f5
+src/app/calendarpage/page.tsx:236  <button>  → .is-72becc0
+src/app/calendarpage/page.tsx:245  <SaveIcon>  → .is-768e1f2
+src/app/calendarpage/page.tsx:433  <div>  → .is-0a8c77e
+src/app/calendarpage/page.tsx:434  <div>  → .is-9bb79fb
+src/app/calendarpage/page.tsx:435  <CalendarMonthIcon>  → .is-a55610d
+src/app/calendarpage/page.tsx:436  <h1>  → .is-471df5d
+src/app/calendarpage/page.tsx:440  <p>  → .is-055d956
+src/app/calendarpage/page.tsx:453  <ChevronLeftIcon>  → .is-ba5643e
+src/app/calendarpage/page.tsx:458  <div>  → .is-4a5d9a1
+src/app/calendarpage/page.tsx:462  <button>  → .is-884c160
+src/app/calendarpage/page.tsx:463  <TodayIcon>  → .is-ce83129
+src/app/calendarpage/page.tsx:468  <ChevronRightIcon>  → .is-ba5643e
+src/app/calendarpage/page.tsx:474  <div>  → .is-56c00b6
+src/app/calendarpage/page.tsx:497  <div>  → .is-695916a
+src/app/calendarpage/page.tsx:500  <span>  → .is-345895d
+src/app/calendarpage/page.tsx:506  <div>  → .is-1a7dff0
+src/app/calendarpage/page.tsx:518  <div>  → .is-48cd742
+src/app/calendarpage/page.tsx:530  <div>  → .is-75400da
+src/app/calendarpage/page.tsx:531  <div>  → .is-651ca08
+src/app/calendarpage/page.tsx:533  <div>  → .is-30bc1b5
+src/app/calendarpage/page.tsx:536  <div>  → .is-1406953
+src/app/calendarpage/page.tsx:541  <span>  → .is-0d77f66
+src/app/calendarpage/page.tsx:547  <div>  → .is-d543bc0
+src/app/calendarpage/page.tsx:549  <span>  → .is-8841979
+src/app/calendarpage/page.tsx:552  <span>  → .is-67c87bf
+src/app/calendarpage/page.tsx:555  <span>  → .is-e8990c4
+src/app/calendarpage/page.tsx:578  <p>  → .is-3fb1f34
+src/app/calendarpage/page.tsx:586  <CalendarMonthIcon>  → .is-8c98ab0
+src/app/calendarpage/page.tsx:588  <span>  → .is-5fd592f
+src/app/calendarpage/page.tsx:594  <p>  → .is-179e356
+src/app/calendarpage/page.tsx:602  <div>  → .is-ec2eba2
+src/app/calendarpage/page.tsx:603  <div>  → .is-5f8a4c4
+src/app/calendarpage/page.tsx:607  <div>  → .is-23c4499
+src/app/calendarpage/page.tsx:608  <AccessTimeIcon>  → .is-6ec7081
+src/app/calendarpage/page.tsx:612  <div>  → .is-ddc78ae
+src/app/calendarpage/page.tsx:617  <EditIcon>  → .is-41aec17
+src/app/calendarpage/page.tsx:620  <DeleteIcon>  → .is-684d369
+src/app/calendarpage/page.tsx:627  <AddIcon>  → .is-768e1f2
+src/app/chess/page.tsx:637  <h1>  → .is-56c00b6
+src/app/chess/page.tsx:638  <p>  → .is-3dc9a37
+src/app/chess/page.tsx:681  <span>  → .is-4671278
+src/app/codeagent/page.tsx:178  <div>  → .is-072d81c
+src/app/codeagent/page.tsx:179  <h1>  → .is-fead68d
+src/app/codeagent/page.tsx:182  <div>  → .is-b478ce1
+src/app/codeagent/page.tsx:199  <textarea>  → .is-4dca500
+src/app/codeagent/page.tsx:215  <button>  → .is-a22382b
+src/app/codeagent/page.tsx:230  <div>  → .is-b8f420e
+src/app/ebook/page.tsx:1019  <input>  → .is-224b51a
+src/app/ebook/page.tsx:1093  <div>  → .is-761c6dc
+src/app/ebook/page.tsx:1108  <p>  → .is-8ad0c6e
+src/app/ebook/page.tsx:1141  <span>  → .is-beab583
+src/app/ebook/page.tsx:1198  <input>  → .is-224b51a
+src/app/ebook/page.tsx:1207  <div>  → .is-49cdf87
+src/app/ebook/page.tsx:1230  <div>  → .is-324d077
+src/app/ebook/page.tsx:1235  <div>  → .is-f04679b
+src/app/ebook/page.tsx:1236  <div>  → .is-978a551
+src/app/ebook/page.tsx:1239  <div>  → .is-4ec18c6
+src/app/ebook/page.tsx:1243  <div>  → .is-06ac0be
+src/app/ebook/page.tsx:1244  <span>  → .is-95014f9
+src/app/ebook/page.tsx:1245  <span>  → .is-95014f9
+src/app/ebook/page.tsx:1246  <span>  → .is-95014f9
+src/app/ebook/page.tsx:1254  <div>  → .is-f48bd38
+src/app/ebook/page.tsx:1255  <div>  → .is-a559b79
+src/app/ebook/page.tsx:1258  <div>  → .is-4ec18c6
+src/app/ebook/page.tsx:1262  <div>  → .is-06ac0be
+src/app/ebook/page.tsx:1263  <span>  → .is-95014f9
+src/app/ebook/page.tsx:1264  <span>  → .is-95014f9
+src/app/ebook/page.tsx:1265  <span>  → .is-07dc1ac
+src/app/ebook/page.tsx:1269  <button>  → .is-1c9ddba
+src/app/ebook/page.tsx:1282  <div>  → .is-2e5ad98
+src/app/ebook/page.tsx:1289  <span>  → .is-768e1f2
+src/app/ebook/page.tsx:1294  <span>  → .is-111e2e9
+src/app/ebook/page.tsx:1317  <div>  → .is-07c308b
+src/app/ebook/page.tsx:1335  <div>  → .is-f15c2d6
+src/app/ebook/page.tsx:1336  <div>  → .is-fd8403a
+src/app/ebook/page.tsx:1342  <button>  → .is-1b0c0b6
+src/app/ebook/page.tsx:1363  <button>  → .is-68a09f7
+src/app/ebook/page.tsx:1377  <p>  → .is-850f4a7
+src/app/ebook/page.tsx:1415  <p>  → .is-c5baa08
+src/app/ebook/page.tsx:1419  <div>  → .is-761c6dc
+src/app/ebook/page.tsx:1434  <button>  → .is-3301ea9
+src/app/ebook/page.tsx:1441  <button>  → .is-199b6f0
+src/app/ebook/page.tsx:1473  <div>  → .is-a812934
+src/app/ebook/page.tsx:1501  <button>  → .is-49cdf87
+src/app/ebook/page.tsx:1506  <button>  → .is-49cdf87
+src/app/ipl/page.tsx:1118  <p>  → .is-3301ea9
+src/app/ipl/page.tsx:1140  <div>  → .is-39c650c
+src/app/ipl/page.tsx:1141  <div>  → .is-cdd8ca0
+src/app/ipl/page.tsx:1143  <div>  → .is-69510eb
+src/app/ipl/page.tsx:1145  <div>  → .is-ac9f2dc
+src/app/ipl/page.tsx:1146  <div>  → .is-cdd8ca0
+src/app/ipl/page.tsx:1148  <div>  → .is-69510eb
+src/app/ipl/page.tsx:1155  <div>  → .is-cdd8ca0
+src/app/ipl/page.tsx:1161  <div>  → .is-fbc75fb
+src/app/ipl/page.tsx:1169  <div>  → .is-fbc75fb
+src/app/ipl/page.tsx:1215  <div>  → .is-07c308b
+src/app/ipl/page.tsx:1216  <button>  → .is-91208af
+src/app/ipl/page.tsx:1224  <div>  → .is-867ed25
+src/app/ipl/page.tsx:1226  <div>  → .is-ea48537
+src/app/ipl/page.tsx:1227  <div>  → .is-47d50ed
+src/app/ipl/page.tsx:1229  <div>  → .is-0176b34
+src/app/ipl/page.tsx:1230  <div>  → .is-84cea37
+src/app/ipl/page.tsx:1236  <div>  → .is-07c308b
+src/app/ipl/page.tsx:1237  <button>  → .is-fe3a8d3
+src/app/ipl/page.tsx:1249  <div>  → .is-7220d01
+src/app/ipl/page.tsx:1255  <div>  → .is-515f071
+src/app/ipl/page.tsx:1255  <span>  → .is-26a022e
+src/app/ipl/page.tsx:1256  <div>  → .is-af53e11
+src/app/ipl/page.tsx:1262  <div>  → .is-515f071
+src/app/ipl/page.tsx:1262  <span>  → .is-26a022e
+src/app/ipl/page.tsx:1263  <div>  → .is-af53e11
+src/app/kosha/page.tsx:414  <div>  → .is-b131259
+src/app/kosha/page.tsx:435  <span>  → .is-b57d185
+src/app/kosha/page.tsx:454  <span>  → .is-267f6d5
+src/app/kosha/page.tsx:466  <div>  → .is-58e548b
+src/app/kosha/page.tsx:472  <div>  → .is-07762b5
+src/app/kosha/page.tsx:475  <div>  → .is-58e548b
+src/app/kosha/page.tsx:476  <span>  → .is-f57ec4f
+src/app/kosha/page.tsx:477  <span>  → .is-f57ec4f
+src/app/kosha/page.tsx:480  <p>  → .is-356b6c2
+src/app/kosha/page.tsx:495  <span>  → .is-768e1f2
+src/app/kosha/page.tsx:497  <p>  → .is-fd6cf0b
+src/app/kosha/page.tsx:498  <p>  → .is-2c38b0e
+src/app/kosha/page.tsx:536  <div>  → .is-8f0173a
+src/app/kosha/page.tsx:539  <div>  → .is-cdbe310
+src/app/kosha/page.tsx:542  <p>  → .is-e6ea1bc
+src/app/kosha/page.tsx:546  <div>  → .is-489d460
+src/app/kosha/page.tsx:547  <p>  → .is-e34c2e4
+src/app/kosha/page.tsx:553  <p>  → .is-c7e6885
+src/app/kosha/page.tsx:555  <div>  → .is-b512c98
+src/app/kosha/page.tsx:556  <span>  → .is-1c3259e
+src/app/kosha/page.tsx:557  <div>  → .is-49cdf87
+src/app/kosha/page.tsx:558  <div>  → .is-aba0906
+src/app/kosha/page.tsx:559  <span>  → .is-15b2bb9
+src/app/kosha/page.tsx:560  <span>  → .is-ed3ef0d
+src/app/kosha/page.tsx:562  <div>  → .is-c850e7b
+src/app/kosha/page.tsx:586  <div>  → .is-881a24d
+src/app/kosha/page.tsx:588  <div>  → .is-c5c4daf
+src/app/kosha/page.tsx:589  <div>  → .is-dbb9fa4
+src/app/kosha/page.tsx:593  <p>  → .is-5508c66
+src/app/kosha/page.tsx:597  <div>  → .is-beb977a
+src/app/kosha/page.tsx:608  <span>  → .is-59ef123
+src/app/kosha/page.tsx:609  <span>  → .is-6a3562c
+src/app/kosha/page.tsx:624  <div>  → .is-948e6d6
+src/app/kosha/page.tsx:632  <p>  → .is-6699497
+src/app/kosha/page.tsx:634  <p>  → .is-6699497
+src/app/kosha/page.tsx:637  <span>  → .is-382a08a
+src/app/kosha/page.tsx:639  <p>  → .is-ac75cc8
+src/app/kosha/page.tsx:640  <p>  → .is-e284c78
+src/app/kosha/page.tsx:645  <p>  → .is-1d28f29
+src/app/kosha/page.tsx:655  <p>  → .is-3085795
+src/app/kosha/page.tsx:656  <div>  → .is-13262f5
+src/app/kosha/page.tsx:665  <div>  → .is-948e6d6
+src/app/kosha/page.tsx:666  <span>  → .is-b6d0111
+src/app/kosha/page.tsx:667  <button>  → .is-303fb5b
+src/app/kosha/page.tsx:669  <div>  → .is-5293e74
+src/app/kosha/page.tsx:672  <div>  → .is-de63317
+src/app/kosha/page.tsx:673  <span>  → .is-9dad4f9
+src/app/kosha/page.tsx:674  <span>  → .is-4a0d778
+src/app/kosha/page.tsx:677  <p>  → .is-e056b3c
+src/app/kosha/page.tsx:678  <p>  → .is-4dbb009
+src/app/kosha/page.tsx:687  <p>  → .is-aa7238a
+src/app/kosha/page.tsx:696  <span>  → .is-249bf02
+src/app/kosha/page.tsx:698  <p>  → .is-ac75cc8
+src/app/kosha/page.tsx:701  <p>  → .is-c577b2a
+src/app/kosha/page.tsx:705  <p>  → .is-75bddd4
+src/app/kosha/page.tsx:713  <p>  → .is-aa7238a
+src/app/kosha/page.tsx:716  <div>  → .is-f2470a1
+src/app/kosha/page.tsx:718  <div>  → .is-4a0a36f
+src/app/kosha/page.tsx:719  <span>  → .is-4671278
+src/app/kosha/page.tsx:719  <strong>  → .is-8ac7607
+src/app/kosha/page.tsx:753  <p>  → .is-a13cbad
+src/app/kosha/page.tsx:770  <div>  → .is-13262f5
+src/app/kosha/page.tsx:790  <p>  → .is-b70fd76
+src/app/kosha/page.tsx:797  <div>  → .is-f2470a1
+src/app/kosha/page.tsx:823  <p>  → .is-cddf46f
+src/app/kosha/page.tsx:824  <div>  → .is-0ed0e90
+src/app/kosha/page.tsx:840  <p>  → .is-0793444
+src/app/kosha/page.tsx:846  <p>  → .is-9cf08e2
+src/app/kosha/page.tsx:852  <div>  → .is-b567433
+src/app/kosha/page.tsx:853  <div>  → .is-bf62ca2
+src/app/kosha/page.tsx:854  <div>  → .is-49cdf87
+src/app/kosha/page.tsx:855  <p>  → .is-0637897
+src/app/kosha/page.tsx:856  <p>  → .is-312a307
+src/app/kosha/page.tsx:857  <p>  → .is-cdc81f9
+src/app/kosha/page.tsx:860  <button>  → .is-e25dbb7
+src/app/kosha/page.tsx:864  <div>  → .is-5d712d5
+src/app/kosha/page.tsx:871  <div>  → .is-fdcdbad
+src/app/kosha/page.tsx:872  <p>  → .is-eb6af45
+src/app/kosha/page.tsx:873  <p>  → .is-6d14f90
+src/app/kosha/page.tsx:874  <p>  → .is-b8bbfd2
+src/app/kosha/page.tsx:878  <div>  → .is-eecb2be
+src/app/kosha/page.tsx:879  <p>  → .is-c1006e9
+src/app/kosha/page.tsx:884  <div>  → .is-37e43dc
+src/app/kosha/page.tsx:886  <span>  → .is-f57ec4f
+src/app/kyc/page.tsx:589  <p>  → .is-7536e18
+src/app/kyc/page.tsx:593  <div>  → .is-a5c21bb
+src/app/kyc/page.tsx:594  <span>  → .is-553fa71
+src/app/kyc/page.tsx:616  <div>  → .is-39b2332
+src/app/kyc/page.tsx:625  <span>  → .is-249bf02
+src/app/kyc/page.tsx:626  <span>  → .is-c555934
+src/app/kyc/page.tsx:641  <div>  → .is-c0e2dcd
+src/app/kyc/page.tsx:644  <p>  → .is-0476e56
+src/app/kyc/page.tsx:645  <p>  → .is-b500db8
+src/app/kyc/page.tsx:649  <p>  → .is-f766c9e
+src/app/kyc/page.tsx:656  <p>  → .is-237a2dd
+src/app/kyc/page.tsx:668  <div>  → .is-0ed0e90
+src/app/kyc/page.tsx:670  <span>  → .is-f861301
+src/app/kyc/page.tsx:671  <span>  → .is-f86a36e
+src/app/kyc/page.tsx:672  <span>  → .is-f194fe1
+src/app/kyc/page.tsx:676  <span>  → .is-f861301
+src/app/kyc/page.tsx:677  <span>  → .is-f86a36e
+src/app/kyc/page.tsx:678  <span>  → .is-f194fe1
+src/app/kyc/page.tsx:682  <span>  → .is-f861301
+src/app/kyc/page.tsx:683  <span>  → .is-f86a36e
+src/app/kyc/page.tsx:684  <span>  → .is-f194fe1
+src/app/kyc/page.tsx:691  <div>  → .is-49cdf87
+src/app/kyc/page.tsx:692  <p>  → .is-33b3298
+src/app/kyc/page.tsx:693  <p>  → .is-c69209e
+src/app/kyc/page.tsx:700  <p>  → .is-28188ad
+src/app/kyc/page.tsx:701  <div>  → .is-58f6d97
+src/app/kyc/page.tsx:713  <div>  → .is-da0c348
+src/app/kyc/page.tsx:714  <p>  → .is-0d1cfba
+src/app/kyc/page.tsx:715  <p>  → .is-adc492b
+src/app/kyc/page.tsx:721  <div>  → .is-695916a
+src/app/kyc/page.tsx:724  <p>  → .is-0097de7
+src/app/kyc/page.tsx:726  <span>  → .is-74b81f2
+src/app/kyc/page.tsx:729  <p>  → .is-f6e1422
+src/app/kyc/page.tsx:741  <div>  → .is-13262f5
+src/app/kyc/page.tsx:746  <div>  → .is-39b2332
+src/app/kyc/page.tsx:755  <div>  → .is-cd97667
+src/app/kyc/page.tsx:756  <img>  → .is-a52ae83
+src/app/kyc/page.tsx:764  <div>  → .is-948e6d6
+src/app/kyc/page.tsx:769  <div>  → .is-919829d
+src/app/kyc/page.tsx:770  <div>  → .is-948e6d6
+src/app/kyc/page.tsx:771  <p>  → .is-75b0f6d
+src/app/kyc/page.tsx:772  <div>  → .is-650e123
+src/app/kyc/page.tsx:774  <span>  → .is-3a25827
+src/app/kyc/page.tsx:777  <div>  → .is-4a5d9a1
+src/app/kyc/page.tsx:796  <p>  → .is-794e911
+src/app/kyc/page.tsx:797  <p>  → .is-ec88949
+src/app/kyc/page.tsx:803  <div>  → .is-13262f5
+src/app/kyc/page.tsx:826  <div>  → .is-948e6d6
+src/app/kyc/page.tsx:836  <div>  → .is-ffd2c96
+src/app/kyc/page.tsx:837  <p>  → .is-eb6af45
+src/app/kyc/page.tsx:838  <p>  → .is-7667453
+src/app/kyc/page.tsx:845  <div>  → .is-b8a0b5e
+src/app/kyc/page.tsx:846  <div>  → .is-bd9db1c
+src/app/kyc/page.tsx:847  <span>  → .is-af18eac
+src/app/kyc/page.tsx:849  <p>  → .is-0637897
+src/app/kyc/page.tsx:850  <p>  → .is-b500db8
+src/app/kyc/page.tsx:857  <div>  → .is-4a5d9a1
+src/app/kyc/page.tsx:871  <div>  → .is-5f22d50
+src/app/kyc/page.tsx:880  <div>  → .is-f20e7b1
+src/app/kyc/page.tsx:881  <span>  → .is-e80927e
+src/app/kyc/page.tsx:883  <p>  → .is-9cc1d20
+src/app/kyc/page.tsx:884  <p>  → .is-d1ac146
+src/app/kyc/page.tsx:905  <div>  → .is-d43fdc0
+src/app/kyc/page.tsx:906  <svg>  → .is-4a8468d
+src/app/kyc/page.tsx:910  <circle>  → .is-9f65a60
+src/app/kyc/page.tsx:912  <div>  → .is-d2bef6c
+src/app/kyc/page.tsx:914  <span>  → .is-e41875c
+src/app/kyc/page.tsx:921  <div>  → .is-aa89e0b
+src/app/kyc/page.tsx:923  <p>  → .is-080c230
+src/app/Ocrwork/page.tsx:287  <div>  → .is-3ca2b3d
+src/app/Ocrwork/page.tsx:288  <div>  → .is-5df0a2c
+src/app/Ocrwork/page.tsx:298  <em>  → .is-4671278
+src/app/Ocrwork/page.tsx:316  <div>  → .is-5df0a2c
+src/app/Ocrwork/page.tsx:324  <input>  → .is-224b51a
+src/app/Ocrwork/page.tsx:399  <div>  → .is-3ca2b3d
+src/app/Ocrwork/page.tsx:401  <div>  → .is-91343bb
+src/app/Ocrwork/page.tsx:425  <div>  → .is-b5b8460
+src/app/posters/page.tsx:13  <div>  → .is-4031bc8
+src/app/posters/page.tsx:151  <div>  → .is-bf08d32
+src/app/posters/page.tsx:152  <div>  → .is-4fdbd44
+src/app/posters/page.tsx:155  <span>  → .is-b57d185
+src/app/posters/page.tsx:157  <div>  → .is-3849d91
+src/app/posters/page.tsx:158  <span>  → .is-b674ceb
+src/app/posters/page.tsx:170  <input>  → .is-0533b05
+src/app/posters/page.tsx:173  <div>  → .is-dd7bb48
+src/app/posters/page.tsx:176  <p>  → .is-f256a26
+src/app/posters/page.tsx:201  <div>  → .is-65b8d88
+src/app/posters/page.tsx:202  <div>  → .is-f68280e
+src/app/posters/page.tsx:203  <div>  → .is-bd9db1c
+src/app/posters/page.tsx:204  <span>  → .is-b03628f
+src/app/posters/page.tsx:205  <span>  → .is-ebb5edb
+src/app/posters/page.tsx:207  <div>  → .is-3928638
+src/app/posters/page.tsx:217  <main>  → .is-49ac4ee
+src/app/posters/page.tsx:220  <div>  → .is-f4b1613
+src/app/posters/page.tsx:224  <div>  → .is-8c66952
+src/app/posters/page.tsx:257  <div>  → .is-5bcf4cf
+src/app/posters/page.tsx:271  <input>  → .is-345895d
+src/app/posters/page.tsx:275  <div>  → .is-44b3e19
+src/app/posters/page.tsx:276  <span>  → .is-c0aafe9
+src/app/posters/page.tsx:280  <div>  → .is-39b2332
+src/app/posters/page.tsx:291  <div>  → .is-44b3e19
+src/app/posters/page.tsx:292  <span>  → .is-c0aafe9
+src/app/posters/page.tsx:296  <div>  → .is-39b2332
+src/app/posters/page.tsx:307  <div>  → .is-44b3e19
+src/app/posters/page.tsx:308  <span>  → .is-c0aafe9
+src/app/posters/page.tsx:312  <div>  → .is-39b2332
+src/app/posters/page.tsx:318  <div>  → .is-39b2332
+src/app/posters/page.tsx:326  <p>  → .is-e6895b3
+src/app/posters/page.tsx:327  <input>  → .is-345895d
+src/app/posters/page.tsx:340  <p>  → .is-aae7624
+src/app/posters/page.tsx:344  <div>  → .is-4a5d9a1
+src/app/posters/page.tsx:355  <div>  → .is-f23d5f0
+src/app/posters/page.tsx:358  <span>  → .is-b57d185
+src/app/posters/page.tsx:360  <div>  → .is-1818718
+src/app/posters/page.tsx:367  <div>  → .is-1f7cc44
+src/app/posters/page.tsx:389  <div>  → .is-cff44ba
+src/app/posters/page.tsx:390  <h3>  → .is-ff8f451
+src/app/posters/page.tsx:401  <span>  → .is-58e548b
+src/app/posters/page.tsx:403  <span>  → .is-43df7ef
+src/app/posters/page.tsx:405  <input>  → .is-d5d9338
+src/app/smsparser/page.tsx:235  <div>  → .is-e24204b
+src/app/smsparser/page.tsx:242  <div>  → .is-367ec4d
+src/app/smsparser/page.tsx:265  <div>  → .is-ec2eba2
+src/app/smsparser/page.tsx:266  <div>  → .is-3abefc3
+src/app/smsparser/page.tsx:269  <div>  → .is-923ec98
+src/app/smsparser/page.tsx:274  <span>  → .is-e8fb409
+src/app/smsparser/page.tsx:275  <span>  → .is-3ae0be4
+src/app/smsparser/page.tsx:276  <span>  → .is-3ae0be4
+src/app/smsparser/page.tsx:281  <div>  → .is-fb31052
+src/app/smsparser/page.tsx:282  <div>  → .is-e8fb409
+src/app/smsparser/page.tsx:283  <div>  → .is-b84bffb
+src/app/smsparser/page.tsx:295  <div>  → .is-8cc5a4c
+src/app/smsparser/page.tsx:296  <div>  → .is-21e11e8
+src/app/smsparser/page.tsx:304  <div>  → .is-dbcfa05
+src/app/smsparser/page.tsx:305  <div>  → .is-9fa891c
+src/app/smsparser/page.tsx:310  <div>  → .is-c996667
+src/app/smsparser/page.tsx:319  <button>  → .is-a66ac20
+src/app/smsparser/page.tsx:348  <div>  → .is-5ff6809
+src/app/smsparser/page.tsx:350  <div>  → .is-06c1d6f
+src/app/smsparser/page.tsx:351  <div>  → .is-e00f193
+src/app/smsparser/page.tsx:360  <div>  → .is-1a78ba0
+src/app/smsparser/page.tsx:361  <span>  → .is-9cc0104
+src/app/smsparser/page.tsx:371  <div>  → .is-06c1d6f
+src/app/smsparser/page.tsx:372  <div>  → .is-e00f193
+src/app/smsparser/page.tsx:376  <div>  → .is-3301ea9
+src/app/smsparser/page.tsx:377  <div>  → .is-952640c
+src/app/smsparser/page.tsx:378  <div>  → .is-650e123
+src/app/smsparser/page.tsx:380  <span>  → .is-8121e65
+src/app/smsparser/page.tsx:382  <span>  → .is-27ca8fc
+src/app/smsparser/page.tsx:386  <div>  → .is-093059f
+src/app/smsparser/page.tsx:482  <main>  → .is-0dba36c
+src/app/smsparser/page.tsx:483  <div>  → .is-887aebb
+src/app/smsparser/page.tsx:487  <h1>  → .is-f140c9b
+src/app/smsparser/page.tsx:490  <p>  → .is-ec08bd1
+src/app/smsparser/page.tsx:497  <div>  → .is-313d3c0
+src/app/smsparser/page.tsx:498  <label>  → .is-74e69c3
+src/app/smsparser/page.tsx:508  <div>  → .is-f864de9
+src/app/smsparser/page.tsx:516  <span>  → .is-3ae0be4
+src/app/smsparser/page.tsx:527  <div>  → .is-1017cf5
+src/app/smsparser/page.tsx:528  <div>  → .is-39b2332
+src/app/smsparser/page.tsx:546  <div>  → .is-13262f5
+src/app/smsparser/page.tsx:557  <div>  → .is-d7bb5fd
+src/app/smsparser/page.tsx:559  <div>  → .is-4db0633
+src/app/smsparser/page.tsx:569  <div>  → .is-5b02e3a
+src/app/smsparser/page.tsx:570  <button>  → .is-4ab5b84
+src/app/smsparser/page.tsx:574  <p>  → .is-575362b
+src/app/smsparser/page.tsx:582  <div>  → .is-155a13c
+src/app/smsparser/page.tsx:586  <div>  → .is-67e4068
+src/app/smsparser/page.tsx:587  <p>  → .is-2f7a929
+src/app/smsparser/page.tsx:588  <p>  → .is-f8480b6
+src/app/staffdirectory/page.tsx:614  <table>  → .is-0959bb4
+src/app/staffdirectory/page.tsx:615  <caption>  → .is-4729d2c
+src/app/staffdirectory/page.tsx:622  <td>  → .is-f522118
+src/app/staffdirectory/page.tsx:623  <td>  → .is-cdebab9
+src/app/staffdirectory/page.tsx:624  <td>  → .is-cdebab9
+src/app/vedha/page.tsx:319  <div>  → .is-4110cf7
+src/app/vedha/page.tsx:323  <span>  → .is-9553d4f
+src/app/vedha/page.tsx:425  <div>  → .is-dd2cc20
+src/app/vedha/page.tsx:434  <span>  → .is-768e1f2
+src/app/vedha/page.tsx:446  <button>  → .is-22d501a
+src/app/vedha/page.tsx:465  <label>  → .is-6957f0e
+src/app/vedha/page.tsx:474  <div>  → .is-194b571
+src/app/vedha/page.tsx:475  <label>  → .is-6957f0e
+src/app/vedha/page.tsx:497  <span>  → .is-fbab378
+src/app/vedha/page.tsx:500  <p>  → .is-04c9c1a
+src/app/vedha/page.tsx:503  <label>  → .is-6957f0e
+src/app/vedha/page.tsx:512  <div>  → .is-194b571
+src/app/vedha/page.tsx:513  <label>  → .is-6957f0e
+src/app/vedha/page.tsx:537  <span>  → .is-fbab378
+src/app/vedha/page.tsx:544  <p>  → .is-04c9c1a
+src/app/vedha/page.tsx:548  <div>  → .is-7b754ee
+src/app/vedha/page.tsx:549  <label>  → .is-24b531c
+src/app/vedha/page.tsx:551  <input>  → .is-224b51a
+src/app/vedha/page.tsx:561  <label>  → .is-5a1ac2c
+src/app/vedha/page.tsx:569  <div>  → .is-07c308b
+src/app/vedha/page.tsx:574  <button>  → .is-2c3460f
+src/app/vedha/page.tsx:578  <div>  → .is-321e734
+src/app/vedha/page.tsx:584  <div>  → .is-a812934
+src/app/vedha/page.tsx:587  <label>  → .is-6957f0e
+src/app/vedha/page.tsx:590  <label>  → .is-6957f0e
+src/app/vedha/page.tsx:594  <div>  → .is-65c1c01
+src/app/vedha/page.tsx:611  <p>  → .is-04c9c1a
+src/app/vedha/page.tsx:613  <p>  → .is-5c91722
+src/app/vedha/page.tsx:617  <div>  → .is-1888f4a
+src/app/vedha/page.tsx:629  <h3>  → .is-05acf13
+src/app/vedha/page.tsx:633  <p>  → .is-c3ccd28
+src/app/vedha/page.tsx:639  <div>  → .is-a812934
+src/app/vedha/page.tsx:651  <p>  → .is-5c91722
+src/app/vedha/page.tsx:659  <div>  → .is-194b571
+src/app/voice/page.tsx:651  <canvas>  → .is-9355ddf
+src/app/voice/page.tsx:653  <div>  → .is-40fd81c
+src/app/voice/page.tsx:654  <div>  → .is-8ba8fea
+src/app/voice/page.tsx:657  <div>  → .is-86c4350
+src/app/voice/page.tsx:658  <div>  → .is-f1723ab
+src/app/voice/page.tsx:659  <h1>  → .is-42bb9b2
+src/app/voice/page.tsx:660  <p>  → .is-7e96596
+src/app/voice/page.tsx:665  <div>  → .is-167c6b1
+src/app/voice/page.tsx:666  <div>  → .is-e26a77a
+src/app/voice/page.tsx:667  <span>  → .is-40cc181
+src/app/voice/page.tsx:669  <div>  → .is-ba81f9f
+src/app/voice/page.tsx:672  <div>  → .is-d66d7f0
+src/app/voice/page.tsx:681  <div>  → .is-5a4efee
+src/app/voice/page.tsx:682  <button>  → .is-6f3158e
+src/app/voice/page.tsx:683  <span>  → .is-9dcf73c
+src/app/voice/page.tsx:684  <span>  → .is-d7fc9ed
+src/app/voice/page.tsx:687  <div>  → .is-52fa935
+src/app/voice/page.tsx:695  <div>  → .is-800a82f
+src/app/voice/page.tsx:696  <div>  → .is-901ffae
+src/app/voice/page.tsx:698  <div>  → .is-da63601
+src/app/voice/page.tsx:699  <div>  → .is-8d4e28f
+src/app/voice/page.tsx:710  <div>  → .is-d85c4e6
+src/app/voice/page.tsx:723  <span>  → .is-9fc6906
+src/app/voice/page.tsx:725  <div>  → .is-2c578c6
+src/app/voice/page.tsx:737  <div>  → .is-68b0c31
+src/app/voice/page.tsx:738  <span>  → .is-e2b74ba
+src/app/voice/page.tsx:752  <span>  → .is-249bf02
+src/app/voice/page.tsx:757  <div>  → .is-cb8148e
+src/app/voice/page.tsx:761  <div>  → .is-e1fb6fe
+src/app/voice/page.tsx:764  <textarea>  → .is-cb8148e
+src/app/voice/page.tsx:775  <p>  → .is-a87a100
+src/app/voice/page.tsx:781  <div>  → .is-d85c4e6
+src/app/voice/page.tsx:789  <span>  → .is-9fc6906
+src/app/voice/page.tsx:806  <div>  → .is-882145e
+src/app/voice/page.tsx:813  <div>  → .is-569d8b3
+src/app/voice/page.tsx:820  <div>  → .is-253c280
+src/app/voice/page.tsx:821  <div>  → .is-8783fbb
+src/app/voice/page.tsx:827  <div>  → .is-96ff272
+src/app/voice/page.tsx:828  <div>  → .is-9eae165
+src/app/voice/page.tsx:829  <audio>  → .is-02b333d
+src/app/voice/page.tsx:843  <div>  → .is-96ff272
+src/app/voice/page.tsx:844  <div>  → .is-9eae165
+src/app/voice/page.tsx:845  <video>  → .is-7182ccf
+src/app/voice/page.tsx:846  <button>  → .is-199b6f0
+src/app/voice/page.tsx:857  <div>  → .is-9eae165
+src/app/voice/page.tsx:858  <div>  → .is-9f3999a
+src/app/voice/page.tsx:867  <canvas>  → .is-f7da170
+src/app/voice/page.tsx:870  <button>  → .is-199b6f0
+src/app/voice/page.tsx:873  <p>  → .is-62251b9
+src/app/whatsapp-bot/page.tsx:52  <div>  → .is-042369a
+src/app/whatsapp-bot/page.tsx:53  <div>  → .is-caa7971
+src/app/whatsapp-bot/page.tsx:56  <div>  → .is-cdd8ca0
+src/app/whatsapp-bot/page.tsx:57  <div>  → .is-acc6ee9
+src/app/whatsapp-bot/page.tsx:58  <h1>  → .is-518767b
+src/app/whatsapp-bot/page.tsx:59  <p>  → .is-ebefd94
+src/app/whatsapp-bot/page.tsx:65  <div>  → .is-b131259
+src/app/whatsapp-bot/page.tsx:66  <span>  → .is-421d327
+src/app/whatsapp-bot/page.tsx:73  <input>  → .is-a22a0e0
+src/app/whatsapp-bot/page.tsx:76  <p>  → .is-c37b892
+src/app/whatsapp-bot/page.tsx:82  <div>  → .is-d7bb5fd
+src/app/whatsapp-bot/page.tsx:98  <span>  → .is-6ab5912
+src/app/whatsapp-bot/page.tsx:99  <span>  → .is-d5dc823
+src/app/whatsapp-bot/page.tsx:114  <span>  → .is-6ab5912
+src/app/whatsapp-bot/page.tsx:123  <textarea>  → .is-692e76d
+src/app/whatsapp-bot/page.tsx:132  <div>  → .is-b8532fa
+src/app/whatsapp-bot/page.tsx:137  <div>  → .is-4d582f5
+src/app/whatsapp-bot/page.tsx:161  <p>  → .is-a274948
+src/app/yuktai/page.tsx:232  <main>  → .is-8fd4925
+src/app/yuktai/page.tsx:243  <div>  → .is-cf31905
+src/app/yuktai/page.tsx:244  <Link>  → .is-adc383e
+src/app/yuktai/page.tsx:248  <div>  → .is-97f8da1
+src/app/yuktai/page.tsx:249  <span>  → .is-15ebc48
+src/app/yuktai/page.tsx:250  <PlayArrowRoundedIcon>  → .is-768e1f2
+src/app/yuktai/page.tsx:251  <PauseRoundedIcon>  → .is-768e1f2
+src/app/yuktai/page.tsx:252  <StopRoundedIcon>  → .is-768e1f2
+src/app/yuktai/page.tsx:258  <header>  → .is-bd1289b
+src/app/yuktai/page.tsx:259  <span>  → .is-bae0104
+src/app/yuktai/page.tsx:262  <h1>  → .is-55990e1
+src/app/yuktai/page.tsx:263  <code>  → .is-89f4d16
+src/app/yuktai/page.tsx:265  <p>  → .is-41ee27f
+src/app/yuktai/page.tsx:269  <div>  → .is-377902f
+src/app/yuktai/page.tsx:279  <section>  → .is-138f8f4
+src/app/yuktai/page.tsx:280  <p>  → .is-0a55837
+src/app/yuktai/page.tsx:290  <AutoAwesomeRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:291  <div>  → .is-b685df2
+src/app/yuktai/page.tsx:304  <div>  → .is-55826a9
+src/app/yuktai/page.tsx:305  <div>  → .is-326e224
+src/app/yuktai/page.tsx:306  <div>  → .is-b71eb75
+src/app/yuktai/page.tsx:314  <GridViewRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:317  <Link>  → .is-f056999
+src/app/yuktai/page.tsx:331  <div>  → .is-a76fe82
+src/app/yuktai/page.tsx:358  <FactCheckRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:363  <div>  → .is-39b2332
+src/app/yuktai/page.tsx:371  <div>  → .is-a7fbb9b
+src/app/yuktai/page.tsx:373  <span>  → .is-6c32634
+src/app/yuktai/page.tsx:375  <p>  → .is-132e371
+src/app/yuktai/page.tsx:377  <div>  → .is-3179797
+src/app/yuktai/page.tsx:378  <span>  → .is-6c32634
+src/app/yuktai/page.tsx:379  <div>  → .is-6c32634
+src/app/yuktai/page.tsx:382  <div>  → .is-1225d0e
+src/app/yuktai/page.tsx:388  <div>  → .is-db11729
+src/app/yuktai/page.tsx:389  <p>  → .is-31b0785
+src/app/yuktai/page.tsx:391  <div>  → .is-6897140
+src/app/yuktai/page.tsx:392  <strong>  → .is-a1f46f7
+src/app/yuktai/page.tsx:392  <span>  → .is-6c32634
+src/app/yuktai/page.tsx:397  <div>  → .is-a812934
+src/app/yuktai/page.tsx:404  <PsychologyRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:409  <form>  → .is-39b2332
+src/app/yuktai/page.tsx:415  <div>  → .is-3102af9
+src/app/yuktai/page.tsx:422  <div>  → .is-713b621
+src/app/yuktai/page.tsx:424  <div>  → .is-8c05bbb
+src/app/yuktai/page.tsx:432  <AutoAwesomeRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:433  <div>  → .is-9746ef6
+src/app/yuktai/page.tsx:443  <li>  → .is-267f6d5
+src/app/yuktai/page.tsx:443  <span>  → .is-6c32634
+src/app/yuktai/page.tsx:453  <div>  → .is-3102af9
+src/app/yuktai/page.tsx:466  <AccessibilityNewRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:474  <div>  → .is-65c1c01
+src/app/yuktai/page.tsx:482  <AccessibilityNewRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:489  <p>  → .is-afd37a2
+src/app/yuktai/page.tsx:499  <p>  → .is-afd37a2
+src/app/yuktai/page.tsx:503  <IntegrationInstructionsRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:504  <p>  → .is-47db2d6
+src/app/yuktai/page.tsx:512  <CodeRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:517  <p>  → .is-dee1c8d
+src/app/yuktai/page.tsx:524  <ComputerRoundedIcon>  → .is-838567c
+src/app/yuktai/page.tsx:525  <div>  → .is-b56181d
+src/app/yuktai/page.tsx:526  <table>  → .is-21977ee
+src/app/yuktai/page.tsx:528  <tr>  → .is-4c23c5c
+src/app/yuktai/page.tsx:529  <th>  → .is-881f2ed
+src/app/yuktai/page.tsx:530  <th>  → .is-881f2ed
+src/app/yuktai/page.tsx:549  <div>  → .is-656c3b2
+src/app/yuktai/page.tsx:550  <div>  → .is-a550fe9
+src/app/yuktai/page.tsx:553  <p>  → .is-e8cfc79
+src/app/yuktai/page.tsx:554  <div>  → .is-d85c4e6
+src/app/yuktai/page.tsx:555  <code>  → .is-4123901
+src/app/yuktai/page.tsx:560  <ContentCopyRoundedIcon>  → .is-768e1f2
+src/app/yuktai/page.tsx:566  <footer>  → .is-192f8ac
+src/app/yuktai/page.tsx:567  <span>  → .is-6c32634
+src/app/yuktai/page.tsx:568  <div>  → .is-1b05a81
+src/app/yuktai/page.tsx:570  <a>  → .is-08dd25e
+src/app/yuktai/page.tsx:574  <a>  → .is-08dd25e
+src/app/yuktai/page.tsx:577  <Link>  → .is-7a1ab93
+src/app/yuktai/page.tsx:592  <section>  → .is-163466f
+src/app/yuktai/page.tsx:612  <div>  → .is-70a0282
+src/app/yuktai/page.tsx:613  <span>  → .is-bda03bd
+src/app/yuktai/page.tsx:614  <span>  → .is-6c32634
+src/app/yuktai/page.tsx:621  <div>  → .is-426816f
+src/app/yuktai/page.tsx:629  <div>  → .is-d85c4e6
+src/app/yuktai/page.tsx:630  <pre>  → .is-f26fd4d
+src/app/yuktai/page.tsx:635  <ContentCopyRoundedIcon>  → .is-768e1f2
+src/app/yuktai/page.tsx:643  <tr>  → .is-61221e1
+src/app/yuktai/page.tsx:644  <th>  → .is-0459513
+src/app/yuktai/page.tsx:645  <td>  → .is-881f2ed
+components/AccordionChunk.tsx:44  <h4>  → .is-a812934
+components/AnalysisSummary.tsx:208  <div>  → .is-1ec3f36
+components/AnalysisSummary.tsx:214  <div>  → .is-bc9cee5
+components/AnalysisSummary.tsx:219  <div>  → .is-3301ea9
+components/AnalysisSummary.tsx:226  <div>  → .is-0ed0e90
+components/AnalysisSummary.tsx:232  <input>  → .is-49cdf87
+components/CropModal.tsx:135  <div>  → .is-acc9bb9
+components/CropModal.tsx:149  <div>  → .is-a3f05bc
+components/CropModal.tsx:163  <div>  → .is-948e6d6
+components/CropModal.tsx:164  <h3>  → .is-90ad8e9
+components/CropModal.tsx:169  <button>  → .is-1dac47d
+components/CropModal.tsx:177  <div>  → .is-aba8988
+components/CropModal.tsx:189  <img>  → .is-8d28da2
+components/CropModal.tsx:194  <div>  → .is-cffe664
+components/CropModal.tsx:195  <label>  → .is-f0eca2c
+components/CropModal.tsx:205  <label>  → .is-f0eca2c
+components/CropModal.tsx:219  <div>  → .is-73a42a3
+components/CropModal.tsx:222  <button>  → .is-58354fe
+components/CropModal.tsx:228  <button>  → .is-7acae03
+components/ExtractedTextSectionComponent.tsx:39  <div>  → .is-bc9cee5
+components/ExtractedTextSectionComponent.tsx:47  <input>  → .is-75402cb
+components/ExtractedTextSectionComponent.tsx:57  <button>  → .is-cecfe74
+components/ExtractedTextSectionComponent.tsx:66  <div>  → .is-8ecca84
+components/FileLanguageAnalyzer.tsx:690  <Image>  → .is-4e97ec5
+components/FileLanguageAnalyzer.tsx:705  <div>  → .is-07c308b
+components/FontPicker.tsx:205  <span>  → .is-b77e04b
+components/FontPicker.tsx:208  <span>  → .is-db7924e
+components/FontPicker.tsx:214  <span>  → .is-c7e65d5
+components/FontPicker.tsx:216  <span>  → .is-369b41a
+components/FontPicker.tsx:221  <div>  → .is-5b8c1e8
+components/FontPicker.tsx:222  <div>  → .is-0c83d81
+components/FontPicker.tsx:225  <div>  → .is-3f0cdfa
+components/FontPicker.tsx:226  <div>  → .is-948e6d6
+components/FontPicker.tsx:227  <span>  → .is-bce050d
+components/FontPicker.tsx:231  <button>  → .is-0edabfe
+components/FontPicker.tsx:233  <div>  → .is-4a5d9a1
+components/FontPicker.tsx:240  <input>  → .is-74cb3ae
+components/FontPicker.tsx:241  <input>  → .is-74cb3ae
+components/FontPicker.tsx:246  <div>  → .is-e3a51cf
+components/FontPicker.tsx:258  <span>  → .is-81729f1
+components/FontPicker.tsx:267  <span>  → .is-81729f1
+components/FontPicker.tsx:277  <div>  → .is-1e7ade6
+components/FontPicker.tsx:280  <p>  → .is-7b754ee
+components/FontPicker.tsx:280  <span>  → .is-1c37dd5
+components/FontPicker.tsx:281  <button>  → .is-f30f87c
+components/FontPicker.tsx:286  <div>  → .is-e3a51cf
+components/FontPicker.tsx:292  <span>  → .is-81729f1
+components/ImageReader.tsx:150  <div>  → .is-2a615f8
+components/ImageReader.tsx:156  <div>  → .is-e61f605
+components/ImageReader.tsx:163  <select>  → .is-bb2d8f3
+components/ImageReader.tsx:181  <div>  → .is-7002f9c
+components/ImageReader.tsx:225  <progress>  → .is-199b6f0
+components/ImageReader.tsx:231  <div>  → .is-0129f7e
+components/ImageReader.tsx:237  <div>  → .is-3489336
+components/ImageReader.tsx:244  <Image>  → .is-15c42cf
+components/ImageReader.tsx:251  <div>  → .is-f18703e
+components/installapp.tsx:76  <div>  → .is-6a14406
+components/installapp.tsx:86  <div>  → .is-96011de
+components/installapp.tsx:88  <div>  → .is-8828aae
+components/installapp.tsx:104  <div>  → .is-e6dcb52
+components/installapp.tsx:107  <div>  → .is-e2e164d
+components/installapp.tsx:131  <div>  → .is-8b0b616
+components/installapp.tsx:146  <span>  → .is-e3343e3
+components/installapp.tsx:154  <button>  → .is-13e7454
+components/installapp.tsx:226  <div>  → .is-565fafa
+components/installapp.tsx:239  <div>  → .is-48b2b99
+components/installapp.tsx:256  <div>  → .is-ec2eba2
+components/installapp.tsx:258  <div>  → .is-5ce6101
+components/installapp.tsx:270  <div>  → .is-f86f685
+components/installapp.tsx:278  <button>  → .is-22947bb
+components/installapp.tsx:311  <button>  → .is-c483cf1
+components/ModeSelectComponent.tsx:25  <div>  → .is-5843fe1
+components/ModeSelectComponent.tsx:33  <label>  → .is-27e8d1b
+components/ModeSelectComponent.tsx:36  <div>  → .is-a7667d4
+components/ocrEngine/LiveVedicPreview.tsx:39  <div>  → .is-8ed5307
+components/PanchangaCard.tsx:513  <div>  → .is-acc9c0b
+components/PanchangaCard.tsx:517  <div>  → .is-8218874
+components/PanchangaCard.tsx:591  <div>  → .is-117a9f3
+components/PanchangaCard.tsx:607  <button>  → .is-117a9f3
+components/PanchangaCard.tsx:617  <div>  → .is-c136986
+components/PanchangaCard.tsx:618  <div>  → .is-64f27fe
+components/PanchangaCard.tsx:655  <div>  → .is-8218874
+components/PosterPreview.tsx:148  <div>  → .is-c99770f
+components/RagWorkflow.tsx:151  <div>  → .is-886e55e
+components/RoundedImageWrapper.tsx:25  <div>  → .is-db55374
+components/RupantarCode/CodePanel.tsx:54  <span>  → .is-4c417ba
+components/SanskritOcrExplanation.tsx:7  <p>  → .is-a05edb6
+components/SanskritOcrExplanation.tsx:16  <ul>  → .is-a05edb6
+components/SanskritOcrExplanation.tsx:23  <li>  → .is-27a7cad
+components/SanskritOcrPage.tsx:471  <div>  → .is-fe96b06
+components/SanskritOcrPage.tsx:472  <h1>  → .is-cdd8ca0
+components/SanskritOcrPage.tsx:473  <p>  → .is-2d72abf
+components/SanskritOcrPage.tsx:480  <div>  → .is-620043b
+components/SanskritOcrPage.tsx:485  <ol>  → .is-f16c480
+components/SanskritOcrPage.tsx:504  <p>  → .is-f551919
+components/SanskritOcrPage.tsx:514  <div>  → .is-4f44628
+components/SanskritOcrPage.tsx:543  <p>  → .is-4883c6a
+components/SanskritOcrPage.tsx:546  <p>  → .is-5d6b02a
+components/SanskritOcrPage.tsx:559  <Image>  → .is-61e1b2e
+components/SanskritOcrPage.tsx:578  <div>  → .is-a812934
+components/SanskritOcrPage.tsx:583  <select>  → .is-f714c78
+components/SanskritOcrPage.tsx:594  <input>  → .is-199b6f0
+components/SanskritOcrPage.tsx:601  <input>  → .is-199b6f0
+components/SanskritOcrPage.tsx:617  <div>  → .is-d572818
+components/SanskritOcrPage.tsx:620  <button>  → .is-ac1d644
+components/SanskritOcrPage.tsx:626  <button>  → .is-737479f
+components/sliders/Gallery.tsx:82  <div>  → .is-e41b563
+components/sliders/Gallery.tsx:84  <div>  → .is-270ac1d
+components/sliders/Gallery.tsx:85  <span>  → .is-d7d261b
+components/sliders/Gallery.tsx:113  <p>  → .is-73f809e
+components/sliders/Gallery.tsx:115  <p>  → .is-73f809e
+components/sliders/Gallery.tsx:120  <div>  → .is-4813ae5
+components/sliders/Gallery.tsx:122  <div>  → .is-28d3d23
+components/sliders/Gallery.tsx:128  <img>  → .is-5970110
+components/sliders/Gallery.tsx:131  <div>  → .is-a5e9c96
+components/sliders/Gallery.tsx:132  <div>  → .is-0195665
+components/sliders/Gallery.tsx:135  <div>  → .is-ca9af91
+components/sliders/Gallery.tsx:138  <div>  → .is-4a5d9a1
+components/sliders/Gallery.tsx:149  <div>  → .is-85274bd
+components/sliders/Gallery.tsx:164  <div>  → .is-2476138
+components/sliders/Gallery.tsx:168  <div>  → .is-be84b1d
+components/sliders/Gallery.tsx:171  <div>  → .is-cf960dc
+components/sliders/Gallery.tsx:173  <div>  → .is-be8e63c
+components/sliders/Gallery.tsx:174  <div>  → .is-41d412c
+components/sliders/Gallery.tsx:176  <button>  → .is-f0e294d
+components/sliders/Gallery.tsx:179  <img>  → .is-dfaf437
+components/sliders/Toast.tsx:51  <div>  → .is-301f9d3
+components/ui/OcrEditor.tsx:10  <div>  → .is-04b57f5
+components/ui/OcrEditor.tsx:16  <textarea>  → .is-e5dea4a
+components/ui/OcrPreviewList.tsx:15  <div>  → .is-04b57f5
+components/ui/OcrPreviewList.tsx:23  <div>  → .is-3ab122c
+components/ui/OcrPreviewList.tsx:30  <p>  → .is-4f5f61b
+components/ui/OcrPreviewList.tsx:34  <div>  → .is-3e193d5
+components/ui/OcrPreviewList.tsx:37  <button>  → .is-ad9405f
+components/ui/OcrPreviewList.tsx:51  <button>  → .is-e6e654d
+components/ui/OcrUploader.tsx:18  <div>  → .is-04b57f5
+components/ui/OcrUploader.tsx:23  <button>  → .is-b49fd9b
+components/ui/OcrUploader.tsx:41  <input>  → .is-224b51a
+components/VoiceSelector.tsx:58  <div>  → .is-9551b6c
+components/VoiceSelector.tsx:108  <span>  → .is-768e1f2
+
+=== MOVED partly (values from variables stay inline; that is correct) (99) ===
+src/app/badge/page.tsx:487  <button>  → .is-5a1ebea  (kept inline: background, color, borderColor)
+src/app/badge/page.tsx:497  <button>  → .is-5566ed3  (kept inline: background, borderColor)
+src/app/badge/page.tsx:501  <div>  → .is-e30eb74  (kept inline: color)
+src/app/badge/page.tsx:553  <button>  → .is-dd0ba97  (kept inline: border, background, color)
+src/app/badge/page.tsx:589  <input>  → .is-eee6dcb  (kept inline: fontFamily)
+src/app/badge/page.tsx:595  <input>  → .is-37c8765  (kept inline: fontFamily)
+src/app/badge/page.tsx:607  <select>  → .is-8494f84  (kept inline: fontFamily)
+src/app/badge/page.tsx:627  <button>  → .is-3f3f980  (kept inline: background, color, border)
+src/app/badge/page.tsx:648  <div>  → .is-3077004  (kept inline: background)
+src/app/badge/page.tsx:667  <button>  → .is-6c7446b  (kept inline: fontSize, border, background, color, fontWeight)
+src/app/badge/page.tsx:682  <button>  → .is-dc0564c  (kept inline: background, color, border)
+src/app/badge/page.tsx:696  <button>  → .is-1d3729f  (kept inline: background, boxShadow)
+src/app/calendarpage/page.tsx:225  <button>  → .is-b5bc74b  (kept inline: background, outline, transform)
+src/app/calendarpage/page.tsx:513  <span>  → .is-97d1e5e  (kept inline: background)
+src/app/codeagent/page.tsx:238  <div>  → .is-11356c9  (kept inline: borderLeft)
+src/app/codeagent/page.tsx:248  <span>  → .is-7e0435c  (kept inline: background)
+src/app/ebook/page.tsx:1288  <div>  → .is-19b256c  (kept inline: opacity)
+src/app/ebook/page.tsx:1290  <span>  → .is-7667453  (kept inline: fontWeight, color)
+src/app/ebook/page.tsx:1331  <div>  → .is-500238a  (kept inline: animationDelay, animationDuration)
+src/app/ipl/page.tsx:1142  <div>  → .is-f091357  (kept inline: background, color)
+src/app/ipl/page.tsx:1147  <div>  → .is-f091357  (kept inline: background, color)
+src/app/ipl/page.tsx:1156  <div>  → .is-41791c8  (kept inline: color)
+src/app/kosha/page.tsx:455  <span>  → .is-54344db  (kept inline: color)
+src/app/kosha/page.tsx:468  <p>  → .is-498afbd  (kept inline: color)
+src/app/kosha/page.tsx:473  <div>  → .is-1be4c8e  (kept inline: width, background)
+src/app/kosha/page.tsx:540  <p>  → .is-88eaedc  (kept inline: color)
+src/app/kosha/page.tsx:541  <div>  → .is-29470f4  (kept inline: height, background)
+src/app/kosha/page.tsx:548  <p>  → .is-8540546  (kept inline: color)
+src/app/kosha/page.tsx:563  <div>  → .is-c075462  (kept inline: width)
+src/app/kosha/page.tsx:590  <div>  → .is-b97db22  (kept inline: height)
+src/app/kosha/page.tsx:591  <div>  → .is-0c90b1e  (kept inline: height)
+src/app/kosha/page.tsx:606  <div>  → .is-4a511de  (kept inline: borderBottom, opacity)
+src/app/kosha/page.tsx:610  <span>  → .is-97f3acf  (kept inline: color)
+src/app/kosha/page.tsx:670  <div>  → .is-a0bb827  (kept inline: width, background)
+src/app/kosha/page.tsx:839  <div>  → .is-1738408  (kept inline: border)
+src/app/kosha/page.tsx:845  <div>  → .is-32a340a  (kept inline: border)
+src/app/kosha/page.tsx:847  <p>  → .is-86b56df  (kept inline: color)
+src/app/kosha/page.tsx:859  <p>  → .is-956b918  (kept inline: color)
+src/app/kosha/page.tsx:885  <div>  → .is-c9d962c  (kept inline: background)
+src/app/kyc/page.tsx:642  <span>  → .is-60b72fd  (kept inline: background)
+src/app/kyc/page.tsx:663  <p>  → .is-6388606  (kept inline: color, fontWeight)
+src/app/kyc/page.tsx:773  <span>  → .is-6de8c4d  (kept inline: color)
+src/app/kyc/page.tsx:778  <div>  → .is-4a2346e  (kept inline: background)
+src/app/kyc/page.tsx:852  <span>  → .is-be8e63c  (kept inline: color)
+src/app/Ocrwork/page.tsx:515  <textarea>  → .is-1ca5b0b  (kept inline: background)
+src/app/posters/page.tsx:210  <button>  → .is-b0afc96  (kept inline: background, color, boxShadow)
+src/app/posters/page.tsx:232  <button>  → .is-6f539d2  (kept inline: border, background)
+src/app/posters/page.tsx:233  <div>  → .is-ce7e87f  (kept inline: width, height, border, background)
+src/app/posters/page.tsx:234  <span>  → .is-3e59e05  (kept inline: color)
+src/app/posters/page.tsx:262  <div>  → .is-e05cece  (kept inline: fontFamily)
+src/app/posters/page.tsx:346  <button>  → .is-1d1fc17  (kept inline: border, background, color)
+src/app/smsparser/page.tsx:248  <div>  → .is-82da62e  (kept inline: background, color, border)
+src/app/smsparser/page.tsx:257  <div>  → .is-8fa3e13  (kept inline: color)
+src/app/smsparser/page.tsx:270  <span>  → .is-9f16495  (kept inline: background)
+src/app/smsparser/page.tsx:288  <svg>  → .is-f261127  (kept inline: transform)
+src/app/smsparser/page.tsx:362  <span>  → .is-e752743  (kept inline: color)
+src/app/smsparser/page.tsx:379  <span>  → .is-40636f7  (kept inline: background)
+src/app/smsparser/page.tsx:387  <div>  → .is-d10f023  (kept inline: width, background)
+src/app/smsparser/page.tsx:536  <span>  → .is-db0813d  (kept inline: background, color)
+src/app/staffdirectory/page.tsx:617  <th>  → .is-f522118  (kept inline: textAlign, borderBottom)
+src/app/vedha/page.tsx:324  <span>  → .is-d080a10  (kept inline: color)
+src/app/vedha/page.tsx:325  <span>  → .is-d080a10  (kept inline: color)
+src/app/vedha/page.tsx:326  <span>  → .is-d080a10  (kept inline: color)
+src/app/vedha/page.tsx:328  <span>  → .is-962a69a  (kept inline: color)
+src/app/voice/page.tsx:739  <button>  → .is-a4c912c  (kept inline: cursor, borderColor, background, color)
+src/app/voice/page.tsx:756  <div>  → .is-a34f0f2  (kept inline: color)
+src/app/voice/page.tsx:770  <span>  → .is-1ad6576  (kept inline: color)
+src/app/voice/page.tsx:797  <button>  → .is-7436e3a  (kept inline: background, boxShadow)
+src/app/whatsapp-bot/page.tsx:87  <div>  → .is-73a7ba3  (kept inline: border, background)
+src/app/whatsapp-bot/page.tsx:106  <div>  → .is-424c763  (kept inline: border, background)
+src/app/whatsapp-bot/page.tsx:146  <button>  → .is-9febeab  (kept inline: background, cursor)
+src/app/yuktai/page.tsx:372  <span>  → .is-8a6544f  (kept inline: color)
+src/app/yuktai/page.tsx:559  <button>  → .is-caccfdb  (kept inline: color)
+src/app/yuktai/page.tsx:603  <button>  → .is-bb96119  (kept inline: background, color)
+src/app/yuktai/page.tsx:634  <button>  → .is-caccfdb  (kept inline: color)
+components/FontPicker.tsx:196  <button>  → .is-2feabd4  (kept inline: border, background, color)
+components/FontPicker.tsx:235  <button>  → .is-ccef3d6  (kept inline: borderColor, background, color)
+components/ImageReader.tsx:192  <button>  → .is-0efdf7d  (kept inline: cursor, opacity)
+components/ImageReader.tsx:208  <button>  → .is-9c36c44  (kept inline: cursor, opacity)
+components/installapp.tsx:44  <div>  → .is-91cc809  (kept inline: opacity)
+components/installapp.tsx:57  <div>  → .is-d067103  (kept inline: transform)
+components/installapp.tsx:121  <div>  → .is-b3e7e42  (kept inline: borderTop)
+components/installapp.tsx:202  <div>  → .is-e357429  (kept inline: transform, opacity)
+components/NetworkStatusIndicator.tsx:74  <div>  → .is-bbcb53c  (kept inline: top, bottom, backgroundColor)
+components/PanchangaCard.tsx:614  <div>  → .is-e9145d3  (kept inline: color)
+components/PosterPreview.tsx:120  <div>  → .is-5a75d4f  (kept inline: aspectRatio, borderRadius)
+components/PosterPreview.tsx:149  <img>  → .is-e559c08  (kept inline: height, maxWidth, borderRadius)
+components/PosterPreview.tsx:160  <div>  → .is-2e809e6  (kept inline: justifyContent, marginTop)
+components/PosterPreview.tsx:166  <div>  → .is-43713d5  (kept inline: borderRadius)
+components/PosterPreview.tsx:167  <img>  → .is-519e620  (kept inline: borderRadius)
+components/PosterPreview.tsx:175  <div>  → .is-c99770f  (kept inline: textAlign)
+components/PosterPreview.tsx:176  <img>  → .is-ae9e773  (kept inline: height, maxWidth, borderRadius)
+components/PosterPreview.tsx:182  <div>  → .is-bfb983f  (kept inline: justifyContent)
+components/PosterPreview.tsx:183  <img>  → .is-b1f6dd3  (kept inline: maxHeight, borderRadius)
+components/PosterPreview.tsx:192  <div>  → .is-2e809e6  (kept inline: justifyContent)
+components/SanskritOcrPage.tsx:519  <button>  → .is-31ebec9  (kept inline: background, color)
+components/sliders/Toast.tsx:67  <div>  → .is-ee79c46  (kept inline: background)
+components/VoiceSelector.tsx:75  <button>  → .is-ede4622  (kept inline: border, background, color, cursor)
+components/WorkflowViewer.tsx:91  <img>  → .is-5dff9b8  (kept inline: transform)
+
+=== NOT MOVED — fix by hand (290) ===
+src/app/aksharadrishti/page.tsx:428  <div>  all values depend on variables
+src/app/aksharadrishti/page.tsx:464  <textarea>  all values depend on variables
+src/app/badge/page.tsx:608  <option>  all values depend on variables
+src/app/calendarpage/page.tsx:512  <div>  all values depend on variables
+src/app/calendarpage/page.tsx:601  <div>  all values depend on variables
+src/app/ebook/page.tsx:1305  <div>  all values depend on variables
+src/app/ebook/page.tsx:1469  <div>  all values depend on variables
+src/app/ipl/page.tsx:1122  <div>  all values depend on variables
+src/app/ipl/page.tsx:1129  <span>  all values depend on variables
+src/app/ipl/page.tsx:1130  <span>  all values depend on variables
+src/app/ipl/page.tsx:1198  <button>  all values depend on variables
+src/app/ipl/page.tsx:1246  <div>  all values depend on variables
+src/app/ipl/page.tsx:1258  <div>  all values depend on variables
+src/app/ipl/page.tsx:1265  <div>  all values depend on variables
+src/app/kosha/page.tsx:406  <div>  style is a variable
+src/app/kosha/page.tsx:409  <div>  style is a variable
+src/app/kosha/page.tsx:411  <p>  style is a variable
+src/app/kosha/page.tsx:412  <h1>  style is a variable
+src/app/kosha/page.tsx:416  <label>  style is a variable
+src/app/kosha/page.tsx:420  <button>  style is a variable
+src/app/kosha/page.tsx:428  <div>  style is a variable
+src/app/kosha/page.tsx:431  <p>  style is a variable
+src/app/kosha/page.tsx:433  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:444  <div>  style is a variable
+src/app/kosha/page.tsx:453  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:462  <div>  style is a variable
+src/app/kosha/page.tsx:465  <div>  uses ...spread or computed keys
+src/app/kosha/page.tsx:467  <p>  style is a variable
+src/app/kosha/page.tsx:487  <div>  style is a variable
+src/app/kosha/page.tsx:494  <div>  style is a variable
+src/app/kosha/page.tsx:506  <div>  style is a variable
+src/app/kosha/page.tsx:507  <button>  style is a variable
+src/app/kosha/page.tsx:508  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:515  <div>  style is a variable
+src/app/kosha/page.tsx:517  <div>  style is a variable
+src/app/kosha/page.tsx:526  <button>  style is a variable
+src/app/kosha/page.tsx:532  <div>  style is a variable
+src/app/kosha/page.tsx:534  <div>  style is a variable
+src/app/kosha/page.tsx:535  <p>  style is a variable
+src/app/kosha/page.tsx:551  <div>  style is a variable
+src/app/kosha/page.tsx:552  <p>  style is a variable
+src/app/kosha/page.tsx:574  <div>  style is a variable
+src/app/kosha/page.tsx:575  <div>  style is a variable
+src/app/kosha/page.tsx:576  <button>  style is a variable
+src/app/kosha/page.tsx:577  <p>  style is a variable
+src/app/kosha/page.tsx:578  <button>  style is a variable
+src/app/kosha/page.tsx:580  <div>  style is a variable
+src/app/kosha/page.tsx:584  <div>  style is a variable
+src/app/kosha/page.tsx:585  <p>  style is a variable
+src/app/kosha/page.tsx:602  <div>  style is a variable
+src/app/kosha/page.tsx:603  <p>  style is a variable
+src/app/kosha/page.tsx:607  <span>  style is a variable
+src/app/kosha/page.tsx:614  <button>  style is a variable
+src/app/kosha/page.tsx:620  <div>  style is a variable
+src/app/kosha/page.tsx:623  <div>  style is a variable
+src/app/kosha/page.tsx:625  <p>  style is a variable
+src/app/kosha/page.tsx:626  <button>  style is a variable
+src/app/kosha/page.tsx:636  <div>  uses ...spread or computed keys
+src/app/kosha/page.tsx:651  <div>  style is a variable
+src/app/kosha/page.tsx:652  <p>  style is a variable
+src/app/kosha/page.tsx:659  <input>  uses ...spread or computed keys
+src/app/kosha/page.tsx:660  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:677  <div>  uses ...spread or computed keys
+src/app/kosha/page.tsx:678  <div>  uses ...spread or computed keys
+src/app/kosha/page.tsx:685  <div>  style is a variable
+src/app/kosha/page.tsx:686  <p>  style is a variable
+src/app/kosha/page.tsx:690  <label>  uses ...spread or computed keys
+src/app/kosha/page.tsx:695  <div>  uses ...spread or computed keys
+src/app/kosha/page.tsx:711  <div>  style is a variable
+src/app/kosha/page.tsx:712  <p>  style is a variable
+src/app/kosha/page.tsx:730  <div>  style is a variable
+src/app/kosha/page.tsx:731  <div>  style is a variable
+src/app/kosha/page.tsx:732  <p>  style is a variable
+src/app/kosha/page.tsx:745  <div>  style is a variable
+src/app/kosha/page.tsx:746  <span>  style is a variable
+src/app/kosha/page.tsx:747  <p>  style is a variable
+src/app/kosha/page.tsx:747  <p>  style is a variable
+src/app/kosha/page.tsx:751  <div>  uses ...spread or computed keys
+src/app/kosha/page.tsx:752  <p>  uses ...spread or computed keys
+src/app/kosha/page.tsx:754  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:760  <button>  style is a variable
+src/app/kosha/page.tsx:764  <div>  style is a variable
+src/app/kosha/page.tsx:765  <div>  style is a variable
+src/app/kosha/page.tsx:766  <div>  style is a variable
+src/app/kosha/page.tsx:767  <p>  style is a variable
+src/app/kosha/page.tsx:768  <button>  style is a variable
+src/app/kosha/page.tsx:772  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:782  <input>  uses ...spread or computed keys
+src/app/kosha/page.tsx:788  <input>  style is a variable
+src/app/kosha/page.tsx:799  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:808  <input>  style is a variable
+src/app/kosha/page.tsx:811  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:820  <div>  style is a variable
+src/app/kosha/page.tsx:821  <div>  uses ...spread or computed keys
+src/app/kosha/page.tsx:822  <p>  uses ...spread or computed keys
+src/app/kosha/page.tsx:825  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:826  <button>  uses ...spread or computed keys
+src/app/kosha/page.tsx:832  <div>  style is a variable
+src/app/kosha/page.tsx:841  <p>  uses ...spread or computed keys
+src/app/kosha/page.tsx:865  <button>  style is a variable
+src/app/kosha/page.tsx:866  <p>  style is a variable
+src/app/kosha/page.tsx:867  <button>  style is a variable
+src/app/kyc/page.tsx:573  <div>  style is a variable
+src/app/kyc/page.tsx:585  <div>  style is a variable
+src/app/kyc/page.tsx:587  <p>  style is a variable
+src/app/kyc/page.tsx:588  <h1>  style is a variable
+src/app/kyc/page.tsx:594  <div>  style is a variable
+src/app/kyc/page.tsx:595  <button>  style is a variable
+src/app/kyc/page.tsx:600  <div>  style is a variable
+src/app/kyc/page.tsx:602  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:604  <span>  style is a variable
+src/app/kyc/page.tsx:609  <div>  style is a variable
+src/app/kyc/page.tsx:614  <div>  style is a variable
+src/app/kyc/page.tsx:615  <p>  style is a variable
+src/app/kyc/page.tsx:619  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:633  <div>  style is a variable
+src/app/kyc/page.tsx:634  <p>  style is a variable
+src/app/kyc/page.tsx:655  <div>  style is a variable
+src/app/kyc/page.tsx:666  <div>  style is a variable
+src/app/kyc/page.tsx:667  <p>  style is a variable
+src/app/kyc/page.tsx:669  <label>  uses ...spread or computed keys
+src/app/kyc/page.tsx:675  <label>  uses ...spread or computed keys
+src/app/kyc/page.tsx:681  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:689  <div>  style is a variable
+src/app/kyc/page.tsx:690  <div>  style is a variable
+src/app/kyc/page.tsx:695  <button>  style is a variable
+src/app/kyc/page.tsx:699  <div>  style is a variable
+src/app/kyc/page.tsx:702  <span>  style is a variable
+src/app/kyc/page.tsx:716  <button>  style is a variable
+src/app/kyc/page.tsx:720  <div>  style is a variable
+src/app/kyc/page.tsx:723  <p>  style is a variable
+src/app/kyc/page.tsx:747  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:748  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:749  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:750  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:757  <div>  uses ...spread or computed keys
+src/app/kyc/page.tsx:763  <div>  style is a variable
+src/app/kyc/page.tsx:765  <p>  style is a variable
+src/app/kyc/page.tsx:766  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:780  <input>  uses ...spread or computed keys
+src/app/kyc/page.tsx:795  <div>  uses ...spread or computed keys
+src/app/kyc/page.tsx:804  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:805  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:811  <div>  style is a variable
+src/app/kyc/page.tsx:812  <button>  style is a variable
+src/app/kyc/page.tsx:815  <pre>  style is a variable
+src/app/kyc/page.tsx:825  <div>  style is a variable
+src/app/kyc/page.tsx:827  <p>  style is a variable
+src/app/kyc/page.tsx:829  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:844  <div>  uses ...spread or computed keys
+src/app/kyc/page.tsx:858  <button>  style is a variable
+src/app/kyc/page.tsx:859  <button>  style is a variable
+src/app/kyc/page.tsx:860  <button>  uses ...spread or computed keys
+src/app/kyc/page.tsx:869  <div>  uses ...spread or computed keys
+src/app/kyc/page.tsx:870  <p>  uses ...spread or computed keys
+src/app/kyc/page.tsx:893  <div>  uses ...spread or computed keys
+src/app/kyc/page.tsx:913  <span>  uses ...spread or computed keys
+src/app/kyc/page.tsx:922  <p>  uses ...spread or computed keys
+src/app/posters/page.tsx:159  <select>  uses ...spread or computed keys
+src/app/posters/page.tsx:223  <span>  style is a variable
+src/app/posters/page.tsx:240  <select>  style is a variable
+src/app/posters/page.tsx:252  <select>  style is a variable
+src/app/posters/page.tsx:258  <span>  style is a variable
+src/app/posters/page.tsx:274  <input>  uses ...spread or computed keys
+src/app/posters/page.tsx:282  <label>  style is a variable
+src/app/posters/page.tsx:282  <select>  style is a variable
+src/app/posters/page.tsx:283  <label>  style is a variable
+src/app/posters/page.tsx:283  <input>  style is a variable
+src/app/posters/page.tsx:284  <label>  style is a variable
+src/app/posters/page.tsx:284  <input>  style is a variable
+src/app/posters/page.tsx:290  <input>  uses ...spread or computed keys
+src/app/posters/page.tsx:298  <label>  style is a variable
+src/app/posters/page.tsx:298  <select>  style is a variable
+src/app/posters/page.tsx:299  <label>  style is a variable
+src/app/posters/page.tsx:299  <input>  style is a variable
+src/app/posters/page.tsx:300  <label>  style is a variable
+src/app/posters/page.tsx:300  <input>  style is a variable
+src/app/posters/page.tsx:306  <textarea>  uses ...spread or computed keys
+src/app/posters/page.tsx:314  <label>  style is a variable
+src/app/posters/page.tsx:314  <select>  style is a variable
+src/app/posters/page.tsx:315  <label>  style is a variable
+src/app/posters/page.tsx:315  <input>  style is a variable
+src/app/posters/page.tsx:316  <label>  style is a variable
+src/app/posters/page.tsx:316  <input>  style is a variable
+src/app/posters/page.tsx:319  <button>  uses ...spread or computed keys
+src/app/posters/page.tsx:320  <button>  style is a variable
+src/app/posters/page.tsx:321  <button>  style is a variable
+src/app/posters/page.tsx:329  <button>  uses ...spread or computed keys
+src/app/posters/page.tsx:331  <label>  uses ...spread or computed keys
+src/app/posters/page.tsx:333  <select>  style is a variable
+src/app/posters/page.tsx:341  <input>  style is a variable
+src/app/posters/page.tsx:342  <label>  uses ...spread or computed keys
+src/app/posters/page.tsx:361  <button>  style is a variable
+src/app/posters/page.tsx:362  <button>  style is a variable
+src/app/posters/page.tsx:363  <button>  uses ...spread or computed keys
+src/app/posters/page.tsx:368  <button>  uses ...spread or computed keys
+src/app/posters/page.tsx:369  <button>  uses ...spread or computed keys
+src/app/posters/page.tsx:396  <label>  style is a variable
+src/app/posters/page.tsx:400  <label>  uses ...spread or computed keys
+src/app/vedha/page.tsx:580  <span>  all values depend on variables
+src/app/whatsapp-bot/page.tsx:63  <div>  style is a variable
+src/app/whatsapp-bot/page.tsx:64  <label>  style is a variable
+src/app/whatsapp-bot/page.tsx:80  <div>  style is a variable
+src/app/whatsapp-bot/page.tsx:81  <label>  style is a variable
+src/app/yuktai/page.tsx:290  <h2>  style is a variable
+src/app/yuktai/page.tsx:314  <h2>  style is a variable
+src/app/yuktai/page.tsx:315  <p>  style is a variable
+src/app/yuktai/page.tsx:358  <h2>  style is a variable
+src/app/yuktai/page.tsx:359  <p>  style is a variable
+src/app/yuktai/page.tsx:364  <button>  style is a variable
+src/app/yuktai/page.tsx:365  <button>  style is a variable
+src/app/yuktai/page.tsx:366  <button>  style is a variable
+src/app/yuktai/page.tsx:370  <div>  style is a variable
+src/app/yuktai/page.tsx:387  <div>  style is a variable
+src/app/yuktai/page.tsx:404  <h2>  style is a variable
+src/app/yuktai/page.tsx:405  <p>  style is a variable
+src/app/yuktai/page.tsx:412  <input>  style is a variable
+src/app/yuktai/page.tsx:413  <button>  style is a variable
+src/app/yuktai/page.tsx:417  <button>  style is a variable
+src/app/yuktai/page.tsx:421  <div>  style is a variable
+src/app/yuktai/page.tsx:432  <h2>  style is a variable
+src/app/yuktai/page.tsx:435  <span>  style is a variable
+src/app/yuktai/page.tsx:438  <textarea>  uses ...spread or computed keys
+src/app/yuktai/page.tsx:439  <button>  uses ...spread or computed keys
+src/app/yuktai/page.tsx:441  <ol>  uses ...spread or computed keys
+src/app/yuktai/page.tsx:449  <span>  style is a variable
+src/app/yuktai/page.tsx:452  <input>  uses ...spread or computed keys
+src/app/yuktai/page.tsx:455  <button>  style is a variable
+src/app/yuktai/page.tsx:458  <button>  uses ...spread or computed keys
+src/app/yuktai/page.tsx:459  <pre>  uses ...spread or computed keys
+src/app/yuktai/page.tsx:466  <h2>  style is a variable
+src/app/yuktai/page.tsx:467  <p>  style is a variable
+src/app/yuktai/page.tsx:470  <button>  style is a variable
+src/app/yuktai/page.tsx:482  <h2>  style is a variable
+src/app/yuktai/page.tsx:483  <ul>  style is a variable
+src/app/yuktai/page.tsx:484  <li>  style is a variable
+src/app/yuktai/page.tsx:485  <li>  style is a variable
+src/app/yuktai/page.tsx:486  <li>  style is a variable
+src/app/yuktai/page.tsx:487  <li>  style is a variable
+src/app/yuktai/page.tsx:493  <h2>  style is a variable
+src/app/yuktai/page.tsx:494  <ul>  style is a variable
+src/app/yuktai/page.tsx:495  <li>  style is a variable
+src/app/yuktai/page.tsx:496  <li>  style is a variable
+src/app/yuktai/page.tsx:497  <li>  style is a variable
+src/app/yuktai/page.tsx:503  <h2>  style is a variable
+src/app/yuktai/page.tsx:512  <h2>  style is a variable
+src/app/yuktai/page.tsx:513  <h3>  style is a variable
+src/app/yuktai/page.tsx:515  <h3>  uses ...spread or computed keys
+src/app/yuktai/page.tsx:524  <h2>  style is a variable
+components/FontPicker.tsx:207  <span>  all values depend on variables
+components/FontPicker.tsx:211  <span>  style is a variable
+components/FontPicker.tsx:229  <span>  uses ...spread or computed keys
+components/FontPicker.tsx:247  <p>  style is a variable
+components/FontPicker.tsx:253  <div>  style is a variable
+components/FontPicker.tsx:255  <div>  style is a variable
+components/FontPicker.tsx:256  <span>  style is a variable
+components/FontPicker.tsx:257  <span>  style is a variable
+components/FontPicker.tsx:264  <div>  style is a variable
+components/FontPicker.tsx:265  <span>  style is a variable
+components/FontPicker.tsx:266  <span>  style is a variable
+components/FontPicker.tsx:279  <div>  uses ...spread or computed keys
+components/FontPicker.tsx:284  <p>  uses ...spread or computed keys
+components/FontPicker.tsx:287  <p>  style is a variable
+components/FontPicker.tsx:290  <div>  style is a variable
+components/FontPicker.tsx:291  <span>  uses ...spread or computed keys
+components/PanchangaCard.tsx:585  <div>  all values depend on variables
+components/PanchangaCard.tsx:612  <div>  all values depend on variables
+components/PosterPreview.tsx:133  <div>  uses ...spread or computed keys
+components/PosterPreview.tsx:146  <div>  uses ...spread or computed keys
+components/PosterPreview.tsx:152  <div>  style is a variable
+components/PosterPreview.tsx:153  <div>  style is a variable
+components/PosterPreview.tsx:155  <div>  uses ...spread or computed keys
+components/PosterPreview.tsx:179  <div>  style is a variable
+components/PosterPreview.tsx:180  <div>  style is a variable
+components/PosterPreview.tsx:187  <div>  uses ...spread or computed keys
+components/RagWorkflow.tsx:178  <div>  all values depend on variables
+components/RupantarCode/CodePanel.tsx:28  <span>  all values depend on variables
+components/RupantarCode/LangSelector.tsx:25  <button>  style is a variable
+components/SanskritOcrPage.tsx:609  <textarea>  uses ...spread or computed keys
+components/sliders/Gallery.tsx:88  <select>  style is a variable
+components/sliders/Gallery.tsx:94  <select>  style is a variable
+components/sliders/Gallery.tsx:103  <input>  uses ...spread or computed keys
+components/sliders/Gallery.tsx:105  <button>  style is a variable
+components/sliders/Gallery.tsx:106  <button>  uses ...spread or computed keys
+components/sliders/Gallery.tsx:139  <button>  style is a variable
+components/sliders/Gallery.tsx:140  <button>  style is a variable
+components/sliders/Gallery.tsx:141  <button>  uses ...spread or computed keys
+components/sliders/Gallery.tsx:151  <button>  style is a variable
+components/sliders/Gallery.tsx:155  <button>  style is a variable
+components/sliders/Gallery.tsx:182  <button>  uses ...spread or computed keys
+
+=== MUI sx={{}} — not changed (uses theme spacing/colours) (225) ===
+src/app/ocreng/page.tsx:749  <Box sx>
+src/app/ocreng/page.tsx:755  <Typography sx>
+src/app/ocreng/page.tsx:758  <Typography sx>
+src/app/ocreng/page.tsx:766  <Paper sx>
+src/app/ocreng/page.tsx:779  <MenuItem sx>
+src/app/ocreng/page.tsx:792  <Alert sx>
+src/app/ocreng/page.tsx:808  <Alert sx>
+src/app/ocreng/page.tsx:813  <Stack sx>
+src/app/ocreng/page.tsx:821  <Alert sx>
+src/app/ocreng/page.tsx:827  <Paper sx>
+src/app/ocreng/page.tsx:884  <Stack sx>
+src/app/Ocrwork/page.tsx:226  <Box sx>
+src/app/Ocrwork/page.tsx:231  <Card sx>
+src/app/Ocrwork/page.tsx:241  <Box sx>
+src/app/Ocrwork/page.tsx:254  <Box sx>
+src/app/Ocrwork/page.tsx:267  <Card sx>
+src/app/Ocrwork/page.tsx:286  <Card sx>
+src/app/Ocrwork/page.tsx:329  <Box sx>
+src/app/Ocrwork/page.tsx:402  <Card sx>
+src/app/Ocrwork/page.tsx:404  <Box sx>
+src/app/Ocrwork/page.tsx:408  <Card sx>
+src/app/Ocrwork/page.tsx:426  <Card sx>
+src/app/Ocrwork/page.tsx:509  <Divider sx>
+src/app/Ocrwork/page.tsx:536  <Card sx>
+src/app/onecrdb/page.tsx:613  <Box sx>
+src/app/onecrdb/page.tsx:616  <Box sx>
+src/app/onecrdb/page.tsx:627  <StorageIcon sx>
+src/app/onecrdb/page.tsx:649  <Chip sx>
+src/app/onecrdb/page.tsx:655  <Container sx>
+src/app/onecrdb/page.tsx:661  <Paper sx>
+src/app/onecrdb/page.tsx:664  <Box sx>
+src/app/onecrdb/page.tsx:674  <TuneIcon sx>
+src/app/onecrdb/page.tsx:679  <KeyboardArrowUp sx>
+src/app/onecrdb/page.tsx:681  <KeyboardArrowDown sx>
+src/app/onecrdb/page.tsx:686  <Box sx>
+src/app/onecrdb/page.tsx:700  <Chip sx>
+src/app/onecrdb/page.tsx:715  <Chip sx>
+src/app/onecrdb/page.tsx:745  <TextField sx>
+src/app/onecrdb/page.tsx:749  <FormControl sx>
+src/app/onecrdb/page.tsx:750  <InputLabel sx>
+src/app/onecrdb/page.tsx:755  <Select sx>
+src/app/onecrdb/page.tsx:767  <Button sx>
+src/app/onecrdb/page.tsx:788  <Paper sx>
+src/app/onecrdb/page.tsx:790  <Box sx>
+src/app/onecrdb/page.tsx:795  <Box sx>
+src/app/onecrdb/page.tsx:812  <Button sx>
+src/app/onecrdb/page.tsx:803  <CircularProgress sx>
+src/app/onecrdb/page.tsx:841  <Button sx>
+src/app/onecrdb/page.tsx:870  <Button sx>
+src/app/onecrdb/page.tsx:898  <LinearProgress sx>
+src/app/onecrdb/page.tsx:909  <Box sx>
+src/app/onecrdb/page.tsx:939  <Paper sx>
+src/app/onecrdb/page.tsx:959  <Paper sx>
+src/app/onecrdb/page.tsx:980  <Box sx>
+src/app/onecrdb/page.tsx:991  <Box sx>
+src/app/onecrdb/page.tsx:993  <Box sx>
+src/app/onecrdb/page.tsx:1010  <Paper sx>
+src/app/onecrdb/page.tsx:1012  <Box sx>
+src/app/onecrdb/page.tsx:1021  <Stack sx>
+src/app/onecrdb/page.tsx:1027  <Button sx>
+src/app/onecrdb/page.tsx:1039  <SearchIcon sx>
+src/app/onecrdb/page.tsx:1040  <EditIcon sx>
+src/app/onecrdb/page.tsx:1041  <DeleteIcon sx>
+src/app/onecrdb/page.tsx:1047  <Box sx>
+src/app/onecrdb/page.tsx:1063  <TextField sx>
+src/app/onecrdb/page.tsx:1073  <TextField sx>
+src/app/onecrdb/page.tsx:1081  <Button sx>
+src/app/onecrdb/page.tsx:1095  <Button sx>
+src/app/onecrdb/page.tsx:1099  <Typography sx>
+src/app/onecrdb/page.tsx:1120  <TextField sx>
+src/app/onecrdb/page.tsx:1124  <FormControl sx>
+src/app/onecrdb/page.tsx:1125  <InputLabel sx>
+src/app/onecrdb/page.tsx:1130  <Select sx>
+src/app/onecrdb/page.tsx:1144  <TextField sx>
+src/app/onecrdb/page.tsx:1152  <Button sx>
+src/app/onecrdb/page.tsx:1179  <TextField sx>
+src/app/onecrdb/page.tsx:1187  <Button sx>
+src/app/onecrdb/page.tsx:1200  <Divider sx>
+src/app/onecrdb/page.tsx:1204  <Box sx>
+src/app/onecrdb/page.tsx:1205  <CircularProgress sx>
+src/app/onecrdb/page.tsx:1212  <Box sx>
+src/app/onecrdb/page.tsx:1226  <TableContainer sx>
+src/app/onecrdb/page.tsx:1237  <TableCell sx>
+src/app/onecrdb/page.tsx:1250  <TableCell sx>
+src/app/onecrdb/page.tsx:1263  <TableCell sx>
+src/app/onecrdb/page.tsx:1281  <TableRow sx>
+src/app/onecrdb/page.tsx:1283  <TableCell sx>
+src/app/onecrdb/page.tsx:1289  <TableCell sx>
+src/app/onecrdb/page.tsx:1307  <IconButton sx>
+src/app/onecrdb/page.tsx:1316  <IconButton sx>
+src/app/onecrdb/page.tsx:1341  <IconButton sx>
+src/app/onecrdb/page.tsx:1348  <IconButton sx>
+src/app/onecrdb/page.tsx:1358  <IconButton sx>
+src/app/onecrdb/page.tsx:1365  <IconButton sx>
+src/app/onecrdb/page.tsx:1388  <DialogTitle sx>
+src/app/onecrdb/page.tsx:1391  <DialogContent sx>
+src/app/onecrdb/page.tsx:1410  <DialogActions sx>
+src/app/onecrdb/page.tsx:1411  <Button sx>
+src/app/onecrdb/page.tsx:1417  <Button sx>
+src/app/onecrdb/page.tsx:1430  <DialogTitle sx>
+src/app/onecrdb/page.tsx:1432  <DialogContentText sx>
+src/app/onecrdb/page.tsx:1434  <DialogActions sx>
+src/app/onecrdb/page.tsx:1435  <Button sx>
+src/app/onecrdb/page.tsx:1441  <Button sx>
+src/app/onecrdb/page.tsx:1458  <Alert sx>
+src/app/staffdirectory/page.tsx:547  <Container sx>
+src/app/staffdirectory/page.tsx:549  <Box sx>
+src/app/staffdirectory/page.tsx:550  <Stack sx>
+src/app/staffdirectory/page.tsx:551  <Typography sx>
+src/app/staffdirectory/page.tsx:552  <Chip sx>
+src/app/staffdirectory/page.tsx:555  <Typography sx>
+src/app/staffdirectory/page.tsx:561  <Card sx>
+src/app/staffdirectory/page.tsx:563  <Stack sx>
+src/app/staffdirectory/page.tsx:564  <AutoAwesomeIcon sx>
+src/app/staffdirectory/page.tsx:565  <Typography sx>
+src/app/staffdirectory/page.tsx:566  <Chip sx>
+src/app/staffdirectory/page.tsx:567  <Chip sx>
+src/app/staffdirectory/page.tsx:568  <Chip sx>
+src/app/staffdirectory/page.tsx:570  <Button sx>
+src/app/staffdirectory/page.tsx:572  <Box sx>
+src/app/staffdirectory/page.tsx:577  <Chip sx>
+src/app/staffdirectory/page.tsx:586  <TextField sx>
+src/app/staffdirectory/page.tsx:588  <Button sx>
+src/app/staffdirectory/page.tsx:593  <Stack sx>
+src/app/staffdirectory/page.tsx:601  <Button sx>
+src/app/staffdirectory/page.tsx:610  <Typography sx>
+src/app/staffdirectory/page.tsx:613  <Box sx>
+src/app/staffdirectory/page.tsx:635  <Card sx>
+src/app/staffdirectory/page.tsx:636  <Stack sx>
+src/app/staffdirectory/page.tsx:637  <Stack sx>
+src/app/staffdirectory/page.tsx:639  <Typography sx>
+src/app/staffdirectory/page.tsx:644  <ToggleButtonGroup sx>
+src/app/staffdirectory/page.tsx:648  <Stack sx>
+src/app/staffdirectory/page.tsx:650  <Box sx>
+src/app/staffdirectory/page.tsx:660  <Card sx>
+src/app/staffdirectory/page.tsx:662  <Typography sx>
+src/app/staffdirectory/page.tsx:663  <Typography sx>
+src/app/staffdirectory/page.tsx:664  <Button sx>
+src/app/staffdirectory/page.tsx:669  <Card sx>
+src/app/staffdirectory/page.tsx:671  <Stack sx>
+src/app/staffdirectory/page.tsx:672  <WarningIcon sx>
+src/app/staffdirectory/page.tsx:673  <Typography sx>
+src/app/staffdirectory/page.tsx:674  <Button sx>
+src/app/staffdirectory/page.tsx:697  <Box sx>
+src/app/staffdirectory/page.tsx:699  <Typography sx>
+src/app/staffdirectory/page.tsx:706  <Stack sx>
+src/app/staffdirectory/page.tsx:710  <Stack sx>
+src/app/staffdirectory/page.tsx:730  <Accordion sx>
+src/app/staffdirectory/page.tsx:732  <Stack sx>
+src/app/staffdirectory/page.tsx:733  <ListAltIcon sx>
+src/app/staffdirectory/page.tsx:734  <Typography sx>
+src/app/staffdirectory/page.tsx:735  <Chip sx>
+src/app/staffdirectory/page.tsx:755  <Accordion sx>
+src/app/staffdirectory/page.tsx:757  <Typography sx>
+src/app/staffdirectory/page.tsx:761  <Stack sx>
+src/app/staffdirectory/page.tsx:761  <VolumeUpRoundedIcon sx>
+src/app/staffdirectory/page.tsx:762  <Stack sx>
+src/app/staffdirectory/page.tsx:763  <Stack sx>
+src/app/staffdirectory/page.tsx:764  <Stack sx>
+src/app/staffdirectory/page.tsx:765  <Stack sx>
+src/app/staffdirectory/page.tsx:766  <Stack sx>
+src/app/staffdirectory/page.tsx:767  <Stack sx>
+src/app/staffdirectory/page.tsx:768  <Stack sx>
+src/app/staffdirectory/page.tsx:773  <Accordion sx>
+src/app/staffdirectory/page.tsx:775  <Stack sx>
+src/app/staffdirectory/page.tsx:777  <Typography sx>
+src/app/staffdirectory/page.tsx:789  <Box sx>
+src/app/staffdirectory/page.tsx:790  <Stack sx>
+src/app/staffdirectory/page.tsx:794  <Typography sx>
+src/app/user/page.tsx:90  <Box sx>
+src/app/user/page.tsx:95  <Box sx>
+src/app/user/page.tsx:99  <Container sx>
+src/app/user/page.tsx:108  <Typography sx>
+src/app/user/page.tsx:111  <Typography sx>
+src/app/user/page.tsx:116  <Card sx>
+src/app/user/page.tsx:117  <CardContent sx>
+src/app/user/page.tsx:118  <Avatar sx>
+src/app/user/page.tsx:122  <Typography sx>
+src/app/user/page.tsx:123  <Typography sx>
+src/app/user/page.tsx:133  <Card sx>
+src/app/user/page.tsx:142  <TextField sx>
+src/app/user/page.tsx:155  <SearchIcon sx>
+src/app/user/page.tsx:175  <Skeleton sx>
+src/app/user/page.tsx:188  <Card sx>
+src/app/user/page.tsx:201  <CardContent sx>
+src/app/user/page.tsx:203  <Box sx>
+src/app/user/page.tsx:205  <Avatar sx>
+src/app/user/page.tsx:217  <Typography sx>
+src/app/user/page.tsx:224  <Typography sx>
+src/app/user/page.tsx:230  <Box sx>
+src/app/user/page.tsx:235  <Chip sx>
+src/app/user/page.tsx:246  <Typography sx>
+src/app/user/page.tsx:273  <Card sx>
+src/app/user/page.tsx:274  <CardContent sx>
+src/app/user/page.tsx:275  <SentimentDissatisfiedIcon sx>
+src/app/user/page.tsx:276  <Typography sx>
+src/app/user/page.tsx:277  <Typography sx>
+components/ocrEngine/BulkOcrProcessor.tsx:143  <LinearProgress sx>
+components/PlatformOverview.tsx:61  <Card sx>
+components/PlatformOverview.tsx:68  <CardContent sx>
+components/PlatformOverview.tsx:73  <Typography sx>
+components/PlatformOverview.tsx:78  <Typography sx>
+components/PlatformOverview.tsx:84  <Box sx>
+components/PlatformOverview.tsx:96  <Chip sx>
+components/PlatformOverview.tsx:108  <Card sx>
+components/PlatformOverview.tsx:109  <CardContent sx>
+components/PlatformOverview.tsx:114  <Typography sx>
+components/PlatformOverview.tsx:125  <Card sx>
+components/PlatformOverview.tsx:126  <CardContent sx>
+components/PlatformOverview.tsx:138  <Stack sx>
+components/PlatformOverview.tsx:141  <Box sx>
+components/PlatformOverview.tsx:146  <Chip sx>
+components/PlatformOverview.tsx:152  <ArrowDownwardIcon sx>
+components/PlatformOverview.tsx:164  <Card sx>
+components/PlatformOverview.tsx:165  <CardContent sx>
+components/PlatformOverview.tsx:170  <Box sx>
+components/PlatformOverview.tsx:179  <Card sx>
+components/PlatformOverview.tsx:180  <CardContent sx>
+components/PlatformOverview.tsx:185  <Box sx>
+components/SocailMedia/ShareSection.tsx:150  <Box sx>
+components/SocailMedia/ShareSection.tsx:157  <Box sx>
+components/SocailMedia/ShareSection.tsx:160  <Typography sx>
+components/SocailMedia/ShareSection.tsx:167  <Typography sx>
+components/SocailMedia/ShareSection.tsx:173  <Box sx>
+components/SocailMedia/ShareSection.tsx:180  <Stack sx>
+
+=== <style> blocks — move by hand (14) ===
+src/app/aksharadrishti/page.tsx:259  <style> block
+src/app/calendarpage/page.tsx:305  <style> block
+src/app/chess/page.tsx:443  <style> block
+src/app/ebook/page.tsx:558  <style> block
+src/app/ipl/page.tsx:1019  <style> block
+src/app/kyc/page.tsx:575  <style> block
+src/app/posters/page.tsx:187  <style> block
+src/app/smsparser/page.tsx:444  <style> block
+src/app/staffdirectory/page.tsx:801  <style> block
+src/app/vedha/page.tsx:361  <style> block
+src/app/voice/page.tsx:610  <style> block
+components/ocrEngine/LiveVedicPreview.tsx:12  <style> block
+components/RagWorkflow.tsx:94  <style> block
+components/sliders/Toast.tsx:84  <style> block

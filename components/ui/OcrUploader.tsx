@@ -15,19 +15,12 @@ export default function OcrUploader({ onFilesSelected }: Props) {
   };
 
   return (
-    <div style={{ padding: "16px" }}>
+    <div className="is-04b57f5">
       <h3>📤 Upload Images</h3>
 
       <button
         onClick={() => inputRef.current?.click()}
-        style={{
-          padding: "10px 18px",
-          background: "#1976d2",
-          color: "white",
-          borderRadius: "8px",
-          border: "none",
-          cursor: "pointer",
-        }}
+        className="is-b49fd9b"
       >
         Select Files
       </button>
@@ -38,7 +31,7 @@ export default function OcrUploader({ onFilesSelected }: Props) {
         multiple
         ref={inputRef}
         onChange={handleSelectFiles}
-        style={{ display: "none" }}
+        className="is-224b51a"
       />
     </div>
   );

@@ -49,13 +49,8 @@ import CodeRoundedIcon                    from "@mui/icons-material/CodeRounded"
 import ContentCopyRoundedIcon             from "@mui/icons-material/ContentCopyRounded";
 import GridViewRoundedIcon                from "@mui/icons-material/GridViewRounded";
 import FactCheckRoundedIcon               from "@mui/icons-material/FactCheckRounded";
-
-// ── Theme colors ─────────────────────────────────────────────
-const G         = "#10b981";
 const G_DARK    = "#047857";   // text/buttons on white (passes 4.5:1)
 const TEXT_MAIN = "#0f172a";
-const TEXT_SUB  = "#475569";
-const BG_CODE   = "#0f172a";
 const FG_CODE   = "#34d399";
 
 // ── Sample data for the live grid agent demo (made up) ───────
@@ -229,44 +224,36 @@ export default function YuktaiFullDocs() {
       <Navbar />
 
       <main
-        style={{
-          maxWidth: "960px",
-          margin: "100px auto 60px auto",
-          padding: "0 20px",
-          fontFamily: "'Outfit', sans-serif",
-          color: TEXT_MAIN,
-          lineHeight: 1.7,
-          boxSizing: "border-box",
-        }}
+        className="is-8fd4925"
       >
         {/* ═══════════ TOP CONTROLS ═══════════ */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12, marginBottom: 30 }}>
-          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: G_DARK, textDecoration: "none", fontSize: 14, fontWeight: 600 }}>
+        <div className="is-cf31905">
+          <Link href="/" className="is-adc383e">
             <ChevronLeftIcon size={16} color={G_DARK} /> Back to Home
           </Link>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 8, background: "#f1f5f9", padding: "6px 12px", borderRadius: 30, border: "1px solid #e2e8f0" }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: TEXT_SUB, marginRight: 4 }}>Listen to page:</span>
-            <TtsButton label="Play"  active={isSpeaking && !isPaused} activeBg={G_DARK}   onClick={() => handleTTS("play")}><PlayArrowRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
-            <TtsButton label="Pause" active={isPaused}                activeBg="#be123c"  onClick={() => handleTTS("pause")}><PauseRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
-            <TtsButton label="Stop"  active={false}                   activeBg={TEXT_MAIN} onClick={() => handleTTS("stop")}><StopRoundedIcon style={{ fontSize: 18 }} /></TtsButton>
+          <div className="is-97f8da1">
+            <span className="is-15ebc48">Listen to page:</span>
+            <TtsButton label="Play"  active={isSpeaking && !isPaused} activeBg={G_DARK}   onClick={() => handleTTS("play")}><PlayArrowRoundedIcon className="is-768e1f2" /></TtsButton>
+            <TtsButton label="Pause" active={isPaused}                activeBg="#be123c"  onClick={() => handleTTS("pause")}><PauseRoundedIcon className="is-768e1f2" /></TtsButton>
+            <TtsButton label="Stop"  active={false}                   activeBg={TEXT_MAIN} onClick={() => handleTTS("stop")}><StopRoundedIcon className="is-768e1f2" /></TtsButton>
           </div>
         </div>
 
         <div id="yuktai-content">
           {/* ═══════════ HEADER ═══════════ */}
-          <header style={{ borderBottom: "1px solid #e2e8f0", paddingBottom: 24, marginBottom: 32 }}>
-            <span style={{ color: G_DARK, fontSize: 13, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+          <header className="is-bd1289b">
+            <span className="is-bae0104">
               Documentation · v5 Agentic AI
             </span>
-            <h1 style={{ fontSize: "clamp(26px, 5vw, 34px)", fontWeight: 700, letterSpacing: "-0.03em", marginTop: 6, marginBottom: 12, borderBottom: "none", paddingBottom: 0 }}>
-              <code style={{ fontSize: "0.85em" }}>yuktai</code>: accessible, agentic AI that runs in the browser
+            <h1 className="is-55990e1">
+              <code className="is-89f4d16">yuktai</code>: accessible, agentic AI that runs in the browser
             </h1>
-            <p style={{ fontSize: 16, color: TEXT_SUB }}>
+            <p className="is-41ee27f">
               An open-source React / Next.js toolkit: a data grid you can talk to, browser AI agents,
               WCAG accessibility and page Q&amp;A. Everything on this page is a live demo of the real package.
             </p>
-            <div style={{ display: "flex", gap: 10, marginTop: 16, flexWrap: "wrap" }}>
+            <div className="is-377902f">
               <MetricPill label="npm downloads"     value="7,213+" />
               <MetricPill label="Agentic features"  value="10"     />
               <MetricPill label="Cost"              value="Free"   />
@@ -276,8 +263,8 @@ export default function YuktaiFullDocs() {
           </header>
 
           {/* ═══════════ INTRO ═══════════ */}
-          <section style={{ marginBottom: 40 }}>
-            <p style={{ fontSize: 16.5, marginBottom: 16 }}>
+          <section className="is-138f8f4">
+            <p className="is-0a55837">
               Built during weekends and late nights, <strong>yuktai</strong> started as an accessibility plugin and
               grew into an agentic toolkit. Version 5 adds agents that understand plain-English (and Telugu) questions,
               test pages for accessibility, review forms and designs, and run multi-step tasks on a grid,
@@ -287,8 +274,8 @@ export default function YuktaiFullDocs() {
 
           {/* ═══════════ WHAT'S NEW — 10 AGENTIC FEATURES ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><AutoAwesomeRoundedIcon style={{ color: G_DARK }} /> What&apos;s new in v5: 10 agentic features</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 12 }}>
+            <h2 className="is-07301a4"><AutoAwesomeRoundedIcon className="is-838567c" /> What&apos;s new in v5: 10 agentic features</h2>
+            <div className="is-b685df2">
               {[
                 ["Smart grid queries", "\"salary over 1 lakh and age under 30\" → filters, sort, limit. Understands 10k, lakh, crore."],
                 ["BI copilot",         "Group by, compare this month vs last month, trends."],
@@ -301,9 +288,9 @@ export default function YuktaiFullDocs() {
                 ["Design review",      "Hierarchy, readability, focus states, clutter."],
                 ["Voice commands",     "\"bigger text\", \"high contrast\", \"next row\" in English and Telugu."],
               ].map(([t, d]) => (
-                <div key={t} style={{ border: "1px solid #e2e8f0", borderRadius: 12, padding: "12px 14px", background: "#fff" }}>
-                  <div style={{ fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}><CheckIcon size={14} color={G_DARK} /> {t}</div>
-                  <div style={{ fontSize: 14, color: TEXT_SUB }}>{d}</div>
+                <div key={t} className="is-55826a9">
+                  <div className="is-326e224"><CheckIcon size={14} color={G_DARK} /> {t}</div>
+                  <div className="is-b71eb75">{d}</div>
                 </div>
               ))}
             </div>
@@ -311,10 +298,10 @@ export default function YuktaiFullDocs() {
 
           {/* ═══════════ LIVE DEMO 1 — GRID AGENT ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><GridViewRoundedIcon style={{ color: G_DARK }} /> Live demo: talk to a grid</h2>
-            <p style={leadStyle}>
+            <h2 className="is-07301a4"><GridViewRoundedIcon className="is-838567c" /> Live demo: talk to a grid</h2>
+            <p className="is-1b64d8d">
               <code>useAgenticGrid</code> + <code>AgenticGridBar</code> on 10 sample rows. Try the examples, or type your own.
-              For 10 lakh rows on a real database, open the <Link href="/staffdirectory" style={{ color: G_DARK, fontWeight: 600 }}>Yuktai Grid demo</Link>.
+              For 10 lakh rows on a real database, open the <Link href="/staffdirectory" className="is-f056999">Yuktai Grid demo</Link>.
             </p>
             <AgenticGridBar
               grid={grid}
@@ -328,7 +315,7 @@ export default function YuktaiFullDocs() {
                 "show salary over 80k, then sort by salary, then summarize",
               ]}
             />
-            <div style={{ marginTop: 12, overflowX: "auto" }}>
+            <div className="is-a76fe82">
               <YuktaiGrid
                 data={grid.gridData}
                 highlightIds={grid.highlightIds}
@@ -355,73 +342,73 @@ export default function YuktaiFullDocs() {
 
           {/* ═══════════ LIVE DEMO 2 — QA + DESIGN ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><FactCheckRoundedIcon style={{ color: G_DARK }} /> Live demo: test this page</h2>
-            <p style={leadStyle}>
+            <h2 className="is-07301a4"><FactCheckRoundedIcon className="is-838567c" /> Live demo: test this page</h2>
+            <p className="is-1b64d8d">
               <code>runQaAudit()</code> runs 15 WCAG checks and <code>reviewDesign()</code> checks hierarchy and readability,
               on this very page, right now.
             </p>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <button type="button" onClick={runAudit}  style={btnPrimary}>Run accessibility test</button>
-              <button type="button" onClick={runDesign} style={btnSecondary}>Run design review</button>
-              {audit && <button type="button" onClick={downloadAudit} style={btnSecondary}>Download report (.md)</button>}
+            <div className="is-39b2332">
+              <button type="button" onClick={runAudit}  className="is-9f3c044">Run accessibility test</button>
+              <button type="button" onClick={runDesign} className="is-42a3499">Run design review</button>
+              {audit && <button type="button" onClick={downloadAudit} className="is-42a3499">Download report (.md)</button>}
             </div>
 
             {audit && (
-              <div style={resultBox} aria-live="polite">
-                <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                  <span style={{ fontSize: 28, fontWeight: 700, color: audit.score >= 90 ? G_DARK : audit.score >= 70 ? "#b45309" : "#be123c" }}>{audit.score}/100</span>
-                  <span style={{ color: TEXT_SUB }}>{audit.checks.filter((c) => c.passed).length} of {audit.checks.length} checks passed</span>
+              <div className="is-c742def" aria-live="polite">
+                <div className="is-a7fbb9b">
+                  <span className="is-8a6544f" style={{ color: audit.score >= 90 ? G_DARK : audit.score >= 70 ? "#b45309" : "#be123c" }}>{audit.score}/100</span>
+                  <span className="is-6c32634">{audit.checks.filter((c) => c.passed).length} of {audit.checks.length} checks passed</span>
                 </div>
-                <p style={{ margin: "6px 0 10px", fontSize: 14 }}>{audit.summary}</p>
+                <p className="is-132e371">{audit.summary}</p>
                 {audit.issues.slice(0, 5).map((i) => (
-                  <div key={i.id} style={{ borderTop: "1px solid #e2e8f0", padding: "8px 0", fontSize: 14 }}>
-                    <strong>{i.message}</strong> <span style={{ color: TEXT_SUB }}>· WCAG {i.wcag} · {i.severity}</span>
-                    <div style={{ color: TEXT_SUB }}>Fix: {i.fix}</div>
+                  <div key={i.id} className="is-3179797">
+                    <strong>{i.message}</strong> <span className="is-6c32634">· WCAG {i.wcag} · {i.severity}</span>
+                    <div className="is-6c32634">Fix: {i.fix}</div>
                   </div>
                 ))}
-                {audit.issues.length > 5 && <div style={{ fontSize: 13, color: TEXT_SUB }}>+ {audit.issues.length - 5} more in the downloaded report</div>}
+                {audit.issues.length > 5 && <div className="is-1225d0e">+ {audit.issues.length - 5} more in the downloaded report</div>}
               </div>
             )}
 
             {design && (
-              <div style={resultBox} aria-live="polite">
-                <div style={{ fontWeight: 600 }}>Design score: {design.score}/100</div>
-                <p style={{ margin: "4px 0 8px", fontSize: 14 }}>{design.summary}</p>
+              <div className="is-c742def" aria-live="polite">
+                <div className="is-db11729">Design score: {design.score}/100</div>
+                <p className="is-31b0785">{design.summary}</p>
                 {design.findings.slice(0, 4).map((f, idx) => (
-                  <div key={idx} style={{ fontSize: 14, borderTop: "1px solid #e2e8f0", padding: "6px 0" }}>
-                    <strong style={{ textTransform: "capitalize" }}>{f.category}:</strong> {f.message} <span style={{ color: TEXT_SUB }}>→ {f.suggestion}</span>
+                  <div key={idx} className="is-6897140">
+                    <strong className="is-a1f46f7">{f.category}:</strong> {f.message} <span className="is-6c32634">→ {f.suggestion}</span>
                   </div>
                 ))}
               </div>
             )}
-            <div style={{ marginTop: 16 }}>
+            <div className="is-a812934">
               <CodeBlock code={QA_CODE} copied={copiedCode === "qa"} onCopy={() => copyCode(QA_CODE, "qa")} />
             </div>
           </Card>
 
           {/* ═══════════ LIVE DEMO 3 — ASK THE PAGE ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><PsychologyRoundedIcon style={{ color: G_DARK }} /> Live demo: ask this page</h2>
-            <p style={leadStyle}>
+            <h2 className="is-07301a4"><PsychologyRoundedIcon className="is-838567c" /> Live demo: ask this page</h2>
+            <p className="is-1b64d8d">
               <code>askAboutPage()</code> reads the page structure (headings, forms, links, images) and answers questions about it.
               Search across page and grid text uses a BM25 index that also handles Telugu.
             </p>
-            <form onSubmit={(e) => { e.preventDefault(); askPage(); }} style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <form onSubmit={(e) => { e.preventDefault(); askPage(); }} className="is-39b2332">
               <label htmlFor="page-q" className="sr-only">Question about this page</label>
               <input id="page-q" type="text" value={pageQ} onChange={(e) => setPageQ(e.target.value)}
-                placeholder="e.g. What is this page about?" style={inputStyle} />
-              <button type="submit" style={btnPrimary} disabled={pageBusy}>{pageBusy ? "Reading…" : "Ask"}</button>
+                placeholder="e.g. What is this page about?" className="is-d27a32e" />
+              <button type="submit" className="is-9f3c044" disabled={pageBusy}>{pageBusy ? "Reading…" : "Ask"}</button>
             </form>
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+            <div className="is-3102af9">
               {["What is this page about?", "Which fields have no label?", "How many links are there?", "Show the page structure"].map((q) => (
-                <button key={q} type="button" onClick={() => askPage(q)} style={chipStyle}>{q}</button>
+                <button key={q} type="button" onClick={() => askPage(q)} className="is-0e64e7b">{q}</button>
               ))}
             </div>
             {pageAns && (
-              <div style={resultBox} aria-live="polite">
-                <div style={{ fontSize: 15, whiteSpace: "pre-line" }}>{pageAns.answer}</div>
+              <div className="is-c742def" aria-live="polite">
+                <div className="is-713b621">{pageAns.answer}</div>
                 {pageAns.suggestions.length > 0 && (
-                  <div style={{ fontSize: 13, color: TEXT_SUB, marginTop: 6 }}>Try next: {pageAns.suggestions.join(" · ")}</div>
+                  <div className="is-8c05bbb">Try next: {pageAns.suggestions.join(" · ")}</div>
                 )}
               </div>
             )}
@@ -429,49 +416,49 @@ export default function YuktaiFullDocs() {
 
           {/* ═══════════ LIVE DEMO 4 — TASKS + VOICE ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><AutoAwesomeRoundedIcon style={{ color: G_DARK }} /> Live demo: multi-step tasks and voice commands</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
+            <h2 className="is-07301a4"><AutoAwesomeRoundedIcon className="is-838567c" /> Live demo: multi-step tasks and voice commands</h2>
+            <div className="is-9746ef6">
               <div>
-                <span style={simulatorLabelStyle}>Task planner · planTasks()</span>
+                <span className="is-d5a9a3d">Task planner · planTasks()</span>
                 <label htmlFor="task-text" className="sr-only">Instruction</label>
                 <textarea id="task-text" value={taskText} onChange={(e) => setTaskText(e.target.value)}
-                  rows={3} style={{ ...inputStyle, width: "100%", marginTop: 8, resize: "vertical" }} />
-                <button type="button" onClick={runPlanner} style={{ ...btnPrimary, marginTop: 8 }}>Plan steps</button>
+                  rows={3} className="is-6ce2571" />
+                <button type="button" onClick={runPlanner} className="is-3bf2de6">Plan steps</button>
                 {taskSteps.length > 0 && (
-                  <ol style={{ ...resultBox, paddingLeft: 32 }} aria-live="polite">
+                  <ol className="is-81e52f5" aria-live="polite">
                     {taskSteps.map((s, i) => (
-                      <li key={i} style={{ fontSize: 14 }}><strong>{s.action}</strong> <span style={{ color: TEXT_SUB }}>— “{s.text}”</span></li>
+                      <li key={i} className="is-267f6d5"><strong>{s.action}</strong> <span className="is-6c32634">— “{s.text}”</span></li>
                     ))}
                   </ol>
                 )}
               </div>
               <div>
-                <span style={simulatorLabelStyle}>Voice command parser · parseVoiceA11yCommand()</span>
+                <span className="is-d5a9a3d">Voice command parser · parseVoiceA11yCommand()</span>
                 <label htmlFor="voice-text" className="sr-only">Spoken command</label>
                 <input id="voice-text" type="text" value={voiceText} onChange={(e) => setVoiceText(e.target.value)}
-                  style={{ ...inputStyle, width: "100%", marginTop: 8 }} />
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 8 }}>
+                  className="is-2ca4aae" />
+                <div className="is-3102af9">
                   {["make text bigger", "high contrast on", "dark mode", "next row"].map((v) => (
-                    <button key={v} type="button" onClick={() => setVoiceText(v)} style={chipStyle}>{v}</button>
+                    <button key={v} type="button" onClick={() => setVoiceText(v)} className="is-0e64e7b">{v}</button>
                   ))}
                 </div>
-                <button type="button" onClick={runVoice} style={{ ...btnPrimary, marginTop: 8 }}>Understand</button>
-                {voiceOut && <pre style={{ ...outputBoxStyle, whiteSpace: "pre-wrap" }} aria-live="polite">{voiceOut}</pre>}
+                <button type="button" onClick={runVoice} className="is-3bf2de6">Understand</button>
+                {voiceOut && <pre className="is-42c8f4e" aria-live="polite">{voiceOut}</pre>}
               </div>
             </div>
           </Card>
 
           {/* ═══════════ ALL-IN-ONE PANEL ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><AccessibilityNewRoundedIcon style={{ color: G_DARK }} /> All-in-one: AgenticPanel</h2>
-            <p style={leadStyle}>
+            <h2 className="is-07301a4"><AccessibilityNewRoundedIcon className="is-838567c" /> All-in-one: AgenticPanel</h2>
+            <p className="is-1b64d8d">
               One component with six tabs: Copilot, QA, Forms, Design, Ask and Voice. Drop <code>&lt;AgenticPanel /&gt;</code> into any page.
             </p>
-            <button type="button" onClick={() => setPanelOpen((v) => !v)} aria-expanded={panelOpen} style={btnPrimary}>
+            <button type="button" onClick={() => setPanelOpen((v) => !v)} aria-expanded={panelOpen} className="is-9f3c044">
               {panelOpen ? "Hide the panel" : "Open the panel"}
             </button>
             {panelOpen && (
-              <div style={{ marginTop: 12 }}>
+              <div className="is-65c1c01">
                 <AgenticPanel defaultTab="qa" voiceLang="en-IN" />
               </div>
             )}
@@ -479,29 +466,29 @@ export default function YuktaiFullDocs() {
 
           {/* ═══════════ CORE MODULES (existing) ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><AccessibilityNewRoundedIcon style={{ color: G_DARK }} /> Core: accessibility engine</h2>
-            <ul style={ulStyle}>
-              <li style={liStyle}><strong>WCAG 2.2 auto-fix:</strong> adds missing ARIA roles, labels and states to plain markup.</li>
-              <li style={liStyle}><strong>Speak on focus:</strong> reads the focused element aloud with the browser&apos;s speech engine.</li>
-              <li style={liStyle}><strong>Dyslexia-friendly mode</strong>, larger targets, reduced motion and keyboard mode.</li>
-              <li style={liStyle}><strong>Colour-blind filters:</strong> deuteranopia, protanopia, tritanopia, grayscale.</li>
+            <h2 className="is-07301a4"><AccessibilityNewRoundedIcon className="is-838567c" /> Core: accessibility engine</h2>
+            <ul className="is-668efb3">
+              <li className="is-1015caf"><strong>WCAG 2.2 auto-fix:</strong> adds missing ARIA roles, labels and states to plain markup.</li>
+              <li className="is-1015caf"><strong>Speak on focus:</strong> reads the focused element aloud with the browser&apos;s speech engine.</li>
+              <li className="is-1015caf"><strong>Dyslexia-friendly mode</strong>, larger targets, reduced motion and keyboard mode.</li>
+              <li className="is-1015caf"><strong>Colour-blind filters:</strong> deuteranopia, protanopia, tritanopia, grayscale.</li>
             </ul>
-            <p style={{ fontSize: 14, color: TEXT_SUB, margin: 0 }}>Open it from the ♿ button in the yuktai tools (bottom-left).</p>
+            <p className="is-afd37a2">Open it from the ♿ button in the yuktai tools (bottom-left).</p>
           </Card>
 
           <Card>
-            <h2 style={sectionH2Style}><SearchIcon size={20} color={G_DARK} /> Core: in-browser RAG</h2>
-            <ul style={ulStyle}>
-              <li style={liStyle}><strong>Gemini Nano</strong> when Chrome&apos;s built-in AI is available.</li>
-              <li style={liStyle}><strong>Transformers.js</strong> fallback with 4-bit quantised models, so it also works on phones.</li>
-              <li style={liStyle}><strong>BM25 context index</strong> for fast keyword search over page and grid text, no model needed.</li>
+            <h2 className="is-07301a4"><SearchIcon size={20} color={G_DARK} /> Core: in-browser RAG</h2>
+            <ul className="is-668efb3">
+              <li className="is-1015caf"><strong>Gemini Nano</strong> when Chrome&apos;s built-in AI is available.</li>
+              <li className="is-1015caf"><strong>Transformers.js</strong> fallback with 4-bit quantised models, so it also works on phones.</li>
+              <li className="is-1015caf"><strong>BM25 context index</strong> for fast keyword search over page and grid text, no model needed.</li>
             </ul>
-            <p style={{ fontSize: 14, color: TEXT_SUB, margin: 0 }}>Try it from the 💬 button in the yuktai tools.</p>
+            <p className="is-afd37a2">Try it from the 💬 button in the yuktai tools.</p>
           </Card>
 
           <Card>
-            <h2 style={sectionH2Style}><IntegrationInstructionsRoundedIcon style={{ color: G_DARK }} /> Core: Vibe Coder</h2>
-            <p style={{ fontSize: 15, color: TEXT_SUB, margin: 0 }}>
+            <h2 className="is-07301a4"><IntegrationInstructionsRoundedIcon className="is-838567c" /> Core: Vibe Coder</h2>
+            <p className="is-47db2d6">
               Describe a page and get a starting layout from built-in templates. Free, offline, no API.
               Open it from the ⚡ button in the yuktai tools.
             </p>
@@ -509,25 +496,25 @@ export default function YuktaiFullDocs() {
 
           {/* ═══════════ CODE ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><CodeRoundedIcon style={{ color: G_DARK }} /> Use it in your Next.js app</h2>
-            <h3 style={h3Style}>1. Agentic grid with your own question bar</h3>
+            <h2 className="is-07301a4"><CodeRoundedIcon className="is-838567c" /> Use it in your Next.js app</h2>
+            <h3 className="is-1681b86">1. Agentic grid with your own question bar</h3>
             <CodeBlock code={AGENT_GRID_CODE} copied={copiedCode === "agent"} onCopy={() => copyCode(AGENT_GRID_CODE, "agent")} />
-            <h3 style={{ ...h3Style, marginTop: 20 }}>2. Or the grid&apos;s built-in assistant with your own rules</h3>
+            <h3 className="is-074edec">2. Or the grid&apos;s built-in assistant with your own rules</h3>
             <CodeBlock code={BUILTIN_AGENT_CODE} copied={copiedCode === "builtin"} onCopy={() => copyCode(BUILTIN_AGENT_CODE, "builtin")} />
-            <p style={{ fontSize: 14, color: TEXT_SUB, marginTop: 12, marginBottom: 0 }}>
+            <p className="is-dee1c8d">
               Custom rules run before the built-in intents and match by phrase, so you can teach the assistant your own words.
             </p>
           </Card>
 
           {/* ═══════════ MATRIX ═══════════ */}
           <Card>
-            <h2 style={sectionH2Style}><ComputerRoundedIcon style={{ color: G_DARK }} /> Technical compatibility</h2>
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14.5, textAlign: "left", minWidth: 480 }}>
+            <h2 className="is-07301a4"><ComputerRoundedIcon className="is-838567c" /> Technical compatibility</h2>
+            <div className="is-b56181d">
+              <table className="is-21977ee">
                 <thead>
-                  <tr style={{ borderBottom: "2px solid #cbd5e1" }}>
-                    <th scope="col" style={{ padding: 8 }}>Area</th>
-                    <th scope="col" style={{ padding: 8 }}>Support</th>
+                  <tr className="is-4c23c5c">
+                    <th scope="col" className="is-881f2ed">Area</th>
+                    <th scope="col" className="is-881f2ed">Support</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -546,35 +533,35 @@ export default function YuktaiFullDocs() {
         </div>
 
         {/* ═══════════ INSTALL ═══════════ */}
-        <div style={{ background: "#0f172a", color: "white", borderRadius: 16, padding: 24, marginBottom: 40, display: "flex", flexDirection: "column", gap: 12 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 600, color: FG_CODE }}>
+        <div className="is-656c3b2">
+          <div className="is-a550fe9">
             <TerminalRoundedIcon /> Install
           </div>
-          <p style={{ fontSize: 14, color: "#cbd5e1", margin: 0 }}>Add yuktai to any React or Next.js project:</p>
-          <div style={{ position: "relative" }}>
-            <code style={{ background: "#1e293b", color: FG_CODE, padding: "12px 48px 12px 16px", borderRadius: 8, fontFamily: "monospace", fontSize: 14, display: "block" }}>
+          <p className="is-e8cfc79">Add yuktai to any React or Next.js project:</p>
+          <div className="is-d85c4e6">
+            <code className="is-4123901">
               {INSTALL_CODE}
             </code>
             <button type="button" onClick={() => copyCode(INSTALL_CODE, "install")} aria-label="Copy install command"
-              style={{ position: "absolute", top: 4, right: 4, width: 44, height: 44, background: "transparent", border: "none", cursor: "pointer", color: copiedCode === "install" ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              {copiedCode === "install" ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
+              className="is-fdeb08c" style={{ color: copiedCode === "install" ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              {copiedCode === "install" ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon className="is-768e1f2" />}
             </button>
           </div>
         </div>
 
         {/* ═══════════ FOOTER ═══════════ */}
-        <footer style={{ borderTop: "1px solid #e2e8f0", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, fontSize: 14 }}>
-          <span style={{ color: TEXT_SUB }}>Built in public, with help from Claude, GPT and Gemini.</span>
-          <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap" }}>
+        <footer className="is-192f8ac">
+          <span className="is-6c32634">Built in public, with help from Claude, GPT and Gemini.</span>
+          <div className="is-1b05a81">
             <a href="https://github.com/sandeepmiriyala03/yuktai" target="_blank" rel="noreferrer"
-              style={{ color: G_DARK, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+              className="is-08dd25e">
               GitHub <ChevronRightIcon size={14} color={G_DARK} />
             </a>
             <a href="https://www.npmjs.com/package/@yuktishaalaa/yuktai" target="_blank" rel="noreferrer"
-              style={{ color: G_DARK, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+              className="is-08dd25e">
               npm <ChevronRightIcon size={14} color={G_DARK} />
             </a>
-            <Link href="/staffdirectory" style={{ color: TEXT_MAIN, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4 }}>
+            <Link href="/staffdirectory" className="is-7a1ab93">
               Yuktai Grid demo <ChevronRightIcon size={14} color={TEXT_MAIN} />
             </Link>
           </div>
@@ -589,7 +576,7 @@ export default function YuktaiFullDocs() {
 // ═══════════════════════════════════════════════════════════
 function Card({ children }: { children: React.ReactNode }) {
   return (
-    <section style={{ marginBottom: 32, border: "1px solid #e2e8f0", borderRadius: 16, padding: "clamp(16px, 4vw, 24px)", background: "#ffffff" }}>
+    <section className="is-163466f">
       {children}
     </section>
   );
@@ -609,16 +596,16 @@ function TtsButton({ label, active, activeBg, onClick, children }: {
 
 function MetricPill({ label, value }: { label: string; value: string }) {
   return (
-    <div style={{ background: "#f0fdf4", border: "1px solid #86efac", padding: "6px 12px", borderRadius: 20, display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
-      <span style={{ color: "#166534", fontWeight: 700 }}>{value}</span>
-      <span style={{ color: TEXT_SUB }}>{label}</span>
+    <div className="is-70a0282">
+      <span className="is-bda03bd">{value}</span>
+      <span className="is-6c32634">{label}</span>
     </div>
   );
 }
 
 function InsightBox({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ background: "#f8fafc", padding: 14, borderRadius: 8, border: "1px solid #e2e8f0", fontSize: 13.5, marginTop: 16 }}>
+    <div className="is-426816f">
       <strong>Why it matters: </strong>{children}
     </div>
   );
@@ -626,13 +613,13 @@ function InsightBox({ children }: { children: React.ReactNode }) {
 
 function CodeBlock({ code, copied, onCopy }: { code: string; copied: boolean; onCopy: () => void }) {
   return (
-    <div style={{ position: "relative" }}>
-      <pre style={{ background: BG_CODE, color: FG_CODE, padding: "16px 52px 16px 16px", borderRadius: 10, overflowX: "auto", fontSize: 12.5, fontFamily: "monospace", lineHeight: 1.6, margin: 0 }}>
+    <div className="is-d85c4e6">
+      <pre className="is-f26fd4d">
         <code>{code}</code>
       </pre>
       <button type="button" onClick={onCopy} aria-label="Copy code"
-        style={{ position: "absolute", top: 4, right: 4, width: 44, height: 44, background: "transparent", border: "none", cursor: "pointer", color: copied ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {copied ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon style={{ fontSize: 18 }} />}
+        className="is-fdeb08c" style={{ color: copied ? FG_CODE : "#cbd5e1", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {copied ? <CheckIcon size={18} color={FG_CODE} /> : <ContentCopyRoundedIcon className="is-768e1f2" />}
       </button>
     </div>
   );
@@ -640,47 +627,9 @@ function CodeBlock({ code, copied, onCopy }: { code: string; copied: boolean; on
 
 function MatrixRow({ k, v }: { k: string; v: string }) {
   return (
-    <tr style={{ borderBottom: "1px solid #e2e8f0" }}>
-      <th scope="row" style={{ padding: 8, fontWeight: 600 }}>{k}</th>
-      <td style={{ padding: 8 }}>{v}</td>
+    <tr className="is-61221e1">
+      <th scope="row" className="is-0459513">{k}</th>
+      <td className="is-881f2ed">{v}</td>
     </tr>
   );
 }
-
-// ═══════════════════════════════════════════════════════════
-// Styles
-// ═══════════════════════════════════════════════════════════
-const sectionH2Style: React.CSSProperties = {
-  fontSize: 20, fontWeight: 700, marginBottom: 14, display: "flex", alignItems: "center", gap: 8,
-  // globals.css gives h2 a bottom border; not wanted inside cards
-  borderBottom: "none", paddingBottom: 0,
-};
-const h3Style: React.CSSProperties  = { fontSize: 16, fontWeight: 600, color: TEXT_MAIN, marginBottom: 8 };
-const leadStyle: React.CSSProperties = { fontSize: 15, color: TEXT_SUB, marginBottom: 16 };
-const ulStyle: React.CSSProperties   = { paddingLeft: 20, fontSize: 15, marginBottom: 12 };
-const liStyle: React.CSSProperties   = { marginBottom: 6 };
-
-const simulatorLabelStyle: React.CSSProperties = {
-  fontSize: 12, fontWeight: 700, color: G_DARK, textTransform: "uppercase", display: "inline-flex", alignItems: "center", gap: 6,
-};
-const inputStyle: React.CSSProperties = {
-  flex: "1 1 240px", minWidth: 0, minHeight: 44, padding: "8px 12px", border: "1px solid #94a3b8", borderRadius: 8,
-  fontFamily: "inherit", fontSize: 15, boxSizing: "border-box",
-};
-const btnPrimary: React.CSSProperties = {
-  background: G_DARK, color: "white", border: "none", minHeight: 44, padding: "8px 18px", borderRadius: 8,
-  fontWeight: 600, fontFamily: "inherit", fontSize: 15, cursor: "pointer",
-};
-const btnSecondary: React.CSSProperties = {
-  ...btnPrimary, background: "#ffffff", color: G_DARK, border: `1.5px solid ${G_DARK}`,
-};
-const chipStyle: React.CSSProperties = {
-  minHeight: 36, padding: "6px 12px", borderRadius: 999, border: "1px solid #cbd5e1", background: "#f8fafc",
-  color: TEXT_MAIN, fontFamily: "inherit", fontSize: 13.5, cursor: "pointer",
-};
-const resultBox: React.CSSProperties = {
-  background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: 12, padding: 14, marginTop: 12,
-};
-const outputBoxStyle: React.CSSProperties = {
-  background: "#0f172a", color: FG_CODE, padding: 12, borderRadius: 8, marginTop: 10, fontFamily: "monospace", fontSize: 13,
-};

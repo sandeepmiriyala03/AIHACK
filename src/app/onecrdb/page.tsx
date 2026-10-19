@@ -610,7 +610,7 @@ export default function CroreExperimentPage() {
   return (
     <>
       <Navbar />
-    <Box sx={{ bgcolor: "#ffffff", minHeight: "100vh", pb: 8 }}>
+    <Box className="is-f3a0340">
       {/* ── Header ── */}
       <Box
         sx={{
@@ -646,7 +646,7 @@ export default function CroreExperimentPage() {
               color="success"
               variant="outlined"
               size={isMobile ? "small" : "medium"}
-              sx={{ fontWeight: 700, color: "#000", borderColor: "#000" }}
+              className="is-8f72317"
             />
           )}
         </Stack>
@@ -658,27 +658,20 @@ export default function CroreExperimentPage() {
           {/* ── Column Designer ── */}
           <Paper
             elevation={0}
-            sx={{ border: "1.5px solid #000", borderRadius: 2, overflow: "hidden" }}
+            className="is-4a545ca"
           >
             <Box
-              sx={{
-                px: 3, py: 2,
-                bgcolor: "#000",
-                display: "flex",
-                alignItems: "center",
-                cursor: "pointer",
-                userSelect: "none",
-              }}
+              className="is-64e9e28"
               onClick={() => setColDesignerOpen((v) => !v)}
             >
-              <TuneIcon sx={{ color: "#fff", mr: 1.5 }} />
+              <TuneIcon className="is-dead748" />
               <Typography fontWeight={700} color="#fff" flex={1}>
                 Step 1 — Design Your Columns
               </Typography>
               {colDesignerOpen ? (
-                <KeyboardArrowUp sx={{ color: "#fff" }} />
+                <KeyboardArrowUp className="is-421b998" />
               ) : (
-                <KeyboardArrowDown sx={{ color: "#fff" }} />
+                <KeyboardArrowDown className="is-421b998" />
               )}
             </Box>
 
@@ -697,7 +690,7 @@ export default function CroreExperimentPage() {
                       clickable
                       variant="outlined"
                       size="small"
-                      sx={{ borderColor: "#000", color: "#000", fontWeight: 600, mb: 0.5 }}
+                      className="is-b6e3011"
                     />
                   ))}
                 </Stack>
@@ -746,13 +739,13 @@ export default function CroreExperimentPage() {
                     inputProps={{ style: { color: "#000", fontSize: 15 } }}
                     InputLabelProps={{ style: { color: "#555" } }}
                   />
-                  <FormControl size="small" sx={{ flex: 1, minWidth: 130 }}>
-                    <InputLabel sx={{ color: "#555" }}>Type</InputLabel>
+                  <FormControl size="small" className="is-afe4e69">
+                    <InputLabel className="is-5fd7818">Type</InputLabel>
                     <Select
                       value={newColType}
                       label="Type"
                       onChange={(e) => setNewColType(e.target.value as ColumnDef["type"])}
-                      sx={{ color: "#000" }}
+                      className="is-f0afc2a"
                     >
                       <MenuItem value="text">Text</MenuItem>
                       <MenuItem value="number">Number</MenuItem>
@@ -785,9 +778,9 @@ export default function CroreExperimentPage() {
           {/* ── Control Panel ── */}
           <Paper
             elevation={0}
-            sx={{ border: "1.5px solid #000", borderRadius: 2, overflow: "hidden" }}
+            className="is-4a545ca"
           >
-            <Box sx={{ bgcolor: "#000", px: 3, py: 2 }}>
+            <Box className="is-b05f834">
               <Typography fontWeight={700} color="#fff">
                 Step 2 — Insert 1 Crore Records
               </Typography>
@@ -800,7 +793,7 @@ export default function CroreExperimentPage() {
                   size="large"
                   startIcon={
                     insertState === "inserting" ? (
-                      <CircularProgress size={18} sx={{ color: "#fff" }} />
+                      <CircularProgress size={18} className="is-421b998" />
                     ) : insertState === "done" ? (
                       <CheckCircleIcon />
                     ) : (
@@ -867,13 +860,7 @@ export default function CroreExperimentPage() {
                       });
                       setConfirmOpen(true);
                     }}
-                    sx={{
-                      borderColor: "#000",
-                      color: "#000",
-                      fontWeight: 700,
-                      borderRadius: 1,
-                      py: 1.5,
-                    }}
+                    className="is-0bc9b31"
                   >
                     Reset
                   </Button>
@@ -936,12 +923,7 @@ export default function CroreExperimentPage() {
                         <Paper
                           key={stat.label}
                           elevation={0}
-                          sx={{
-                            border: "1px solid #e0e0e0",
-                            borderRadius: 1.5,
-                            p: 1.5,
-                            textAlign: "center",
-                          }}
+                          className="is-f9e76dc"
                         >
                           <Typography variant="caption" color="text.secondary" display="block">
                             {stat.label}
@@ -956,7 +938,7 @@ export default function CroreExperimentPage() {
                     {startTime && endTime && (
                       <Paper
                         elevation={0}
-                        sx={{ bgcolor: "#f9f9f9", border: "1px solid #e0e0e0", borderRadius: 1.5, p: 2, mb: 2 }}
+                        className="is-caffd49"
                       >
                         <Typography variant="body2" color="#000" fontWeight={600}>
                           📊 Total Duration:{" "}
@@ -988,9 +970,9 @@ export default function CroreExperimentPage() {
                 }}
               >
                 {logs.map((l) => (
-                  <Box key={l.id} sx={{ fontSize: 12, color: "#000", lineHeight: 1.7 }}>
+                  <Box key={l.id} className="is-a41fffa">
                     {l.ts && (
-                      <Box component="span" sx={{ color: "#999", mr: 1 }}>
+                      <Box component="span" className="is-bda3e44">
                         [{l.ts}]
                       </Box>
                     )}
@@ -1007,9 +989,9 @@ export default function CroreExperimentPage() {
             <Fade in>
               <Paper
                 elevation={0}
-                sx={{ border: "1.5px solid #000", borderRadius: 2, overflow: "hidden" }}
+                className="is-4a545ca"
               >
-                <Box sx={{ bgcolor: "#000", px: 3, py: 2 }}>
+                <Box className="is-b05f834">
                   <Typography fontWeight={700} color="#fff">
                     Step 3 — DML Operations on IndexedDB
                   </Typography>
@@ -1018,7 +1000,7 @@ export default function CroreExperimentPage() {
                 {/* Tab row */}
                 <Stack
                   direction="row"
-                  sx={{ borderBottom: "1.5px solid #000" }}
+                  className="is-55e459e"
                 >
                   {(["SELECT", "UPDATE", "DELETE"] as DmlOperation[]).map((op) => (
                     <Button
@@ -1036,9 +1018,9 @@ export default function CroreExperimentPage() {
                         "&:hover": { bgcolor: dmlTab === op ? "#222" : "#f5f5f5" },
                       }}
                     >
-                      {op === "SELECT" && <SearchIcon sx={{ mr: 0.5, fontSize: 18 }} />}
-                      {op === "UPDATE" && <EditIcon sx={{ mr: 0.5, fontSize: 18 }} />}
-                      {op === "DELETE" && <DeleteIcon sx={{ mr: 0.5, fontSize: 18 }} />}
+                      {op === "SELECT" && <SearchIcon className="is-08fd0f0" />}
+                      {op === "UPDATE" && <EditIcon className="is-08fd0f0" />}
+                      {op === "DELETE" && <DeleteIcon className="is-08fd0f0" />}
                       {op}
                     </Button>
                   ))}
@@ -1092,11 +1074,11 @@ export default function CroreExperimentPage() {
                           variant="outlined"
                           startIcon={<RefreshIcon />}
                           onClick={() => loadDmlPage(0)}
-                          sx={{ borderColor: "#000", color: "#000", fontWeight: 700, borderRadius: 1 }}
+                          className="is-7881af1"
                         >
                           Browse
                         </Button>
-                        <Typography variant="body2" color="text.secondary" sx={{ ml: "auto" }}>
+                        <Typography variant="body2" color="text.secondary" className="is-dc310e0">
                           {formatIndian(dmlTotal)} total records
                         </Typography>
                       </Stack>
@@ -1121,13 +1103,13 @@ export default function CroreExperimentPage() {
                         inputProps={{ style: { color: "#000" } }}
                         InputLabelProps={{ style: { color: "#555" } }}
                       />
-                      <FormControl size="small" sx={{ minWidth: 160 }}>
-                        <InputLabel sx={{ color: "#555" }}>Field</InputLabel>
+                      <FormControl size="small" className="is-8b224a6">
+                        <InputLabel className="is-5fd7818">Field</InputLabel>
                         <Select
                           value={updateField}
                           label="Field"
                           onChange={(e) => setUpdateField(e.target.value)}
-                          sx={{ color: "#000" }}
+                          className="is-f0afc2a"
                         >
                           {columns.map((c) => (
                             <MenuItem key={c.key} value={c.key}>
@@ -1141,7 +1123,7 @@ export default function CroreExperimentPage() {
                         value={updateValue}
                         onChange={(e) => setUpdateValue(e.target.value)}
                         size="small"
-                        sx={{ flex: 1 }}
+                        className="is-49cdf87"
                         inputProps={{ style: { color: "#000" } }}
                         InputLabelProps={{ style: { color: "#555" } }}
                       />
@@ -1197,24 +1179,19 @@ export default function CroreExperimentPage() {
                     </Stack>
                   )}
 
-                  <Divider sx={{ my: 2 }} />
+                  <Divider className="is-b8c44e1" />
 
                   {/* Data table */}
                   {dmlLoading ? (
-                    <Box sx={{ textAlign: "center", py: 4 }}>
-                      <CircularProgress sx={{ color: "#000" }} />
+                    <Box className="is-34d041d">
+                      <CircularProgress className="is-f0afc2a" />
                       <Typography mt={2} color="#000">
                         Loading records…
                       </Typography>
                     </Box>
                   ) : dmlResult.length === 0 ? (
                     <Box
-                      sx={{
-                        textAlign: "center",
-                        py: 6,
-                        border: "1px dashed #ccc",
-                        borderRadius: 1.5,
-                      }}
+                      className="is-b188326"
                     >
                       <Typography color="text.secondary">
                         No records to display. Use Browse or Query above.
@@ -1234,40 +1211,20 @@ export default function CroreExperimentPage() {
                           <TableHead>
                             <TableRow>
                               <TableCell
-                                sx={{
-                                  fontWeight: 800,
-                                  bgcolor: "#f5f5f5",
-                                  color: "#000",
-                                  fontSize: 13,
-                                  borderBottom: "2px solid #000",
-                                }}
+                                className="is-d3d8457"
                               >
                                 ID
                               </TableCell>
                               {columns.map((col) => (
                                 <TableCell
                                   key={col.key}
-                                  sx={{
-                                    fontWeight: 800,
-                                    bgcolor: "#f5f5f5",
-                                    color: "#000",
-                                    fontSize: 13,
-                                    borderBottom: "2px solid #000",
-                                    whiteSpace: "nowrap",
-                                  }}
+                                  className="is-17b650c"
                                 >
                                   {col.label}
                                 </TableCell>
                               ))}
                               <TableCell
-                                sx={{
-                                  fontWeight: 800,
-                                  bgcolor: "#f5f5f5",
-                                  color: "#000",
-                                  fontSize: 13,
-                                  borderBottom: "2px solid #000",
-                                  width: 90,
-                                }}
+                                className="is-1ac03e7"
                               >
                                 Actions
                               </TableCell>
@@ -1280,20 +1237,13 @@ export default function CroreExperimentPage() {
                                 hover
                                 sx={{ "&:hover": { bgcolor: "#f9f9f9" } }}
                               >
-                                <TableCell sx={{ color: "#000", fontWeight: 600, fontSize: 13 }}>
+                                <TableCell className="is-e640477">
                                   {String(row.id)}
                                 </TableCell>
                                 {columns.map((col) => (
                                   <TableCell
                                     key={col.key}
-                                    sx={{
-                                      color: "#000",
-                                      fontSize: 13,
-                                      maxWidth: 180,
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      whiteSpace: "nowrap",
-                                    }}
+                                    className="is-8d1d2b4"
                                   >
                                     {String(row[col.key] ?? "")}
                                   </TableCell>
@@ -1304,7 +1254,7 @@ export default function CroreExperimentPage() {
                                       <IconButton
                                         size="small"
                                         onClick={() => openEdit(row)}
-                                        sx={{ color: "#000" }}
+                                        className="is-f0afc2a"
                                       >
                                         <EditIcon fontSize="small" />
                                       </IconButton>
@@ -1313,7 +1263,7 @@ export default function CroreExperimentPage() {
                                       <IconButton
                                         size="small"
                                         onClick={() => handleDelete(row.id as number)}
-                                        sx={{ color: "#d32f2f" }}
+                                        className="is-7a18e31"
                                       >
                                         <DeleteIcon fontSize="small" />
                                       </IconButton>
@@ -1338,14 +1288,14 @@ export default function CroreExperimentPage() {
                           <IconButton
                             onClick={() => loadDmlPage(0)}
                             disabled={dmlPage === 0}
-                            sx={{ color: "#000" }}
+                            className="is-f0afc2a"
                           >
                             <NavigateBefore />
                           </IconButton>
                           <IconButton
                             onClick={() => loadDmlPage(dmlPage - 1)}
                             disabled={dmlPage === 0}
-                            sx={{ color: "#000" }}
+                            className="is-f0afc2a"
                           >
                             <NavigateBefore />
                           </IconButton>
@@ -1355,14 +1305,14 @@ export default function CroreExperimentPage() {
                           <IconButton
                             onClick={() => loadDmlPage(dmlPage + 1)}
                             disabled={dmlPage >= totalPages - 1}
-                            sx={{ color: "#000" }}
+                            className="is-f0afc2a"
                           >
                             <NavigateNext />
                           </IconButton>
                           <IconButton
                             onClick={() => loadDmlPage(totalPages - 1)}
                             disabled={dmlPage >= totalPages - 1}
-                            sx={{ color: "#000" }}
+                            className="is-f0afc2a"
                           >
                             <NavigateNext />
                           </IconButton>
@@ -1385,10 +1335,10 @@ export default function CroreExperimentPage() {
         maxWidth="sm"
         PaperProps={{ sx: { borderRadius: 2, border: "1.5px solid #000" } }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#000", borderBottom: "1px solid #e0e0e0" }}>
+        <DialogTitle className="is-7ff50a4">
           Edit Record #{String(editRow?.id)}
         </DialogTitle>
-        <DialogContent sx={{ pt: 3 }}>
+        <DialogContent className="is-bc86f82">
           <Stack spacing={2} mt={1}>
             {columns.map((col) => (
               <TextField
@@ -1407,8 +1357,8 @@ export default function CroreExperimentPage() {
             ))}
           </Stack>
         </DialogContent>
-        <DialogActions sx={{ p: 2, borderTop: "1px solid #e0e0e0" }}>
-          <Button onClick={() => setEditRow(null)} sx={{ color: "#000", fontWeight: 700 }}>
+        <DialogActions className="is-3e94166">
+          <Button onClick={() => setEditRow(null)} className="is-7076c7f">
             Cancel
           </Button>
           <Button
@@ -1427,12 +1377,12 @@ export default function CroreExperimentPage() {
         onClose={() => setConfirmOpen(false)}
         PaperProps={{ sx: { borderRadius: 2, border: "1.5px solid #000" } }}
       >
-        <DialogTitle sx={{ fontWeight: 800, color: "#000" }}>Confirm Action</DialogTitle>
+        <DialogTitle className="is-c9b4b75">Confirm Action</DialogTitle>
         <DialogContent>
-          <DialogContentText sx={{ color: "#000" }}>{confirmMsg}</DialogContentText>
+          <DialogContentText className="is-f0afc2a">{confirmMsg}</DialogContentText>
         </DialogContent>
-        <DialogActions sx={{ p: 2 }}>
-          <Button onClick={() => setConfirmOpen(false)} sx={{ color: "#000", fontWeight: 700 }}>
+        <DialogActions className="is-04b57f5">
+          <Button onClick={() => setConfirmOpen(false)} className="is-7076c7f">
             Cancel
           </Button>
           <Button
@@ -1455,7 +1405,7 @@ export default function CroreExperimentPage() {
         <Alert
           severity={snack.severity}
           onClose={() => setSnack((s) => ({ ...s, open: false }))}
-          sx={{ fontWeight: 700, color: "#000", fontSize: 14, border: "1px solid #ccc" }}
+          className="is-d197b70"
         >
           {snack.message}
         </Alert>

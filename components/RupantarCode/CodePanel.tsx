@@ -50,8 +50,8 @@ export function OutputPanel({ html, lineCount }: OutputPanelProps) {
     <div className={styles.panel}>
       <div className={styles.panelHeader}>
         <span
-          className={styles.langDot}
-          style={{ background: '#3776ab' }}
+          className={`${styles.langDot ?? ""} is-4c417ba`}
+
           aria-hidden="true"
         />
         <span className={styles.panelLabel}>Python Output</span>

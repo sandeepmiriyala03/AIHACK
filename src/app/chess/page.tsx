@@ -634,8 +634,8 @@ export default function ChessGame() {
       `}</style>
 
       <div className="chess-wrap">
-        <h1 className="chess-title" style={{marginBottom:4}}>Chess<span>.</span></h1>
-        <p style={{fontSize:13,color:"var(--muted)",marginBottom:16}}>Full rules · en passant · castling · promotion</p>
+        <h1 className="chess-title is-56c00b6">Chess<span>.</span></h1>
+        <p className="is-3dc9a37">Full rules · en passant · castling · promotion</p>
 
         {/* Controls */}
         <div className="chess-controls">
@@ -678,7 +678,7 @@ export default function ChessGame() {
               <div className="side-label">Captured by Black</div>
               <div className="captured-pieces">
                 {capturedSort(state.capturedWhite).map((p,i)=>
-                  <span key={i} style={{color:"#888"}}>{GLYPHS.white[p.type]}</span>
+                  <span key={i} className="is-4671278">{GLYPHS.white[p.type]}</span>
                 )}
               </div>
             </div>

@@ -41,7 +41,7 @@ export default function AccordionChunk({ chunk }: { chunk: Analysis }) {
             )}
           </ul>
 
-          <h4 style={{ marginTop: 16 }}>Highlights</h4>
+          <h4 className="is-a812934">Highlights</h4>
           <ul className="list">
             {chunk.highlights.length > 0 ? (
               chunk.highlights.map((hl, i) => <li key={i}>{hl}</li>)

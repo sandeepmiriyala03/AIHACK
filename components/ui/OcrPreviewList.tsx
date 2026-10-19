@@ -12,7 +12,7 @@ export default function OcrPreviewList({
   onDelete,
 }: Props) {
   return (
-    <div style={{ padding: "16px" }}>
+    <div className="is-04b57f5">
       <h3>📄 OCR Pages Preview</h3>
 
       {pages.length === 0 && <p>No pages extracted yet.</p>}
@@ -20,42 +20,23 @@ export default function OcrPreviewList({
       {pages.map((page, i) => (
         <div
           key={i}
-          style={{
-            border: "1px solid #ddd",
-            padding: "12px",
-            borderRadius: "8px",
-            marginBottom: "10px",
-          }}
+          className="is-3ab122c"
         >
-          <p style={{ whiteSpace: "pre-wrap" }}>
+          <p className="is-4f5f61b">
             {page.substring(0, 100)}...
           </p>
 
-          <div style={{ display: "flex", gap: "10px", marginTop: "8px" }}>
+          <div className="is-3e193d5">
             <button
               onClick={() => onSelect(i)}
-              style={{
-                padding: "6px 10px",
-                background: "#1976d2",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
+              className="is-ad9405f"
             >
               Edit
             </button>
 
             <button
               onClick={() => onDelete(i)}
-              style={{
-                padding: "6px 10px",
-                background: "#d32f2f",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
+              className="is-e6e654d"
             >
               Delete
             </button>

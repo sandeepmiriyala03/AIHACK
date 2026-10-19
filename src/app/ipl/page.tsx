@@ -1115,7 +1115,7 @@ useEffect(() => {
         {/* ── TEAM SELECT ── */}
         {gamePhase==="select"&&(
           <>
-            <p className="sec-head" style={{marginBottom:10}}>Choose Your Team</p>
+            <p className="sec-head is-3301ea9">Choose Your Team</p>
             <div className="team-grid">
               {TEAMS.map(team=>(
                 <div key={team.short} className="team-card"
@@ -1137,28 +1137,28 @@ useEffect(() => {
         {/* ── TOSS ── */}
         {gamePhase==="toss"&&playerTeam&&aiTeam&&(
           <div className="toss-card">
-            <div style={{display:"flex",gap:16,alignItems:"center",flexWrap:"wrap",justifyContent:"center"}}>
-              <div style={{textAlign:"center"}}>
+            <div className="is-39c650c">
+              <div className="is-cdd8ca0">
                 <div style={{background:playerTeam.primary,color:playerTeam.text,padding:"8px 18px",borderRadius:8,fontFamily:"Oswald",fontSize:18,fontWeight:700}}>{playerTeam.short}</div>
-                <div style={{fontSize:11,color:"var(--gray)",marginTop:4}}>You</div>
+                <div className="is-69510eb">You</div>
               </div>
-              <div style={{fontFamily:"Oswald",fontSize:20,color:"var(--gray)"}}>vs</div>
-              <div style={{textAlign:"center"}}>
+              <div className="is-ac9f2dc">vs</div>
+              <div className="is-cdd8ca0">
                 <div style={{background:aiTeam.primary,color:aiTeam.text,padding:"8px 18px",borderRadius:8,fontFamily:"Oswald",fontSize:18,fontWeight:700}}>{aiTeam.short}</div>
-                <div style={{fontSize:11,color:"var(--gray)",marginTop:4}}>AI</div>
+                <div className="is-69510eb">AI</div>
               </div>
             </div>
             <div className={`coin${tossAnim?" spin":""}`}>🪙</div>
             {tossWon===null?(
               <button className="toss-btn" onClick={handleToss} disabled={tossAnim}>{tossAnim?"Tossing...":"TOSS THE COIN"}</button>
             ):(
-              <div style={{textAlign:"center"}}>
-                <div style={{fontFamily:"Oswald",fontSize:20,fontWeight:700,color:tossWon?"var(--green)":"#ef4444",marginBottom:12}}>
+              <div className="is-cdd8ca0">
+                <div className="is-83d7fa4" style={{ color:tossWon?"var(--green)":"#ef4444", marginBottom:12 }}>
                   {tossWon?"🎉 You Won the Toss!":"😬 AI Won the Toss"}
                 </div>
                 {tossWon?(
                   <>
-                    <div style={{fontSize:13,color:"var(--gray)",marginBottom:14}}>Choose to bat or bowl first:</div>
+                    <div className="is-fbc75fb">Choose to bat or bowl first:</div>
                     <div className="choice-row">
                       <button className="choice-btn bat" onClick={()=>startMatch(true)}>🏏 BAT FIRST</button>
                       <button className="choice-btn bowl" onClick={()=>startMatch(false)}>⚾ BOWL FIRST</button>
@@ -1166,7 +1166,7 @@ useEffect(() => {
                   </>
                 ):(
                   <>
-                    <div style={{fontSize:13,color:"var(--gray)",marginBottom:14}}>AI chose to bat first. You will chase.</div>
+                    <div className="is-fbc75fb">AI chose to bat first. You will chase.</div>
                     <button className="choice-btn bowl" onClick={()=>startMatch(false)}>START MATCH</button>
                   </>
                 )}
@@ -1212,8 +1212,8 @@ useEffect(() => {
                 </div>
               )}
             </div>
-            <div style={{marginTop:10}}>
-              <button onClick={reset} style={{padding:"6px 18px",borderRadius:99,background:"#fff",border:"1.5px solid #ddd",fontSize:12,cursor:"pointer",fontFamily:"Poppins"}}>⟳ New Match</button>
+            <div className="is-07c308b">
+              <button onClick={reset} className="is-91208af">⟳ New Match</button>
             </div>
           </>
         )}
@@ -1221,20 +1221,20 @@ useEffect(() => {
         {/* ── INNINGS BREAK ── */}
         {gamePhase==="innings-break"&&playerTeam&&aiTeam&&(
           <div className="modal-card">
-            <div style={{fontSize:13,color:"var(--gray)",marginBottom:6}}>1st Innings Complete</div>
+            <div className="is-867ed25">1st Innings Complete</div>
             <div className="big-score">{playerInn.runs}/{playerInn.wickets}</div>
-            <div style={{fontSize:13,color:"var(--gray)",marginTop:4}}>{playerTeam.short} · {oversStr(playerInn.legalBalls)} overs</div>
-            <div style={{height:1,background:"#e5e7eb",margin:"16px 0"}}/>
+            <div className="is-ea48537">{playerTeam.short} · {oversStr(playerInn.legalBalls)} overs</div>
+            <div className="is-47d50ed"/>
             <div className="target-text">{aiTeam.short} need {playerInn.runs+1} to win</div>
-            <div style={{fontSize:12,color:"var(--gray)"}}>in 20 overs · 10 wickets in hand</div>
-            <div style={{height:20}}/>
+            <div className="is-0176b34">in 20 overs · 10 wickets in hand</div>
+            <div className="is-84cea37"/>
             <button className="play-btn" onClick={()=>{
               setGamePhase("match");setPlayerBatsFirst(false);
               setCanShoot(false);anim.current.phase="idle";
               standsCanvas.current=null;
             }}>START AI INNINGS</button>
-            <div style={{marginTop:10}}>
-              <button onClick={reset} style={{fontSize:12,color:"var(--gray)",background:"none",border:"none",cursor:"pointer"}}>New Match</button>
+            <div className="is-07c308b">
+              <button onClick={reset} className="is-fe3a8d3">New Match</button>
             </div>
           </div>
         )}
@@ -1246,21 +1246,21 @@ useEffect(() => {
             <div className="result-title" style={{color:playerWon?"var(--green)":"#ef4444"}}>
               {playerWon?`${playerTeam.short} Wins!`:`${aiTeam.short} Wins!`}
             </div>
-            <div style={{fontSize:13,color:"var(--gray)",marginBottom:4}}>
+            <div className="is-7220d01">
               {playerWon?`You defended ${playerInn.runs} runs!`:`AI chased down ${target} runs!`}
             </div>
             <div className="sc-box">
               <div className="sc-row">
                 <div>
-                  <div style={{fontSize:13,fontWeight:600}}>{playerTeam.short} <span style={{fontSize:10,color:"var(--gray)"}}>1st Inn</span></div>
-                  <div style={{fontSize:11,color:"var(--gray)"}}>{oversStr(playerInn.legalBalls)} ov · Extras: {playerInn.extras}</div>
+                  <div className="is-515f071">{playerTeam.short} <span className="is-26a022e">1st Inn</span></div>
+                  <div className="is-af53e11">{oversStr(playerInn.legalBalls)} ov · Extras: {playerInn.extras}</div>
                 </div>
                 <div className="sc-score" style={{color:playerTeam.primary}}>{playerInn.runs}/{playerInn.wickets}</div>
               </div>
               <div className="sc-row">
                 <div>
-                  <div style={{fontSize:13,fontWeight:600}}>{aiTeam.short} <span style={{fontSize:10,color:"var(--gray)"}}>2nd Inn</span></div>
-                  <div style={{fontSize:11,color:"var(--gray)"}}>{oversStr(aiInn.legalBalls)} ov · Extras: {aiInn.extras}</div>
+                  <div className="is-515f071">{aiTeam.short} <span className="is-26a022e">2nd Inn</span></div>
+                  <div className="is-af53e11">{oversStr(aiInn.legalBalls)} ov · Extras: {aiInn.extras}</div>
                 </div>
                 <div className="sc-score" style={{color:aiTeam.primary}}>{aiInn.runs}/{aiInn.wickets}</div>
               </div>

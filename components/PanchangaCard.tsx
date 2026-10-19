@@ -509,12 +509,12 @@ function PanchangaPopup({dt,onClose,location,langCode}:{dt:Date;onClose:()=>void
     {label:L.labels.guliKaal,value:p.guliKaal,cls:"bg-yellow-50 border-yellow-200 text-yellow-700"},
   ];
   return(
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center"
-      style={{background:"rgba(0,0,0,0.55)"}} onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center is-acc9c0b"
+ onClick={onClose}>
       <div className="w-full sm:max-w-md bg-white rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl max-h-[92vh] overflow-y-auto"
         onClick={e=>e.stopPropagation()}>
-        <div className="sticky top-0 z-10 px-5 pt-5 pb-4"
-          style={{background:"linear-gradient(135deg,#7c2d12,#c2410c,#d97706)"}}>
+        <div className="sticky top-0 z-10 px-5 pt-5 pb-4 is-8218874"
+>
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <p className="text-amber-200 text-xs font-semibold">🙏 {L.greeting}</p>
@@ -588,7 +588,7 @@ function MonthGrid({year,month,onSelect,selected,location,langCode}:{
       {weeks.map((week,wi)=>(
         <div key={wi} className="grid grid-cols-7 gap-0.5 mb-0.5">
           {week.map((day,di)=>{
-            if(!day) return <div key={di} style={{minHeight:"60px"}}/>;
+            if(!day) return <div key={di} className="is-117a9f3"/>;
             const dt=new Date(year,month,day);
             const isToday=dt.toDateString()===today.toDateString();
             const isSel=selected&&dt.toDateString()===selected.toDateString();
@@ -603,19 +603,19 @@ function MonthGrid({year,month,onSelect,selected,location,langCode}:{
                   ${isToday&&!isSel?"bg-amber-50 border-2 border-amber-400":""}
                   ${di===0&&!isSel&&!isToday?"bg-red-50":""}
                   ${di===6&&!isSel&&!isToday?"bg-violet-50":""}
-                  ${!isSel&&!isToday&&di!==0&&di!==6?"bg-white border border-gray-100 hover:border-amber-200":""}`}
-                style={{minHeight:"60px"}}>
+                  ${!isSel&&!isToday&&di!==0&&di!==6?"bg-white border border-gray-100 hover:border-amber-200":""} is-117a9f3`}
+>
                 {(isUgadi||isPurn||isAma||isEk)&&(
                   <div className={`absolute top-1 right-1 w-2 h-2 rounded-full
                     ${isUgadi?"bg-yellow-400":isPurn?"bg-blue-400":isAma?"bg-gray-500":"bg-green-400"}`}/>
                 )}
                 <div className="text-sm font-black leading-none mb-0.5" style={{color:VARA_CLR[di]}}>{day}</div>
-                <div className="font-semibold leading-tight truncate"
-                  style={{fontSize:"9px",color:p.pakshaS===L.shuklaSuffix?"#1e40af":"#6b21a8"}}>
+                <div className="font-semibold leading-tight truncate is-e9145d3"
+                  style={{ color:p.pakshaS===L.shuklaSuffix?"#1e40af":"#6b21a8" }}>
                   {p.pakshaS} {p.tithi}
                 </div>
-                <div className="text-gray-400 truncate" style={{fontSize:"8px"}}>{p.nak}</div>
-                {isUgadi&&<div className="truncate font-bold" style={{fontSize:"8px",color:"#92400e"}}>🌸 {L.labels.ugadi}</div>}
+                <div className="text-gray-400 truncate is-c136986">{p.nak}</div>
+                {isUgadi&&<div className="truncate font-bold is-64f27fe">🌸 {L.labels.ugadi}</div>}
                 {isToday&&<div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-orange-500"/>}
               </button>
             );
@@ -651,8 +651,8 @@ export function PanchangaCard({location,lang="te"}:{location?:LocationProp;lang?
   return(
     <div className="max-w-2xl mx-auto px-2 py-4 space-y-4">
       {/* Header */}
-      <div className="rounded-3xl overflow-hidden shadow-xl"
-        style={{background:"linear-gradient(135deg,#7c2d12,#c2410c,#d97706)"}}>
+      <div className="rounded-3xl overflow-hidden shadow-xl is-8218874"
+>
         <div className="px-5 pt-5 pb-3 flex items-start justify-between">
           <div>
             <p className="text-amber-200 text-xs font-semibold">🙏 {L.greeting}</p>

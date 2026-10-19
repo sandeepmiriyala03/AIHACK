@@ -140,7 +140,7 @@ export default function BulkOcrProcessor({
           <LinearProgress
             variant="determinate"
             value={progress}
-            sx={{ mt: 1 }}
+            className="is-68a09f7"
           />
 
           <Typography mt={1} fontSize="0.8rem" color="text.secondary">
