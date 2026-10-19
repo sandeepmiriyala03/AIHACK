@@ -47,6 +47,7 @@ import {
   executeGridQuery,
   findMentionedColumn,
   planTasks,
+  type YuktaiGridRule,
   type GridToolFilter,
   type GridToolSort,
 } from "@yuktishaalaa/yuktai";
@@ -68,8 +69,6 @@ import FilterAltIcon    from "@mui/icons-material/FilterAltRounded";
 import BarChartIcon     from "@mui/icons-material/BarChartRounded";
 import EventIcon        from "@mui/icons-material/EventRounded";
 import StorageIcon      from "@mui/icons-material/StorageRounded";
-import MicRoundedIcon      from "@mui/icons-material/MicRounded";
-import SendRoundedIcon     from "@mui/icons-material/SendRounded";
 import SmartToyRoundedIcon from "@mui/icons-material/SmartToyRounded";
 import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
 import ListAltIcon         from "@mui/icons-material/ListAltRounded";
@@ -123,7 +122,6 @@ interface Query {
   pageSize: number;
 }
 
-interface ChatMessage { role: "user" | "ai"; text: string; time: string }
 
 const START: Query = { filters: [], search: "", sort: null, page: 1, pageSize: 20 };
 
@@ -149,17 +147,30 @@ const QUICK_ACTIONS: { key: string; label: string; question: string; icon: React
   { key: "unusual",     label: "Unusual salaries",      question: "anything unusual?",           icon: <WarningIcon fontSize="small" />,      color: "#dc2626" },
 ];
 
-const SUGGESTIONS = [
-  "How many employees?",
-  "Highest salary",
-  "Salary over 1 lakh and age under 30",
-  "Average salary by department",
-  "Joined this month",
-  "Anything unusual?",
-  "Show salary over 50k, then sort by age, then summarize",
-  "Dark theme",
-  "Clear",
+// Words that send a question from yuktai's built-in grid assistant to the
+// server agent (substring match). Anything else stays with the assistant's
+// own tools, which work on the rows currently on screen.
+const DATA_PHRASES = [
+  "how many", "count", "number of", "salary", "salaries", "age", "average", "avg", "mean",
+  "total", "sum", "department", "dept", "joined", "hired", "new joiners", "unusual", "anomal",
+  "outlier", "anything odd", "highest", "lowest", "youngest", "oldest", "newest", "top ", "bottom ",
+  "between", "over ", "under ", "above", "below", "more than", "less than", " then ", "summar",
+  "engineering", "finance", "sales", "marketing", "support", "design", "research", "legal", "operations",
+  "human resources",
 ];
+
+// Telugu questions → the English question the server agent understands
+const TELUGU: Array<[RegExp, string]> = [
+  [/ఎంత మంది|ఎన్ని/, "how many employees"],
+  [/అత్యధిక జీతం|ఎక్కువ జీతం/, "highest salary"],
+  [/తక్కువ జీతం|అతి తక్కువ జీతం/, "lowest salary"],
+  [/సగటు జీతం/, "average salary by department"],
+  [/అసాధారణ/, "anything unusual?"],
+  [/ఈ నెల/, "joined this month"],
+  [/క్లియర్|తీసివేయి/, "clear"],
+];
+const TELUGU_PHRASES = ["ఎంత మంది", "ఎన్ని", "జీతం", "అసాధారణ", "ఈ నెల", "క్లియర్", "తీసివేయి"];
+const fromTelugu = (text: string) => TELUGU.find(([re]) => re.test(text))?.[1] ?? text;
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
@@ -217,47 +228,6 @@ function periodFilter(text: string): { filter: GridToolFilter; label: string } |
   return { filter: { key: "joinedOn", operator: "between", value: [iso(from) as unknown as number, iso(to) as unknown as number] }, label: `joined ${m[1]} ${m[2]}` };
 }
 
-// ─────────────────────────────────────────────────────────────
-// Speech
-// ─────────────────────────────────────────────────────────────
-function useSpeechRecognition() {
-  const [listening,  setListening]  = useState(false);
-  const [transcript, setTranscript] = useState("");
-  const [supported,  setSupported]  = useState(true);
-  const recogRef = useRef<any>(null);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SR) { setSupported(false); return; }
-    const recog = new SR();
-    recog.continuous = false;
-    recog.interimResults = false;
-    recog.lang = "en-IN";
-    recog.onresult = (event: any) => { setTranscript(event.results[0][0].transcript); setListening(false); };
-    recog.onerror = () => setListening(false);
-    recog.onend   = () => setListening(false);
-    recogRef.current = recog;
-  }, []);
-
-  const start = useCallback(() => {
-    if (!recogRef.current) return;
-    setTranscript("");
-    setListening(true);
-    try { recogRef.current.start(); } catch { setListening(false); }
-  }, []);
-  const stop = useCallback(() => { recogRef.current?.stop(); setListening(false); }, []);
-  return { listening, transcript, supported, start, stop };
-}
-
-function speak(text: string) {
-  if (typeof window === "undefined" || !window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text.replace(/[•✓⚠₹]/g, " "));
-  u.lang = "en-IN";
-  window.speechSynthesis.speak(u);
-}
-
 // ═════════════════════════════════════════════════════════════
 // MAIN
 // ═════════════════════════════════════════════════════════════
@@ -276,15 +246,8 @@ export default function StaffDirectory() {
   const [question,     setQuestion]     = useState("");
   const [busy,         setBusy]         = useState(false);
 
-  const [chatOpen,  setChatOpen]  = useState(false);
-  const [chatInput, setChatInput] = useState("");
-  const [messages,  setMessages]  = useState<ChatMessage[]>([
-    { role: "ai", text: "Hi! I'm Yukti. Ask about all 1 million employees: 'salary over 1 lakh', 'average salary by department', 'joined this month', 'anything unusual?'.", time: now() },
-  ]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const loadedKey = useRef<string>("");
   const requestId = useRef(0);
-  const { listening, transcript, supported, start, stop } = useSpeechRecognition();
 
   // ── Theme ──
   useEffect(() => {
@@ -535,9 +498,6 @@ export default function StaffDirectory() {
     void runQuestion(action.question, action.key, { ...START, pageSize: query.pageSize });
   };
 
-  // ── Chat ──
-  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, chatOpen]);
-
   const processCommand = async (text: string): Promise<string> => {
     const t = text.toLowerCase().trim();
     if (/\b(clear|remove|reset)\b.*\b(highlights?|filters?|all|everything)\b|^(clear|reset)$/.test(t)) { clearAll(); return "Cleared filters, sorting and highlights."; }
@@ -550,20 +510,30 @@ export default function StaffDirectory() {
     return runQuestion(text);
   };
 
-  const handleChatSubmit = async (text: string) => {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    setMessages((prev) => [...prev, { role: "user", text: trimmed, time: now() }]);
-    setChatInput("");
-    const reply = await processCommand(trimmed);
-    setMessages((prev) => [...prev, { role: "ai", text: reply, time: now() }]);
-    speak(reply);
-  };
-
-  useEffect(() => {
-    if (transcript) void handleChatSubmit(transcript);
+  // ── yuktai's built-in grid assistant → server agent ──
+  // customRules run before the assistant's own logic, so data questions are
+  // answered over all employees in Neon, not just the rows on screen.
+  const agentRules = useMemo<YuktaiGridRule<EmployeeRow>[]>(() => [
+    {
+      name: "themes-and-clear",
+      description: "Grid themes and reset",
+      phrases: ["dark theme", "dark mode", "high contrast", "dyslexia", "colour blind", "color blind", "light theme", "default theme", "clear", "reset"],
+      execute: async ({ input }) => { const reply = await processCommand(input); setAnswer(reply); return reply; },
+    },
+    {
+      name: "telugu-questions",
+      description: "Telugu questions answered over all employees",
+      phrases: TELUGU_PHRASES,
+      execute: async ({ input }) => { const reply = await processCommand(fromTelugu(input)); setAnswer(reply); return reply; },
+    },
+    {
+      name: "all-employees",
+      description: "Counts, filters, averages, departments and unusual rows over all employees in Neon",
+      phrases: DATA_PHRASES,
+      execute: ({ input }) => runQuestion(input),
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transcript]);
+  ], [runQuestion]);
 
   const activeAction = QUICK_ACTIONS.find((a) => a.key === activeKey);
   const gridRows = override?.rows ?? page.rows;
@@ -573,7 +543,8 @@ export default function StaffDirectory() {
     <>
       <Navbar />
 
-      <Container maxWidth="xl" sx={{ py: 4, px: { xs: 2, sm: 3 } }}>
+      {/* Top padding clears the fixed navbar (60px mobile, ~68px desktop) */}
+      <Container maxWidth="xl" sx={{ pt: { xs: "84px", lg: "96px" }, pb: 4, px: { xs: 2, sm: 3 } }}>
         {/* ─── HEADING ─── */}
         <Box sx={{ mb: 3 }}>
           <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: "center", flexWrap: "wrap" }}>
@@ -599,12 +570,12 @@ export default function StaffDirectory() {
                 <Button size="small" onClick={clearAll} startIcon={<CloseIcon size={14} />} sx={{ textTransform: "none", fontSize: "0.75rem", color: "#64748b" }}>Clear</Button>
               )}
               <Box sx={{ flexGrow: 1 }} />
-              <Button
-                variant="contained" onClick={() => setChatOpen(!chatOpen)} startIcon={<SmartToyRoundedIcon />} size="small" aria-expanded={chatOpen}
-                sx={{ bgcolor: chatOpen ? "#dc2626" : G, color: "#fff", textTransform: "none", fontWeight: 600, fontSize: "0.8rem", borderRadius: 2, "&:hover": { bgcolor: chatOpen ? "#b91c1c" : "#059669" } }}
-              >
-                {chatOpen ? "Close" : "Ask Yukti (voice)"}
-              </Button>
+              <Chip
+                icon={<SmartToyRoundedIcon />}
+                label="Or use the yuktai assistant in the grid (chat + voice)"
+                size="small"
+                sx={{ bgcolor: "#fff", border: "1px solid #86efac" }}
+              />
             </Stack>
 
             <Stack component="form" direction="row" spacing={1} onSubmit={(e) => { e.preventDefault(); void processCommand(question).then((reply) => setAnswer(reply)); }}>
@@ -715,6 +686,12 @@ export default function StaffDirectory() {
             highlightIds={highlightIds}
             highlightColor={activeAction?.color ? `${activeAction.color}30` : "#FEF3C7"}
             autoScrollToHighlight
+            ai
+            webmcp
+            toolName="aksharatantra_staff"
+            locale="en-US"
+            inputLanguage="en-IN"
+            customRules={agentRules}
             onSortChange={(s) => setQuery((q) => ({ ...q, sort: s && s.direction ? { key: s.key, direction: s.direction } : null, page: 1 }))}
             empty={
               <Box sx={{ py: 4, textAlign: "center" }}>
@@ -781,7 +758,7 @@ export default function StaffDirectory() {
           </AccordionSummary>
           <AccordionDetails>
             <Stack spacing={2}>
-              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><VolumeUpRoundedIcon sx={{ color: G, fontSize: 20 }} /><Typography variant="body2"><strong>Voice assistant:</strong> &quot;Ask Yukti (voice)&quot; → mic → ask any question. Answers are read aloud.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><VolumeUpRoundedIcon sx={{ color: G, fontSize: 20 }} /><Typography variant="body2"><strong>yuktai assistant:</strong> open the AI assistant built into the grid, type or speak a question (English or Telugu, e.g. &quot;ఎంత మంది&quot;). Data questions are answered over all employees.</Typography></Stack>
               <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in the question box.</Typography></Stack>
               <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SortUpIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort ascending:</strong> click a column header; the server sorts all rows.</Typography></Stack>
               <Stack direction="row" spacing={1.5} sx={{ alignItems: "center" }}><SortDownIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort descending:</strong> click again.</Typography></Stack>
@@ -820,58 +797,6 @@ export default function StaffDirectory() {
           </Stack>
         </Box>
       </Container>
-
-      {/* ═══════════ CHAT PANEL ═══════════ */}
-      {chatOpen && (
-        <div role="dialog" aria-label="Yukti Assistant" data-yuktai-panel="" style={{
-          position: "fixed", top: "50%", right: 24, transform: "translateY(-50%)",
-          width: 360, maxWidth: "calc(100vw - 48px)", height: 500, maxHeight: "70vh",
-          background: "#fff", border: `1px solid ${BORDER}`, borderRadius: 16, boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
-          zIndex: 9997, display: "flex", flexDirection: "column", overflow: "hidden", fontFamily: "system-ui, sans-serif",
-        }}>
-          <div style={{ padding: "14px 16px", background: G, color: "#fff", display: "flex", alignItems: "center", gap: 10 }}>
-            <SmartToyRoundedIcon style={{ fontSize: 24 }} />
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 700, fontSize: 15 }}>Yukti Grid Assistant</div>
-              <div style={{ fontSize: 11, opacity: 0.9 }}>{supported ? "Voice + Chat · all employees" : "Chat only (voice not supported in this browser)"}</div>
-            </div>
-            <button onClick={() => setChatOpen(false)} aria-label="Close assistant" style={{ background: "transparent", border: "none", cursor: "pointer", padding: 4, display: "flex", color: "#fff" }}>
-              <CloseIcon size={20} color="#fff" />
-            </button>
-          </div>
-          <div aria-live="polite" style={{ flex: 1, overflowY: "auto", padding: 12, display: "flex", flexDirection: "column", gap: 8, background: "#f8fafc" }}>
-            {messages.map((msg, i) => (
-              <div key={i} style={{ alignSelf: msg.role === "user" ? "flex-end" : "flex-start", maxWidth: "85%", padding: "10px 14px", borderRadius: 12, background: msg.role === "user" ? "#dbeafe" : "#f0fdf4", color: TEXT_MAIN, fontSize: 13.5, lineHeight: 1.5, whiteSpace: "pre-line" }}>
-                <div>{msg.text}</div>
-                <div style={{ fontSize: 10, opacity: 0.6, marginTop: 4, textAlign: "right" }}>{msg.time}</div>
-              </div>
-            ))}
-            {listening && <div style={{ alignSelf: "flex-end", padding: "10px 14px", borderRadius: 12, background: "#fee2e2", color: "#991b1b", fontSize: 13.5, fontStyle: "italic" }}>🎤 Listening...</div>}
-            <div ref={messagesEndRef} />
-          </div>
-          <div style={{ padding: "6px 12px", borderTop: `1px solid ${BORDER}`, display: "flex", gap: 6, overflowX: "auto", flexShrink: 0, background: "#fff" }}>
-            {SUGGESTIONS.map((s) => (
-              <button key={s} onClick={() => void handleChatSubmit(s)} style={{ padding: "4px 10px", borderRadius: 12, background: "#f0fdf4", border: "1px solid #86efac", color: "#166534", fontSize: 11.5, cursor: "pointer", whiteSpace: "nowrap", fontWeight: 500 }}>{s}</button>
-            ))}
-          </div>
-          <div style={{ padding: 10, display: "flex", gap: 6, borderTop: `1px solid ${BORDER}`, background: "#f8fafc" }}>
-            <input
-              type="text" value={chatInput} onChange={(e) => setChatInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && void handleChatSubmit(chatInput)}
-              placeholder="Type or click mic..." aria-label="Question for Yukti"
-              style={{ flex: 1, padding: "8px 12px", border: `1px solid ${BORDER}`, borderRadius: 8, background: "#fff", color: TEXT_MAIN, fontSize: 13 }}
-            />
-            {supported && (
-              <button onClick={listening ? stop : start} aria-label={listening ? "Stop listening" : "Start voice input"} style={{ width: 36, height: 36, borderRadius: 8, background: listening ? "#ef4444" : G, color: "#fff", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, animation: listening ? "yuktai-pulse 1s ease-in-out infinite" : "none" }}>
-                <MicRoundedIcon style={{ fontSize: 18 }} />
-              </button>
-            )}
-            <button onClick={() => void handleChatSubmit(chatInput)} aria-label="Send" disabled={!chatInput.trim()} style={{ padding: "0 12px", background: chatInput.trim() ? G : "#94a3b8", color: "#fff", border: "none", borderRadius: 8, cursor: chatInput.trim() ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <SendRoundedIcon style={{ fontSize: 18 }} />
-            </button>
-          </div>
-        </div>
-      )}
 
       <style>{`
         @keyframes yuktai-pulse {

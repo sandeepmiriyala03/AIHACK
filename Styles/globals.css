@@ -1,7 +1,8 @@
 /**
  * ============================================
- * AksharaChitra - WCAG Compliant Global CSS
- * OCR Scanner + Navbar + Accessibility
+ * AksharaTantra - WCAG Compliant Global CSS
+ * Yuktai Grid + OCR + Navbar + Accessibility
+ * Works on phones, tablets, laptops and large screens
  * Tech Stack: Next.js
  * Theme: Light Mode (White BG + Black Text)
  * ============================================
@@ -92,6 +93,29 @@
 
 html {
   scroll-behavior: smooth;
+  /* Stop iOS / Android from enlarging text on rotate */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Media never wider than the screen */
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+/* Long words and URLs wrap instead of causing sideways scroll on phones */
+p,
+li,
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
 }
 
 body {
@@ -191,7 +215,7 @@ textarea:focus-visible {
 ============================================ */
 .skip-to-main {
   position: absolute;
-  top: -40px;
+  top: -80px; /* fully off-screen (the link is about 46px tall) */
   left: 12px;
   background: var(--color-primary);
   color: white;
@@ -769,8 +793,9 @@ select:focus-visible {
 ============================================ */
 .goToTopButton {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  /* safe-area keeps it clear of the iPhone home bar and notches */
+  bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  right: calc(2rem + env(safe-area-inset-right, 0px));
   background: linear-gradient(135deg, var(--color-accent) 0%, #1e40af 100%);
   border: none;
   border-radius: 50%;
@@ -783,9 +808,12 @@ select:focus-visible {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: opacity var(--transition-base), transform var(--transition-base),
+    visibility var(--transition-base), box-shadow var(--transition-base);
   user-select: none;
-  z-index: var(--z-dropdown);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  z-index: 1200; /* above the MUI app bar (1100), below the skip link */
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
@@ -797,13 +825,27 @@ select:focus-visible {
   transform: translateY(0);
 }
 
-.goToTopButton:hover {
-  transform: translateY(-5px) scale(1.1);
-  box-shadow: var(--shadow-lg);
+/* Hover lift only on devices with a mouse, so it doesn't stick on touch screens */
+@media (hover: hover) and (pointer: fine) {
+  .goToTopButton.show:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: var(--shadow-lg);
+  }
 }
 
-.goToTopButton:active {
+.goToTopButton.show:active {
   transform: translateY(-3px) scale(1.05);
+}
+
+.goToTopButton:focus-visible {
+  outline: 3px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+/* Main content wrapper (layout.tsx) receives focus from the skip link and
+   the go-to-top button; no outline needed around the whole page */
+#main-content:focus {
+  outline: none;
 }
 
 /* ============================================
@@ -904,6 +946,7 @@ select:focus-visible {
     top: 0;
     right: 0;
     height: 100vh;
+    height: 100dvh; /* mobile browsers: exclude the address bar */
     width: 300px;
     max-width: 85vw;
     transform: translateX(100%);
@@ -1013,8 +1056,8 @@ select:focus-visible {
   }
 
   .goToTopButton {
-    bottom: 1.5rem;
-    right: 1rem;
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    right: calc(1rem + env(safe-area-inset-right, 0px));
     width: 48px;
     height: 48px;
     font-size: 1.25rem;
@@ -1032,6 +1075,10 @@ select:focus-visible {
    ACCESSIBILITY - Motion Preferences
 ============================================ */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
@@ -1215,4 +1262,98 @@ html.a11y-enabled * {
 
 html.a11y-enabled :focus {
   outline: 3px solid #10b981 !important;
+}
+
+/* ============================================
+   YUKTAI LAUNCHER - one button shows / hides
+   the yuktai tools (YuktaiClient.tsx)
+============================================ */
+
+.yuktaiLauncher {
+  position: fixed;
+  left: calc(24px + env(safe-area-inset-left, 0px));
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 10000;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: #047857;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(4, 120, 87, 0.35);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+html[data-yuktai-tools="open"] .yuktaiLauncher {
+  background: #1f2937;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yuktaiLauncher:hover {
+    transform: scale(1.06);
+  }
+}
+
+.yuktaiLauncher:focus-visible {
+  outline: 3px solid var(--text-primary);
+  outline-offset: 3px;
+}
+
+/* The four yuktai buttons + their open panels */
+html[data-yuktai-tools] button[aria-label="Open Vibe Coder"],
+html[data-yuktai-tools] button[aria-label="Open AI agent"],
+html[data-yuktai-tools] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
+html[data-yuktai-tools] button[data-yuktai-pref-toggle],
+html[data-yuktai-tools] [data-yuktai-panel],
+html[data-yuktai-tools] [aria-label="yuktai Vibe Coder"] {
+  transition: opacity var(--transition-base), transform var(--transition-base),
+    visibility var(--transition-base);
+}
+
+/* Hidden: invisible, not clickable, skipped by keyboard and screen readers */
+html[data-yuktai-tools="closed"] button[aria-label="Open Vibe Coder"],
+html[data-yuktai-tools="closed"] button[aria-label="Open AI agent"],
+html[data-yuktai-tools="closed"] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
+html[data-yuktai-tools="closed"] button[data-yuktai-pref-toggle],
+html[data-yuktai-tools="closed"] [data-yuktai-panel],
+html[data-yuktai-tools="closed"] [aria-label="yuktai Vibe Coder"] {
+  /* !important: yuktai sets transform inline on hover */
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(16px) scale(0.9) !important;
+}
+
+/* Shown: lifted 64px so they stack above the launcher */
+html[data-yuktai-tools="open"] button[aria-label="Open Vibe Coder"],
+html[data-yuktai-tools="open"] button[aria-label="Open AI agent"],
+html[data-yuktai-tools="open"] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
+html[data-yuktai-tools="open"] button[data-yuktai-pref-toggle],
+html[data-yuktai-tools="open"] [data-yuktai-panel],
+html[data-yuktai-tools="open"] [aria-label="yuktai Vibe Coder"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-64px) !important;
+}
+
+/* Small phones: slightly smaller buttons so the stack fits */
+@media (max-width: 480px) {
+  .yuktaiLauncher {
+    left: calc(16px + env(safe-area-inset-left, 0px));
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media print {
+  .yuktaiLauncher {
+    display: none !important;
+  }
 }

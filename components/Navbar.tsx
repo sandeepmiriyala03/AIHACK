@@ -247,9 +247,11 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         }
 
         .at-menu-wrapper {
-          display: flex; gap: 2px; flex-wrap: nowrap;
-          justify-content: flex-end; flex: 1; margin-left: 12px;
+          display: flex; align-items: center; gap: 4px; flex-wrap: nowrap;
+          justify-content: flex-end; flex: 1 1 auto; margin-left: 12px;
         }
+        /* Menu items keep their natural width (never stretch across the bar) */
+        .at-menu-wrapper > * { flex: 0 0 auto !important; width: auto !important; }
 
         .at-divider { width: 1px; height: 20px; background: #e2e8f0; margin: 0 6px; align-self: center; }
 
@@ -263,7 +265,7 @@ export default function Navbar({ brand = "AksharaTantra" }: NavbarProps) {
         .at-link-main:hover, .at-link-main.open { background: #f1f5f9; color: ${TEXT_MAIN}; }
         .at-link-main.current { color: ${G}; font-weight: 600; }
 
-        .nav-container { position: relative; display: inline-block; }
+        .nav-container { position: relative; display: inline-block; flex: 0 0 auto; }
 
         .dropdown-menu {
           position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px);
