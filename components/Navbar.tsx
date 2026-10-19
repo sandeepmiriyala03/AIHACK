@@ -47,10 +47,11 @@ const TEXT_SUB  = "#64748b";
 // The logo links to Home. Yuktai Grid and About Yuktai are in the
 // Yuktai group, so there are no separate top links.
 // ─────────────────────────────────────────────────────────────
-type NavItem  = { href: string; label: string; icon: React.ElementType };
-type NavGroup = { group: string; items: NavItem[] };
+export type NavItem  = { href: string; label: string; icon: React.ElementType };
+export type NavGroup = { group: string; items: NavItem[] };
 
-const navGroups: NavGroup[] = [
+// Exported so the home page builds its module cards from this same list
+export const navGroups: NavGroup[] = [
   {
     group: "Yuktai",
     items: [
