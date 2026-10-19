@@ -19,7 +19,9 @@
 
 # production
 /build
-
+.env
+.venv/
+__pycache__/
 # misc
 .DS_Store
 *.pem

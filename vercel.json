@@ -3,7 +3,7 @@
   "functions": {
     "api/main.py": {
       "maxDuration": 10,
-      "excludeFiles": "{public/**,ocr-api/**,components/.wwebjs_auth/**,.wa-session/**}"
+      "excludeFiles": "{.next/**,.vercel/**,.wa-session/**,node_modules/**,public/**,src/**,components/**,hooks/**,lib/**,services/**,ocr-api/**,**/__pycache__/**,**/*.pyc,**/*.map,**/*.md,**/*.log}"
     }
   },
   "rewrites": [
