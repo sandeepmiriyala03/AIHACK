@@ -482,6 +482,28 @@ function vitalsVerdict(v: Vitals): Verdict {
   return ["warn", text];
 }
 
+/** Error text the runner records for commands it did not start because time ran out. */
+export const TIME_LIMIT = "Not run: time limit reached";
+
+/** The command(s) each case depends on, used to mark cases skipped by the time limit. */
+export const MAIN_KEYS: Record<string, string[]> = {
+  "LN-01": ["open"], "LN-02": ["wait"], "LN-03": ["title"], "LN-04": ["url"], "LN-05": ["httpOpen"],
+  "LN-06": ["lang"], "LN-07": ["meta"], "LN-08": ["reload"], "LN-09": ["navBack"],
+  "ST-01": ["errors"], "ST-02": ["console"], "ST-03": ["netAll"], "ST-04": ["netApi"], "ST-05": ["dialog"],
+  "ST-06": ["offText"], "ST-07": ["netAll"],
+  "AC-01": ["a11y"], "AC-02": ["a11yDark"], "AC-03": ["a11yWcag"], "AC-04": ["a11yMobile"], "AC-05": ["h1count"],
+  "AC-06": ["focus"], "AC-07": ["snapshot"],
+  "AI-01": ["snapshot"], "AI-02": ["snapshot"], "AI-03": ["webmcp"], "AI-04": ["llms"], "AI-05": ["read"],
+  "AI-06": ["snapshot"], "AI-07": ["readMd"],
+  "SP-01": ["vitalsDesktop"], "SP-02": ["vitalsMobile"], "SP-03": ["netAll"], "SP-04": ["reactTree"], "SP-05": ["traceStop"],
+  "VR-01": ["shotDesktop"], "VR-02": ["shotMobile"], "VR-03": ["scrollFit"], "VR-04": ["shotFull"], "VR-05": ["shotDark"],
+  "VR-06": ["diffShot"], "VR-07": ["diffSnap"], "VR-08": ["pdf"],
+  "IN-01": ["ctaVisible"], "IN-02": ["disabledClick"], "IN-03": ["overlay"], "IN-04": ["labels"], "IN-05": ["searchEnter"],
+  "IN-06": ["chkCheck", "comboEnabled"], "IN-07": ["blank"], "IN-08": ["refAfter"],
+  "PR-01": ["cookies"], "PR-02": ["storage"], "PR-03": ["allowedOpen"], "PR-04": ["netAll"],
+  "SF-01": ["sfPolicy"], "SF-02": ["open"], "SF-03": ["read"], "SF-04": ["read"],
+};
+
 /** Turn the raw command results into a verdict for every one of the 59 cases. */
 export function evaluateAll(raw: Record<string, StepResult>, ctx: RunContext): TestResult[] {
   const ok = (k: string) => Boolean(raw[k]?.ok);
@@ -759,6 +781,11 @@ export function evaluateAll(raw: Record<string, StepResult>, ctx: RunContext): T
   };
 
   return TEST_CASES.map((tc) => {
+    // a case whose main command never ran because time ran out is a skip, not a failure
+    const keys = MAIN_KEYS[tc.id] ?? [];
+    if (keys.length && keys.some((k) => raw[k]?.error === TIME_LIMIT) && !keys.some((k) => raw[k]?.ok)) {
+      return { ...tc, status: "skip" as Status, detail: "Not run: the time limit was reached before this test." };
+    }
     const rule = rules[tc.id];
     let verdict: Verdict;
     try {

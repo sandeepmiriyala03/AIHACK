@@ -276,7 +276,7 @@ export default function TestYourWebsitePage() {
             <LinearProgress aria-label="Test in progress" />
             <Typography sx={{ mt: 1, fontWeight: 600 }}>{PROGRESS_HINTS[hint]}</Typography>
             <Typography variant="body2" color="text.secondary">
-              All {TEST_CASES.length} tests take about 3 to 8 minutes. Please keep this tab open.
+              A test takes up to 5 minutes. Tests that do not fit in the time limit are shown as skipped. Please keep this tab open.
             </Typography>
           </Box>
         )}

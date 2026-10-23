@@ -2,7 +2,9 @@
 import { describe, expect, it } from "vitest";
 import {
   AREAS,
+  MAIN_KEYS,
   TEST_CASES,
+  TIME_LIMIT,
   buildFullReport,
   evaluateAll,
   parseA11y,
@@ -195,6 +197,23 @@ describe("evaluateAll when nothing ran", () => {
     expect(results).toHaveLength(59);
     expect(byId(results, "LN-01").status).toBe("fail");
     expect(results.filter((r) => r.status === "pass").length).toBeLessThan(5);
+  });
+});
+
+describe("time limit", () => {
+  it("marks cases whose commands never ran as skipped, not failed", () => {
+    const raw = goodSite();
+    const notRun = { ok: false, ms: 0, error: TIME_LIMIT };
+    for (const k of ["a11yMobile", "shotMobile", "vitalsMobile", "allowedOpen", "reactTree", "read", "llms", "readMd"]) raw[k] = notRun;
+    const results = evaluateAll(raw, baseCtx({ ctaRef: "@e2", refTextBefore: "Start", sameSiteLink: "https://example.com/about" }));
+    for (const id of ["AC-04", "VR-02", "SP-02", "PR-03", "SP-04", "AI-05", "AI-04", "AI-07", "SF-03", "SF-04"]) {
+      expect(byId(results, id).status, id).toBe("skip");
+    }
+    expect(byId(results, "AC-01").status).toBe("pass"); // earlier tests keep their result
+  });
+
+  it("has a main command for every case", () => {
+    for (const t of TEST_CASES) expect(MAIN_KEYS[t.id], t.id).toBeDefined();
   });
 });
 

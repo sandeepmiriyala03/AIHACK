@@ -19,6 +19,7 @@ import {
   parseSnapshot,
   sameSite,
   scalar,
+  TIME_LIMIT,
   type Images,
   type RunContext,
   type StepLog,
@@ -28,9 +29,14 @@ import { checkUrl } from "@/lib/urlSafety";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-// All 59 cases run about 90 commands; a full run takes several minutes.
-// 800 s needs a Vercel plan that allows it; lower it if your plan does not.
-export const maxDuration = 800;
+// Vercel Hobby allows at most 300 s. All 59 cases run about 90 commands; whatever does not
+// fit in the time budget below is reported as "Skip: not run (time limit)" instead of failing.
+// On a Pro plan you can raise this (and SITE_TEST_BUDGET_MS) so every case runs.
+export const maxDuration = 300;
+
+// Stop starting new commands this long after the request began (sandbox boot included),
+// leaving time to build and send the report before maxDuration ends.
+const BUDGET_MS = Number(process.env.SITE_TEST_BUDGET_MS ?? 260_000);
 
 const NO_STORE = { "Cache-Control": "no-store" };
 const AGENT_BROWSER_VERSION = process.env.AGENT_BROWSER_VERSION ?? "0.39.2";
@@ -99,7 +105,7 @@ async function readSandboxFile(sandbox: Sandbox, path: string, maxBytes: number)
   }
 }
 
-async function runAllCases(sandbox: Sandbox, url: string) {
+async function runAllCases(sandbox: Sandbox, url: string, deadline: number) {
   const raw: Record<string, StepResult> = {};
   const steps: StepLog[] = [];
   const images: Images = {};
@@ -118,6 +124,13 @@ async function runAllCases(sandbox: Sandbox, url: string) {
   const run = async (key: string, label: string, args: string[]) => {
     const t0 = Date.now();
     let r: StepResult;
+    if (t0 > deadline) {
+      // out of time: record it so the report shows "not run" instead of a failure
+      r = { ok: false, ms: 0, error: TIME_LIMIT };
+      raw[key] = r;
+      steps.push({ name: label, ok: false, ms: 0, error: TIME_LIMIT });
+      return r;
+    }
     try {
       const res = await runAgentBrowserCommand(sandbox, [...args, "--json"], { json: false });
       const data = parseOutput(res.stdout);
@@ -357,7 +370,7 @@ export async function POST(req: NextRequest) {
   const startedAt = Date.now();
   try {
     const result = await withAgentBrowserSandbox(
-      (sandbox) => runAllCases(sandbox, checked.url),
+      (sandbox) => runAllCases(sandbox, checked.url, startedAt + BUDGET_MS),
       // Option name from the @agent-browser/sandbox README; confirm it against the package's types.
       { installSpec: `agent-browser@${AGENT_BROWSER_VERSION}` } as Parameters<typeof withAgentBrowserSandbox>[1],
     );
