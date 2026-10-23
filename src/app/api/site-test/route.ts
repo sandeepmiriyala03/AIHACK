@@ -26,6 +26,7 @@ import {
   type StepResult,
 } from "@/lib/siteTest";
 import { checkUrl } from "@/lib/urlSafety";
+import { readSandboxFile } from "@/lib/sandboxFiles";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -85,26 +86,6 @@ function parseOutput(stdout: string): unknown {
 
 type Sandbox = Parameters<typeof runAgentBrowserCommand>[0];
 
-/** Reads a file from the sandbox as base64, if the sandbox exposes readFile. */
-async function readSandboxFile(sandbox: Sandbox, path: string, maxBytes: number): Promise<string | undefined> {
-  const reader = (sandbox as unknown as { readFile?: (o: { path: string }) => Promise<unknown> }).readFile;
-  if (typeof reader !== "function") return undefined;
-  try {
-    const stream = await reader.call(sandbox, { path });
-    if (!stream) return undefined;
-    const chunks: Buffer[] = [];
-    let size = 0;
-    for await (const chunk of stream as AsyncIterable<Uint8Array>) {
-      size += chunk.length;
-      if (size > maxBytes) return undefined; // too big to send back
-      chunks.push(Buffer.from(chunk));
-    }
-    return Buffer.concat(chunks).toString("base64");
-  } catch {
-    return undefined;
-  }
-}
-
 async function runAllCases(sandbox: Sandbox, url: string, deadline: number) {
   const raw: Record<string, StepResult> = {};
   const steps: StepLog[] = [];
@@ -151,8 +132,8 @@ async function runAllCases(sandbox: Sandbox, url: string, deadline: number) {
   };
   const value = (key: string) => (raw[key]?.ok ? scalar(raw[key].data) : undefined);
   const image = async (path: string) => {
-    const b64 = await readSandboxFile(sandbox, path, IMG_MAX_BYTES);
-    return b64 ? `data:image/jpeg;base64,${b64}` : undefined;
+    const r = await readSandboxFile(sandbox, path, IMG_MAX_BYTES, "jpeg");
+    return r.b64 ? `data:image/${r.kind};base64,${r.b64}` : undefined;
   };
 
   // SF-01: a missing policy file must block actions (fail closed)
@@ -242,7 +223,14 @@ async function runAllCases(sandbox: Sandbox, url: string, deadline: number) {
   await run("shotFull", "VR-04 full-page screenshot", ["screenshot", "--full", "/tmp/st-full.jpg", ...SHOT]);
   images.full = await image("/tmp/st-full.jpg");
   await run("pdf", "VR-08 PDF", ["pdf", "/tmp/st-page.pdf"]);
-  pdf = await readSandboxFile(sandbox, "/tmp/st-page.pdf", PDF_MAX_BYTES);
+  if (raw.pdf.ok) {
+    const t0 = Date.now();
+    const r = await readSandboxFile(sandbox, "/tmp/st-page.pdf", PDF_MAX_BYTES, "pdf");
+    pdf = r.b64;
+    // recorded so the report can say why there is no download button
+    raw.pdfRead = { ok: Boolean(r.b64), ms: Date.now() - t0, data: r.note, error: r.b64 ? undefined : r.note };
+    steps.push({ name: "VR-08 read PDF back", ok: Boolean(r.b64), ms: raw.pdfRead.ms, error: raw.pdfRead.error });
+  }
 
   // Reload checks: LN-08, VR-06, VR-07, IN-08
   await run("shotBase", "VR-06 baseline", ["screenshot", "/tmp/st-base.jpg", ...SHOT]);

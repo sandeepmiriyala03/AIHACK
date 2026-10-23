@@ -274,6 +274,35 @@ function flatTarget(t: unknown): string {
   return typeof t === "string" ? t : clip(t, 120);
 }
 
+export type FileKind = "pdf" | "jpeg" | "png";
+
+/** Approximate decoded size of a base64 string, in bytes. */
+export function base64Bytes(b64: string): number {
+  const pad = b64.endsWith("==") ? 2 : b64.endsWith("=") ? 1 : 0;
+  return Math.floor((b64.length * 3) / 4) - pad;
+}
+
+/**
+ * What kind of file a base64 string holds, judged by its first bytes.
+ * A PDF also needs its end marker and at least 4 KB: Chrome's PDF of a page with any text
+ * embeds fonts and is far bigger, so anything smaller is treated as empty.
+ */
+export function sniffBase64(b64: string | undefined): FileKind | "unknown" {
+  if (!b64) return "unknown";
+  if (b64.startsWith("JVBERi0")) {
+    if (base64Bytes(b64) < 4000) return "unknown";
+    try {
+      const tail = atob(b64.slice(-(Math.floor(Math.min(b64.length, 64) / 4) * 4)));
+      return tail.includes("%%EOF") ? "pdf" : "unknown";
+    } catch {
+      return "unknown";
+    }
+  }
+  if (b64.startsWith("/9j/")) return "jpeg";
+  if (b64.startsWith("iVBORw0KGgo")) return "png";
+  return "unknown";
+}
+
 export function baseHost(host: string): string {
   return host.toLowerCase().replace(/^www\./, "");
 }
@@ -698,7 +727,13 @@ export function evaluateAll(raw: Record<string, StepResult>, ctx: RunContext): T
       const total = added + removed + changed;
       return total ? ["warn", `${added} added, ${removed} removed, ${changed} changed after reload.`] : ["pass", "Same structure after reload."];
     },
-    "VR-08": () => (ok("pdf") ? ["pass", "PDF created."] : ["fail", err("pdf")]),
+    "VR-08": () => {
+      if (!ok("pdf")) return ["fail", err("pdf")];
+      if (!ran("pdfRead")) return ["pass", "PDF created."];
+      return ok("pdfRead")
+        ? ["pass", "PDF created and ready to download."]
+        : ["warn", `PDF created, but no download: ${err("pdfRead")}. If the site hides content when printing, the PDF is blank.`];
+    },
 
     "IN-01": () => {
       if (!ctx.ctaRef) return ["skip", "No named button or link found."];

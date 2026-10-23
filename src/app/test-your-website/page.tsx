@@ -35,6 +35,7 @@ import {
   formatMetric,
   rateMetric,
   scoreColor,
+  sniffBase64,
   toMarkdown,
   type FullReport,
   type Rating,
@@ -335,7 +336,7 @@ export default function TestYourWebsitePage() {
             <Button variant="outlined" sx={{ textTransform: "none" }} onClick={() => window.print()}>
               Print / save report as PDF
             </Button>
-            {report.pdf && (
+            {sniffBase64(report.pdf) === "pdf" && (
               <Button
                 variant="outlined"
                 sx={{ textTransform: "none" }}
