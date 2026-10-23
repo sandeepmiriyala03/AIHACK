@@ -7,6 +7,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import Navbar from "@/components/Navbar";
 import {
   Alert,
   Box,
@@ -121,11 +122,32 @@ function Shot({ src, label }: { src?: string; label: string }) {
   return (
     <Paper variant="outlined" sx={{ p: 1, borderRadius: 2 }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={`${label} screenshot of the tested page`} style={{ width: "100%", height: "auto", display: "block", borderRadius: 6 }} />
+      <img
+        src={src}
+        alt={`${label} screenshot of the tested page`}
+        style={{ width: "100%", height: "auto", maxHeight: 420, objectFit: "contain", objectPosition: "top", display: "block", borderRadius: 6 }}
+      />
       <Typography variant="body2" sx={{ mt: 0.75, textAlign: "center", fontWeight: 600 }}>
         {label}
       </Typography>
     </Paper>
+  );
+}
+
+/** Keeps long values (URLs, commands) inside the grid on small screens. */
+function GridBox({ children }: { children: React.ReactNode }) {
+  return (
+    <Box
+      sx={{
+        minWidth: 0,
+        maxWidth: "100%",
+        overflowX: "auto",
+        "& td, & th, & dd, & dt, & p, & span, & div": { overflowWrap: "anywhere", wordBreak: "break-word" },
+        "& td, & dd, & span": { whiteSpace: "normal !important" },
+      }}
+    >
+      {children}
+    </Box>
   );
 }
 
@@ -225,6 +247,9 @@ export default function TestYourWebsitePage() {
   const fixLinks = useMemo(() => [...new Map(issues.filter((v) => v.helpUrl).map((v) => [v.id, v])).values()], [issues]);
 
   return (
+    <>
+    {/* Site navbar: once, at the top of the page */}
+    <Navbar />
     <Box component="main" sx={{ px: { xs: 2, sm: 4 }, py: { xs: 3, sm: 5 }, maxWidth: 1100, mx: "auto" }}>
       {/* HEADER */}
       <Typography variant="h3" component="h1" fontWeight={800} sx={{ fontSize: { xs: "2rem", sm: "2.8rem" } }}>
@@ -356,7 +381,7 @@ export default function TestYourWebsitePage() {
           {/* SCREENSHOTS */}
           {Object.values(report.images).some(Boolean) && (
             <Section title="Screenshots" id="shots">
-              <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "2fr 1fr" }, gap: 2, alignItems: "start" }}>
+              <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: 2, alignItems: "start" }}>
                 <Shot src={report.images.desktop} label="Desktop (labels match @e refs)" />
                 <Shot src={report.images.mobile} label="Phone" />
                 <Shot src={report.images.dark} label="Dark mode" />
@@ -384,6 +409,7 @@ export default function TestYourWebsitePage() {
                 />
               ))}
             </Stack>
+            <GridBox>
             <YuktaiGrid
               data={resultRows}
               rowKey="id"
@@ -399,6 +425,7 @@ export default function TestYourWebsitePage() {
               view="auto"
               pagination={{ pageSize: 20, showSizeChanger: true, sizeOptions: [20, 59] }}
             />
+            </GridBox>
           </Section>
 
           {/* SPEED */}
@@ -450,6 +477,7 @@ export default function TestYourWebsitePage() {
             </Typography>
             {issues.length ? (
               <>
+                <GridBox>
                 <YuktaiGrid
                   data={issues}
                   rowKey="key"
@@ -465,6 +493,7 @@ export default function TestYourWebsitePage() {
                   view="auto"
                   pagination={{ pageSize: 10 }}
                 />
+                </GridBox>
                 <Typography variant="h6" component="h3" sx={{ mt: 2 }}>
                   How to fix
                 </Typography>
@@ -512,5 +541,6 @@ export default function TestYourWebsitePage() {
 
       <style>{`@media print { .no-print { display: none !important; } details { display: block; } }`}</style>
     </Box>
+    </>
   );
 }

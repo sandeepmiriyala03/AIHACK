@@ -469,7 +469,8 @@ function a11yVerdict(r: A11yResult): Verdict {
   if (!r.ran) return ["error", "The audit did not run."];
   if (!r.violations.length) return ["pass", `0 issues, ${r.passes} checks passed.`];
   const serious = r.violations.filter((v) => v.impact === "critical" || v.impact === "serious").length;
-  return [serious ? "fail" : "warn", `${r.violations.length} issues, ${serious} critical or serious.`];
+  const n = r.violations.length;
+  return [serious ? "fail" : "warn", `${n} issue${n === 1 ? "" : "s"}, ${serious} critical or serious.`];
 }
 
 function vitalsVerdict(v: Vitals): Verdict {
