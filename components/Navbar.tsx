@@ -37,7 +37,7 @@ import MenuRoundedIcon               from "@mui/icons-material/MenuRounded";
 import KeyboardArrowDownRoundedIcon  from "@mui/icons-material/KeyboardArrowDownRounded";
 import InstallMobileRoundedIcon      from "@mui/icons-material/InstallMobileRounded";
 import IosShareRoundedIcon           from "@mui/icons-material/IosShareRounded";
-
+import FactCheckRoundedIcon from "@mui/icons-material/FactCheckRounded";
 // ── Menu: four AI-first groups. The logo links to Home. ──
 // Grouped by what the AI does: Yuktai (agents), Vision AI (reads images),
 // Language AI (speaks and understands Indic text), Create (makes things).
@@ -50,6 +50,12 @@ export const navGroups: NavGroup[] = [
     items: [
       { href: "/staffdirectory", label: "Agentic Grid",  icon: HubRoundedIcon },
       { href: "/yuktai",         label: "About Yuktai",  icon: InfoRoundedIcon },
+    ],
+  },
+  {
+    group: "Web Testing",
+    items: [
+      { href: "/test-your-website", label: "Test Your Website", icon: FactCheckRoundedIcon },
     ],
   },
   {
