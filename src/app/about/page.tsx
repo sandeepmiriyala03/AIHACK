@@ -39,6 +39,7 @@ import {
   StorageIcon,
   ToolsIcon,
   WandIcon,
+  iconContrast,
 } from "@yuktishaalaa/yuktai/icons";
 
 const VERSION = "5.3.4";
@@ -57,6 +58,8 @@ const URLS = {
   xerjHub: "https://hub.xerj.org",
   xerjProfile: "https://hub.xerj.org/contributors/sandeepmiriyala03",
   xerjBadge: "https://hub.xerj.org/contributors/sandeepmiriyala03/badge.svg",
+  // same badge, served by /api/xerj-badge: the site's COEP header blocks images from other origins
+  xerjBadgeLocal: "/api/xerj-badge",
   xerjCorpus: "https://hub.xerj.org/corpus/sandeepmiriyala03--yuktai",
   author: "https://github.com/sandeepmiriyala03",
 };
@@ -216,8 +219,6 @@ const FEATURES: Feature[] = [
 const SITES = [
   { name: "AksharaTantra", url: "https://aksharatantra.miriyala.in", text: "Indic OCR, voice and Vedic tools, with the agentic grid" },
   { name: "Ratnalabala", url: "https://ratnalabala.vercel.app", text: "Telugu literary archive and document tools" },
-  { name: "Vajasaneya Sandhya", url: "https://vajasaneyasandhya.vercel.app", text: "Sandhyavandanam, mantras and panchangam" },
-  { name: "Sri Yagnavalkya Jayanti", url: "https://sriyagnavalkyajayanti.netlify.app", text: "Event site, plain HTML with yuktai icons" },
 ];
 
 // ── Code samples ─────────────────────────────────────────────
@@ -318,6 +319,13 @@ export default function AboutYuktai() {
   const [query, setQuery] = useState("");
   const [variant, setVariant] = useState<"outline" | "filled">("outline");
   const [colour, setColour] = useState(COLOURS[0].value);
+  const [size, setSize] = useState(24);
+  const [picked, setPicked] = useState<string>("EyeOffIcon");
+  // The copied code carries the chosen style, colour and size
+  const codeFor = (c: string) =>
+    `<${c}${size !== 20 ? ` size={${size}}` : ""}${variant === "filled" ? ` variant="filled"` : ""} color="${colour}" />`;
+  // Outline icons sit on the page background: check 3:1 against white (WCAG 1.4.11)
+  const contrast = iconContrast(colour, "#ffffff");
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase();
     return (ICON_NAMES as IconName[]).filter((n) => !q || n.toLowerCase().includes(q) || componentName(n).toLowerCase().includes(q));
@@ -345,6 +353,9 @@ export default function AboutYuktai() {
             <Link href="/staffdirectory" className="yk-btn yk-btn--primary">
               Try the Grid demo <ArrowRightIcon size={16} />
             </Link>
+            <a href={URLS.demo} target="_blank" rel="noreferrer" className="yk-btn yk-btn--ghost">
+              Plain HTML demo <ExternalIcon size={15} />
+            </a>
             <a href={URLS.github} target="_blank" rel="noreferrer" className="yk-btn yk-btn--ghost">
               Source on GitHub <ExternalIcon size={15} />
             </a>
@@ -361,7 +372,7 @@ export default function AboutYuktai() {
           </ul>
           <a href={URLS.xerjProfile} target="_blank" rel="noreferrer" className="yx-badge">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={URLS.xerjBadge} alt="XERJ Corpus Hub contributor badge" height={28} />
+            <img src={URLS.xerjBadgeLocal} alt="XERJ Corpus Hub contributor badge" height={28} />
           </a>
         </header>
 
@@ -462,8 +473,8 @@ export default function AboutYuktai() {
         <section aria-labelledby="icons" id="icons" className="yk-card">
           <h2 className="yk-h2" id="icons-title">All {ICON_NAMES.length} yuktai icons</h2>
           <p className="yk-text">
-            Pick a style and a colour, then click any icon to copy its component. Filled icons choose a white or dark
-            glyph automatically, so they keep at least 3:1 contrast.
+            Pick a style, a colour and a size, then click any icon. The code it copies already has your choices in it.
+            Filled icons choose a white or dark glyph automatically, so they keep at least 3:1 contrast.
           </p>
           <div className="yx-tools">
             <label className="yx-search">
@@ -477,20 +488,42 @@ export default function AboutYuktai() {
             </div>
             <div className="yx-colours" role="radiogroup" aria-label="Icon colour">
               {COLOURS.map((c) => (
-                <button key={c.value} type="button" role="radio" aria-checked={colour === c.value} aria-label={c.label}
+                <button key={c.value} type="button" role="radio" aria-checked={colour.toLowerCase() === c.value.toLowerCase()} aria-label={c.label}
                   className="yx-swatch" style={{ background: c.value }} onClick={() => setColour(c.value)} />
+              ))}
+              <label className="yx-custom" title="Any colour">
+                <span className="yx-sr">Any colour</span>
+                <input type="color" value={colour} onChange={(e) => setColour(e.target.value)} />
+              </label>
+            </div>
+            <div className="yk-toggle" role="group" aria-label="Icon size">
+              {[20, 24, 32].map((n) => (
+                <button key={n} type="button" aria-pressed={size === n} onClick={() => setSize(n)}>{n}px</button>
               ))}
             </div>
           </div>
-          <p className="yk-note" aria-live="polite">
-            {copied?.startsWith("icon:") ? `Copied <${copied.slice(5)} />` : `${shown.length} of ${ICON_NAMES.length} icons`}
+
+          <div className="yx-codeline">
+            <YuktaiIcon name={(ICON_NAMES as IconName[]).find((n) => componentName(n) === picked) ?? "eyeOff"} size={size} variant={variant} color={colour} />
+            <code>{codeFor(picked)}</code>
+            <button type="button" className="yk-btn yk-btn--ghost yx-copybtn" onClick={() => copy(codeFor(picked), "icon:" + picked)}>
+              {copied === "icon:" + picked ? <CheckIcon size={16} /> : <CopyIcon size={16} />} Copy
+            </button>
+          </div>
+          <p className={`yk-note${variant === "outline" && contrast !== null && contrast < 3 ? " yx-warn" : ""}`} aria-live="polite">
+            {copied?.startsWith("icon:")
+              ? `Copied ${codeFor(copied.slice(5))}`
+              : variant === "outline" && contrast !== null
+                ? `${shown.length} of ${ICON_NAMES.length} icons · this colour on white: ${contrast.toFixed(1)}:1 ${contrast >= 3 ? "(passes WCAG 3:1 for icons)" : "(too light: below WCAG 3:1, pick a darker colour)"}`
+                : `${shown.length} of ${ICON_NAMES.length} icons`}
           </p>
           <ul className="yx-icons">
             {shown.map((n) => {
               const c = componentName(n);
               return (
                 <li key={n}>
-                  <button type="button" className="yx-icon" onClick={() => copy(`<${c} />`, "icon:" + c)} aria-label={`Copy ${c}`}>
+                  <button type="button" className="yx-icon" aria-pressed={picked === c}
+                    onClick={() => { setPicked(c); copy(codeFor(c), "icon:" + c); }} aria-label={`Copy ${codeFor(c)}`}>
                     <YuktaiIcon name={n} size={28} variant={variant} color={colour} />
                     <span>{n}</span>
                   </button>
@@ -570,7 +603,7 @@ export default function AboutYuktai() {
           </p>
           <a href={URLS.xerjProfile} target="_blank" rel="noreferrer" className="yx-badge">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={URLS.xerjBadge} alt="XERJ Corpus Hub contributor badge" height={32} />
+            <img src={URLS.xerjBadgeLocal} alt="XERJ Corpus Hub contributor badge" height={32} />
           </a>
           <ul className="yx-links yx-links--row">
             <li><a href={URLS.xerjProfile} target="_blank" rel="noreferrer" className="yk-link">Contributor profile <ExternalIcon size={14} /></a></li>
@@ -687,8 +720,16 @@ const YX_CSS = `
 .yx-swatch{width:32px;height:32px;border-radius:999px;border:3px solid #fff;box-shadow:0 0 0 1.5px #94a3b8;cursor:pointer}
 .yx-swatch[aria-checked="true"]{box-shadow:0 0 0 3px #0f172a}
 .yx-swatch:focus-visible{outline:3px solid var(--brand-bright);outline-offset:3px}
-.yx-icons{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px;
-  max-height:560px;overflow:auto;padding-right:4px}
+.yx-icons{list-style:none;padding:0;margin:14px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.yx-icon[aria-pressed="true"]{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand) inset;background:#f0fdf4}
+.yx-custom{position:relative;width:32px;height:32px;border-radius:999px;overflow:hidden;box-shadow:0 0 0 1.5px #94a3b8;cursor:pointer;
+  background:conic-gradient(#ef4444,#f59e0b,#10b981,#3b82f6,#8b5cf6,#ef4444)}
+.yx-custom input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0}
+.yx-custom:focus-within{outline:3px solid var(--brand-bright);outline-offset:3px}
+.yx-codeline{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:12px 0 0;padding:10px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc}
+.yx-codeline code{flex:1 1 260px;font:13px/1.5 var(--font-mono);color:#065f46;overflow-wrap:anywhere}
+.yx-copybtn{min-height:40px;padding:6px 14px}
+.yx-warn{color:#9a3412;font-weight:600}
 .yx-icon{width:100%;min-height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
   border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#0f172a;cursor:pointer;padding:10px 4px;
   font:12px var(--font-mono);transition:border-color .12s ease,background .12s ease}

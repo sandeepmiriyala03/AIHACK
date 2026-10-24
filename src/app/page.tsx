@@ -11,9 +11,16 @@ import { useState } from "react";
 import Link from "next/link";
 import Navbar, { navGroups, type NavItem } from "@/components/Navbar";
 
-import { ArrowForwardRounded as ArrowForwardRoundedIcon } from "../lib/yuktai-icons";
-import { VolumeUpRounded as VolumeUpRoundedIcon } from "../lib/yuktai-icons";
-import { StopRounded as StopRoundedIcon } from "../lib/yuktai-icons";
+import { ArrowRightIcon, ExternalIcon, SpeakerIcon, StopIcon } from "@yuktishaalaa/yuktai/icons";
+
+const YUKTAI = {
+  version: "5.3.4",
+  demo: "https://sandeepmiriyala03.github.io/yuktai/vanilla/",
+  github: "https://github.com/sandeepmiriyala03/yuktai",
+  npm: "https://www.npmjs.com/package/@yuktishaalaa/yuktai",
+  xerj: "https://hub.xerj.org/contributors/sandeepmiriyala03",
+  badge: "/api/xerj-badge", // same-origin copy of the XERJ badge (the site's COEP header blocks other origins)
+};
 
 // ── Card details for each Navbar link (keyed by href) ────────
 // tone = colour of the icon and tagline, see .hm-tone--* in globals.css (all pass 4.5:1)
@@ -22,8 +29,8 @@ type Info = { tagline: string; desc: string; tags: string[]; tone: Tone; badge?:
 
 const INFO: Record<string, Info> = {
   // Yuktai
-  "/staffdirectory": { tagline: "agentic data grid",          desc: "Ask your data in plain English: filters, totals, unusual rows and multi-step tasks, over lakhs of rows.", tags: ["plain English", "voice", "WebMCP"], tone: "green", badge: "v5.2" },
-  "/yuktai":         { tagline: "open-source toolkit",        desc: "Accessibility fixes, in-browser RAG, small AI agents and the agentic grid in one free npm package.",      tags: ["0 API keys", "offline", "npm"],     tone: "green" },
+  "/staffdirectory": { tagline: "agentic data grid",          desc: "Ask your data in plain English: filters, totals, unusual rows and multi-step tasks, over lakhs of rows.", tags: ["plain English", "voice", "WebMCP"], tone: "green", badge: "v5.3.4" },
+  "/yuktai":         { tagline: "open-source toolkit",        desc: "Accessibility fixes, in-browser RAG, small AI agents, the agentic grid and 163 icons, for Next.js, React and plain HTML.", tags: ["0 API keys", "163 icons", "npm"], tone: "green" },
   // Vision AI
   "/aksharadrishti": { tagline: "multilingual image OCR",     desc: "Mix English with any Indic or world script in one scan.",                                               tags: ["34+ languages", "Noto fonts", "PNG"], tone: "indigo" },
   "/OCR":            { tagline: "text from any image",        desc: "Photograph a book or document and get the text back in 34+ languages.",                                 tags: ["34+ languages", "offline", "PDF"],   tone: "green" },
@@ -70,7 +77,7 @@ function SpeechWelcome() {
   const stop = () => { speechSynthesis.cancel(); setSpeaking(false); };
   return (
     <button type="button" className="hm-link-btn" onClick={speaking ? stop : speak} aria-pressed={speaking}>
-      {speaking ? <StopRoundedIcon className="ico-18" /> : <VolumeUpRoundedIcon className="ico-18" />}
+      {speaking ? <StopIcon size={18} /> : <SpeakerIcon size={18} />}
       {speaking ? "Stop" : "Hear a welcome"}
     </button>
   );
@@ -93,7 +100,7 @@ function ToolCard({ item }: { item: NavItem }) {
       {info.desc && <span className="hm-tool__desc">{info.desc}</span>}
       <span className="hm-tool__foot">
         <span className="hm-tool__chips">{info.tags.map((t) => <span key={t}>{t}</span>)}</span>
-        <ArrowForwardRoundedIcon className="hm-tool__arrow ico-18" aria-hidden />
+        <ArrowRightIcon size={18} className="hm-tool__arrow" />
       </span>
     </Link>
   );
@@ -106,6 +113,7 @@ export default function HomePage() {
   return (
     <>
       <title>AksharaTantra · read, digitize and speak Indian languages</title>
+      <style>{`.hm-xerj{display:inline-flex;align-items:center;min-height:44px;margin-top:14px}.hm-xerj img{display:block;height:28px;width:auto}.hm-xerj:focus-visible{outline:3px solid var(--brand-bright);outline-offset:3px}.hm-btn svg,.hm-link-btn svg{flex-shrink:0}`}</style>
       <Navbar />
 
       <main className="hm">
@@ -122,7 +130,7 @@ export default function HomePage() {
                 manuscripts to handwritten notes. No sign-up, no API keys. Built in free time, in the open.
               </p>
               <div className="hm-actions">
-                <Link href="/staffdirectory" className="hm-btn hm-btn--ink">Try Yuktai Grid <ArrowForwardRoundedIcon className="ico-18" /></Link>
+                <Link href="/staffdirectory" className="hm-btn hm-btn--ink">Try Yuktai Grid <ArrowRightIcon size={18} /></Link>
                 <Link href="/upload" className="hm-btn hm-btn--line">Start digitizing</Link>
                 <SpeechWelcome />
               </div>
@@ -157,7 +165,7 @@ export default function HomePage() {
 
         {/* ═══════════ YUKTAI GRID ═══════════ */}
         <section className="hm-wrap hm-section" aria-labelledby="grid">
-          <p className="hm-label">featured · yuktai v5.2</p>
+          <p className="hm-label">featured · yuktai v{YUKTAI.version}</p>
           <div className="hm-feature">
             <div>
               <h2 id="grid" className="hm-h2">Talk to your data instead of building filters.</h2>
@@ -166,10 +174,19 @@ export default function HomePage() {
                 real filters, sorting and summaries, and tells you what it did so you can check it. The demo pages through
                 10 lakh rows, with nothing sent to an AI service.
               </p>
+              <p className="hm-text">
+                The same yuktai toolkit also works on any plain HTML page with one script tag, and comes with 163 icons
+                for Next.js, React and HTML.
+              </p>
               <div className="hm-actions">
-                <Link href="/staffdirectory" className="hm-btn hm-btn--ink">Open the demo <ArrowForwardRoundedIcon className="ico-18" /></Link>
-                <Link href="/yuktai" className="hm-btn hm-btn--line">How it works</Link>
+                <Link href="/staffdirectory" className="hm-btn hm-btn--ink">Open the demo <ArrowRightIcon size={18} /></Link>
+                <a href={YUKTAI.demo} target="_blank" rel="noreferrer" className="hm-btn hm-btn--line">Plain HTML demo <ExternalIcon size={16} /></a>
+                <Link href="/about" className="hm-btn hm-btn--line">All yuktai features</Link>
               </div>
+              <a href={YUKTAI.xerj} target="_blank" rel="noreferrer" className="hm-xerj">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={YUKTAI.badge} alt="XERJ Corpus Hub contributor badge" height={28} />
+              </a>
             </div>
 
             <div className="hm-ask" aria-label="Example questions">
@@ -220,8 +237,9 @@ export default function HomePage() {
             <h2 className="hm-close__title">Open a tool and start.</h2>
             <p className="hm-close__text">Everything runs in your browser. Questions, bugs and ideas are welcome on GitHub.</p>
             <div className="hm-actions hm-actions--center">
-              <Link href="/upload" className="hm-btn hm-btn--brand">Start digitizing <ArrowForwardRoundedIcon className="ico-18" /></Link>
-              <a href="https://github.com/sandeepmiriyala03/yuktai" target="_blank" rel="noreferrer" className="hm-btn hm-btn--ghost-light">Yuktai on GitHub</a>
+              <Link href="/upload" className="hm-btn hm-btn--brand">Start digitizing <ArrowRightIcon size={18} /></Link>
+              <a href={YUKTAI.github} target="_blank" rel="noreferrer" className="hm-btn hm-btn--ghost-light">Yuktai on GitHub</a>
+              <a href={YUKTAI.demo} target="_blank" rel="noreferrer" className="hm-btn hm-btn--ghost-light">yuktai plain HTML demo</a>
             </div>
           </div>
         </section>
