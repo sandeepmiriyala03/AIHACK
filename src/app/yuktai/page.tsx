@@ -36,18 +36,18 @@ import {
 } from "@yuktishaalaa/yuktai";
 
 // ── MUI icons (yuktai has no equivalents yet) ──
-import PlayArrowRoundedIcon               from "@mui/icons-material/PlayArrowRounded";
-import PauseRoundedIcon                   from "@mui/icons-material/PauseRounded";
-import StopRoundedIcon                    from "@mui/icons-material/StopRounded";
+import { PlayArrowRounded as PlayArrowRoundedIcon } from "../../lib/yuktai-icons";
+import { PauseRounded as PauseRoundedIcon } from "../../lib/yuktai-icons";
+import { StopRounded as StopRoundedIcon } from "../../lib/yuktai-icons";
 import TerminalRoundedIcon                from "@mui/icons-material/TerminalRounded";
 import PsychologyRoundedIcon              from "@mui/icons-material/PsychologyRounded";
-import AccessibilityNewRoundedIcon        from "@mui/icons-material/AccessibilityNewRounded";
-import AutoAwesomeRoundedIcon             from "@mui/icons-material/AutoAwesomeRounded";
+import { AccessibilityNewRounded as AccessibilityNewRoundedIcon } from "../../lib/yuktai-icons";
+import { AutoAwesomeRounded as AutoAwesomeRoundedIcon } from "../../lib/yuktai-icons";
 import IntegrationInstructionsRoundedIcon from "@mui/icons-material/IntegrationInstructionsRounded";
 import ComputerRoundedIcon                from "@mui/icons-material/ComputerRounded";
 import CodeRoundedIcon                    from "@mui/icons-material/CodeRounded";
-import ContentCopyRoundedIcon             from "@mui/icons-material/ContentCopyRounded";
-import GridViewRoundedIcon                from "@mui/icons-material/GridViewRounded";
+import { ContentCopyRounded as ContentCopyRoundedIcon } from "../../lib/yuktai-icons";
+import { GridViewRounded as GridViewRoundedIcon } from "../../lib/yuktai-icons";
 import FactCheckRoundedIcon               from "@mui/icons-material/FactCheckRounded";
 const G_DARK    = "#047857";   // text/buttons on white (passes 4.5:1)
 const TEXT_MAIN = "#0f172a";

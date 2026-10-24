@@ -15,8 +15,8 @@ import {
   Chip,
 } from "@mui/material";
 
-import SearchIcon from "@mui/icons-material/Search";
-import GroupsIcon from "@mui/icons-material/Groups";
+import { Search as SearchIcon } from "../../lib/yuktai-icons";
+import { Groups as GroupsIcon } from "../../lib/yuktai-icons";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import CodeIcon from "@mui/icons-material/Code";
 import BugReportIcon from "@mui/icons-material/BugReport";

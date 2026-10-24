@@ -10,16 +10,16 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
-import AddIcon         from "@mui/icons-material/Add";
+import { Add as AddIcon } from "../../lib/yuktai-icons";
 import DeleteIcon      from "@mui/icons-material/Delete";
-import EditIcon        from "@mui/icons-material/Edit";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { Edit as EditIcon } from "../../lib/yuktai-icons";
+import { ChevronLeft as ChevronLeftIcon } from "../../lib/yuktai-icons";
+import { ChevronRight as ChevronRightIcon } from "../../lib/yuktai-icons";
+import { CalendarMonth as CalendarMonthIcon } from "../../lib/yuktai-icons";
 import TodayIcon       from "@mui/icons-material/Today";
-import CloseIcon       from "@mui/icons-material/Close";
+import { Close as CloseIcon } from "../../lib/yuktai-icons";
 import SaveIcon        from "@mui/icons-material/Save";
-import AccessTimeIcon  from "@mui/icons-material/AccessTime";
+import { AccessTime as AccessTimeIcon } from "../../lib/yuktai-icons";
 import LabelIcon       from "@mui/icons-material/Label";
 
 // ── Types ──────────────────────────────────────────────────────────────────

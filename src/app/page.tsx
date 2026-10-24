@@ -11,9 +11,9 @@ import { useState } from "react";
 import Link from "next/link";
 import Navbar, { navGroups, type NavItem } from "@/components/Navbar";
 
-import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
-import VolumeUpRoundedIcon     from "@mui/icons-material/VolumeUpRounded";
-import StopRoundedIcon         from "@mui/icons-material/StopRounded";
+import { ArrowForwardRounded as ArrowForwardRoundedIcon } from "../lib/yuktai-icons";
+import { VolumeUpRounded as VolumeUpRoundedIcon } from "../lib/yuktai-icons";
+import { StopRounded as StopRoundedIcon } from "../lib/yuktai-icons";
 
 // ── Card details for each Navbar link (keyed by href) ────────
 // tone = colour of the icon and tagline, see .hm-tone--* in globals.css (all pass 4.5:1)

@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button, Tooltip } from "@mui/material";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { ArrowUpward as ArrowUpwardIcon } from "../../src/lib/yuktai-icons";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 

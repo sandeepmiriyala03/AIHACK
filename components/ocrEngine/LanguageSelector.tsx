@@ -9,7 +9,7 @@ import {
   Box,
   SelectChangeEvent,
 } from "@mui/material";
-import LanguageIcon from "@mui/icons-material/Language";
+import { Language as LanguageIcon } from "../../src/lib/yuktai-icons";
 
 /* ---------- Supported OCR Languages ---------- */
 const LANGUAGES: { label: string; code: string }[] = [

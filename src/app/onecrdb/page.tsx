@@ -39,22 +39,8 @@ import {
   Collapse,
 } from "@mui/material";
 
-import {
-  Add as AddIcon,
-  Cancel as CancelIcon,
-  CheckCircle as CheckCircleIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon,
-  KeyboardArrowDown,
-  KeyboardArrowUp,
-  NavigateBefore,
-  NavigateNext,
-  PlayArrow as PlayArrowIcon,
-  Refresh as RefreshIcon,
-  Search as SearchIcon,
-  Storage as StorageIcon,
-  Tune as TuneIcon,
-} from "@mui/icons-material";
+import { Add as AddIcon, Cancel as CancelIcon, CheckCircle as CheckCircleIcon, Edit as EditIcon, KeyboardArrowDown, KeyboardArrowUp, NavigateBefore, NavigateNext, PlayArrow as PlayArrowIcon, Refresh as RefreshIcon, Search as SearchIcon, Tune as TuneIcon } from "../../lib/yuktai-icons";
+import { Delete as DeleteIcon, Storage as StorageIcon } from "@mui/icons-material";
 
 import Navbar from "@/components/Navbar";
 // ─── Constants ────────────────────────────────────────────────────────────────

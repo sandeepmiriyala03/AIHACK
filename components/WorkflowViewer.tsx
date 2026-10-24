@@ -7,10 +7,10 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Close as CloseIcon } from "../src/lib/yuktai-icons";
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
-import DownloadIcon from "@mui/icons-material/Download";
+import { Download as DownloadIcon } from "../src/lib/yuktai-icons";
 import InsightsIcon from "@mui/icons-material/Insights";
 
 export default function WorkflowViewer() {

@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import AccordionChunk from "./AccordionChunk";
 import RagWorkflow, { RagStep, RagItem } from "./RagWorkflow";
-import SendIcon from "@mui/icons-material/Send";
-import ClearIcon from "@mui/icons-material/Clear";
+import { Send as SendIcon } from "../src/lib/yuktai-icons";
+import { Clear as ClearIcon } from "../src/lib/yuktai-icons";
 
 // Use the local Python server in development and the co-deployed Vercel function in production.
 const RAG_API =

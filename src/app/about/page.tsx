@@ -21,13 +21,13 @@ import {
 } from "@yuktishaalaa/yuktai";
 
 // MUI icons (yuktai has no equivalents yet)
-import GridViewRoundedIcon          from "@mui/icons-material/GridViewRounded";
-import AccessibilityNewRoundedIcon  from "@mui/icons-material/AccessibilityNewRounded";
+import { GridViewRounded as GridViewRoundedIcon } from "../../lib/yuktai-icons";
+import { AccessibilityNewRounded as AccessibilityNewRoundedIcon } from "../../lib/yuktai-icons";
 import PsychologyRoundedIcon        from "@mui/icons-material/PsychologyRounded";
 import ExploreRoundedIcon           from "@mui/icons-material/ExploreRounded";
-import BoltRoundedIcon              from "@mui/icons-material/BoltRounded";
-import AutoAwesomeRoundedIcon       from "@mui/icons-material/AutoAwesomeRounded";
-import ContentCopyRoundedIcon       from "@mui/icons-material/ContentCopyRounded";
+import { BoltRounded as BoltRoundedIcon } from "../../lib/yuktai-icons";
+import { AutoAwesomeRounded as AutoAwesomeRoundedIcon } from "../../lib/yuktai-icons";
+import { ContentCopyRounded as ContentCopyRoundedIcon } from "../../lib/yuktai-icons";
 import FavoriteRoundedIcon          from "@mui/icons-material/FavoriteRounded";
 import TerminalRoundedIcon          from "@mui/icons-material/TerminalRounded";
 

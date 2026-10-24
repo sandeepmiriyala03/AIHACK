@@ -52,25 +52,25 @@ import {
   type GridToolSort,
 } from "@yuktishaalaa/yuktai";
 
-import PaletteIcon      from "@mui/icons-material/Palette";
-import ExpandMoreIcon   from "@mui/icons-material/ExpandMore";
-import LightModeIcon    from "@mui/icons-material/LightMode";
-import DarkModeIcon     from "@mui/icons-material/DarkMode";
-import ContrastIcon     from "@mui/icons-material/Contrast";
-import VisibilityIcon   from "@mui/icons-material/Visibility";
-import MenuBookIcon     from "@mui/icons-material/MenuBook";
+import { Palette as PaletteIcon } from "../../lib/yuktai-icons";
+import { ExpandMore as ExpandMoreIcon } from "../../lib/yuktai-icons";
+import { LightMode as LightModeIcon } from "../../lib/yuktai-icons";
+import { DarkMode as DarkModeIcon } from "../../lib/yuktai-icons";
+import { Contrast as ContrastIcon } from "../../lib/yuktai-icons";
+import { Visibility as VisibilityIcon } from "../../lib/yuktai-icons";
+import { MenuBook as MenuBookIcon } from "../../lib/yuktai-icons";
 import KeyboardIcon     from "@mui/icons-material/Keyboard";
-import AutoAwesomeIcon  from "@mui/icons-material/AutoAwesomeRounded";
+import { AutoAwesomeRounded as AutoAwesomeIcon } from "../../lib/yuktai-icons";
 import TrendingUpIcon   from "@mui/icons-material/TrendingUpRounded";
 import TrendingDownIcon from "@mui/icons-material/TrendingDownRounded";
 import CakeIcon         from "@mui/icons-material/CakeRounded";
-import WarningIcon      from "@mui/icons-material/WarningRounded";
-import FilterAltIcon    from "@mui/icons-material/FilterAltRounded";
+import { WarningRounded as WarningIcon } from "../../lib/yuktai-icons";
+import { FilterAltRounded as FilterAltIcon } from "../../lib/yuktai-icons";
 import BarChartIcon     from "@mui/icons-material/BarChartRounded";
-import EventIcon        from "@mui/icons-material/EventRounded";
+import { EventRounded as EventIcon } from "../../lib/yuktai-icons";
 import StorageIcon      from "@mui/icons-material/StorageRounded";
 import SmartToyRoundedIcon from "@mui/icons-material/SmartToyRounded";
-import VolumeUpRoundedIcon from "@mui/icons-material/VolumeUpRounded";
+import { VolumeUpRounded as VolumeUpRoundedIcon } from "../../lib/yuktai-icons";
 import ListAltIcon         from "@mui/icons-material/ListAltRounded";
 
 // ─────────────────────────────────────────────────────────────
