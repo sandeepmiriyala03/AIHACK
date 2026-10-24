@@ -45,3 +45,7 @@ next-env.d.ts
 .vercel
 
 icons-review.html
+.gradle/
+icons-scan.csv
+icons-report.csv
+unused-report.txt
