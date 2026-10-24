@@ -49,7 +49,7 @@ export const navGroups: NavGroup[] = [
     group: "Yuktai",
     items: [
       { href: "/staffdirectory", label: "Agentic Grid",  icon: HubRoundedIcon },
-      { href: "/yuktai",         label: "About Yuktai",  icon: InfoRoundedIcon },
+      { href: "/about",         label: "About Yuktai",  icon: InfoRoundedIcon },
     ],
   },
   {
