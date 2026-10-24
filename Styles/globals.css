@@ -1323,12 +1323,13 @@ html[data-yuktai-tools="open"] .yuktaiLauncher {
   outline-offset: 3px;
 }
 
-/* The four yuktai buttons + their open panels */
+/* The four yuktai buttons + their open panels.
+   Panels inside <main> (AgenticGridBar, inline AgenticPanel) are part of the page: never hide them. */
 html[data-yuktai-tools] button[aria-label="Open Vibe Coder"],
 html[data-yuktai-tools] button[aria-label="Open AI agent"],
 html[data-yuktai-tools] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
 html[data-yuktai-tools] button[data-yuktai-pref-toggle],
-html[data-yuktai-tools] [data-yuktai-panel],
+html[data-yuktai-tools] [data-yuktai-panel]:not(main [data-yuktai-panel]),
 html[data-yuktai-tools] [aria-label="yuktai Vibe Coder"] {
   transition: opacity var(--transition-base), transform var(--transition-base),
     visibility var(--transition-base);
@@ -1339,7 +1340,7 @@ html[data-yuktai-tools="closed"] button[aria-label="Open Vibe Coder"],
 html[data-yuktai-tools="closed"] button[aria-label="Open AI agent"],
 html[data-yuktai-tools="closed"] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
 html[data-yuktai-tools="closed"] button[data-yuktai-pref-toggle],
-html[data-yuktai-tools="closed"] [data-yuktai-panel],
+html[data-yuktai-tools="closed"] [data-yuktai-panel]:not(main [data-yuktai-panel]),
 html[data-yuktai-tools="closed"] [aria-label="yuktai Vibe Coder"] {
   /* !important: yuktai sets transform inline on hover */
   opacity: 0 !important;
@@ -1353,7 +1354,7 @@ html[data-yuktai-tools="open"] button[aria-label="Open Vibe Coder"],
 html[data-yuktai-tools="open"] button[aria-label="Open AI agent"],
 html[data-yuktai-tools="open"] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
 html[data-yuktai-tools="open"] button[data-yuktai-pref-toggle],
-html[data-yuktai-tools="open"] [data-yuktai-panel],
+html[data-yuktai-tools="open"] [data-yuktai-panel]:not(main [data-yuktai-panel]),
 html[data-yuktai-tools="open"] [aria-label="yuktai Vibe Coder"] {
   opacity: 1;
   visibility: visible;
