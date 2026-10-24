@@ -11,16 +11,16 @@ import { useState, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import GoToTopButton from "@/components/GoToTopButton";
 import { Add as AddIcon } from "../../lib/yuktai-icons";
-import DeleteIcon      from "@mui/icons-material/Delete";
+import { Delete as DeleteIcon } from "../../lib/yuktai-icons";
 import { Edit as EditIcon } from "../../lib/yuktai-icons";
 import { ChevronLeft as ChevronLeftIcon } from "../../lib/yuktai-icons";
 import { ChevronRight as ChevronRightIcon } from "../../lib/yuktai-icons";
 import { CalendarMonth as CalendarMonthIcon } from "../../lib/yuktai-icons";
 import { Today as TodayIcon } from "../../lib/yuktai-icons";
 import { Close as CloseIcon } from "../../lib/yuktai-icons";
-import SaveIcon        from "@mui/icons-material/Save";
+import { Save as SaveIcon } from "../../lib/yuktai-icons";
 import { AccessTime as AccessTimeIcon } from "../../lib/yuktai-icons";
-import LabelIcon       from "@mui/icons-material/Label";
+import { Label as LabelIcon } from "../../lib/yuktai-icons";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface CalEvent {

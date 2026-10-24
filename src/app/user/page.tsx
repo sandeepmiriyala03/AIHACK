@@ -17,10 +17,10 @@ import {
 
 import { Search as SearchIcon } from "../../lib/yuktai-icons";
 import { Groups as GroupsIcon } from "../../lib/yuktai-icons";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import CodeIcon from "@mui/icons-material/Code";
-import BugReportIcon from "@mui/icons-material/BugReport";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import { AdminPanelSettings as AdminPanelSettingsIcon } from "../../lib/yuktai-icons";
+import { Code as CodeIcon } from "../../lib/yuktai-icons";
+import { BugReport as BugReportIcon } from "../../lib/yuktai-icons";
+import { SentimentDissatisfied as SentimentDissatisfiedIcon } from "../../lib/yuktai-icons";
 import Navbar from "@/components/Navbar";
 
 // Standardize absolute routing directly to your production instance

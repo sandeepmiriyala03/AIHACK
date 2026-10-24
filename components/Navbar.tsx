@@ -14,22 +14,22 @@ import { usePathname } from "next/navigation";
 import { CloseIcon } from "@yuktishaalaa/yuktai";
 
 // Yuktai
-import HubRoundedIcon                from "@mui/icons-material/HubRounded";
+import { HubRounded as HubRoundedIcon } from "../src/lib/yuktai-icons";
 import { InfoRounded as InfoRoundedIcon } from "../src/lib/yuktai-icons";
 // Vision AI
-import ImageSearchRoundedIcon        from "@mui/icons-material/ImageSearchRounded";
-import DocumentScannerRoundedIcon    from "@mui/icons-material/DocumentScannerRounded";
+import { ImageSearchRounded as ImageSearchRoundedIcon } from "../src/lib/yuktai-icons";
+import { DocumentScannerRounded as DocumentScannerRoundedIcon } from "../src/lib/yuktai-icons";
 import { DrawRounded as DrawRoundedIcon } from "../src/lib/yuktai-icons";
-import UploadFileRoundedIcon         from "@mui/icons-material/UploadFileRounded";
+import { UploadFileRounded as UploadFileRoundedIcon } from "../src/lib/yuktai-icons";
 // Language AI
 import { RecordVoiceOverRounded as RecordVoiceOverRoundedIcon } from "../src/lib/yuktai-icons";
 import { MenuBookRounded as MenuBookRoundedIcon } from "../src/lib/yuktai-icons";
 import { AutoStoriesRounded as AutoStoriesRoundedIcon } from "../src/lib/yuktai-icons";
 import { TranslateRounded as TranslateRoundedIcon } from "../src/lib/yuktai-icons";
 // Create
-import DashboardCustomizeRoundedIcon from "@mui/icons-material/DashboardCustomizeRounded";
+import { DashboardCustomizeRounded as DashboardCustomizeRoundedIcon } from "../src/lib/yuktai-icons";
 import { MilitaryTechRounded as MilitaryTechRoundedIcon } from "../src/lib/yuktai-icons";
-import LocalLibraryRoundedIcon       from "@mui/icons-material/LocalLibraryRounded";
+import { LocalLibraryRounded as LocalLibraryRoundedIcon } from "../src/lib/yuktai-icons";
 import { CalendarMonthRounded as CalendarMonthRoundedIcon } from "../src/lib/yuktai-icons";
 import { CollectionsRounded as CollectionsRoundedIcon } from "../src/lib/yuktai-icons";
 // Chrome
@@ -37,7 +37,7 @@ import { MenuRounded as MenuRoundedIcon } from "../src/lib/yuktai-icons";
 import { KeyboardArrowDownRounded as KeyboardArrowDownRoundedIcon } from "../src/lib/yuktai-icons";
 import { InstallMobileRounded as InstallMobileRoundedIcon } from "../src/lib/yuktai-icons";
 import { IosShareRounded as IosShareRoundedIcon } from "../src/lib/yuktai-icons";
-import FactCheckRoundedIcon from "@mui/icons-material/FactCheckRounded";
+import { FactCheckRounded as FactCheckRoundedIcon } from "../src/lib/yuktai-icons";
 // ── Menu: four AI-first groups. The logo links to Home. ──
 // Grouped by what the AI does: Yuktai (agents), Vision AI (reads images),
 // Language AI (speaks and understands Indic text), Create (makes things).

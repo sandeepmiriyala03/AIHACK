@@ -8,10 +8,10 @@ import {
   Tooltip,
 } from "@mui/material";
 import { Close as CloseIcon } from "../src/lib/yuktai-icons";
-import ZoomInIcon from "@mui/icons-material/ZoomIn";
-import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import { ZoomIn as ZoomInIcon } from "../src/lib/yuktai-icons";
+import { ZoomOut as ZoomOutIcon } from "../src/lib/yuktai-icons";
 import { Download as DownloadIcon } from "../src/lib/yuktai-icons";
-import InsightsIcon from "@mui/icons-material/Insights";
+import { Insights as InsightsIcon } from "../src/lib/yuktai-icons";
 
 export default function WorkflowViewer() {
   const [open, setOpen] = useState(false);

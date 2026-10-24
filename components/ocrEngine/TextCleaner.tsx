@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Button } from "@mui/material";
-import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+import { CleaningServices as CleaningServicesIcon } from "../../src/lib/yuktai-icons";
 
 export default function TextCleaner({
   text,

@@ -2,8 +2,8 @@
 
 import { Box, Button, Tooltip } from "@mui/material";
 import { ArrowUpward as ArrowUpwardIcon } from "../../src/lib/yuktai-icons";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import DragHandleIcon from "@mui/icons-material/DragHandle";
+import { ArrowDownward as ArrowDownwardIcon } from "../../src/lib/yuktai-icons";
+import { DragHandle as DragHandleIcon } from "../../src/lib/yuktai-icons";
 
 type PitchType = "high" | "low" | "svarita";
 

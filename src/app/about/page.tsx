@@ -23,13 +23,13 @@ import {
 // MUI icons (yuktai has no equivalents yet)
 import { GridViewRounded as GridViewRoundedIcon } from "../../lib/yuktai-icons";
 import { AccessibilityNewRounded as AccessibilityNewRoundedIcon } from "../../lib/yuktai-icons";
-import PsychologyRoundedIcon        from "@mui/icons-material/PsychologyRounded";
-import ExploreRoundedIcon           from "@mui/icons-material/ExploreRounded";
+import { PsychologyRounded as PsychologyRoundedIcon } from "../../lib/yuktai-icons";
+import { ExploreRounded as ExploreRoundedIcon } from "../../lib/yuktai-icons";
 import { BoltRounded as BoltRoundedIcon } from "../../lib/yuktai-icons";
 import { AutoAwesomeRounded as AutoAwesomeRoundedIcon } from "../../lib/yuktai-icons";
 import { ContentCopyRounded as ContentCopyRoundedIcon } from "../../lib/yuktai-icons";
-import FavoriteRoundedIcon          from "@mui/icons-material/FavoriteRounded";
-import TerminalRoundedIcon          from "@mui/icons-material/TerminalRounded";
+import { FavoriteRounded as FavoriteRoundedIcon } from "../../lib/yuktai-icons";
+import { TerminalRounded as TerminalRoundedIcon } from "../../lib/yuktai-icons";
 
 // ── Sample data: volunteers of a made-up open-source project ─
 type Volunteer = Record<string, unknown> & {

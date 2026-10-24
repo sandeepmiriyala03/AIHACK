@@ -6,7 +6,7 @@ import {
   Chip,
   Stack,
 } from "@mui/material";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { ArrowDownward as ArrowDownwardIcon } from "../src/lib/yuktai-icons";
 
 const techStack = [
   "Python",

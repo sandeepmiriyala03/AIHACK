@@ -40,7 +40,7 @@ import {
 } from "@mui/material";
 
 import { Add as AddIcon, Cancel as CancelIcon, CheckCircle as CheckCircleIcon, Edit as EditIcon, KeyboardArrowDown, KeyboardArrowUp, NavigateBefore, NavigateNext, PlayArrow as PlayArrowIcon, Refresh as RefreshIcon, Search as SearchIcon, Tune as TuneIcon } from "../../lib/yuktai-icons";
-import { Delete as DeleteIcon, Storage as StorageIcon } from "@mui/icons-material";
+import { Delete as DeleteIcon, Storage as StorageIcon } from "../../lib/yuktai-icons";
 
 import Navbar from "@/components/Navbar";
 // ─── Constants ────────────────────────────────────────────────────────────────

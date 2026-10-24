@@ -39,16 +39,16 @@ import {
 import { PlayArrowRounded as PlayArrowRoundedIcon } from "../../lib/yuktai-icons";
 import { PauseRounded as PauseRoundedIcon } from "../../lib/yuktai-icons";
 import { StopRounded as StopRoundedIcon } from "../../lib/yuktai-icons";
-import TerminalRoundedIcon                from "@mui/icons-material/TerminalRounded";
-import PsychologyRoundedIcon              from "@mui/icons-material/PsychologyRounded";
+import { TerminalRounded as TerminalRoundedIcon } from "../../lib/yuktai-icons";
+import { PsychologyRounded as PsychologyRoundedIcon } from "../../lib/yuktai-icons";
 import { AccessibilityNewRounded as AccessibilityNewRoundedIcon } from "../../lib/yuktai-icons";
 import { AutoAwesomeRounded as AutoAwesomeRoundedIcon } from "../../lib/yuktai-icons";
-import IntegrationInstructionsRoundedIcon from "@mui/icons-material/IntegrationInstructionsRounded";
-import ComputerRoundedIcon                from "@mui/icons-material/ComputerRounded";
-import CodeRoundedIcon                    from "@mui/icons-material/CodeRounded";
+import { IntegrationInstructionsRounded as IntegrationInstructionsRoundedIcon } from "../../lib/yuktai-icons";
+import { ComputerRounded as ComputerRoundedIcon } from "../../lib/yuktai-icons";
+import { CodeRounded as CodeRoundedIcon } from "../../lib/yuktai-icons";
 import { ContentCopyRounded as ContentCopyRoundedIcon } from "../../lib/yuktai-icons";
 import { GridViewRounded as GridViewRoundedIcon } from "../../lib/yuktai-icons";
-import FactCheckRoundedIcon               from "@mui/icons-material/FactCheckRounded";
+import { FactCheckRounded as FactCheckRoundedIcon } from "../../lib/yuktai-icons";
 const G_DARK    = "#047857";   // text/buttons on white (passes 4.5:1)
 const TEXT_MAIN = "#0f172a";
 const FG_CODE   = "#34d399";
