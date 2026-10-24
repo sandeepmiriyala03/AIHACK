@@ -71,7 +71,7 @@ import { EventRounded as EventIcon } from "../../lib/yuktai-icons";
 import StorageIcon      from "@mui/icons-material/StorageRounded";
 import SmartToyRoundedIcon from "@mui/icons-material/SmartToyRounded";
 import { VolumeUpRounded as VolumeUpRoundedIcon } from "../../lib/yuktai-icons";
-import ListAltIcon         from "@mui/icons-material/ListAltRounded";
+import { ListAltRounded as ListAltIcon } from "../../lib/yuktai-icons";
 
 // ─────────────────────────────────────────────────────────────
 // Config

@@ -16,7 +16,7 @@ import { Edit as EditIcon } from "../../lib/yuktai-icons";
 import { ChevronLeft as ChevronLeftIcon } from "../../lib/yuktai-icons";
 import { ChevronRight as ChevronRightIcon } from "../../lib/yuktai-icons";
 import { CalendarMonth as CalendarMonthIcon } from "../../lib/yuktai-icons";
-import TodayIcon       from "@mui/icons-material/Today";
+import { Today as TodayIcon } from "../../lib/yuktai-icons";
 import { Close as CloseIcon } from "../../lib/yuktai-icons";
 import SaveIcon        from "@mui/icons-material/Save";
 import { AccessTime as AccessTimeIcon } from "../../lib/yuktai-icons";

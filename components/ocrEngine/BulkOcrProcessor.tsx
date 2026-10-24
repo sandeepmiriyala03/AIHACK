@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Box, Button, Typography, LinearProgress } from "@mui/material";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import { AutoFixHigh as AutoFixHighIcon } from "../../src/lib/yuktai-icons";
 import { ocrRecognizeImage } from "@/components/ocrEngine/ocrWorker";
 
 const LANG_LABELS: Record<string, string> = {
