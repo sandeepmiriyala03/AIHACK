@@ -682,7 +682,7 @@ export default function StaffDirectory() {
   pagination={{ pageSize: 20, showSizeChanger: true, sizeOptions: [10, 20, 50, 100] }}
   view="auto"
   theme={theme}
-  engine="rust"
+  engine="rust" showSearchTime
   highlightIds={highlightIds}
   highlightColor={activeAction?.color ? `${activeAction.color}30` : "#FEF3C7"}
   autoScrollToHighlight
