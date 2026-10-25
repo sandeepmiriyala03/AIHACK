@@ -673,32 +673,34 @@ export default function StaffDirectory() {
               <Button size="small" onClick={() => { setOverride(null); setHighlightIds([]); }} className="is-33831cd">Back to all employees</Button>
             </Stack>
           )}
-          <YuktaiGrid
-            data={gridRows}
-            columns={columns}
-            rowKey="rowId"
-            loading={loading}
-            search={false}
-            pagination={false}
-            view="auto"
-            theme={theme}
-            highlightIds={highlightIds}
-            highlightColor={activeAction?.color ? `${activeAction.color}30` : "#FEF3C7"}
-            autoScrollToHighlight
-            ai
-            webmcp
-            toolName="aksharatantra_staff"
-            locale="en-US"
-            inputLanguage="en-IN"
-            customRules={agentRules}
-            onSortChange={(s) => setQuery((q) => ({ ...q, sort: s && s.direction ? { key: s.key, direction: s.direction } : null, page: 1 }))}
-            empty={
-              <Box className="is-78cd38b">
-                <CloseIcon size={32} color="#94a3b8" />
-                <Typography color="text.secondary" className="is-68a09f7">No employees match. Try “clear” to reset.</Typography>
-              </Box>
-            }
-          />
+         <YuktaiGrid
+  data={gridRows}
+  columns={columns}
+  rowKey="rowId"
+  loading={loading}
+  search
+  pagination={{ pageSize: 20, showSizeChanger: true, sizeOptions: [10, 20, 50, 100] }}
+  view="auto"
+  theme={theme}
+  engine="rust"
+  highlightIds={highlightIds}
+  highlightColor={activeAction?.color ? `${activeAction.color}30` : "#FEF3C7"}
+  autoScrollToHighlight
+  ai
+  webmcp
+  toolName="aksharatantra_staff"
+  locale="en-US"
+  inputLanguage="en-IN"
+  customRules={agentRules}
+  empty={
+    <Box className="is-78cd38b">
+      <CloseIcon size={32} color="#94a3b8" />
+      <Typography color="text.secondary" className="is-68a09f7">
+        No employees match. Try “clear” to reset.
+      </Typography>
+    </Box>
+  }
+/>
 
           {/* Server-side pager */}
           {!override && (
