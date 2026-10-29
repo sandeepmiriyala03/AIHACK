@@ -3,8 +3,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Yuktai Grid Demo — server mode (1,000,000 employees in Neon)
 //
-// The browser only ever holds one page of rows. yuktai v5.1's parser turns a
-// question into filters / sort / limit in the browser, and the API
+// The browser only ever holds one page of rows. yuktai's parser (5.3.11) turns
+// a question into filters / sort / limit in the browser, and the API
 // (/api/employees → FastAPI main.py → Neon) runs it against every row.
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -77,9 +77,9 @@ import { ListAltRounded as ListAltIcon } from "../../lib/yuktai-icons";
 // Config
 // ─────────────────────────────────────────────────────────────
 const STORAGE_KEY = "yuktai-grid-theme";
-const G = "#10b981";
+const G = "#047857"; // 5.5:1 with white text (WCAG AA)
 const BORDER    = "#e2e8f0";
-const YUKTAI_VERSION = "5.1.0";
+const YUKTAI_VERSION = "5.3.11";
 const PAGE_SIZES = [10, 20, 50, 100];
 
 // ─────────────────────────────────────────────────────────────
@@ -136,13 +136,13 @@ const THEMES: { value: GridTheme; label: string; icon: React.ReactNode }[] = [
 ];
 
 const QUICK_ACTIONS: { key: string; label: string; question: string; icon: React.ReactNode; color: string }[] = [
-  { key: "top-salary",  label: "Top 5 Salaries",        question: "top 5 by salary",             icon: <TrendingUpIcon fontSize="small" />,   color: "#10b981" },
-  { key: "low-salary",  label: "Bottom 5 Salaries",     question: "bottom 5 by salary",          icon: <TrendingDownIcon fontSize="small" />, color: "#f59e0b" },
-  { key: "youngest",    label: "Youngest 5",            question: "bottom 5 by age",             icon: <CakeIcon fontSize="small" />,         color: "#3b82f6" },
-  { key: "over-lakh",   label: "Salary over 1 lakh",    question: "salary over 1 lakh",          icon: <FilterAltIcon fontSize="small" />,    color: "#0ea5e9" },
-  { key: "age-range",   label: "Age 25–35",             question: "age between 25 and 35",       icon: <FilterAltIcon fontSize="small" />,    color: "#14b8a6" },
-  { key: "joined",      label: "Joined this month",     question: "joined this month",           icon: <EventIcon fontSize="small" />,        color: "#8b5cf6" },
-  { key: "by-dept",     label: "Avg salary by dept",    question: "average salary by department",icon: <BarChartIcon fontSize="small" />,     color: "#0f766e" },
+  { key: "top-salary",  label: "Top 5 Salaries",        question: "top 5 by salary",             icon: <TrendingUpIcon fontSize="small" />,   color: "#047857" },
+  { key: "low-salary",  label: "Bottom 5 Salaries",     question: "bottom 5 by salary",          icon: <TrendingDownIcon fontSize="small" />, color: "#b45309" },
+  { key: "youngest",    label: "Youngest 5",            question: "bottom 5 by age",             icon: <CakeIcon fontSize="small" />,         color: "#1d4ed8" },
+  { key: "over-lakh",   label: "Salary over 1 lakh",    question: "salary over 1 lakh",          icon: <FilterAltIcon fontSize="small" />,    color: "#0369a1" },
+  { key: "age-range",   label: "Age 25–35",             question: "age between 25 and 35",       icon: <FilterAltIcon fontSize="small" />,    color: "#0f766e" },
+  { key: "joined",      label: "Joined this month",     question: "joined this month",           icon: <EventIcon fontSize="small" />,        color: "#6d28d9" },
+  { key: "by-dept",     label: "Avg salary by dept",    question: "average salary by department",icon: <BarChartIcon fontSize="small" />,     color: "#155e75" },
   { key: "unusual",     label: "Unusual salaries",      question: "anything unusual?",           icon: <WarningIcon fontSize="small" />,      color: "#dc2626" },
 ];
 
@@ -543,7 +543,7 @@ export default function StaffDirectory() {
       <Navbar />
 
       {/* Top padding clears the fixed navbar (60px mobile, ~68px desktop) */}
-      <Container maxWidth="xl" sx={{ pt: { xs: "84px", lg: "96px" }, pb: 4, px: { xs: 2, sm: 3 } }}>
+      <Container component="main" maxWidth="xl" sx={{ pt: { xs: "84px", lg: "96px" }, pb: 4, px: { xs: 2, sm: 3 } }}>
         {/* ─── HEADING ─── */}
         <Box className="is-dc2cb2d">
           <Stack direction="row" spacing={1} useFlexGap className="is-fd08d76">
@@ -584,7 +584,7 @@ export default function StaffDirectory() {
                 placeholder="e.g. salary over 1 lakh and age under 30"
                 className="is-af4660a"
               />
-              <Button type="submit" variant="contained" disabled={busy || !question.trim()} sx={{ bgcolor: G, textTransform: "none", "&:hover": { bgcolor: "#059669" } }}>
+              <Button type="submit" variant="contained" disabled={busy || !question.trim()} sx={{ bgcolor: G, textTransform: "none", "&:hover": { bgcolor: "#065f46" } }}>
                 {busy ? "…" : "Ask"}
               </Button>
             </Stack>
@@ -678,11 +678,18 @@ export default function StaffDirectory() {
   columns={columns}
   rowKey="rowId"
   loading={loading}
-  search
-  pagination={{ pageSize: 20, showSizeChanger: true, sizeOptions: [10, 20, 50, 100] }}
+  // Server mode: the API pages, sorts and searches all rows, so the grid
+  // shows exactly the page it is given (one pager, below) and sends header
+  // sorts to the server. Rust is the default engine since 5.3.11.
+  search={false}
+  pagination={false}
+  onSortChange={(s) => {
+    if (override) return; // unusual-rows view: sort just those rows
+    setHighlightIds([]);
+    setQuery((q) => ({ ...q, sort: s ? { key: s.key, direction: s.direction === "desc" ? "desc" : "asc" } : null, page: 1 }));
+  }}
   view="auto"
   theme={theme}
-  engine="rust" showSearchTime
   highlightIds={highlightIds}
   highlightColor={activeAction?.color ? `${activeAction.color}30` : "#FEF3C7"}
   autoScrollToHighlight
@@ -709,9 +716,9 @@ export default function StaffDirectory() {
                 {fmt(page.total)} employee(s) · page {fmt(query.page)} of {fmt(page.totalPages)}
               </Typography>
               <Stack direction="row" spacing={1} className="is-d0da858">
-                <Typography variant="body2" component="label" htmlFor="page-size">Rows per page</Typography>
+                <Typography variant="body2" component="span" id="page-size-label">Rows per page</Typography>
                 <Select
-                  size="small" value={query.pageSize} inputProps={{ id: "page-size" }}
+                  size="small" value={query.pageSize} labelId="page-size-label" inputProps={{ id: "page-size" }}
                   onChange={(e) => setQuery((q) => ({ ...q, pageSize: Number(e.target.value), page: 1 }))}
                 >
                   {PAGE_SIZES.filter((n) => n <= page.maxPageSize).map((n) => <MenuItem key={n} value={n}>{n}</MenuItem>)}
@@ -733,7 +740,7 @@ export default function StaffDirectory() {
             <Stack direction="row" spacing={1.5} className="is-d0da858">
               <ListAltIcon fontSize="small" className="is-20bb596" />
               <Typography className="is-db11729">What you can ask</Typography>
-              <Chip label="v5.1" size="small" className="is-52c886b" />
+              <Chip label={`v${YUKTAI_VERSION}`} size="small" className="is-52c886b" />
             </Stack>
           </AccordionSummary>
           <AccordionDetails>
@@ -760,7 +767,7 @@ export default function StaffDirectory() {
           <AccordionDetails>
             <Stack spacing={2}>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><VolumeUpRoundedIcon className="is-8925140" /><Typography variant="body2"><strong>yuktai assistant:</strong> open the AI assistant built into the grid, type or speak a question (English or Telugu, e.g. &quot;ఎంత మంది&quot;). Data questions are answered over all employees.</Typography></Stack>
-              <Stack direction="row" spacing={1.5} className="is-d0da858"><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in the question box.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in the question box; the server searches all employees.</Typography></Stack>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><SortUpIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort ascending:</strong> click a column header; the server sorts all rows.</Typography></Stack>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><SortDownIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort descending:</strong> click again.</Typography></Stack>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><ChevronLeftIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Previous page</strong></Typography></Stack>
