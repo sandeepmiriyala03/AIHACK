@@ -50,6 +50,9 @@ import {
   type YuktaiGridRule,
   type GridToolFilter,
   type GridToolSort,
+  type GridSearchTime,
+  GridCore,
+  loadGridCore,
 } from "@yuktishaalaa/yuktai";
 
 import { Palette as PaletteIcon } from "../../lib/yuktai-icons";
@@ -72,11 +75,15 @@ import { StorageRounded as StorageIcon } from "../../lib/yuktai-icons";
 import { SmartToyRounded as SmartToyRoundedIcon } from "../../lib/yuktai-icons";
 import { VolumeUpRounded as VolumeUpRoundedIcon } from "../../lib/yuktai-icons";
 import { ListAltRounded as ListAltIcon } from "../../lib/yuktai-icons";
+import { BoltRounded as BoltIcon } from "../../lib/yuktai-icons";
+import { Code as CodeIcon } from "../../lib/yuktai-icons";
 
 // ─────────────────────────────────────────────────────────────
 // Config
 // ─────────────────────────────────────────────────────────────
 const STORAGE_KEY = "yuktai-grid-theme";
+const ENGINE_KEY = "yuktai-grid-engine";
+type Engine = "rust" | "ts";
 const G = "#047857"; // 5.5:1 with white text (WCAG AA)
 const BORDER    = "#e2e8f0";
 const YUKTAI_VERSION = "5.3.11";
@@ -227,6 +234,89 @@ function periodFilter(text: string): { filter: GridToolFilter; label: string } |
   return { filter: { key: "joinedOn", operator: "between", value: [iso(from) as unknown as number, iso(to) as unknown as number] }, label: `joined ${m[1]} ${m[2]}` };
 }
 
+// ─────────────────────────────────────────────────────────────
+// Engine speed test: the same search and sort, TypeScript vs Rust,
+// on test rows made in the browser (the real data stays in Neon).
+// ─────────────────────────────────────────────────────────────
+const BENCH_SIZES = [10_000, 50_000, 100_000, 300_000];
+const SEP = "\u0000"; // how the grid joins a row's columns for search
+
+interface BenchResult {
+  rows: number;
+  query: string;
+  matches: number;
+  ts: { search: number; sort: number };
+  rust: { search: number; sort: number; index: number } | null;
+  same: boolean;
+}
+
+const median = (xs: number[]) => [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)];
+const ms = (n: number) => (n < 1 ? n.toFixed(2) : n < 10 ? n.toFixed(1) : String(Math.round(n)));
+
+interface BenchRow { id: number; name: string; department: string; age: number; salary: number; joinedOn: string }
+const BENCH_COLS = ["name", "department", "age", "salary", "joinedOn"] as const;
+
+function benchRows(n: number): BenchRow[] {
+  const depts = ["Engineering", "Finance", "Sales", "Marketing", "Support", "Design", "Research", "Legal", "Operations", "Human Resources"];
+  const first = ["Ravi", "Sita", "Arjun", "Lakshmi", "Kiran", "Priya", "Suresh", "Anitha", "Vamsi", "Deepa"];
+  return Array.from({ length: n }, (_, i) => ({
+    id: i + 1, name: `${first[i % 10]} ${i + 1}`, department: depts[(i * 7) % 10],
+    age: 22 + ((i * 13) % 40), salary: 30_000 + ((i * 7919) % 170_000), joinedOn: `202${i % 6}-0${1 + (i % 9)}-15`,
+  }));
+}
+
+// TypeScript: the same steps YuktaiGrid's TypeScript path runs on every search and sort
+function tsSearch(rows: BenchRow[], q: string) {
+  return rows.filter((row) => BENCH_COLS.some((c) => String(row[c] ?? "").toLowerCase().includes(q)));
+}
+function tsSort(rows: BenchRow[]) {
+  return [...rows].sort((a, b) => (a.salary == null ? 1 : b.salary == null ? -1 : b.salary - a.salary));
+}
+
+async function runBench(n: number, query: string): Promise<BenchResult> {
+  const q = query.trim().toLowerCase() || "engineering";
+  const rows = benchRows(n);
+  const RUNS = 5;
+  const time = (fn: () => unknown) => { const t = performance.now(); fn(); return performance.now() - t; };
+
+  let tsHits: BenchRow[] = [];
+  const tsSearchTime = median(Array.from({ length: RUNS }, () => time(() => { tsHits = tsSearch(rows, q); })));
+  let tsOrder: BenchRow[] = [];
+  const tsSortTime = median(Array.from({ length: RUNS }, () => time(() => { tsOrder = tsSort(rows); })));
+
+  // Rust: the grid builds the search index once when the data arrives, then
+  // each search or sort is one call into WebAssembly
+  let rust: BenchResult["rust"] = null;
+  let same = true;
+  const mod = await loadGridCore();
+  const core = mod ? GridCore.create(mod) : null;
+  if (core) {
+    let indexed = false;
+    const index = time(() => {
+      const texts = rows.map((row) => BENCH_COLS.map((c) => String(row[c] ?? "").toLowerCase()).join(SEP));
+      indexed = core.setSearchTexts(texts);
+    });
+    if (indexed) {
+      let hits: BenchRow[] = [];
+      const search = median(Array.from({ length: RUNS }, () => time(() => {
+        const pos = core.search(q);
+        hits = pos ? Array.from(pos, (i) => rows[i]) : [];
+      })));
+      let order: BenchRow[] = [];
+      const sort = median(Array.from({ length: RUNS }, () => time(() => {
+        const keys = new Float64Array(rows.length);
+        for (let i = 0; i < rows.length; i++) keys[i] = rows[i].salary ?? NaN;
+        const pos = core.sortByKeys(keys, true);
+        order = pos ? Array.from(pos, (i) => rows[i]) : [];
+      })));
+      rust = { search, sort, index };
+      same = hits.length === tsHits.length && hits.every((r, i) => r.id === tsHits[i].id) &&
+        order.length === tsOrder.length && order.every((r, i) => r.id === tsOrder[i].id);
+    }
+  }
+  return { rows: n, query: q, matches: tsHits.length, ts: { search: tsSearchTime, sort: tsSortTime }, rust, same };
+}
+
 // ═════════════════════════════════════════════════════════════
 // MAIN
 // ═════════════════════════════════════════════════════════════
@@ -244,6 +334,17 @@ export default function StaffDirectory() {
   const [answer,       setAnswer]       = useState("");
   const [question,     setQuestion]     = useState("");
   const [busy,         setBusy]         = useState(false);
+  // Grid engine: Rust (WebAssembly) by default, the visitor can switch to TypeScript
+  const [engine,       setEngine]       = useState<Engine>("rust");
+  const [lastRun,      setLastRun]      = useState<GridSearchTime | null>(null);
+  const [wasm,         setWasm]         = useState(true);
+  // Search box over ALL employees (the server searches; the grid only shows one page)
+  const [searchInput,  setSearchInput]  = useState("");
+  // Engine speed test
+  const [benchSize,    setBenchSize]    = useState(100_000);
+  const [benchQuery,   setBenchQuery]   = useState("engineering");
+  const [bench,        setBench]        = useState<BenchResult | null>(null);
+  const [benchBusy,    setBenchBusy]    = useState(false);
 
   const loadedKey = useRef<string>("");
   const requestId = useRef(0);
@@ -255,6 +356,21 @@ export default function StaffDirectory() {
       if (saved && THEMES.some((t) => t.value === saved)) setTheme(saved);
     } catch { /* storage blocked */ }
   }, []);
+  // ── Engine (remembered on this device) ──
+  useEffect(() => {
+    setWasm(typeof WebAssembly === "object");
+    try {
+      const saved = window.localStorage.getItem(ENGINE_KEY);
+      if (saved === "rust" || saved === "ts") setEngine(saved);
+    } catch { /* storage blocked */ }
+  }, []);
+  const changeEngine = (e: Engine | null) => {
+    if (!e) return;
+    setEngine(e);
+    setLastRun(null);
+    try { window.localStorage.setItem(ENGINE_KEY, e); } catch { /* storage blocked */ }
+  };
+
   const changeTheme = (t: GridTheme | null) => {
     if (!t) return;
     setTheme(t);
@@ -305,8 +421,28 @@ export default function StaffDirectory() {
       .catch(() => { /* questions still work without it */ });
   }, []);
 
+  // Search all employees: wait until typing pauses, then ask the server
+  useEffect(() => {
+    const text = searchInput.trim();
+    const id = window.setTimeout(() => {
+      setQuery((q) => (q.search === text ? q : { ...q, search: text, page: 1 }));
+      setOverride(null);
+    }, 350);
+    return () => window.clearTimeout(id);
+  }, [searchInput]);
+  // A question can set the search too: show it in the box
+  useEffect(() => { setSearchInput((s) => (s.trim() === query.search ? s : query.search)); }, [query.search]);
+
+  const runSpeedTest = async () => {
+    setBenchBusy(true);
+    setBench(null);
+    await new Promise((r) => setTimeout(r, 30)); // let "Running…" paint first
+    try { setBench(await runBench(benchSize, benchQuery)); } finally { setBenchBusy(false); }
+  };
+
   const clearAll = useCallback(() => {
     setQuery(START);
+    setSearchInput("");
     setOverride(null);
     setTable([]);
     setHighlightIds([]);
@@ -654,6 +790,115 @@ export default function StaffDirectory() {
           </Stack>
         </Card>
 
+        {/* ─── ENGINE ─── */}
+        <Card sx={{ borderRadius: 4, mb: 2, p: { xs: 1.5, sm: 2 } }}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ alignItems: { xs: "stretch", sm: "center" }, justifyContent: "space-between" }}>
+            <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: "center", flexWrap: "wrap" }}>
+              <BoltIcon color="primary" fontSize="small" />
+              <Typography variant="body2" component="h2" className="is-db11729" id="engine-label">Grid engine</Typography>
+              <Chip
+                size="small"
+                variant="outlined"
+                color="primary"
+                aria-live="polite"
+                label={
+                  lastRun
+                    ? `${lastRun.engine === "rust" ? "Rust" : "TypeScript"} · ${lastRun.ms < 1 ? lastRun.ms.toFixed(2) : lastRun.ms.toFixed(1)} ms · ${fmt(lastRun.rows)} rows`
+                    : engine === "rust"
+                      ? (wasm ? "Rust (WebAssembly) ready" : "No WebAssembly here: TypeScript runs")
+                      : "TypeScript"
+                }
+              />
+              {lastRun && engine === "rust" && lastRun.engine === "ts" && (
+                <Chip size="small" label="Rust not available here, TypeScript ran" sx={{ bgcolor: "#fef3c7", color: "#78350f" }} />
+              )}
+            </Stack>
+            <ToggleButtonGroup
+              value={engine} exclusive onChange={(_e, v) => changeEngine(v)} size="small" aria-labelledby="engine-label"
+              sx={{ "& .MuiToggleButton-root": { px: 1.5, py: 0.5, textTransform: "none", fontSize: "0.8rem" } }}
+            >
+              <ToggleButton value="rust" aria-label="Rust engine (default)">
+                <Stack direction="row" spacing={0.7} className="is-d0da858"><BoltIcon fontSize="small" /><span>Rust (default)</span></Stack>
+              </ToggleButton>
+              <ToggleButton value="ts" aria-label="TypeScript engine">
+                <Stack direction="row" spacing={0.7} className="is-d0da858"><CodeIcon fontSize="small" /><span>TypeScript</span></Stack>
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Stack>
+          <Typography variant="caption" color="text.secondary" component="p" sx={{ mt: 1, mb: 0 }}>
+            The engine sorts and searches the rows in your browser (this page). Questions about all employees run in Neon.
+            Both engines give the same results; Rust is faster on big data.
+          </Typography>
+
+          <Accordion disableGutters sx={{ mt: 1.5, boxShadow: "none", border: `1px solid ${BORDER}`, borderRadius: 2, "&:before": { display: "none" } }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="body2" className="is-db11729">How long does each engine take? Run a speed test</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ alignItems: { xs: "stretch", sm: "flex-end" }, mb: 1.5 }}>
+                <TextField select size="small" label="Rows" value={benchSize} onChange={(e) => setBenchSize(Number(e.target.value))} sx={{ minWidth: 150 }}>
+                  {BENCH_SIZES.map((n) => <MenuItem key={n} value={n}>{fmt(n)}</MenuItem>)}
+                </TextField>
+                <TextField size="small" label="Search for" value={benchQuery} onChange={(e) => setBenchQuery(e.target.value)} />
+                <Button variant="contained" onClick={() => void runSpeedTest()} disabled={benchBusy} startIcon={<BoltIcon />} sx={{ bgcolor: G, textTransform: "none", "&:hover": { bgcolor: "#065f46" } }}>
+                  {benchBusy ? "Running…" : "Run speed test"}
+                </Button>
+              </Stack>
+              <Box aria-live="polite">
+                {benchBusy && <Typography variant="body2" color="text.secondary">Making {fmt(benchSize)} test rows and timing both engines…</Typography>}
+                {bench && (() => {
+                  const r = bench.rust;
+                  const total = (x: { search: number; sort: number }) => x.search + x.sort;
+                  const max = Math.max(total(bench.ts), r ? total(r) : 0, 0.001);
+                  const bar = (v: number, color: string) => (
+                    <Box sx={{ height: 10, borderRadius: 5, bgcolor: color, width: `${Math.max(2, (v / max) * 100)}%` }} />
+                  );
+                  return (
+                    <Stack spacing={1}>
+                      <table className="is-0959bb4">
+                        <caption className="is-4729d2c">
+                          {fmt(bench.rows)} rows · search &quot;{bench.query}&quot; ({fmt(bench.matches)} matches) · sort by salary · the same steps the grid runs · middle of 5 runs
+                        </caption>
+                        <thead>
+                          <tr>{["Engine", "Search", "Sort", "Total", ""].map((h, i) => <th key={i} scope="col" style={{ textAlign: i === 0 ? "left" : "right", padding: "6px 10px", borderBottom: `1px solid ${BORDER}`, width: i === 4 ? "40%" : undefined }}>{h}</th>)}</tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row" style={{ textAlign: "left", padding: "6px 10px" }}>TypeScript</th>
+                            <td style={{ textAlign: "right", padding: "6px 10px" }}>{ms(bench.ts.search)} ms</td>
+                            <td style={{ textAlign: "right", padding: "6px 10px" }}>{ms(bench.ts.sort)} ms</td>
+                            <td style={{ textAlign: "right", padding: "6px 10px", fontWeight: 700 }}>{ms(total(bench.ts))} ms</td>
+                            <td style={{ padding: "6px 10px" }}>{bar(total(bench.ts), "#475569")}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row" style={{ textAlign: "left", padding: "6px 10px" }}>Rust</th>
+                            <td style={{ textAlign: "right", padding: "6px 10px" }}>{r ? `${ms(r.search)} ms` : "n/a"}</td>
+                            <td style={{ textAlign: "right", padding: "6px 10px" }}>{r ? `${ms(r.sort)} ms` : "n/a"}</td>
+                            <td style={{ textAlign: "right", padding: "6px 10px", fontWeight: 700 }}>{r ? `${ms(total(r))} ms` : "n/a"}</td>
+                            <td style={{ padding: "6px 10px" }}>{r && bar(total(r), "#047857")}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      {r ? (
+                        <Typography variant="body2">
+                          <strong>Rust: search {(bench.ts.search / Math.max(r.search, 0.001)).toFixed(1)}× and sort {(bench.ts.sort / Math.max(r.sort, 0.001)).toFixed(1)}× the TypeScript speed.</strong>{" "}
+                          Rust also builds its search index once ({ms(r.index)} ms) when the data loads; after that every search is fast.{" "}
+                          Same rows, same order: {bench.same ? "yes ✓" : "no (please report this)"}.
+                        </Typography>
+                      ) : (
+                        <Typography variant="body2">This browser has no WebAssembly, so only TypeScript can run here.</Typography>
+                      )}
+                      <Typography variant="caption" color="text.secondary">
+                        Test rows are made in your browser; times depend on your device. With one page (20–100 rows) both engines take well under 1 ms.
+                      </Typography>
+                    </Stack>
+                  );
+                })()}
+              </Box>
+            </AccordionDetails>
+          </Accordion>
+        </Card>
+
         {/* ─── ERROR ─── */}
         {error && (
           <Card role="alert" className="is-0d6958e">
@@ -666,6 +911,18 @@ export default function StaffDirectory() {
 
         {/* ─── GRID ─── */}
         <Card sx={{ borderRadius: 4, overflow: "hidden", p: { xs: 1, sm: 2 }, mb: 3 }}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={1} sx={{ mb: 1.5, alignItems: { xs: "stretch", sm: "center" } }}>
+            <TextField
+              type="search" size="small" fullWidth value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              label="Search all employees"
+              placeholder="Name or department, e.g. Ravi or Engineering"
+              slotProps={{ input: { startAdornment: <Box component="span" sx={{ display: "inline-flex", mr: 1 }}><SearchIcon size={18} color="#475569" aria-hidden="true" /></Box> } }}
+            />
+            <Typography variant="body2" color="text.secondary" aria-live="polite" sx={{ whiteSpace: "nowrap" }}>
+              {loading ? "Searching…" : `${fmt(page.total)} found`}
+            </Typography>
+          </Stack>
           {override && (
             <Stack direction="row" spacing={1} className="is-359ead3">
               <WarningIcon fontSize="small" className="is-610bd2f" />
@@ -680,8 +937,12 @@ export default function StaffDirectory() {
   loading={loading}
   // Server mode: the API pages, sorts and searches all rows, so the grid
   // shows exactly the page it is given (one pager, below) and sends header
-  // sorts to the server. Rust is the default engine since 5.3.11.
+  // sorts to the server. The engine (Rust by default) sorts the page in the
+  // browser and reports how long it took.
   search={false}
+  engine={engine}
+  showSearchTime
+  onSearchTime={setLastRun}
   pagination={false}
   onSortChange={(s) => {
     if (override) return; // unusual-rows view: sort just those rows
@@ -752,6 +1013,7 @@ export default function StaffDirectory() {
               <Typography variant="body2"><strong>🏆 Rankings:</strong> &quot;top 10 by salary&quot;, &quot;highest salary&quot;, &quot;youngest&quot;, &quot;newest&quot;</Typography>
               <Typography variant="body2"><strong>⚠️ Unusual data:</strong> &quot;anything unusual?&quot;, &quot;unusual ages&quot;</Typography>
               <Typography variant="body2"><strong>🔁 Several steps:</strong> &quot;show salary over 50k, then sort by age, then summarize&quot;</Typography>
+              <Typography variant="body2"><strong>⚡ Engine:</strong> Rust (WebAssembly) by default; switch to TypeScript above and compare the time after each sort. Same results either way.</Typography>
               <Typography variant="body2"><strong>🎨 Themes (chat):</strong> &quot;dark theme&quot;, &quot;high contrast&quot;, &quot;dyslexia&quot;. <strong>Reset:</strong> &quot;clear&quot;</Typography>
               <Typography variant="caption" color="text.secondary">
                 yuktai understands the question in your browser with rules (no cloud AI); the database answers it over all rows. Unusual phrasing may need rewording.
@@ -767,7 +1029,7 @@ export default function StaffDirectory() {
           <AccordionDetails>
             <Stack spacing={2}>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><VolumeUpRoundedIcon className="is-8925140" /><Typography variant="body2"><strong>yuktai assistant:</strong> open the AI assistant built into the grid, type or speak a question (English or Telugu, e.g. &quot;ఎంత మంది&quot;). Data questions are answered over all employees.</Typography></Stack>
-              <Stack direction="row" spacing={1.5} className="is-d0da858"><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in the question box; the server searches all employees.</Typography></Stack>
+              <Stack direction="row" spacing={1.5} className="is-d0da858"><SearchIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Search:</strong> type a name or department in &quot;Search all employees&quot; above the grid; the server searches every employee.</Typography></Stack>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><SortUpIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort ascending:</strong> click a column header; the server sorts all rows.</Typography></Stack>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><SortDownIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Sort descending:</strong> click again.</Typography></Stack>
               <Stack direction="row" spacing={1.5} className="is-d0da858"><ChevronLeftIcon size={20} color="#0D9488" /><Typography variant="body2"><strong>Previous page</strong></Typography></Stack>
