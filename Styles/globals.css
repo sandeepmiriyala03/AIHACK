@@ -1282,100 +1282,10 @@ html.a11y-enabled :focus {
   outline: 3px solid #10b981 !important;
 }
 
-/* ============================================
-   YUKTAI LAUNCHER - one button shows / hides
-   the yuktai tools (YuktaiClient.tsx)
-============================================ */
-
-.yuktaiLauncher {
-  position: fixed;
-  left: calc(24px + env(safe-area-inset-left, 0px));
-  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-  z-index: 10000;
-  width: 52px;
-  height: 52px;
-  border: none;
-  border-radius: 50%;
-  background: #047857;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 6px 18px rgba(4, 120, 87, 0.35);
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  transition: background var(--transition-fast), transform var(--transition-fast);
-}
-
-html[data-yuktai-tools="open"] .yuktaiLauncher {
-  background: #1f2937;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .yuktaiLauncher:hover {
-    transform: scale(1.06);
-  }
-}
-
-.yuktaiLauncher:focus-visible {
-  outline: 3px solid var(--text-primary);
-  outline-offset: 3px;
-}
-
-/* The four yuktai buttons + their open panels.
-   Panels inside <main> (AgenticGridBar, inline AgenticPanel) are part of the page: never hide them. */
-html[data-yuktai-tools] button[aria-label="Open Vibe Coder"],
-html[data-yuktai-tools] button[aria-label="Open AI agent"],
-html[data-yuktai-tools] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
-html[data-yuktai-tools] button[data-yuktai-pref-toggle],
-html[data-yuktai-tools] [data-yuktai-panel]:not(main [data-yuktai-panel]),
-html[data-yuktai-tools] [aria-label="yuktai Vibe Coder"] {
-  transition: opacity var(--transition-base), transform var(--transition-base),
-    visibility var(--transition-base);
-}
-
-/* Hidden: invisible, not clickable, skipped by keyboard and screen readers */
-html[data-yuktai-tools="closed"] button[aria-label="Open Vibe Coder"],
-html[data-yuktai-tools="closed"] button[aria-label="Open AI agent"],
-html[data-yuktai-tools="closed"] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
-html[data-yuktai-tools="closed"] button[data-yuktai-pref-toggle],
-html[data-yuktai-tools="closed"] [data-yuktai-panel]:not(main [data-yuktai-panel]),
-html[data-yuktai-tools="closed"] [aria-label="yuktai Vibe Coder"] {
-  /* !important: yuktai sets transform inline on hover */
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transform: translateY(16px) scale(0.9) !important;
-}
-
-/* Shown: lifted 64px so they stack above the launcher */
-html[data-yuktai-tools="open"] button[aria-label="Open Vibe Coder"],
-html[data-yuktai-tools="open"] button[aria-label="Open AI agent"],
-html[data-yuktai-tools="open"] button[aria-label="Ask a question about this page"]:not([data-yuktai-panel] *),
-html[data-yuktai-tools="open"] button[data-yuktai-pref-toggle],
-html[data-yuktai-tools="open"] [data-yuktai-panel]:not(main [data-yuktai-panel]),
-html[data-yuktai-tools="open"] [aria-label="yuktai Vibe Coder"] {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-64px) !important;
-}
-
-/* Small phones: slightly smaller buttons so the stack fits */
-@media (max-width: 480px) {
-  .yuktaiLauncher {
-    left: calc(16px + env(safe-area-inset-left, 0px));
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    width: 48px;
-    height: 48px;
-  }
-}
-
-@media print {
-  .yuktaiLauncher {
-    display: none !important;
-  }
-}
+/* YuktAI tools: YuktAI 5.3.9+ has its own launcher (the `launcher` prop in
+   YuktaiClient.tsx) that shows, hides and stacks every button, 🛠 included.
+   The old custom launcher CSS that lifted the buttons by 64px was removed
+   in YuktAI 5.3.11: it moved some buttons but not 🛠, so they overlapped. */
 /* ═══════════════════════════════════════════════════════════════════════════
    ICON SIZES
    MUI icons set font-size through their own class, so these selectors add
