@@ -87,6 +87,12 @@ const nextConfig = {
           { key: "Cross-Origin-Opener-Policy",   value: "same-origin" },
         ],
       },
+      // Pages answer in HTML or, for Accept: text/markdown (src/proxy.ts), in
+      // Markdown, so caches must keep the two apart.
+      {
+        source: "/((?!api/|_next/|.*\\.[A-Za-z0-9]+$).*)",
+        headers: [{ key: "Vary", value: "Accept" }],
+      },
       // ↓ NEW — force sw.js to never be cached (always fresh)
       {
         source: "/sw.js",

@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import React, { useRef, useEffect, useState, useCallback, ChangeEvent } from "react";
 import Navbar from "@/components/Navbar";
+import PageIntro from "@/components/PageIntro";
 
 // ── Google Fonts URL — all 40+ language families ──────────────────────────
 const GFONTS =
@@ -432,7 +433,7 @@ export default function AksharaNamaPage() {
     (langSearch === "" || l.label.toLowerCase().includes(langSearch.toLowerCase()) || l.native.toLowerCase().includes(langSearch.toLowerCase()))
   );
 
-  if (!mounted) return null;
+  if (!mounted) return <PageIntro href="/badge" />; // text for the raw HTML (agents, search)
 
   return (
     <div className="is-f431735">

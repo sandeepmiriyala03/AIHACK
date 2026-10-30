@@ -5,6 +5,7 @@ import * as Mp4Muxer from "mp4-muxer";
 import { useState, useRef, useEffect, useCallback } from "react";
 import Navbar from "@/components/Navbar";
 import VoiceSelector from "@/components/VoiceSelector"
+import PageIntro from "@/components/PageIntro";
 
 type VoiceType =
   | "male"
@@ -593,7 +594,7 @@ export default function IndicAudioVideoPage() {
     }
   };
 
-  if (!mounted) return null;
+  if (!mounted) return <PageIntro href="/voice" />; // text for the raw HTML (agents, search)
 
   const L = LANGUAGES[lang];
   const over = text.length > MAX_CHARS;

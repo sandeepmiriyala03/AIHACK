@@ -10,6 +10,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Navbar, { navGroups, type NavItem } from "@/components/Navbar";
+import { homeJsonLd, jsonLdScript } from "@/lib/json-ld";
 
 import { ArrowRightIcon, ExternalIcon, SpeakerIcon, StopIcon } from "@yuktishaalaa/yuktai/icons";
 
@@ -113,6 +114,8 @@ export default function HomePage() {
   return (
     <>
       <title>AksharaTantra · read, digitize and speak Indian languages</title>
+      {/* Structured data for search engines and AI agents (lib/json-ld.ts) */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(homeJsonLd()) }} />
       <style>{`.hm-xerj{display:inline-flex;align-items:center;min-height:44px;margin-top:14px}.hm-xerj img{display:block;height:28px;width:auto}.hm-xerj:focus-visible{outline:3px solid var(--brand-bright);outline-offset:3px}.hm-btn svg,.hm-link-btn svg{flex-shrink:0}`}</style>
       <Navbar />
 

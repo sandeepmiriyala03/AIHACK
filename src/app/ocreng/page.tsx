@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import JSZip from "jszip";
 import Tesseract from "tesseract.js";
+import PageIntro from "@/components/PageIntro";
 
 /* ================================================================
    LANGUAGE CONFIG
@@ -734,7 +735,7 @@ export default function IndicHTRPage() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  if (!mounted) return null;
+  if (!mounted) return <PageIntro href="/ocreng" />; // text for the raw HTML (agents, search)
 
   /* ================================================================
      UI

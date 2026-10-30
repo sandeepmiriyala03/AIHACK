@@ -21,6 +21,7 @@ import { Close as CloseIcon } from "../../lib/yuktai-icons";
 import { Save as SaveIcon } from "../../lib/yuktai-icons";
 import { AccessTime as AccessTimeIcon } from "../../lib/yuktai-icons";
 import { Label as LabelIcon } from "../../lib/yuktai-icons";
+import PageIntro from "@/components/PageIntro";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 interface CalEvent {
@@ -262,7 +263,7 @@ export default function CalendarPage() {
     return events.filter(e => e.date === key);
   };
 
-  if (!mounted) return null;
+  if (!mounted) return <PageIntro href="/calendarpage" />; // text for the raw HTML (agents, search)
 
   return (
     <>

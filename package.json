@@ -23,7 +23,8 @@
     "build": "node setDeployTime.js && next build --webpack",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "test:agent": "jest -c jest.node.config.js"
   },
   "dependencies": {
     "@agent-browser/sandbox": "^0.39.2",
