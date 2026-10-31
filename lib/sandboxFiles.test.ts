@@ -1,6 +1,7 @@
+/** @jest-environment node */
 // lib/sandboxFiles.test.ts — run with: npx vitest run lib
 import { Readable } from "node:stream";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "@jest/globals";
 import { readSandboxFile } from "./sandboxFiles";
 import { evaluateAll, sniffBase64, type RunContext, type StepResult } from "./siteTest";
 
