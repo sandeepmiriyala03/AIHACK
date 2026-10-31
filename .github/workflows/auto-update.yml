@@ -1,0 +1,93 @@
+# Daily dependency update: update → build → commit to main → Vercel/Netlify deploys.
+# No pull requests, nothing to click. If the build breaks, nothing is committed and you get an issue (email).
+# New major versions (for example Next.js 16) are never installed automatically; you get an issue instead.
+name: Auto update dependencies
+
+on:
+  schedule:
+    - cron: "33 21 * * *" # 03:03 IST every day
+  workflow_dispatch:
+
+permissions:
+  contents: write # commit the update
+  issues: write # tell you when something needs a human
+
+concurrency:
+  group: auto-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      COOLDOWN_DAYS: 2 # ignore releases younger than this (security fixes skip the wait)
+      NEXT_TELEMETRY_DISABLED: 1
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ${{ hashFiles('.nvmrc') != '' && '.nvmrc' || '' }}
+          node-version: ${{ hashFiles('.nvmrc') == '' && 'lts/*' || '' }}
+          cache: npm
+
+      - name: Install current versions
+        run: npm ci --no-fund --no-audit
+
+      - name: Update dependencies
+        run: node .github/scripts/update-deps.mjs
+
+      - name: Anything changed?
+        id: diff
+        run: |
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and test the updated app
+        id: verify
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          set -o pipefail
+          npm ci --no-fund --no-audit
+          { npm run build && npm test --if-present; } 2>&1 | tee build.log
+
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true' && steps.verify.outcome == 'success'
+        run: |
+          git config user.name "auto-update"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          {
+            echo "chore(deps): daily update"
+            echo
+            node -e 'const s=require("./update-summary.json"); for (const c of s.changed) console.log("- "+c); if (s.urgent.length) console.log("\nSecurity: "+s.urgent.join(", "))'
+          } > msg.txt
+          git commit -F msg.txt
+          git push
+
+      - name: Report a failed build
+        if: failure() && steps.verify.outcome == 'failure'
+        run: |
+          title="Auto update: build failed"
+          body=$(printf 'The daily update broke the build, so nothing was committed. Your site is unchanged.\n\nTried:\n```\n%s\n```\n\nLast lines of the build:\n```\n%s\n```\n\n[Run log](%s)' \
+            "$(node -e 'console.log(require("./update-summary.json").changed.join("\n"))')" \
+            "$(tail -n 40 build.log)" \
+            "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          num=$(gh issue list --state open --search "in:title \"$title\"" --json number --jq '.[0].number')
+          if [ -n "$num" ]; then gh issue comment "$num" --body "$body"; else gh issue create --title "$title" --body "$body"; fi
+
+      - name: Report new major versions
+        if: always() && hashFiles('update-summary.json') != ''
+        run: |
+          node -e 'for (const m of require("./update-summary.json").majors) console.log(`${m.name}\t${m.current}\t${m.latest}`)' |
+          while IFS=$'\t' read -r name current latest; do
+            title="Major update available: $name ${latest%%.*}"
+            if [ -z "$(gh issue list --state all --search "in:title \"$title\"" --json number --jq '.[0].number')" ]; then
+              gh issue create --title "$title" --body "You are on $name $current. Version $latest is out. Major versions can break things, so this is not installed automatically. Read the release notes and upgrade by hand when you have time."
+            fi
+          done
